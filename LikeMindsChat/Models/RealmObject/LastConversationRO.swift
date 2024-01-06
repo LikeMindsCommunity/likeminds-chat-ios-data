@@ -1,0 +1,28 @@
+//
+//  LastConversationRO.swift
+//  LikeMindsChat
+//
+//  Created by Pushpendra Singh on 02/01/24.
+//
+
+import Foundation
+import RealmSwift
+
+class LastConversationRO: Object {
+    @Persisted var id: Int = 0
+    @Persisted var answer: String?
+    @Persisted var state: Int?
+    @Persisted var createdEpoch: Int32?
+    @Persisted var chatroomId: String?
+    @Persisted var communityId: String?
+    @Persisted var deletedBy: String?
+    @Persisted var member: MemberRO?
+    @Persisted var createdAt: String?
+    @Persisted var link: LinkRO?
+    @Persisted var date: String?
+    @Persisted var attachments: List<AttachmentRO> = List()
+    @Persisted var attachmentCount: Int?
+    @Persisted var attachmentsUploaded: Bool?
+    @Persisted var uploadWorkerUUID: String?
+    @Persisted var deletedByMember: MemberRO?
+}
