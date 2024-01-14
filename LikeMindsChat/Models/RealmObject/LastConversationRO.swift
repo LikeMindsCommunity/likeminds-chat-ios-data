@@ -12,7 +12,7 @@ class LastConversationRO: Object {
     @Persisted var id: Int = 0
     @Persisted var answer: String?
     @Persisted var state: Int?
-    @Persisted var createdEpoch: Int32?
+    @Persisted var createdEpoch: Int?
     @Persisted var chatroomId: String?
     @Persisted var communityId: String?
     @Persisted var deletedBy: String?

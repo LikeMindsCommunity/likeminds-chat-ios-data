@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-public typealias LMClientResponse<T: Decodable> = (LMResponse<T>) -> (Void)
+public typealias LMClientResponse<T> = (LMResponse<T>) -> (Void)
 
 extension LMChatClient {
     
@@ -17,8 +17,16 @@ extension LMChatClient {
 
     public func initiateUser(request: InitiateUserRequest, response: LMClientResponse<InitiateUserResponse>?) {
         ChatClientServiceRequest.initiateChatService(request, withModuleName: moduleName) { result in
-            TokenManager.shared.accessToken = result.data?.accessToken
-            TokenManager.shared.refreshToken = result.data?.refreshToken
+            TokenManager.shared.updateToken(result.data?.accessToken, result.data?.refreshToken)
+            if !(result.data?.appAccess ?? false){
+                let logoutRequest = LogoutRequest.builder()
+                    .deviceId(request.deviceId ?? "")
+                    .refreshToken(result.data?.refreshToken ?? "")
+                    .build()
+                self.logout(request: logoutRequest, response: nil)
+            } else {
+                
+            }
             response?(result)
         }
     }

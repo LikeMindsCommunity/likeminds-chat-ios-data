@@ -9,114 +9,162 @@
 import Foundation
 
 struct _Chatroom_: Decodable {
-    let about: String?
-    let access: Int?
-    let accessWithoutSubscription: Bool?
-    let attachmentCount: Int?
-    let attachmentsUploaded: Bool?
-    let attendingStatus: Bool?
-    let autoFollowDone: Bool?
-    let cardID: Int?
-    let chatroomImageURL: String?
-    let coHosts: String?
-    let communityID: Int?
+    
+    let member: _Member_?
+    let id: String
+    let title: String
     let createdAt: Int?
-    let customTag: String?
-    let date: String?
-    let dateEpoch: Int?
-    let dateTime: Int?
-    let deviceID: String?
-    let externalSeen: Bool?
+    let answerText: String?
+    let state: Int
+    let unseenCount: Int?
+    let shareUrl: String?
+    let communityId: String?
+    let communityName: String?
+    let type: Int?
+    let about: String?
+    let header: String?
+    let showFollowTelescope: Bool?
+    let showFollowAutoTag: Bool?
+    let cardCreationTime: String?
+    let participantsCount: String?
+    let totalResponseCount: String?
+    let muteStatus: Bool?
     let followStatus: Bool?
     let hasBeenNamed: Bool?
-    let hasFiles: Bool?
     let hasReactions: Bool?
-    let header: String?
-    let id: Int?
-    let internalLink: String?
-    let isEdited: Bool?
-    let isPaid: Bool?
-    let isPending: Bool?
-    let isPrivate: Bool?
-    let isPrivateMember: Bool?
-    let isSecret: Bool?
+    let date: String?
     let isTagged: Bool?
-    let lastConversationID: Int?
-    let lastSeenConversationID: Int?
-    let memberCanMessage: Bool?
-    let muteStatus: Bool?
-    let onlineLink: String?
-    let onlineLinkType: Int?
-    let secretChatroomLeft: Bool?
-    let secretChatroomParticipants: [Int]?
-    let shareLink: String?
-    let state: Int?
-    let title: String?
-    let topicID: Int?
-    let type: _ChatroomType_?
-    let unseenCount: Int?
+    let isPending: Bool?
+    let isPinned: Bool?
+    let isDeleted: Bool?
+    let userId: String?
+    let deletedBy: String?
+    let deletedByMember: _Member_?
     let updatedAt: Int?
-    let userID: Int?
-    let ogTags: _LinkOGTags_?
-    let chatRequestCreatedAt: Int?
-    let chatRequestState: Int?
-    let chatRequestedByID: Int?
-    let chatroomWithUserID: Int?
-    let deletedByUserID: Int?
-    let expiryTime: Int?
+    let lastSeenConversationId: String?
+    let lastConversationId: String?
+    let dateEpoch: Int?
+    let isSecret: Bool?
+    let secretChatroomParticipants: [Int]?
+    let secretChatroomLeft: Bool?
+    let reactions: [_Reaction_]?
+    let topicId: String?
+    let topic: _Conversation_?
+    let autoFollowDone: Bool?
+    let isEdited: Bool?
+    let access: Int?
+    let memberCanMessage: Bool?
+    let cohorts: [_Cohort_]?
+    let externalSeen: Bool?
+    let unreadConversationCount: Int?
+    let chatroomImageUrl: String?
+    let accessWithoutSubscription: Bool?
     
     enum CodingKeys: String, CodingKey {
-        case about, access
-        case accessWithoutSubscription = "access_without_subscription"
-        case attachmentCount = "attachment_count"
-        case attachmentsUploaded = "attachments_uploaded"
-        case attendingStatus = "attending_status"
-        case autoFollowDone = "auto_follow_done"
-        case cardID = "card_id"
-        case chatRequestCreatedAt = "chat_request_created_at"
-        case chatRequestState = "chat_request_state"
-        case chatRequestedByID = "chat_requested_by_id"
-        case chatroomImageURL = "chatroom_image_url"
-        case chatroomWithUserID = "chatroom_with_user_id"
-        case coHosts = "co_hosts"
-        case communityID = "community_id"
+        case member
+        case id
+        case title
         case createdAt = "created_at"
-        case customTag = "custom_tag"
-        case date
-        case dateEpoch = "date_epoch"
-        case dateTime = "date_time"
-        case deletedByUserID = "deleted_by_user_id"
-        case deviceID = "device_id"
-        case expiryTime = "expiry_time"
-        case externalSeen = "external_seen"
+        case answerText = "answer_text"
+        case state
+        case unseenCount = "unseen_count"
+        case shareUrl = "share_url"
+        case communityId = "community_id"
+        case communityName = "community_name"
+        case type
+        case about
+        case header
+        case showFollowTelescope = "show_follow_telescope"
+        case showFollowAutoTag = "show_follow_auto_tag"
+        case cardCreationTime = "card_creation_time"
+        case participantsCount = "participants_count"
+        case totalResponseCount = "total_response_count"
+        case muteStatus = "mute_status"
         case followStatus = "follow_status"
         case hasBeenNamed = "has_been_named"
-        case hasFiles = "has_files"
         case hasReactions = "has_reactions"
-        case header, id
-        case internalLink = "internal_link"
-        case isEdited = "is_edited"
-        case isPaid = "is_paid"
-        case isPending = "is_pending"
-        case isPrivate = "is_private"
-        case isPrivateMember = "is_private_member"
-        case isSecret = "is_secret"
+        case date
         case isTagged = "is_tagged"
-        case lastConversationID = "last_conversation_id"
-        case lastSeenConversationID = "last_seen_conversation_id"
-        case memberCanMessage = "member_can_message"
-        case muteStatus = "mute_status"
-        case ogTags = "og_tags"
-        case onlineLink = "online_link"
-        case onlineLinkType = "online_link_type"
-        case secretChatroomLeft = "secret_chatroom_left"
-        case secretChatroomParticipants = "secret_chatroom_participants"
-        case shareLink = "share_link"
-        case state, title
-        case topicID = "topic_id"
-        case type
-        case unseenCount = "unseen_count"
+        case isPending = "is_pending"
+        case isPinned = "is_pinned"
+        case isDeleted = "is_deleted"
+        case userId = "member_id"
+        case deletedBy = "deleted_by"
+        case deletedByMember = "deleted_by_member"
         case updatedAt = "updated_at"
-        case userID = "user_id"
+        case lastSeenConversationId = "last_seen_conversation"
+        case lastConversationId = "last_conversation_id"
+        case dateEpoch = "date_epoch"
+        case isSecret = "is_secret"
+        case secretChatroomParticipants = "secret_chatroom_participants"
+        case secretChatroomLeft = "secret_chatroom_left"
+        case reactions
+        case topicId = "topic_id"
+        case topic
+        case autoFollowDone = "auto_follow_done"
+        case isEdited = "is_edited"
+        case access
+        case memberCanMessage = "member_can_message"
+        case cohorts
+        case externalSeen = "external_seen"
+        case unreadConversationCount = "unread_messages"
+        case chatroomImageUrl = "chatroom_image_url"
+        case accessWithoutSubscription = "access_without_subscription"
+    }
+}
+
+extension _Chatroom_ {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        member = try container.decodeIfPresent(_Member_.self, forKey: .member)
+        id = try container.decode(String.self, forKey: .id)
+        title = try container.decode(String.self, forKey: .title)
+        createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAt)
+        answerText = try container.decodeIfPresent(String.self, forKey: .answerText)
+        state = try container.decode(Int.self, forKey: .state)
+        unseenCount = try container.decodeIfPresent(Int.self, forKey: .unseenCount)
+        shareUrl = try container.decodeIfPresent(String.self, forKey: .shareUrl)
+        communityId = try container.decodeIfPresent(String.self, forKey: .communityId)
+        communityName = try container.decodeIfPresent(String.self, forKey: .communityName)
+        type = try container.decodeIfPresent(Int.self, forKey: .type)
+        about = try container.decodeIfPresent(String.self, forKey: .about)
+        header = try container.decodeIfPresent(String.self, forKey: .header)
+        showFollowTelescope = try container.decodeIfPresent(Bool.self, forKey: .showFollowTelescope)
+        showFollowAutoTag = try container.decodeIfPresent(Bool.self, forKey: .showFollowAutoTag)
+        cardCreationTime = try container.decodeIfPresent(String.self, forKey: .cardCreationTime)
+        participantsCount = try container.decodeIfPresent(String.self, forKey: .participantsCount)
+        totalResponseCount = try container.decodeIfPresent(String.self, forKey: .totalResponseCount)
+        muteStatus = try container.decodeIfPresent(Bool.self, forKey: .muteStatus)
+        followStatus = try container.decodeIfPresent(Bool.self, forKey: .followStatus)
+        hasBeenNamed = try container.decodeIfPresent(Bool.self, forKey: .hasBeenNamed)
+        hasReactions = try container.decodeIfPresent(Bool.self, forKey: .hasReactions)
+        date = try container.decodeIfPresent(String.self, forKey: .date)
+        isTagged = try container.decodeIfPresent(Bool.self, forKey: .isTagged)
+        isPending = try container.decodeIfPresent(Bool.self, forKey: .isPending)
+        isPinned = try container.decodeIfPresent(Bool.self, forKey: .isPinned)
+        isDeleted = try container.decodeIfPresent(Bool.self, forKey: .isDeleted)
+        userId = try container.decodeIfPresent(String.self, forKey: .userId)
+        deletedBy = try container.decodeIfPresent(String.self, forKey: .deletedBy)
+        deletedByMember = try container.decodeIfPresent(_Member_.self, forKey: .deletedByMember)
+        updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
+        lastSeenConversationId = try container.decodeIfPresent(String.self, forKey: .lastSeenConversationId)
+        lastConversationId = try container.decodeIfPresent(String.self, forKey: .lastConversationId)
+        dateEpoch = try container.decodeIfPresent(Int.self, forKey: .dateEpoch)
+        isSecret = try container.decodeIfPresent(Bool.self, forKey: .isSecret)
+        secretChatroomParticipants = try container.decodeIfPresent([Int].self, forKey: .secretChatroomParticipants)
+        secretChatroomLeft = try container.decodeIfPresent(Bool.self, forKey: .secretChatroomLeft)
+        reactions = try container.decodeIfPresent([_Reaction_].self, forKey: .reactions)
+        topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+        topic = try container.decodeIfPresent(_Conversation_.self, forKey: .topic)
+        autoFollowDone = try container.decodeIfPresent(Bool.self, forKey: .autoFollowDone)
+        isEdited = try container.decodeIfPresent(Bool.self, forKey: .isEdited)
+        access = try container.decodeIfPresent(Int.self, forKey: .access)
+        memberCanMessage = try container.decodeIfPresent(Bool.self, forKey: .memberCanMessage)
+        cohorts = try container.decodeIfPresent([_Cohort_].self, forKey: .cohorts)
+        externalSeen = try container.decodeIfPresent(Bool.self, forKey: .externalSeen)
+        unreadConversationCount = try container.decodeIfPresent(Int.self, forKey: .unreadConversationCount)
+        chatroomImageUrl = try container.decodeIfPresent(String.self, forKey: .chatroomImageUrl)
+        accessWithoutSubscription = try container.decodeIfPresent(Bool.self, forKey: .accessWithoutSubscription)
     }
 }

@@ -15,7 +15,7 @@ class ChatroomRO: Object {
     @Persisted var communityId: String
     @Persisted var state: Int = 0
     @Persisted var member: MemberRO?
-    @Persisted var createdAt: Int32?
+    @Persisted var createdAt: Int?
     @Persisted var type: Int?
     @Persisted var chatroomImageUrl: String?
     @Persisted var header: String?
@@ -29,12 +29,12 @@ class ChatroomRO: Object {
     @Persisted var isTagged: Bool?
     @Persisted var isPending: Bool?
     @Persisted var deletedBy: String?
-    @Persisted var updatedAt: Int32? //in millis, to sort chatrooms in home feed
+    @Persisted var updatedAt: Int? //in millis, to sort chatrooms in home feed
     @Persisted var lastConversation: ConversationRO? //last conversation with state 0
     @Persisted var lastConversationRO: LastConversationRO?
     @Persisted var lastSeenConversationId: String?
     @Persisted var lastSeenConversation: ConversationRO? //last seen conversation
-    @Persisted var dateEpoch: Int32?
+    @Persisted var dateEpoch: Int?
     @Persisted var unseenCount: Int = 0
     @Persisted  var relationshipNeeded: Bool = true
     @Persisted var draftConversation: String?

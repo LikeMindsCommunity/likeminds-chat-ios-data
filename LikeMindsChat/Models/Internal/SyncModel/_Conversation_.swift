@@ -9,75 +9,132 @@
 import Foundation
 
 struct _Conversation_: Decodable {
-    
-    let allowAddOption: Bool?
-    let answer: String?
-    let apiVersion: Int?
-    let attachmentCount: Int?
-    let attachmentsUploaded: Bool?
-    let cardID: Int?
-    let expiryTime: Int?
-    let pollType: Int?
-    let header: String?
-    let communityID: Int?
-    let createdAt: String?
-    let createdEpoch: Int?
-    let date: String?
-    let deletedByUserID: Int?
-    let deviceID: String?
-    let endTime: Int?
-    let hasFiles: Bool?
-    let hasReactions: Bool?
-    let id: Int?
-    let chatroomId:Int?
-    let internalLink: String?
-    let isAnonymous: Bool?
-    let isEdited: Bool?
-    let lastUpdated: Int?
-    let ogTags: _LinkOGTags_?
-    let onlineLinkEnableBefore: Int?
-    let pollAnswerText: String?
-    let startTime: Int?
-    let state: _ConversationState_?
-    let temporaryID: String?
-    let toShowResults: Bool?
-    let userID: Int?
+
+    let id: String?
+    let chatroomId: String?
+    let communityId: String?
     let member: _Member_?
+    let answer: String
+    let createdAt: String?
+    let state: Int
     let attachments: [_Attachment_]?
     let lastSeen: Bool?
+    let ogTags: _LinkOGTags_?
+    let date: String?
+    let isEdited: Bool?
+    let memberId: String?
+    let replyConversationId: String?
+    let deletedBy: String?
+    let createdEpoch: Int?
+    let attachmentCount: Int?
+    let attachmentUploaded: Bool?
+    let uploadWorkerUUID: String?
+    let temporaryId: String?
+    let localCreatedEpoch: Int?
+    let reactions: [_Reaction_]?
+    let isAnonymous: Bool?
+    let allowAddOption: Bool?
+    let pollType: Int?
+    let pollTypeText: String?
+    let submitTypeText: String?
+    let expiryTime: Int?
+    let multipleSelectNum: Int?
+    let multipleSelectState: Int?
+    let polls: [_Poll_]?
+    let toShowResults: Bool?
+    let pollAnswerText: String?
+    let replyChatroomId: String?
+    let deviceId: String?
+    let hasFiles: Bool?
+    let hasReactions: Bool?
+    let lastUpdated: Int?
+    let deletedByMember: _Member_?
 
     enum CodingKeys: String, CodingKey {
-        case allowAddOption = "allow_add_option"
-        case answer, attachments
-        case apiVersion = "api_version"
-        case attachmentCount = "attachment_count"
-        case attachmentsUploaded = "attachments_uploaded"
-        case cardID = "card_id"
-        case communityID = "community_id"
+        case id
+        case chatroomId = "chatroom_id"
+        case communityId = "community_id"
+        case member
+        case answer
         case createdAt = "created_at"
-        case createdEpoch = "created_epoch"
+        case state
+        case attachments
+        case lastSeen = "last_seen"
+        case ogTags = "og_tags"
         case date
-        case deletedByUserID = "deleted_by_user_id"
-        case deviceID = "device_id"
-        case endTime = "end_time"
+        case isEdited = "is_edited"
+        case memberId = "member_id"
+        case replyConversationId = "reply_conversation"
+        case deletedBy = "delete_by"
+        case createdEpoch = "created_epoch"
+        case attachmentCount = "attachment_count"
+        case attachmentUploaded = "attachments_uploaded"
+        case uploadWorkerUUID = "upload_worker_uuid"
+        case temporaryId = "temporary_id"
+        case localCreatedEpoch = "local_created_epoch"
+        case reactions
+        case isAnonymous = "is_anonymous"
+        case allowAddOption = "allow_add_option"
+        case pollType = "poll_type"
+        case pollTypeText = "poll_type_text"
+        case submitTypeText = "submit_type_text"
         case expiryTime = "expiry_time"
+        case multipleSelectNum = "multiple_select_no"
+        case multipleSelectState = "multiple_select_state"
+        case polls
+        case toShowResults = "to_show_results"
+        case pollAnswerText = "poll_answer_text"
+        case replyChatroomId = "reply_chatroom_id"
+        case deviceId = "device_id"
         case hasFiles = "has_files"
         case hasReactions = "has_reactions"
-        case header, id, member
-        case chatroomId = "chatroom_id"
-        case internalLink = "internal_link"
-        case isAnonymous = "is_anonymous"
-        case isEdited = "is_edited"
         case lastUpdated = "last_updated"
-        case ogTags = "og_tags"
-        case onlineLinkEnableBefore = "online_link_enable_before"
-        case pollAnswerText = "poll_answer_text"
-        case pollType = "poll_type"
-        case startTime = "start_time"
-        case state
-        case temporaryID = "temporary_id"
-        case toShowResults = "to_show_results"
-        case userID = "user_id"
-        case lastSeen = "last_seen"
+        case deletedByMember = "deleted_by_member"
+    }
+}
+
+extension _Conversation_ {
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decodeIfPresent(String.self, forKey: .id)
+        chatroomId = try container.decodeIfPresent(String.self, forKey: .chatroomId)
+        communityId = try container.decodeIfPresent(String.self, forKey: .communityId)
+        member = try container.decodeIfPresent(_Member_.self, forKey: .member)
+        answer = try container.decode(String.self, forKey: .answer)
+        createdAt = try container.decodeIfPresent(String.self, forKey: .createdAt)
+        state = try container.decode(Int.self, forKey: .state)
+        attachments = try container.decodeIfPresent([_Attachment_].self, forKey: .attachments)
+        lastSeen = try container.decodeIfPresent(Bool.self, forKey: .lastSeen)
+        ogTags = try container.decodeIfPresent(_LinkOGTags_.self, forKey: .ogTags)
+        date = try container.decodeIfPresent(String.self, forKey: .date)
+        isEdited = try container.decodeIfPresent(Bool.self, forKey: .isEdited)
+        memberId = try container.decodeIfPresent(String.self, forKey: .memberId)
+        replyConversationId = try container.decodeIfPresent(String.self, forKey: .replyConversationId)
+        deletedBy = try container.decodeIfPresent(String.self, forKey: .deletedBy)
+        createdEpoch = try container.decodeIfPresent(Int.self, forKey: .createdEpoch)
+        attachmentCount = try container.decodeIfPresent(Int.self, forKey: .attachmentCount)
+        attachmentUploaded = try container.decodeIfPresent(Bool.self, forKey: .attachmentUploaded)
+        uploadWorkerUUID = try container.decodeIfPresent(String.self, forKey: .uploadWorkerUUID)
+        temporaryId = try container.decodeIfPresent(String.self, forKey: .temporaryId)
+        localCreatedEpoch = try container.decodeIfPresent(Int.self, forKey: .localCreatedEpoch)
+        reactions = try container.decodeIfPresent([_Reaction_].self, forKey: .reactions)
+        isAnonymous = try container.decodeIfPresent(Bool.self, forKey: .isAnonymous)
+        allowAddOption = try container.decodeIfPresent(Bool.self, forKey: .allowAddOption)
+        pollType = try container.decodeIfPresent(Int.self, forKey: .pollType)
+        pollTypeText = try container.decodeIfPresent(String.self, forKey: .pollTypeText)
+        submitTypeText = try container.decodeIfPresent(String.self, forKey: .submitTypeText)
+        expiryTime = try container.decodeIfPresent(Int.self, forKey: .expiryTime)
+        multipleSelectNum = try container.decodeIfPresent(Int.self, forKey: .multipleSelectNum)
+        multipleSelectState = try container.decodeIfPresent(Int.self, forKey: .multipleSelectState)
+        polls = try container.decodeIfPresent([_Poll_].self, forKey: .polls)
+        toShowResults = try container.decodeIfPresent(Bool.self, forKey: .toShowResults)
+        pollAnswerText = try container.decodeIfPresent(String.self, forKey: .pollAnswerText)
+        replyChatroomId = try container.decodeIfPresent(String.self, forKey: .replyChatroomId)
+        deviceId = try container.decodeIfPresent(String.self, forKey: .deviceId)
+        hasFiles = try container.decodeIfPresent(Bool.self, forKey: .hasFiles)
+        hasReactions = try container.decodeIfPresent(Bool.self, forKey: .hasReactions)
+        lastUpdated = try container.decodeIfPresent(Int.self, forKey: .lastUpdated)
+        deletedByMember = try container.decodeIfPresent(_Member_.self, forKey: .deletedByMember)
     }
 }

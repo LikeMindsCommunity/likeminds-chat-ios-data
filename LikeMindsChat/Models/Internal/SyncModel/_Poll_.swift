@@ -16,13 +16,13 @@ struct _Poll_: Decodable {
     let voteCount: Int?
     let percentage: Double?
     let text: String?
-    let userID: Int?
+    let userId: Int?
     
     enum CodingKeys: String, CodingKey {
         case conversationID = "conversation_id",
              isSelected = "is_selected",
              voteCount = "no_votes",
-             userID = "user_id"
+             userId = "user_id"
         case count,
              id,
              percentage,

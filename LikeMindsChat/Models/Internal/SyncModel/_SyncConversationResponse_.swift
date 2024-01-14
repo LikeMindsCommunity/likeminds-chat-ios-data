@@ -8,7 +8,7 @@
 import Foundation
 
 struct _SyncConversationResponse_: Decodable {
-    let chatRoomMeta: [_Chatroom_]?
+    let chatRoomMeta: [String: _Chatroom_]?
     let communityMeta: [String: _Community_]?
     let conversationAttachmentsMeta: [String: [_Attachment_]]?
     let conversationPollMeta: [String: [_Poll_]]?

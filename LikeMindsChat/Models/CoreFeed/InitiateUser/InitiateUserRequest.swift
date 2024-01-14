@@ -13,6 +13,7 @@ public class InitiateUserRequest: Encodable {
     var userName: String? //user name
     var apiKey: String?
     var page: Int = 10 //page number of home feed chat
+    var deviceId: String?
     
     /// Initiate method
     private init() {}
@@ -41,6 +42,11 @@ public class InitiateUserRequest: Encodable {
         return self
     }
     
+    public func deviceId(_ deviceId: String) -> InitiateUserRequest {
+        self.deviceId = deviceId
+        return self
+    }
+    
     public func page(_ page: Int) -> InitiateUserRequest {
         self.page = page
         return self
@@ -56,5 +62,6 @@ public class InitiateUserRequest: Encodable {
         case uuid
         case apiKey = "api_key"
         case page
+        case deviceId = "device_id"
     }
 }

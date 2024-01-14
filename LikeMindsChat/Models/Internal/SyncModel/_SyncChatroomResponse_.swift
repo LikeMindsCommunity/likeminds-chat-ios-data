@@ -10,15 +10,15 @@ import Foundation
 
 struct _SyncChatroomResponse_: Decodable {
     let cardAttachmentMeta: [String: [_Attachment_]]?
-    let chatRoomData: [_Chatroom_]?
+    let chatrooms: [_Chatroom_]?
     let communityMeta: [String: _Community_]?
-    let conversationAttachementMeta: [String: [_ConversationAttachment_]]?
+    let conversationAttachementMeta: [String: [_Attachment_]]?
     let conversationPollMeta: [String: [_Poll_]]?
     let conversationMeta: [String: _Conversation_]?
     let userMeta: [String: _Member_]?
     
     enum CodingKeys: String, CodingKey {
-        case chatRoomData = "chatrooms_data",
+        case chatrooms = "chatrooms_data",
              communityMeta = "community_meta",
              conversationAttachementMeta = "conv_attachments_meta",
              conversationPollMeta = "conv_polls_meta",

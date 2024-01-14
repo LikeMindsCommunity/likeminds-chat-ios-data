@@ -9,7 +9,7 @@ import Foundation
 
 class ChatClientServiceRequest: ServiceRequest {
     
-    static func initiateChatService(_ request: InitiateUserRequest, withModuleName moduleName: String, _ response: LMClientResponse<InitiateUserResponse>?) {
+    static func initiateChatService(_ request: InitiateUserRequest, withModuleName moduleName: String, _ response: _LMClientResponse_<InitiateUserResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.initiateChatClient(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -20,17 +20,17 @@ class ChatClientServiceRequest: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(LMResponse<InitiateUserResponse>.self, from: data)
+                let result = try JSONDecoder().decode(_LMResponse_<InitiateUserResponse>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
     
-    static func registerDevice(request: RegisterDeviceRequest, withModuleName moduleName: String, _ response: LMClientResponse<RegisterDeviceResponse>?) {
+    static func registerDevice(request: RegisterDeviceRequest, withModuleName moduleName: String, _ response: _LMClientResponse_<RegisterDeviceResponse>?) {
         
         let networkPath = ServiceAPIRequest.NetworkPath.pushToken(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
@@ -42,17 +42,17 @@ class ChatClientServiceRequest: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(LMResponse<RegisterDeviceResponse>.self, from: data)
+                let result = try JSONDecoder().decode(_LMResponse_<RegisterDeviceResponse>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
     
-    static func logout(request: LogoutRequest, withModuleName moduleName: String, _ response: LMClientResponse<NoData>?) {
+    static func logout(request: LogoutRequest, withModuleName moduleName: String, _ response: _LMClientResponse_<_NoData_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.logout(request)
         var headers = ServiceRequest.httpHeaders()
         headers["x-device-id"] = request.deviceId ?? ""
@@ -65,17 +65,17 @@ class ChatClientServiceRequest: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(LMResponse<NoData>.self, from: data)
+                let result = try JSONDecoder().decode(_LMResponse_<_NoData_>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
     
-    static func getConfig(withModuleName moduleName: String, _ response: LMClientResponse<ConfigResponse>?) {
+    static func getConfig(withModuleName moduleName: String, _ response: _LMClientResponse_<ConfigResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.getConfig
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -86,17 +86,17 @@ class ChatClientServiceRequest: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(LMResponse<ConfigResponse>.self, from: data)
+                let result = try JSONDecoder().decode(_LMResponse_<ConfigResponse>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
     
-    static func syncChatrooms(request: ChatroomSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncChatroomResponse_>?) {
+    static func syncChatrooms(request: ChatroomSyncRequest, moduleName: String, _ response: _LMClientResponse_<_SyncChatroomResponse_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.syncChatrooms(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -105,17 +105,17 @@ class ChatClientServiceRequest: ServiceRequest {
                                    withEncoding: networkPath.encoding, withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let json = try JSONDecoder().decode(LMResponse<_SyncChatroomResponse_>.self, from: data)
+                let json = try JSONDecoder().decode(_LMResponse_<_SyncChatroomResponse_>.self, from: data)
                 response?(json)
             } catch {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
     
-    static func syncConversations(request: ConversationSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncConversationResponse_>?) {
+    static func syncConversations(request: ConversationSyncRequest, moduleName: String, _ response: _LMClientResponse_<_SyncConversationResponse_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.syncConversations(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -124,13 +124,13 @@ class ChatClientServiceRequest: ServiceRequest {
                                    withEncoding: networkPath.encoding, withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let json = try JSONDecoder().decode(LMResponse<_SyncConversationResponse_>.self, from: data)
+                let json = try JSONDecoder().decode(_LMResponse_<_SyncConversationResponse_>.self, from: data)
                 response?(json)
             } catch {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
     
