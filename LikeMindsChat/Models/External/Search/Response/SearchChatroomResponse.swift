@@ -17,15 +17,15 @@ struct SearchChatroomResponse: Decodable {
 
 struct SearchChatroom: Decodable {
     
-    let attachments: [_Attachment_]
+    let attachments: [Attachment]
     let attendingStatus: Bool
     let chatroom: _Chatroom_
-    let community: _Community_
+    let community: Community
     let followStatus: Bool
     let id: Int
     let isGuest: Bool
     let isTagged: Bool
-    let member: _Member_
+    let member: Member
     let muteStatus: Bool
     let secretChatroomLeft: Bool
     let state: Int

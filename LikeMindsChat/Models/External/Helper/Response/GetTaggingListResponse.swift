@@ -9,8 +9,8 @@ import Foundation
 
 struct GetTaggingListResponse: Decodable {
     let groupTags: [GroupTag]?
-    let chatroomParticipants: [_Member_]?
-    let communityMembers: [_Member_]?
+    let chatroomParticipants: [Member]?
+    let communityMembers: [Member]?
     
     private enum CodingKeys: String, CodingKey {
         case groupTags = "group_tags"

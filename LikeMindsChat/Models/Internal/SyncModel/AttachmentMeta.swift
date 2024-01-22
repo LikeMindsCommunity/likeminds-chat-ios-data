@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AttachmentMeta: Decodable {
+struct AttachmentMeta: Codable {
     let numberOfPage: Int?
     let size: Int64?
     let duration: Int?

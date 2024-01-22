@@ -14,7 +14,7 @@ class Poll: Codable {
     let percentage: Int?
     let subText: String?
     let noVotes: Int?
-    let member: Member?
+//    let member: Member?
     let userId: String?
     
     private init(id: String?, text: String, isSelected: Bool?, percentage: Int?, subText: String?, noVotes: Int?, member: Member?, userId: String?) {
@@ -24,7 +24,7 @@ class Poll: Codable {
         self.percentage = percentage
         self.subText = subText
         self.noVotes = noVotes
-        self.member = member
+//        self.member = member
         self.userId = userId
     }
     
@@ -35,7 +35,7 @@ class Poll: Codable {
         case percentage
         case subText = "sub_text"
         case noVotes = "no_votes"
-        case member
+//        case member
         case userId = "user_id"
     }
     
@@ -111,7 +111,7 @@ class Poll: Codable {
             .percentage(percentage)
             .subText(subText)
             .noVotes(noVotes)
-            .member(member)
+//            .member(member)
             .userId(userId)
     }
 }

@@ -47,7 +47,6 @@
 		F420C09C2A5C194C008C48DE /* LogoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C08F2A5C194C008C48DE /* LogoutRequest.swift */; };
 		F420C09D2A5C194C008C48DE /* InitiateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0912A5C194C008C48DE /* InitiateUserResponse.swift */; };
 		F420C09E2A5C194C008C48DE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0922A5C194C008C48DE /* User.swift */; };
-		F420C09F2A5C194C008C48DE /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0932A5C194C008C48DE /* Community.swift */; };
 		F420C0A02A5C194C008C48DE /* InitiateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0942A5C194C008C48DE /* InitiateUserRequest.swift */; };
 		F420C0A12A5C194C008C48DE /* RegisterDeviceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0962A5C194C008C48DE /* RegisterDeviceRequest.swift */; };
 		F420C0A22A5C194C008C48DE /* RegisterDeviceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0972A5C194C008C48DE /* RegisterDeviceResponse.swift */; };
@@ -68,7 +67,6 @@
 		F42C1EA02B32F94500720D5D /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E992B32F94400720D5D /* Attachment.swift */; };
 		F42C1EA12B32F94500720D5D /* _Chatroom_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9A2B32F94400720D5D /* _Chatroom_.swift */; };
 		F42C1EA32B32F94500720D5D /* _SyncChatroomResponse_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9C2B32F94400720D5D /* _SyncChatroomResponse_.swift */; };
-		F42C1EA42B32F94500720D5D /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9D2B32F94400720D5D /* Poll.swift */; };
 		F42C1EA52B32F94500720D5D /* _Conversation_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9E2B32F94400720D5D /* _Conversation_.swift */; };
 		F42C1EA62B32F94500720D5D /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9F2B32F94400720D5D /* Community.swift */; };
 		F457D7A12B49E8B300BCECDF /* ChatDBUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7A02B49E8B300BCECDF /* ChatDBUtil.swift */; };
@@ -88,7 +86,6 @@
 		F4BEB9A12B4E9F4E00D12B62 /* SyncPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9A02B4E9F4E00D12B62 /* SyncPreferences.swift */; };
 		F4BEB9AD2B4FC49100D12B62 /* ConversationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9AC2B4FC49100D12B62 /* ConversationClient.swift */; };
 		F4BEB9B02B4FC64D00D12B62 /* PostConversationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9AF2B4FC64D00D12B62 /* PostConversationResponse.swift */; };
-		F4BEB9BA2B503C4600D12B62 /* Cohort.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9B92B503C4600D12B62 /* Cohort.swift */; };
 		F4BEB9BC2B544A1300D12B62 /* ChatroomClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9BB2B544A1300D12B62 /* ChatroomClient.swift */; };
 		F4BEB9BF2B544B0800D12B62 /* GetChatroomResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9BE2B544B0800D12B62 /* GetChatroomResponse.swift */; };
 		F4BEB9C22B544B4F00D12B62 /* GetChatroomRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9C12B544B4F00D12B62 /* GetChatroomRequest.swift */; };
@@ -207,7 +204,6 @@
 		F420C08F2A5C194C008C48DE /* LogoutRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutRequest.swift; sourceTree = "<group>"; };
 		F420C0912A5C194C008C48DE /* InitiateUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitiateUserResponse.swift; sourceTree = "<group>"; };
 		F420C0922A5C194C008C48DE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		F420C0932A5C194C008C48DE /* Community.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		F420C0942A5C194C008C48DE /* InitiateUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitiateUserRequest.swift; sourceTree = "<group>"; };
 		F420C0962A5C194C008C48DE /* RegisterDeviceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDeviceRequest.swift; sourceTree = "<group>"; };
 		F420C0972A5C194C008C48DE /* RegisterDeviceResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDeviceResponse.swift; sourceTree = "<group>"; };
@@ -228,7 +224,6 @@
 		F42C1E992B32F94400720D5D /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		F42C1E9A2B32F94400720D5D /* _Chatroom_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Chatroom_.swift; sourceTree = "<group>"; };
 		F42C1E9C2B32F94400720D5D /* _SyncChatroomResponse_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _SyncChatroomResponse_.swift; sourceTree = "<group>"; };
-		F42C1E9D2B32F94400720D5D /* Poll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		F42C1E9E2B32F94400720D5D /* _Conversation_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Conversation_.swift; sourceTree = "<group>"; };
 		F42C1E9F2B32F94400720D5D /* Community.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		F457D7A02B49E8B300BCECDF /* ChatDBUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDBUtil.swift; sourceTree = "<group>"; };
@@ -248,7 +243,6 @@
 		F4BEB9A02B4E9F4E00D12B62 /* SyncPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPreferences.swift; sourceTree = "<group>"; };
 		F4BEB9AC2B4FC49100D12B62 /* ConversationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationClient.swift; sourceTree = "<group>"; };
 		F4BEB9AF2B4FC64D00D12B62 /* PostConversationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConversationResponse.swift; sourceTree = "<group>"; };
-		F4BEB9B92B503C4600D12B62 /* Cohort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cohort.swift; sourceTree = "<group>"; };
 		F4BEB9BB2B544A1300D12B62 /* ChatroomClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomClient.swift; sourceTree = "<group>"; };
 		F4BEB9BE2B544B0800D12B62 /* GetChatroomResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChatroomResponse.swift; sourceTree = "<group>"; };
 		F4BEB9C12B544B4F00D12B62 /* GetChatroomRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChatroomRequest.swift; sourceTree = "<group>"; };
@@ -491,7 +485,6 @@
 			children = (
 				F420C0912A5C194C008C48DE /* InitiateUserResponse.swift */,
 				F420C0922A5C194C008C48DE /* User.swift */,
-				F420C0932A5C194C008C48DE /* Community.swift */,
 				F420C0942A5C194C008C48DE /* InitiateUserRequest.swift */,
 			);
 			path = InitiateUser;
@@ -586,7 +579,6 @@
 				F412238C2B43EFB000CB1532 /* _SyncConversationResponse_.swift */,
 				F42C1E992B32F94400720D5D /* Attachment.swift */,
 				F4C8F6992B5925EF0012A1CF /* Chatroom */,
-				F42C1E9D2B32F94400720D5D /* Poll.swift */,
 				F42C1E9E2B32F94400720D5D /* _Conversation_.swift */,
 				F42C1E9F2B32F94400720D5D /* Community.swift */,
 				F412236F2B330FB500CB1532 /* Member.swift */,
@@ -729,7 +721,6 @@
 			isa = PBXGroup;
 			children = (
 				F42C1E772B320B7400720D5D /* Chatroom.swift */,
-				F4BEB9B92B503C4600D12B62 /* Cohort.swift */,
 				F4BEB9BE2B544B0800D12B62 /* GetChatroomResponse.swift */,
 				F4BEB9D72B54520E00D12B62 /* GetChatroomActionsResponse.swift */,
 				F4BEB9D92B54532B00D12B62 /* GetParticipantsResponse.swift */,
@@ -1019,7 +1010,6 @@
 				F420C0832A5C0E2E008C48DE /* LMChatClientServiceRequest+Extension.swift in Sources */,
 				F42C1EA12B32F94500720D5D /* _Chatroom_.swift in Sources */,
 				F42C1E8F2B320B7400720D5D /* ChatroomRO.swift in Sources */,
-				F42C1EA42B32F94500720D5D /* Poll.swift in Sources */,
 				F420C0B22A5E88DD008C48DE /* GetExploreFeedRequest.swift in Sources */,
 				F4BEBA172B546D3500D12B62 /* GetConversationResponse.swift in Sources */,
 				F4BEBA0F2B546BC300D12B62 /* ConversationTypeUtil.swift in Sources */,
@@ -1032,7 +1022,6 @@
 				F420C07B2A5C08B7008C48DE /* LMChatClient.swift in Sources */,
 				F42C1E8E2B320B7400720D5D /* CommunityRO.swift in Sources */,
 				F4BEB9FE2B5467D600D12B62 /* GetConversationsCountRequest.swift in Sources */,
-				F4BEB9BA2B503C4600D12B62 /* Cohort.swift in Sources */,
 				F4BEBA2F2B54710200D12B62 /* GetMemberResponse.swift in Sources */,
 				F4C8F6A42B5A365B0012A1CF /* ReportTagResponse.swift in Sources */,
 				F412238F2B43F16F00CB1532 /* ReactionMeta.swift in Sources */,
@@ -1063,7 +1052,6 @@
 				F420C0782A5C06B7008C48DE /* String+Extension.swift in Sources */,
 				F4BEB9DC2B54537C00D12B62 /* ShareChatroomUrlResponse.swift in Sources */,
 				F4BEB9F22B54645F00D12B62 /* PollClient.swift in Sources */,
-				F420C09F2A5C194C008C48DE /* Community.swift in Sources */,
 				F4C8F6A22B593BA60012A1CF /* PostReportRequest.swift in Sources */,
 				F41223882B433DD000CB1532 /* AppConfigRO.swift in Sources */,
 				F4BEBA1D2B546DDE00D12B62 /* LiveConversationResponse.swift in Sources */,

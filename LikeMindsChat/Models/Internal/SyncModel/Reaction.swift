@@ -18,7 +18,7 @@ struct Reaction: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        member = try container.decodeIfPresent(_Member_.self, forKey: .member)
+        member = try container.decodeIfPresent(Member.self, forKey: .member)
         reaction = try container.decode(String.self, forKey: .reaction)
     }
 }

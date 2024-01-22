@@ -37,7 +37,7 @@ public struct ConfigResponse: Decodable {
 }
 
 struct UserDetail: Decodable {
-    let member: _Member_?
+    let member: Member?
     let userMetrics: UserMetrics?
     
     private enum CodingKeys: String, CodingKey {

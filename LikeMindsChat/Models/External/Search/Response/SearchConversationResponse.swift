@@ -14,16 +14,16 @@ struct SearchConversationResponse: Decodable {
 struct SearchConversation: Decodable {
     let answer: String
     let attachmentCount: Int
-    let attachments: [_Attachment_]
+    let attachments: [Attachment]
     let attachmentsUploaded: Bool
     let chatroom: _Chatroom_
-    let community: _Community_
+    let community: Community
     let createdAt: TimeInterval
     let id: Int
     let isDeleted: Bool
     let isEdited: Bool
     let lastUpdated: TimeInterval
-    let member: _Member_
+    let member: Member
     let state: Int
     
     private enum CodingKeys: String, CodingKey {
@@ -48,7 +48,7 @@ struct SearchConversation: Decodable {
         attachmentCount = try container.decode(Int.self, forKey: .attachmentCount)
         attachments = try container.decode([Attachment].self, forKey: .attachments)
         attachmentsUploaded = try container.decode(Bool.self, forKey: .attachmentsUploaded)
-        chatroom = try container.decode(Chatroom.self, forKey: .chatroom)
+        chatroom = try container.decode(_Chatroom_.self, forKey: .chatroom)
         community = try container.decode(Community.self, forKey: .community)
         createdAt = try container.decode(TimeInterval.self, forKey: .createdAt)
         id = try container.decode(Int.self, forKey: .id)

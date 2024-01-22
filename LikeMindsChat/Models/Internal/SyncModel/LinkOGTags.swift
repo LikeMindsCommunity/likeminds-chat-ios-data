@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LinkOGTags: Decodable {
+struct LinkOGTags: Codable {
     
     var title: String?
     var image: String?

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct Community: Decodable {
+public struct Community: Decodable {
     let id: Int?
     let imageURL: String?
     let name: String?

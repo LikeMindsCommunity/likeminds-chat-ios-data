@@ -10,7 +10,7 @@ import RealmSwift
 
 class ROConverter {
     
-    static func convertCommunity(_ community: _Community_?) -> CommunityRO? {
+    static func convertCommunity(_ community: Community?) -> CommunityRO? {
         guard let community else { return nil }
         let communityRO = CommunityRO()
         communityRO.id = "\(community.id ?? 0)"
@@ -20,7 +20,7 @@ class ROConverter {
         return communityRO
     }
     
-    static func convertMember(member: _Member_?, communityId: String) -> MemberRO? {
+    static func convertMember(member: Member?, communityId: String) -> MemberRO? {
         guard let member else { return nil }
         let uuid = member.sdkClientInfo?.uuid ?? ""
         let uid = "\(uuid)#\(communityId)"
@@ -61,7 +61,7 @@ class ROConverter {
     static func convertChatroom(fromChatroomJsonModel chatroom: _Chatroom_, 
                                 chatroomCreatorRO: MemberRO,
                                 lastConversationRO: LastConversationRO? = nil,
-                                reactions: [_ReactionMeta_] = []) -> ChatroomRO {
+                                reactions: [ReactionMeta] = []) -> ChatroomRO {
         let chatroomId = chatroom.id
         let communityId = chatroom.communityId ?? ""
         
@@ -130,7 +130,7 @@ class ROConverter {
     static func convertReactionsMeta(
         realm: Realm,
         communityId: String?,
-        reactions: [_ReactionMeta_]?
+        reactions: [ReactionMeta]?
     ) -> List<ReactionRO>? {
         return List()
     }
@@ -145,7 +145,7 @@ class ROConverter {
      * */
     static func convertReactionMeta(
         realm: Realm,
-        reaction: _ReactionMeta_,
+        reaction: ReactionMeta,
         communityId: String?
     ) -> ReactionRO? {
         let memberRO = Self.convertMember(member: reaction.member, communityId: communityId ?? "")

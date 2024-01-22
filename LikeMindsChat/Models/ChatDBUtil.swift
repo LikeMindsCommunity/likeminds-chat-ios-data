@@ -175,7 +175,7 @@ class ChatDBUtil {
         
         //chatroom updated at for sorting
         var lastConversationCreatedEpoch: Int?
-        if (chatroomRO.type == _ChatroomType_.directMessage.rawValue) {
+        if (chatroomRO.type == ChatroomType.directMessage.rawValue) {
             lastConversationCreatedEpoch = chatroomRO.lastConversation?.createdEpoch
         } else {
             //if last conversation is present in chatroom
@@ -184,7 +184,7 @@ class ChatDBUtil {
             } else {
                 //else find last conversation from db
                 let conversation = conversations.where { query in
-                    (query.state == _ChatroomType_.normal.rawValue || query.state == _ChatroomType_.poll.rawValue) && query.member.uuid == loggedInUUID
+                    (query.state == ChatroomType.normal.rawValue || query.state == ChatroomType.poll.rawValue) && query.member.uuid == loggedInUUID
                 }.first
                 lastConversationCreatedEpoch = conversation?.createdEpoch
             }
@@ -196,11 +196,11 @@ class ChatDBUtil {
         }
         
         //total response count
-        if (chatroomRO.type == _ChatroomType_.directMessage.rawValue) {
+        if (chatroomRO.type == ChatroomType.directMessage.rawValue) {
             chatroomRO.totalResponseCount = conversations.count
         } else {
             chatroomRO.totalResponseCount = conversations.where({ query in
-                query.state == _ChatroomType_.normal.rawValue || query.state == _ChatroomType_.poll.rawValue
+                query.state == ChatroomType.normal.rawValue || query.state == ChatroomType.poll.rawValue
             }).count
         }
         

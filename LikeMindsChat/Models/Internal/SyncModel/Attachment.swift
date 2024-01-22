@@ -57,7 +57,7 @@ struct Attachment: Decodable {
         thumbnailUrl = try container.decodeIfPresent(String.self, forKey: .thumbnailUrl)
         thumbnailAWSFolderPath = try container.decodeIfPresent(String.self, forKey: .thumbnailAWSFolderPath)
         thumbnailLocalFilePath = try container.decodeIfPresent(String.self, forKey: .thumbnailLocalFilePath)
-        meta = try container.decodeIfPresent(_AttachmentMeta_.self, forKey: .meta)
+        meta = try container.decodeIfPresent(AttachmentMeta.self, forKey: .meta)
         createdAt = try container.decodeIfPresent(Int64.self, forKey: .createdAt)
         updatedAt = try container.decodeIfPresent(Int64.self, forKey: .updatedAt)
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SubmitPollRequest {
+class SubmitPollRequest: Encodable {
     let conversationId: String
     let chatroomId: String
     let polls: [Poll]

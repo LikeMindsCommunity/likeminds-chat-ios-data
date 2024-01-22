@@ -63,7 +63,7 @@ class PostReportRequest: Encodable {
         }
         
         func build() -> PostReportRequest {
-            return PostReportRequest(
+            return PostReportRequest()
         }
     }
     
