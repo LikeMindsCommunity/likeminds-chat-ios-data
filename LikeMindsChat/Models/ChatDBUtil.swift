@@ -226,12 +226,11 @@ class ChatDBUtil {
         realm: Realm,
         conversation: _Conversation_
     ) -> MemberRO? {
-        return nil
-//        getMember(
-//            realm: realm,
-//            communityId: conversation.communityID, uuid:
-//            conversation.member?.sdkClientInfo?.uuid ?: conversation.memberId
-//        )
+        return getMember(
+            realm: realm,
+            communityId: conversation.communityId, uuid:
+            conversation.member?.sdkClientInfo?.uuid ?? conversation.memberId
+        )
     }
     
     /**
@@ -250,9 +249,6 @@ class ChatDBUtil {
     ) -> MemberRO? {
         let uid = "$uuid#${communityId}"
         let member = getMemberByUid(realm: realm, uid: uid)
-        if (member == nil) {
-//            Log.e(GroupChatSDK.LOG_TAG, "Member not found: $uid")
-        }
         return member
     }
     

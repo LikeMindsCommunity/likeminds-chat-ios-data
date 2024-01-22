@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetParticipantsRequest {
+class GetParticipantsRequest: Encodable {
     private var isChatroomSecret: Bool = false
     private var chatroomId: String = ""
     private var participantName: String? = nil
@@ -15,6 +15,14 @@ class GetParticipantsRequest {
     private var pageSize: Int = 10
     
     private init() {}
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case isChatroomSecret = "is_chatroom_secret"
+        case page
+        case pageSize = "page_size"
+        case participantName = "participant_name"
+    }
     
     static func builder() -> Builder {
         return Builder()

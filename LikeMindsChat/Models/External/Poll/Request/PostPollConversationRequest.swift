@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PostPollConversationRequest {
+class PostPollConversationRequest: Encodable {
     let chatroomId: String
     let text: String
     let repliedConversationId: String?
@@ -19,6 +19,20 @@ class PostPollConversationRequest {
     let allowAddOption: Bool
     let expiryTime: Int64
     let temporaryId: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case text
+        case temporaryId = "temporary_id"
+        case repliedConversationId = "replied_conversation_id"
+        case multipleSelectNo = "multiple_select_no"
+        case polls
+        case pollType = "poll_type"
+        case multipleSelectState = "multiple_select_state"
+        case expiryTime = "expiry_time"
+        case allowAddOption = "allow_add_option"
+        case isAnonymous = "is_anonymous"
+    }
     
     private init(chatroomId: String, text: String, repliedConversationId: String?, polls: [Poll], pollType: Int, multipleSelectState: Int?, multipleSelectNo: Int?, isAnonymous: Bool, allowAddOption: Bool, expiryTime: Int64, temporaryId: String?) {
         self.chatroomId = chatroomId

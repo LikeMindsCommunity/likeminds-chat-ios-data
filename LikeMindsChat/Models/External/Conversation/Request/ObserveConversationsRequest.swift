@@ -9,23 +9,23 @@ import Foundation
 
 class ObserveConversationsRequest {
     private let chatroomId: String
-    private let listener: ConversationChangeListener
+    private let listener: ConversationChangeDelegate
     
-    private init(chatroomId: String, listener: ConversationChangeListener) {
+    private init(chatroomId: String, listener: ConversationChangeDelegate) {
         self.chatroomId = chatroomId
         self.listener = listener
     }
     
     class Builder {
         private var chatroomId: String = ""
-        private var listener: ConversationChangeListener?
+        private var listener: ConversationChangeDelegate?
         
         func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func listener(_ listener: ConversationChangeListener) -> Builder {
+        func listener(_ listener: ConversationChangeDelegate) -> Builder {
             self.listener = listener
             return self
         }

@@ -10,7 +10,7 @@ import Foundation
 
 struct _Chatroom_: Decodable {
     
-    let member: _Member_?
+    let member: Member?
     let id: String
     let title: String
     let createdAt: Int?
@@ -39,7 +39,7 @@ struct _Chatroom_: Decodable {
     let isDeleted: Bool?
     let userId: String?
     let deletedBy: String?
-    let deletedByMember: _Member_?
+    let deletedByMember: Member?
     let updatedAt: Int?
     let lastSeenConversationId: String?
     let lastConversationId: String?
@@ -47,14 +47,14 @@ struct _Chatroom_: Decodable {
     let isSecret: Bool?
     let secretChatroomParticipants: [Int]?
     let secretChatroomLeft: Bool?
-    let reactions: [_Reaction_]?
+    let reactions: [Reaction]?
     let topicId: String?
     let topic: _Conversation_?
     let autoFollowDone: Bool?
     let isEdited: Bool?
     let access: Int?
     let memberCanMessage: Bool?
-    let cohorts: [_Cohort_]?
+    let cohorts: [Cohort]?
     let externalSeen: Bool?
     let unreadConversationCount: Int?
     let chatroomImageUrl: String?

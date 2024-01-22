@@ -7,13 +7,18 @@
 
 import Foundation
 
-class MuteChatroomRequest {
+class MuteChatroomRequest: Encodable {
     private let chatroomId: String
     private let value: Bool
     
     private init(chatroomId: String, value: Bool) {
         self.chatroomId = chatroomId
         self.value = value
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case value
     }
     
     class Builder {

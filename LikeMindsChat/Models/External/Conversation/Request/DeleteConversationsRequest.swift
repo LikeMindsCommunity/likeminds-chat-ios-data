@@ -7,11 +7,15 @@
 
 import Foundation
 
-class DeleteConversationsRequest {
+class DeleteConversationsRequest: Encodable {
     private let conversationIds: [String]
     
     private init(conversationIds: [String]) {
         self.conversationIds = conversationIds
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case conversationIds = "conversation_ids"
     }
     
     class Builder {

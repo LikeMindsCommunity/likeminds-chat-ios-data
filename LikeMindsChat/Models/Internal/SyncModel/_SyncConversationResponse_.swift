@@ -9,13 +9,13 @@ import Foundation
 
 struct _SyncConversationResponse_: Decodable {
     let chatRoomMeta: [String: _Chatroom_]?
-    let communityMeta: [String: _Community_]?
-    let conversationAttachmentsMeta: [String: [_Attachment_]]?
-    let conversationPollMeta: [String: [_Poll_]]?
+    let communityMeta: [String: Community]?
+    let conversationAttachmentsMeta: [String: [Attachment]]?
+    let conversationPollMeta: [String: [Poll]]?
     let conversations: [_Conversation_]?
-    let userMeta: [String: _Member_]?
-    let chatroomReactionsMeta: [String: _ReactionMeta_]?
-    let conversationReactionsMeta: [String: _ReactionMeta_]?
+    let userMeta: [String: Member]?
+    let chatroomReactionsMeta: [String: ReactionMeta]?
+    let conversationReactionsMeta: [String: ReactionMeta]?
     
     enum CodingKeys: String, CodingKey {
         case chatRoomMeta = "chatrooms_meta",

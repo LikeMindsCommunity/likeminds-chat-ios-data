@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ChatroomClient {
+class ChatroomClient: ServiceRequest {
     
     /**
      * Converts client request model to internal model and calls the api
@@ -121,6 +121,25 @@ class ChatroomClient {
      * @return LMResponse<Nothing> - Base LM response
      */
     func editChatroomTitle(editChatroomTitleRequest: EditChatroomTitleRequest, response: LMClientResponse<NoData>) {
+    }
+    
+    static func syncChatrooms(request: ChatroomSyncRequest, moduleName: String, _ response: _LMClientResponse_<_SyncChatroomResponse_>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.syncChatrooms(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.request(for: url,
+                                   withHTTPMethod: networkPath.httpMethod,
+                                   headers: ServiceRequest.httpHeaders(),
+                                   withEncoding: networkPath.encoding, withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? Data else {return}
+            do {
+                let json = try JSONDecoder().decode(_LMResponse_<_SyncChatroomResponse_>.self, from: data)
+                response?(json)
+            } catch {
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
+            }
+        } failureCallback: { (moduleName, error) in
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
+        }
     }
     
 }

@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct _Reaction_: Decodable {
-    let member: _Member_?
+struct Reaction: Decodable {
+    let member: Member?
     let reaction: String
     
     private enum CodingKeys: String, CodingKey {

@@ -18,6 +18,12 @@ class GetConversationsCountRequest {
         self.conversation = conversation
     }
     
+    enum CodingKeys: String, CodingKey {
+        case conversationId = "conversation_id"
+        case chatroomId = "chatroom_id"
+        case conversation
+    }
+    
     class Builder {
         private var chatroomId: String = ""
         private var type: GetConversationCountType = .none

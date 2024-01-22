@@ -1,5 +1,5 @@
 //
-//  CardAttachmentNetworkDataModel.swift
+//  Attachment.swift
 //  CollabMates
 //
 //  Created by Devansh Mohata on 20/10/23.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct _Attachment_: Decodable {
+struct Attachment: Decodable {
     let id: String?
     let name: String?
     let url: String?
@@ -21,7 +21,7 @@ struct _Attachment_: Decodable {
     let thumbnailUrl: String?
     let thumbnailAWSFolderPath: String?
     let thumbnailLocalFilePath: String?
-    let meta: _AttachmentMeta_?
+    let meta: AttachmentMeta?
     let createdAt: Int64?
     let updatedAt: Int64?
     

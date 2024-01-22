@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PutMultimediaRequest {
+class PutMultimediaRequest: Encodable {
     let conversationId: String
     let name: String
     let url: String

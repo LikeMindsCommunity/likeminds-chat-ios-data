@@ -8,6 +8,6 @@
 import Foundation
 
 public struct GetExploreFeedResponse {
-    var chatrooms: [Chatroom]
-    var pinnedChatroomCount: Int
+     var chatrooms: [Chatroom]
+     var pinnedChatroomCount: Int
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class EditConversationRequest {
+class EditConversationRequest: Encodable {
     private let conversationId: String
     private let text: String
     private let shareLink: String?
@@ -16,6 +16,12 @@ class EditConversationRequest {
         self.conversationId = conversationId
         self.text = text
         self.shareLink = shareLink
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case conversationId = "conversation_id"
+        case text
+        case shareLink = "share_link"
     }
     
     class Builder {

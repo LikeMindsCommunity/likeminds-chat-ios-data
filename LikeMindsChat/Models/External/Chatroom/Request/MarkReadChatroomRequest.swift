@@ -7,11 +7,15 @@
 
 import Foundation
 
-class MarkReadChatroomRequest {
+class MarkReadChatroomRequest: Encodable {
     private let chatroomId: String
     
     private init(chatroomId: String) {
         self.chatroomId = chatroomId
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
     }
     
     class Builder {

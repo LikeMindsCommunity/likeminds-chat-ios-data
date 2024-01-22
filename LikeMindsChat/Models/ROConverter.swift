@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 class ROConverter {
     
@@ -43,11 +44,11 @@ class ROConverter {
         memberRO.isOwner = member.isOwner
         memberRO.isGuest = member.isGuest
         memberRO.userUniqueId = member.userUniqueId
-        memberRO.sdkClientInfoRO = convertSDKClientInfo(sdkClientInfo: member.sdkClientInfo)
+        memberRO.sdkClientInfoRO = convertSDKClientInfo(member.sdkClientInfo)
         return memberRO
     }
     
-    static func convertSDKClientInfo(sdkClientInfo: SDKClientInfo?) -> SDKClientInfoRO? {
+    static func convertSDKClientInfo(_ sdkClientInfo: SDKClientInfo?) -> SDKClientInfoRO? {
         guard let sdkClientInfo else { return nil }
         let sdkClientInfoRO = SDKClientInfoRO()
         sdkClientInfoRO.community = sdkClientInfo.community
@@ -57,9 +58,102 @@ class ROConverter {
         return sdkClientInfoRO
     }
     
-    static func getChatroomRO(fromChatroomJsonModel chatroom: _Chatroom_) -> ChatroomRO {
+    static func convertChatroom(fromChatroomJsonModel chatroom: _Chatroom_, 
+                                chatroomCreatorRO: MemberRO,
+                                lastConversationRO: LastConversationRO? = nil,
+                                reactions: [_ReactionMeta_] = []) -> ChatroomRO {
+        let chatroomId = chatroom.id
+        let communityId = chatroom.communityId ?? ""
         
-        return ChatroomRO()
+        let savedChatroom = ChatDBUtil.shared.getChatroom(realm: RealmManager.realmInstance(), chatroomId: chatroomId)
+        let reactionsRO = Self.convertReactionsMeta(realm: RealmManager.realmInstance(), communityId: communityId, reactions: reactions)
+        
+        let chatroomRO = ChatroomRO()
+        chatroomRO.state = chatroom.state
+        chatroomRO.member = chatroomCreatorRO
+        chatroomRO.createdAt = chatroom.createdAt
+        chatroomRO.type = chatroom.type
+        chatroomRO.chatroomImageUrl = chatroom.chatroomImageUrl
+        chatroomRO.header = chatroom.header
+        chatroomRO.cardCreationTime = chatroom.cardCreationTime
+        chatroomRO.totalResponseCount = savedChatroom?.totalResponseCount ?? 0
+        chatroomRO.totalAllResponseCount = savedChatroom?.totalAllResponseCount ?? 0
+        chatroomRO.muteStatus = chatroom.muteStatus
+        chatroomRO.followStatus = chatroom.followStatus
+        chatroomRO.hasBeenNamed = chatroom.hasBeenNamed
+        chatroomRO.date = chatroom.date
+        chatroomRO.isTagged = chatroom.isTagged
+        chatroomRO.isPending = chatroom.isPending
+        chatroomRO.deletedBy = chatroom.deletedBy
+        chatroomRO.autoFollowDone = chatroom.autoFollowDone
+        chatroomRO.memberCanMessage = chatroom.memberCanMessage
+        chatroomRO.isEdited = chatroom.isEdited
+        chatroomRO.externalSeen = chatroom.externalSeen
+        chatroomRO.accessWithoutSubscription = chatroom.accessWithoutSubscription == true
+        chatroomRO.unreadConversationsCount = chatroom.unreadConversationCount
+        
+        chatroomRO.reactions = reactionsRO ?? List()
+        
+        var updatedAt = lastConversationRO?.createdEpoch
+        ?? savedChatroom?.lastConversationRO?.createdEpoch
+        ?? chatroom.createdAt
+        
+        chatroomRO.updatedAt = updatedAt
+        
+        chatroomRO.lastSeenConversationId = chatroom.lastSeenConversationId
+        chatroomRO.lastSeenConversation = savedChatroom?.lastSeenConversation
+        
+        chatroomRO.lastConversationId = chatroom.lastConversationId
+        chatroomRO.lastConversation = savedChatroom?.lastConversation
+        chatroomRO.lastConversationRO = lastConversationRO ?? savedChatroom?.lastConversationRO
+        
+        chatroomRO.unseenCount = chatroom.unseenCount ?? 0
+        chatroomRO.dateEpoch = chatroom.dateEpoch
+        chatroomRO.draftConversation = savedChatroom?.draftConversation //to maintain un-send conversation
+        chatroomRO.isSecret = chatroom.isSecret
+//        chatroomRO.secretChatRoomParticipants = chatroom.secretChatroomParticipants.toRealmList()
+        chatroomRO.secretChatRoomLeft = chatroom.secretChatroomLeft
+        chatroomRO.topicId = chatroom.topicId ?? savedChatroom?.topicId
+        chatroomRO.topic = savedChatroom?.topic
+        chatroomRO.isConversationStored = savedChatroom?.isConversationStored ?? false
+        return chatroomRO
+    }
+    
+    /**
+     * convert [_ReactionMeta_] to [ReactionRO]
+     * @param realm: Instance of realm
+     * @param reactions: List of [_ReactionMeta_] to converted
+     * @param communityId: id of the community
+     *
+     * @return list of [ReactionRO]
+     * */
+    static func convertReactionsMeta(
+        realm: Realm,
+        communityId: String?,
+        reactions: [_ReactionMeta_]?
+    ) -> List<ReactionRO>? {
+        return List()
+    }
+    
+    /**
+     * convert [_ReactionMeta_] to [ReactionRO]
+     * @param realm: Instance of realm
+     * @param reaction: [_ReactionMeta_] to converted
+     * @param communityId: id of the community
+     *
+     * @return [ReactionRO]
+     * */
+    static func convertReactionMeta(
+        realm: Realm,
+        reaction: _ReactionMeta_,
+        communityId: String?
+    ) -> ReactionRO? {
+        let memberRO = Self.convertMember(member: reaction.member, communityId: communityId ?? "")
+        
+        let reactionRO = ReactionRO()
+        reactionRO.member = memberRO
+        reactionRO.reaction = reaction.reaction
+        return reactionRO
     }
  
 }

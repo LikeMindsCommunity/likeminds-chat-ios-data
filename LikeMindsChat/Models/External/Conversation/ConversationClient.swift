@@ -7,7 +7,8 @@
 
 import Foundation
 import RealmSwift
-class ConversationClient {
+
+class ConversationClient: ServiceRequest {
     
     /**
      * Converts client request model to internal model and calls the api
@@ -225,5 +226,23 @@ class ConversationClient {
      */
     func putMultimedia(putMultimediaRequest: PutMultimediaRequest, response: LMClientResponse<PutMultimediaResponse>) {
     }
-        
+    
+    static func syncConversations(request: ConversationSyncRequest, moduleName: String, _ response: _LMClientResponse_<_SyncConversationResponse_>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.syncConversations(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.request(for: url,
+                                   withHTTPMethod: networkPath.httpMethod,
+                                   headers: ServiceRequest.httpHeaders(),
+                                   withEncoding: networkPath.encoding, withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? Data else {return}
+            do {
+                let json = try JSONDecoder().decode(_LMResponse_<_SyncConversationResponse_>.self, from: data)
+                response?(json)
+            } catch {
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
+            }
+        } failureCallback: { (moduleName, error) in
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
+        }
+    }
 }

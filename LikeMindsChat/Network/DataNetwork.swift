@@ -196,7 +196,7 @@ internal final class DataNetwork {
                 failureCallback(moduleName, .noResponse)
             }
             do {
-                let lmResponse  = try JSONDecoder().decode(LMResponse<T>.self, from: responseData)
+                let lmResponse  = try JSONDecoder().decode(_LMResponse_<T>.self, from: responseData)
                 lmLog("response - \(String(describing: lmResponse))")
                 successCallback(moduleName, lmResponse)
             } catch let error {

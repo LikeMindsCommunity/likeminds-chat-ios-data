@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct _Cohort_: Decodable {
+struct Cohort: Decodable {
     let id: Int?
     let totalMembers: Int?
     let name: String?
-    let members: [_Member_]?
+    let members: [Member]?
     
     private enum CodingKeys: String, CodingKey {
         case id = "cohort_id"

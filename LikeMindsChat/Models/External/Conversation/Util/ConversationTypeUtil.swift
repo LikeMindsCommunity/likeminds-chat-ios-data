@@ -8,21 +8,21 @@
 import Foundation
 
 enum LoadConversationType: Int {
-    case FIRST_TIME = 1,
-    FIRST_TIME_BACKGROUND,
-    REOPEN
+    case firstTime = 1,
+    firstTimeBackground,
+    reopen
 }
 
 enum GetConversationType: Int {
-    case NONE = 0,
-    BELOW,
-    ABOVE,
-    TOP,
-    BOTTOM
+    case none = 0,
+    below,
+    above,
+    top,
+    bottom
 }
 
 enum GetConversationCountType: Int {
-    case NONE = 0,
-    BELOW,
-    ABOVE
+    case none = 0,
+    below,
+    above
 }

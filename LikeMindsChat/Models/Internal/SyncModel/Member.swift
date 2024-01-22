@@ -8,13 +8,13 @@
 import Foundation
 
 
-struct _Member_: Decodable {
+struct Member: Decodable {
     
     var id: String?
     var userUniqueId: String?
     var name: String?
     var imageUrl: String?
-    var questionAnswers: [_Question_]?
+    var questionAnswers: [Question]?
     var state: Int?
     var isGuest: Bool = false
     var customIntroText: String?
@@ -24,7 +24,7 @@ struct _Member_: Decodable {
     var isOwner: Bool = false
     var isDeleted: Bool?
     var customTitle: String?
-    var menu: [_MemberAction_]?
+    var menu: [MemberAction]?
     var communityId: Int?
     var chatroomId: Int?
     var route: String?

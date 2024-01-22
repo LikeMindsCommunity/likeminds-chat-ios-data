@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PutReactionRequest {
+class PutReactionRequest: Encodable {
     private var conversationId: String?
     private var chatroomId: String?
     private var reaction: String = ""
@@ -16,6 +16,12 @@ class PutReactionRequest {
         self.conversationId = conversationId
         self.chatroomId = chatroomId
         self.reaction = reaction
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case conversationId = "conversation_id"
+        case reaction
     }
     
     class Builder {

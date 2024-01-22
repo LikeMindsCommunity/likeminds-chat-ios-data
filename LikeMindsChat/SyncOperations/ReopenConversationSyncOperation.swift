@@ -29,7 +29,7 @@ class ReopenConversationSyncOperation: LMAsyncOperation {
             .minTimestamp(0)
             .maxTimestamp(0)
             .build()
-        ChatClientServiceRequest.syncConversations(request: chatroomSyncRequest, moduleName: "FirstTimeConversationSync") { response in
+        ConversationClient.syncConversations(request: chatroomSyncRequest, moduleName: "FirstTimeConversationSync") { response in
             
         }
     }

@@ -7,13 +7,18 @@
 
 import Foundation
 
-class DeleteReactionRequest {
+class DeleteReactionRequest: Encodable {
     private var conversationId: String?
     private var chatroomId: String?
     
     private init(conversationId: String?, chatroomId: String?) {
         self.conversationId = conversationId
         self.chatroomId = chatroomId
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case conversationId = "conversation_id"
     }
     
     class Builder {

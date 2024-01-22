@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ContentDownloadSetting {
+struct ContentDownloadSetting: Decodable {
     var communityId: Int
     var downloadSettingType: String
     var downloadSettingTitle: String

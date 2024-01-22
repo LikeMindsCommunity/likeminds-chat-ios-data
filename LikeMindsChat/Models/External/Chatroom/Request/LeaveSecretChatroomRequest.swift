@@ -8,13 +8,18 @@
 import Foundation
 
 
-class LeaveSecretChatroomRequest {
+class LeaveSecretChatroomRequest: Encodable {
     private let chatroomId: String
     private let isSecret: Bool
     
     private init(chatroomId: String, isSecret: Bool) {
         self.chatroomId = chatroomId
         self.isSecret = isSecret
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case isSecret = "is_secret"
     }
     
     class Builder {

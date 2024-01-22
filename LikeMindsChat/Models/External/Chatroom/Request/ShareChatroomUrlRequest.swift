@@ -16,6 +16,11 @@ class ShareChatroomUrlRequest {
         self.domain = domain
     }
     
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case domain
+    }
+    
     class Builder {
         private var chatroomId: String = ""
         private var domain: String = ""

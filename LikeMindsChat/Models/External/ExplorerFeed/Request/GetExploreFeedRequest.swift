@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetExploreFeedRequest {
+public class GetExploreFeedRequest {
     private let orderType: Int
     private let isPinned: Bool?
     private let page: Int
@@ -18,27 +18,27 @@ class GetExploreFeedRequest {
         self.page = page
     }
     
-    class Builder {
+    public class Builder {
         private var orderType: Int = -1
         private var isPinned: Bool? = nil
         private var page: Int = 1
         
-        func orderType(_ orderType: Int) -> Builder {
+        public func orderType(_ orderType: Int) -> Builder {
             self.orderType = orderType
             return self
         }
         
-        func isPinned(_ isPinned: Bool?) -> Builder {
+        public func isPinned(_ isPinned: Bool?) -> Builder {
             self.isPinned = isPinned
             return self
         }
         
-        func page(_ page: Int) -> Builder {
+        public func page(_ page: Int) -> Builder {
             self.page = page
             return self
         }
         
-        func build() -> GetExploreFeedRequest {
+        public func build() -> GetExploreFeedRequest {
             return GetExploreFeedRequest(
                 orderType: orderType,
                 isPinned: isPinned,
@@ -47,7 +47,7 @@ class GetExploreFeedRequest {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .orderType(orderType)
             .isPinned(isPinned)

@@ -36,7 +36,7 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
             chatroomSyncRequest.maxTimestamp = Int(Date().millisecondsSince1970)
         }
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
-        ChatClientServiceRequest.syncChatrooms(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { response in
+        ChatroomClient.syncChatrooms(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { response in
             if let _ = response.errorMessage {
               // retry
             } else if let chatrooms = response.data?.chatrooms, chatrooms.isEmpty {

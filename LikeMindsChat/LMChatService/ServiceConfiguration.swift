@@ -61,11 +61,52 @@ struct ServiceAPIRequest {
         case pushToken(_ request: RegisterDeviceRequest)
         case logout(_ request: LogoutRequest)
         case getConfig
-        case syncChatrooms(_ request: ChatroomSyncRequest)
-        case syncConversations(_ request: ConversationSyncRequest)
         case sdkOnboarding
         case explorTabCount
         case explorFeed
+        
+        //MARK:- Chatrooms api
+        case syncChatrooms(_ request: ChatroomSyncRequest)
+        case getChatroomActions(_ request: GetChatroomActionsRequest)
+        case followChatroom(_ request: FollowChatroomRequest)
+        case leaveSecretChatroom(_ request: LeaveSecretChatroomRequest)
+        case muteChatroom(_ request: MuteChatroomRequest)
+        case markReadChatroom(_ request: MarkReadChatroomRequest)
+        case setChatroomTopic(_ request: SetChatroomTopicRequest)
+        case getParticipants(_ request: GetParticipantsRequest)
+        case editChatroomTitle(_ request: EditChatroomTitleRequest)
+        
+        //MARK:- Community api
+        case getExploreFeed(_ request: GetExploreFeedRequest)
+        case getContentDownloadSettings
+        
+        //MARK:- Conversation api
+        case syncConversations(_ request: ConversationSyncRequest)
+        case postConversation(_ request: PostConversationRequest)
+        case editConversation(_ request: EditConversationRequest)
+        case deleteConversations(_ request: DeleteConversationsRequest)
+        case putReaction(_ request: PutReactionRequest)
+        case deleteReaction(_ request: DeleteReactionRequest)
+        case putMultimedia(_ request: PutMultimediaRequest)
+        
+        //MARK:- Helper api
+        case decodeUrl(_ request: DecodeUrlRequest )
+        case getTaggingList(_ request: GetTaggingListRequest)
+        case getExploreTabCount
+        
+        //MARK:- Poll api
+        case postPollConversation(_ request: PostPollConversationRequest)
+        case addPollOption(_ request: AddPollOptionRequest)
+        case submitPoll(_ request: SubmitPollRequest)
+        case getPollUsers(_ request: GetPollUsersRequest)
+        
+        //MARK:- Search api
+        case searchChatroom(_ request: SearchChatroomRequest)
+        case searchConversation(_ request: SearchConversationRequest)
+        
+        //MARK:- Report api
+        case getReportTags(_ reqeust: String)
+        case postReport(_ request: String)
         
         var apiURL: String {
             switch self {
@@ -79,16 +120,79 @@ struct ServiceAPIRequest {
                 return "user/logout"
             case .getConfig:
                 return "user/config"
-            case .syncChatrooms:
-                return "chatroom/sync"
-            case .syncConversations:
-                return "conversation/sync"
             case .sdkOnboarding:
                 return "sdk/onboarding"
             case .explorTabCount:
                 return "community/member/home/meta"
             case .explorFeed:
                 return "community/feed"
+                
+            //MARK:- Chatrooms api URL
+            case .syncChatrooms:
+                return "chatroom/sync"
+            case .getChatroomActions(let request):
+                return "chatroom?chatroom_id=\(request.chatroomId)"
+            case .followChatroom:
+                return "chatroom/follow"
+            case .leaveSecretChatroom:
+                return "chatroom/participants"
+            case .muteChatroom:
+                return "chatroom/mute"
+            case .markReadChatroom:
+                return "chatroom/mark_read"
+            case .setChatroomTopic:
+                return "conversation/topic"
+            case .getParticipants(let request):
+                return "chatroom/participants?"
+            case .editChatroomTitle:
+                return "chatroom"
+                
+            //MARK:- Community api URL
+            case .getExploreFeed(let request):
+                return "community/feed"
+            case .getContentDownloadSettings:
+                return "community/settings/content_download"
+                
+            //MARK:- Conversation api URL
+            case .postConversation,
+                    .editConversation,
+                    .deleteConversations,
+                    .postPollConversation:
+                return "conversation"
+                
+            case .syncConversations:
+                return "conversation/sync"
+            case .putReaction,
+                    .deleteReaction:
+                return "conversation/reaction"
+            case .putMultimedia:
+                return "helper/media/upload"
+                
+            //MARK:- Helper api URL
+            case .decodeUrl(let request):
+                return "helper/url?url=\(request.url)"
+            case .getTaggingList(let request):
+                return "community/tag"
+            case .getExploreTabCount:
+                return "community/member/home/meta"
+                
+            // MARK:- Poll api URL
+            case .addPollOption:
+                return "conversation/poll"
+            case .submitPoll:
+                return "conversation/poll/submit"
+            case .getPollUsers(let request):
+                return "conversation/poll/users"
+            case .searchChatroom(let request):
+                return "chatroom/search"
+            case .searchConversation(let request):
+                return "conversation/search"
+                
+            //MARK:- Report api
+            case .getReportTags(let request):
+                return "community/report/tag"
+            case .postReport(let request):
+                return "community/report"
             }
         }
 
@@ -97,15 +201,44 @@ struct ServiceAPIRequest {
             case .initiateChatClient,
                     .refreshServiceToken,
                     .pushToken,
-                    .logout:
+                    .logout,
+                    .markReadChatroom,
+                    .putMultimedia,
+                    .postConversation,
+                    .postPollConversation,
+                    .addPollOption,
+                    .submitPoll,
+                    .postReport:
                 return .post
             case .getConfig,
                     .syncChatrooms,
                     .syncConversations,
                     .sdkOnboarding,
                     .explorTabCount,
-                    .explorFeed:
+                    .explorFeed,
+                    .getChatroomActions,
+                    .getParticipants,
+                    .getExploreFeed,
+                    .getContentDownloadSettings,
+                    .decodeUrl,
+                    .getTaggingList,
+                    .getExploreTabCount,
+                    .searchChatroom,
+                    .searchConversation,
+                    .getPollUsers,
+                    .getReportTags:
                 return .get
+            case .setChatroomTopic,
+                    .muteChatroom,
+                    .followChatroom,
+                    .editChatroomTitle,
+                    .putReaction,
+                    .editConversation:
+                return .put
+            case .leaveSecretChatroom,
+                    .deleteReaction,
+                    .deleteConversations:
+                return .delete
             }
         }
 
@@ -128,6 +261,39 @@ struct ServiceAPIRequest {
                 return request.requestParam()
             case .syncChatrooms(let request):
                 return request.requestParam()
+            case .followChatroom(let request):
+                return request.requestParam()
+            case .leaveSecretChatroom(let request):
+                return request.requestParam()
+            case .muteChatroom(let request):
+                return request.requestParam()
+            case .markReadChatroom(let request):
+                return request.requestParam()
+            case .setChatroomTopic(let request):
+                return request.requestParam()
+            case .editChatroomTitle(let request):
+                return request.requestParam()
+            case .postConversation(let request):
+                return request.requestParam()
+            case .editConversation(let request):
+                return request.requestParam()
+            case .deleteConversations(let request):
+                return request.requestParam()
+            case .putReaction(let request):
+                return request.requestParam()
+            case .deleteReaction(let request):
+                return request.requestParam()
+            case .putMultimedia(let request):
+                return request.requestParam()
+            case .addPollOption(let request):
+                return request.requestParam()
+            case .submitPoll(let request):
+                return request.requestParam()
+            case .postPollConversation(let request):
+                return request.requestParam()
+            case .postReport(let request):
+                return request.requestParam()
+                
             default:
                 return nil
             }

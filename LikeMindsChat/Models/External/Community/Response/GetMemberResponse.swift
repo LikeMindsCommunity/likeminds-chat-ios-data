@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct GetMemberResponse {
+struct GetMemberResponse: Decodable {
     var member: Member?
 }

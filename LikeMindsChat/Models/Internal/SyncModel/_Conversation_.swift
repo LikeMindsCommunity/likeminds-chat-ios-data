@@ -13,13 +13,13 @@ struct _Conversation_: Decodable {
     let id: String?
     let chatroomId: String?
     let communityId: String?
-    let member: _Member_?
+    let member: Member?
     let answer: String
     let createdAt: String?
     let state: Int
-    let attachments: [_Attachment_]?
+    let attachments: [Attachment]?
     let lastSeen: Bool?
-    let ogTags: _LinkOGTags_?
+    let ogTags: LinkOGTags?
     let date: String?
     let isEdited: Bool?
     let memberId: String?
@@ -31,7 +31,7 @@ struct _Conversation_: Decodable {
     let uploadWorkerUUID: String?
     let temporaryId: String?
     let localCreatedEpoch: Int?
-    let reactions: [_Reaction_]?
+    let reactions: [Reaction]?
     let isAnonymous: Bool?
     let allowAddOption: Bool?
     let pollType: Int?
@@ -40,7 +40,7 @@ struct _Conversation_: Decodable {
     let expiryTime: Int?
     let multipleSelectNum: Int?
     let multipleSelectState: Int?
-    let polls: [_Poll_]?
+    let polls: [Poll]?
     let toShowResults: Bool?
     let pollAnswerText: String?
     let replyChatroomId: String?
@@ -48,7 +48,7 @@ struct _Conversation_: Decodable {
     let hasFiles: Bool?
     let hasReactions: Bool?
     let lastUpdated: Int?
-    let deletedByMember: _Member_?
+    let deletedByMember: Member?
 
     enum CodingKeys: String, CodingKey {
         case id

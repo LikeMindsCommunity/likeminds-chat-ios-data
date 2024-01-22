@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E1B1DEA766F95AA8A9999149 /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CB1681F539F4817AFE88CA6 /* Pods_LikeMindsChat.framework */; };
-		F41223702B330FB500CB1532 /* _Member_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412236F2B330FB500CB1532 /* _Member_.swift */; };
-		F41223722B336E8D00CB1532 /* _LinkOGTags_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223712B336E8D00CB1532 /* _LinkOGTags_.swift */; };
-		F41223742B336F4000CB1532 /* _ConversationState_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223732B336F4000CB1532 /* _ConversationState_.swift */; };
-		F41223762B33701B00CB1532 /* _ChatroomType_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223752B33701B00CB1532 /* _ChatroomType_.swift */; };
+		F41223702B330FB500CB1532 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412236F2B330FB500CB1532 /* Member.swift */; };
+		F41223722B336E8D00CB1532 /* LinkOGTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223712B336E8D00CB1532 /* LinkOGTags.swift */; };
+		F41223742B336F4000CB1532 /* ConversationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223732B336F4000CB1532 /* ConversationState.swift */; };
+		F41223762B33701B00CB1532 /* ChatroomType.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223752B33701B00CB1532 /* ChatroomType.swift */; };
 		F412237A2B432F7A00CB1532 /* ChatroomSyncRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223792B432F7A00CB1532 /* ChatroomSyncRequest.swift */; };
 		F412237C2B4336D000CB1532 /* SDKClientInfoRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412237B2B4336D000CB1532 /* SDKClientInfoRO.swift */; };
 		F412237E2B4339B500CB1532 /* ReactionRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412237D2B4339B500CB1532 /* ReactionRO.swift */; };
@@ -22,7 +21,7 @@
 		F41223882B433DD000CB1532 /* AppConfigRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223872B433DD000CB1532 /* AppConfigRO.swift */; };
 		F412238A2B433E4A00CB1532 /* LastConversationRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223892B433E4A00CB1532 /* LastConversationRO.swift */; };
 		F412238D2B43EFB000CB1532 /* _SyncConversationResponse_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412238C2B43EFB000CB1532 /* _SyncConversationResponse_.swift */; };
-		F412238F2B43F16F00CB1532 /* _ReactionMeta_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412238E2B43F16F00CB1532 /* _ReactionMeta_.swift */; };
+		F412238F2B43F16F00CB1532 /* ReactionMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412238E2B43F16F00CB1532 /* ReactionMeta.swift */; };
 		F41223952B46782A00CB1532 /* LMAsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223942B46782A00CB1532 /* LMAsyncOperation.swift */; };
 		F41223972B467ACC00CB1532 /* FirstTimeChatroomSyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223962B467ACC00CB1532 /* FirstTimeChatroomSyncOperation.swift */; };
 		F41223992B467B5E00CB1532 /* FirstTimeConversationSyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223982B467B5E00CB1532 /* FirstTimeConversationSyncOperation.swift */; };
@@ -53,28 +52,25 @@
 		F420C0A12A5C194C008C48DE /* RegisterDeviceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0962A5C194C008C48DE /* RegisterDeviceRequest.swift */; };
 		F420C0A22A5C194C008C48DE /* RegisterDeviceResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0972A5C194C008C48DE /* RegisterDeviceResponse.swift */; };
 		F420C0A72A5D780F008C48DE /* LMResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0A62A5D780F008C48DE /* LMResponse.swift */; };
-		F420C0AA2A5D7835008C48DE /* ConfigResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0A92A5D7835008C48DE /* ConfigResponse.swift */; };
 		F420C0AD2A5E7DCC008C48DE /* GetHomeFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0AC2A5E7DCC008C48DE /* GetHomeFeedRequest.swift */; };
 		F420C0AF2A5E887B008C48DE /* GetHomeFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0AE2A5E887B008C48DE /* GetHomeFeedResponse.swift */; };
 		F420C0B22A5E88DD008C48DE /* GetExploreFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0B12A5E88DD008C48DE /* GetExploreFeedRequest.swift */; };
 		F420C0B42A5E8922008C48DE /* GetExploreTabCountResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0B32A5E8922008C48DE /* GetExploreTabCountResponse.swift */; };
 		F420C0B62A5E8944008C48DE /* GetExploreFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0B52A5E8944008C48DE /* GetExploreFeedResponse.swift */; };
 		F42C1E842B320B7400720D5D /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E752B320B7400720D5D /* Conversation.swift */; };
-		F42C1E852B320B7400720D5D /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E762B320B7400720D5D /* Member.swift */; };
 		F42C1E862B320B7400720D5D /* Chatroom.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E772B320B7400720D5D /* Chatroom.swift */; };
-		F42C1E8C2B320B7400720D5D /* ModelConverterUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E7E2B320B7400720D5D /* ModelConverterUtil.swift */; };
 		F42C1E8D2B320B7400720D5D /* MemberRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E802B320B7400720D5D /* MemberRO.swift */; };
 		F42C1E8E2B320B7400720D5D /* CommunityRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E812B320B7400720D5D /* CommunityRO.swift */; };
 		F42C1E8F2B320B7400720D5D /* ChatroomRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E822B320B7400720D5D /* ChatroomRO.swift */; };
 		F42C1E902B320B7400720D5D /* ConversationRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E832B320B7400720D5D /* ConversationRO.swift */; };
 		F42C1E922B32C69D00720D5D /* Uploadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E912B32C69D00720D5D /* Uploadable.swift */; };
 		F42C1E942B32F5FD00720D5D /* LMChatClientDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E932B32F5FC00720D5D /* LMChatClientDBService.swift */; };
-		F42C1EA02B32F94500720D5D /* _Attachment_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E992B32F94400720D5D /* _Attachment_.swift */; };
+		F42C1EA02B32F94500720D5D /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E992B32F94400720D5D /* Attachment.swift */; };
 		F42C1EA12B32F94500720D5D /* _Chatroom_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9A2B32F94400720D5D /* _Chatroom_.swift */; };
 		F42C1EA32B32F94500720D5D /* _SyncChatroomResponse_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9C2B32F94400720D5D /* _SyncChatroomResponse_.swift */; };
-		F42C1EA42B32F94500720D5D /* _Poll_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9D2B32F94400720D5D /* _Poll_.swift */; };
+		F42C1EA42B32F94500720D5D /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9D2B32F94400720D5D /* Poll.swift */; };
 		F42C1EA52B32F94500720D5D /* _Conversation_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9E2B32F94400720D5D /* _Conversation_.swift */; };
-		F42C1EA62B32F94500720D5D /* _Community_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9F2B32F94400720D5D /* _Community_.swift */; };
+		F42C1EA62B32F94500720D5D /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9F2B32F94400720D5D /* Community.swift */; };
 		F457D7A12B49E8B300BCECDF /* ChatDBUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7A02B49E8B300BCECDF /* ChatDBUtil.swift */; };
 		F457D7A32B49EA8100BCECDF /* DBKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7A22B49EA8100BCECDF /* DBKey.swift */; };
 		F457D7A52B49EB4500BCECDF /* DatabaseSyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7A42B49EB4500BCECDF /* DatabaseSyncOperation.swift */; };
@@ -84,20 +80,14 @@
 		F4A859CF2A6A7B2000F494AC /* ConversationSyncRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859CE2A6A7B2000F494AC /* ConversationSyncRequest.swift */; };
 		F4A859D12A6A7B9E00F494AC /* GetConversationMetaRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859D02A6A7B9E00F494AC /* GetConversationMetaRequest.swift */; };
 		F4A859D32A6A7C9200F494AC /* PostConversationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859D22A6A7C9200F494AC /* PostConversationRequest.swift */; };
-		F4BEB98A2B4D1AD700D12B62 /* _Question_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9892B4D1AD700D12B62 /* _Question_.swift */; };
-		F4BEB98C2B4D1BAD00D12B62 /* _MemberAction_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB98B2B4D1BAD00D12B62 /* _MemberAction_.swift */; };
-		F4BEB98E2B4D7D6A00D12B62 /* _Reaction_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB98D2B4D7D6A00D12B62 /* _Reaction_.swift */; };
-		F4BEB9902B4D831B00D12B62 /* _AttachmentMeta_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB98F2B4D831B00D12B62 /* _AttachmentMeta_.swift */; };
-		F4BEB9922B4D89F600D12B62 /* _Cohort_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9912B4D89F600D12B62 /* _Cohort_.swift */; };
+		F4BEB98A2B4D1AD700D12B62 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9892B4D1AD700D12B62 /* Question.swift */; };
+		F4BEB98C2B4D1BAD00D12B62 /* MemberAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB98B2B4D1BAD00D12B62 /* MemberAction.swift */; };
+		F4BEB98E2B4D7D6A00D12B62 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB98D2B4D7D6A00D12B62 /* Reaction.swift */; };
+		F4BEB9902B4D831B00D12B62 /* AttachmentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB98F2B4D831B00D12B62 /* AttachmentMeta.swift */; };
+		F4BEB9922B4D89F600D12B62 /* Cohort.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9912B4D89F600D12B62 /* Cohort.swift */; };
 		F4BEB9A12B4E9F4E00D12B62 /* SyncPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9A02B4E9F4E00D12B62 /* SyncPreferences.swift */; };
-		F4BEB9A32B4FB37D00D12B62 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9A22B4FB37D00D12B62 /* Attachment.swift */; };
-		F4BEB9A52B4FB3C400D12B62 /* AttachmentMeta.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9A42B4FB3C300D12B62 /* AttachmentMeta.swift */; };
-		F4BEB9A72B4FB41D00D12B62 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9A62B4FB41D00D12B62 /* Reaction.swift */; };
-		F4BEB9AA2B4FB4CD00D12B62 /* LinkOGTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9A92B4FB4CD00D12B62 /* LinkOGTags.swift */; };
 		F4BEB9AD2B4FC49100D12B62 /* ConversationClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9AC2B4FC49100D12B62 /* ConversationClient.swift */; };
 		F4BEB9B02B4FC64D00D12B62 /* PostConversationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9AF2B4FC64D00D12B62 /* PostConversationResponse.swift */; };
-		F4BEB9B22B4FE47100D12B62 /* MemberAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9B12B4FE47100D12B62 /* MemberAction.swift */; };
-		F4BEB9B42B4FE4C100D12B62 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9B32B4FE4C100D12B62 /* Question.swift */; };
 		F4BEB9BA2B503C4600D12B62 /* Cohort.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9B92B503C4600D12B62 /* Cohort.swift */; };
 		F4BEB9BC2B544A1300D12B62 /* ChatroomClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9BB2B544A1300D12B62 /* ChatroomClient.swift */; };
 		F4BEB9BF2B544B0800D12B62 /* GetChatroomResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9BE2B544B0800D12B62 /* GetChatroomResponse.swift */; };
@@ -148,7 +138,7 @@
 		F4BEBA1D2B546DDE00D12B62 /* LiveConversationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA1C2B546DDE00D12B62 /* LiveConversationResponse.swift */; };
 		F4BEBA1F2B546E3400D12B62 /* PutMultimediaResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA1E2B546E3400D12B62 /* PutMultimediaResponse.swift */; };
 		F4BEBA212B546E7500D12B62 /* CommunityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA202B546E7500D12B62 /* CommunityClient.swift */; };
-		F4BEBA232B546EA000D12B62 /* Community.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA222B546EA000D12B62 /* Community.swift */; };
+		F4BEBA232B546EA000D12B62 /* CommunityData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA222B546EA000D12B62 /* CommunityData.swift */; };
 		F4BEBA252B546F6F00D12B62 /* ContentDownloadSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA242B546F6F00D12B62 /* ContentDownloadSetting.swift */; };
 		F4BEBA272B546FB000D12B62 /* GetContentDownloadSettingsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA262B546FB000D12B62 /* GetContentDownloadSettingsResponse.swift */; };
 		F4BEBA2D2B54705200D12B62 /* GetMemberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA2C2B54705200D12B62 /* GetMemberRequest.swift */; };
@@ -156,16 +146,30 @@
 		F4BEBA332B54714A00D12B62 /* ExplorerFeedClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA322B54714A00D12B62 /* ExplorerFeedClient.swift */; };
 		F4BEBA352B54731F00D12B62 /* SavePostedConversationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA342B54731F00D12B62 /* SavePostedConversationRequest.swift */; };
 		F4BEBA372B5476C700D12B62 /* UpdateTemporaryConversationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEBA362B5476C700D12B62 /* UpdateTemporaryConversationRequest.swift */; };
+		F4C8F68A2B57B74E0012A1CF /* InitiateUserClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6892B57B74E0012A1CF /* InitiateUserClient.swift */; };
+		F4C8F68D2B57DF4E0012A1CF /* DecodeUrlRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F68C2B57DF4E0012A1CF /* DecodeUrlRequest.swift */; };
+		F4C8F68F2B57DF670012A1CF /* GetTaggingListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F68E2B57DF670012A1CF /* GetTaggingListRequest.swift */; };
+		F4C8F6922B57E4650012A1CF /* DecodeUrlResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6912B57E4650012A1CF /* DecodeUrlResponse.swift */; };
+		F4C8F6942B57E47E0012A1CF /* GetTaggingListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6932B57E47E0012A1CF /* GetTaggingListResponse.swift */; };
+		F4C8F6962B57F0B10012A1CF /* ConfigResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6952B57F0B10012A1CF /* ConfigResponse.swift */; };
+		F4C8F6982B57F10C0012A1CF /* UserMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6972B57F10C0012A1CF /* UserMetrics.swift */; };
+		F4C8F69B2B5938230012A1CF /* SearchChatroomRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F69A2B5938230012A1CF /* SearchChatroomRequest.swift */; };
+		F4C8F69D2B5939AB0012A1CF /* SearchConversationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F69C2B5939AB0012A1CF /* SearchConversationRequest.swift */; };
+		F4C8F6A02B593B490012A1CF /* GetReportTagsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F69F2B593B490012A1CF /* GetReportTagsRequest.swift */; };
+		F4C8F6A22B593BA60012A1CF /* PostReportRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A12B593BA60012A1CF /* PostReportRequest.swift */; };
+		F4C8F6A42B5A365B0012A1CF /* ReportTagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A32B5A365B0012A1CF /* ReportTagResponse.swift */; };
+		F4C8F6A62B5A36FB0012A1CF /* SearchChatroomResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A52B5A36FB0012A1CF /* SearchChatroomResponse.swift */; };
+		F4C8F6A82B5A37C50012A1CF /* SearchConversationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A72B5A37C50012A1CF /* SearchConversationResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02C4A7FB314C16F6C4CB27CA /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
 		2CB1681F539F4817AFE88CA6 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6FED4D087BDF337BDB8D47AA /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
-		F412236F2B330FB500CB1532 /* _Member_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _Member_.swift; sourceTree = "<group>"; };
-		F41223712B336E8D00CB1532 /* _LinkOGTags_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _LinkOGTags_.swift; sourceTree = "<group>"; };
-		F41223732B336F4000CB1532 /* _ConversationState_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ConversationState_.swift; sourceTree = "<group>"; };
-		F41223752B33701B00CB1532 /* _ChatroomType_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ChatroomType_.swift; sourceTree = "<group>"; };
+		F412236F2B330FB500CB1532 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
+		F41223712B336E8D00CB1532 /* LinkOGTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOGTags.swift; sourceTree = "<group>"; };
+		F41223732B336F4000CB1532 /* ConversationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationState.swift; sourceTree = "<group>"; };
+		F41223752B33701B00CB1532 /* ChatroomType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomType.swift; sourceTree = "<group>"; };
 		F41223792B432F7A00CB1532 /* ChatroomSyncRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomSyncRequest.swift; sourceTree = "<group>"; };
 		F412237B2B4336D000CB1532 /* SDKClientInfoRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKClientInfoRO.swift; sourceTree = "<group>"; };
 		F412237D2B4339B500CB1532 /* ReactionRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionRO.swift; sourceTree = "<group>"; };
@@ -176,7 +180,7 @@
 		F41223872B433DD000CB1532 /* AppConfigRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfigRO.swift; sourceTree = "<group>"; };
 		F41223892B433E4A00CB1532 /* LastConversationRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastConversationRO.swift; sourceTree = "<group>"; };
 		F412238C2B43EFB000CB1532 /* _SyncConversationResponse_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _SyncConversationResponse_.swift; sourceTree = "<group>"; };
-		F412238E2B43F16F00CB1532 /* _ReactionMeta_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _ReactionMeta_.swift; sourceTree = "<group>"; };
+		F412238E2B43F16F00CB1532 /* ReactionMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReactionMeta.swift; sourceTree = "<group>"; };
 		F41223942B46782A00CB1532 /* LMAsyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMAsyncOperation.swift; sourceTree = "<group>"; };
 		F41223962B467ACC00CB1532 /* FirstTimeChatroomSyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeChatroomSyncOperation.swift; sourceTree = "<group>"; };
 		F41223982B467B5E00CB1532 /* FirstTimeConversationSyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstTimeConversationSyncOperation.swift; sourceTree = "<group>"; };
@@ -208,28 +212,25 @@
 		F420C0962A5C194C008C48DE /* RegisterDeviceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDeviceRequest.swift; sourceTree = "<group>"; };
 		F420C0972A5C194C008C48DE /* RegisterDeviceResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterDeviceResponse.swift; sourceTree = "<group>"; };
 		F420C0A62A5D780F008C48DE /* LMResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMResponse.swift; sourceTree = "<group>"; };
-		F420C0A92A5D7835008C48DE /* ConfigResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigResponse.swift; sourceTree = "<group>"; };
 		F420C0AC2A5E7DCC008C48DE /* GetHomeFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetHomeFeedRequest.swift; sourceTree = "<group>"; };
 		F420C0AE2A5E887B008C48DE /* GetHomeFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetHomeFeedResponse.swift; sourceTree = "<group>"; };
 		F420C0B12A5E88DD008C48DE /* GetExploreFeedRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetExploreFeedRequest.swift; sourceTree = "<group>"; };
 		F420C0B32A5E8922008C48DE /* GetExploreTabCountResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetExploreTabCountResponse.swift; sourceTree = "<group>"; };
 		F420C0B52A5E8944008C48DE /* GetExploreFeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetExploreFeedResponse.swift; sourceTree = "<group>"; };
 		F42C1E752B320B7400720D5D /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
-		F42C1E762B320B7400720D5D /* Member.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F42C1E772B320B7400720D5D /* Chatroom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chatroom.swift; sourceTree = "<group>"; };
-		F42C1E7E2B320B7400720D5D /* ModelConverterUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelConverterUtil.swift; sourceTree = "<group>"; };
 		F42C1E802B320B7400720D5D /* MemberRO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberRO.swift; sourceTree = "<group>"; };
 		F42C1E812B320B7400720D5D /* CommunityRO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityRO.swift; sourceTree = "<group>"; };
 		F42C1E822B320B7400720D5D /* ChatroomRO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatroomRO.swift; sourceTree = "<group>"; };
 		F42C1E832B320B7400720D5D /* ConversationRO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationRO.swift; sourceTree = "<group>"; };
 		F42C1E912B32C69D00720D5D /* Uploadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Uploadable.swift; sourceTree = "<group>"; };
 		F42C1E932B32F5FC00720D5D /* LMChatClientDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMChatClientDBService.swift; sourceTree = "<group>"; };
-		F42C1E992B32F94400720D5D /* _Attachment_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Attachment_.swift; sourceTree = "<group>"; };
+		F42C1E992B32F94400720D5D /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		F42C1E9A2B32F94400720D5D /* _Chatroom_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Chatroom_.swift; sourceTree = "<group>"; };
 		F42C1E9C2B32F94400720D5D /* _SyncChatroomResponse_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _SyncChatroomResponse_.swift; sourceTree = "<group>"; };
-		F42C1E9D2B32F94400720D5D /* _Poll_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Poll_.swift; sourceTree = "<group>"; };
+		F42C1E9D2B32F94400720D5D /* Poll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		F42C1E9E2B32F94400720D5D /* _Conversation_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Conversation_.swift; sourceTree = "<group>"; };
-		F42C1E9F2B32F94400720D5D /* _Community_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Community_.swift; sourceTree = "<group>"; };
+		F42C1E9F2B32F94400720D5D /* Community.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
 		F457D7A02B49E8B300BCECDF /* ChatDBUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDBUtil.swift; sourceTree = "<group>"; };
 		F457D7A22B49EA8100BCECDF /* DBKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBKey.swift; sourceTree = "<group>"; };
 		F457D7A42B49EB4500BCECDF /* DatabaseSyncOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseSyncOperation.swift; sourceTree = "<group>"; };
@@ -239,20 +240,14 @@
 		F4A859CE2A6A7B2000F494AC /* ConversationSyncRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationSyncRequest.swift; sourceTree = "<group>"; };
 		F4A859D02A6A7B9E00F494AC /* GetConversationMetaRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetConversationMetaRequest.swift; sourceTree = "<group>"; };
 		F4A859D22A6A7C9200F494AC /* PostConversationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConversationRequest.swift; sourceTree = "<group>"; };
-		F4BEB9892B4D1AD700D12B62 /* _Question_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _Question_.swift; sourceTree = "<group>"; };
-		F4BEB98B2B4D1BAD00D12B62 /* _MemberAction_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _MemberAction_.swift; sourceTree = "<group>"; };
-		F4BEB98D2B4D7D6A00D12B62 /* _Reaction_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _Reaction_.swift; sourceTree = "<group>"; };
-		F4BEB98F2B4D831B00D12B62 /* _AttachmentMeta_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _AttachmentMeta_.swift; sourceTree = "<group>"; };
-		F4BEB9912B4D89F600D12B62 /* _Cohort_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _Cohort_.swift; sourceTree = "<group>"; };
+		F4BEB9892B4D1AD700D12B62 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
+		F4BEB98B2B4D1BAD00D12B62 /* MemberAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAction.swift; sourceTree = "<group>"; };
+		F4BEB98D2B4D7D6A00D12B62 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
+		F4BEB98F2B4D831B00D12B62 /* AttachmentMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentMeta.swift; sourceTree = "<group>"; };
+		F4BEB9912B4D89F600D12B62 /* Cohort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cohort.swift; sourceTree = "<group>"; };
 		F4BEB9A02B4E9F4E00D12B62 /* SyncPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncPreferences.swift; sourceTree = "<group>"; };
-		F4BEB9A22B4FB37D00D12B62 /* Attachment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
-		F4BEB9A42B4FB3C300D12B62 /* AttachmentMeta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachmentMeta.swift; sourceTree = "<group>"; };
-		F4BEB9A62B4FB41D00D12B62 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
-		F4BEB9A92B4FB4CD00D12B62 /* LinkOGTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOGTags.swift; sourceTree = "<group>"; };
 		F4BEB9AC2B4FC49100D12B62 /* ConversationClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationClient.swift; sourceTree = "<group>"; };
 		F4BEB9AF2B4FC64D00D12B62 /* PostConversationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConversationResponse.swift; sourceTree = "<group>"; };
-		F4BEB9B12B4FE47100D12B62 /* MemberAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAction.swift; sourceTree = "<group>"; };
-		F4BEB9B32B4FE4C100D12B62 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		F4BEB9B92B503C4600D12B62 /* Cohort.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cohort.swift; sourceTree = "<group>"; };
 		F4BEB9BB2B544A1300D12B62 /* ChatroomClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatroomClient.swift; sourceTree = "<group>"; };
 		F4BEB9BE2B544B0800D12B62 /* GetChatroomResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChatroomResponse.swift; sourceTree = "<group>"; };
@@ -303,7 +298,7 @@
 		F4BEBA1C2B546DDE00D12B62 /* LiveConversationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveConversationResponse.swift; sourceTree = "<group>"; };
 		F4BEBA1E2B546E3400D12B62 /* PutMultimediaResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PutMultimediaResponse.swift; sourceTree = "<group>"; };
 		F4BEBA202B546E7500D12B62 /* CommunityClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityClient.swift; sourceTree = "<group>"; };
-		F4BEBA222B546EA000D12B62 /* Community.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Community.swift; sourceTree = "<group>"; };
+		F4BEBA222B546EA000D12B62 /* CommunityData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityData.swift; sourceTree = "<group>"; };
 		F4BEBA242B546F6F00D12B62 /* ContentDownloadSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentDownloadSetting.swift; sourceTree = "<group>"; };
 		F4BEBA262B546FB000D12B62 /* GetContentDownloadSettingsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetContentDownloadSettingsResponse.swift; sourceTree = "<group>"; };
 		F4BEBA2C2B54705200D12B62 /* GetMemberRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetMemberRequest.swift; sourceTree = "<group>"; };
@@ -311,6 +306,20 @@
 		F4BEBA322B54714A00D12B62 /* ExplorerFeedClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExplorerFeedClient.swift; sourceTree = "<group>"; };
 		F4BEBA342B54731F00D12B62 /* SavePostedConversationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavePostedConversationRequest.swift; sourceTree = "<group>"; };
 		F4BEBA362B5476C700D12B62 /* UpdateTemporaryConversationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateTemporaryConversationRequest.swift; sourceTree = "<group>"; };
+		F4C8F6892B57B74E0012A1CF /* InitiateUserClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitiateUserClient.swift; sourceTree = "<group>"; };
+		F4C8F68C2B57DF4E0012A1CF /* DecodeUrlRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeUrlRequest.swift; sourceTree = "<group>"; };
+		F4C8F68E2B57DF670012A1CF /* GetTaggingListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTaggingListRequest.swift; sourceTree = "<group>"; };
+		F4C8F6912B57E4650012A1CF /* DecodeUrlResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeUrlResponse.swift; sourceTree = "<group>"; };
+		F4C8F6932B57E47E0012A1CF /* GetTaggingListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetTaggingListResponse.swift; sourceTree = "<group>"; };
+		F4C8F6952B57F0B10012A1CF /* ConfigResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigResponse.swift; sourceTree = "<group>"; };
+		F4C8F6972B57F10C0012A1CF /* UserMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserMetrics.swift; sourceTree = "<group>"; };
+		F4C8F69A2B5938230012A1CF /* SearchChatroomRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChatroomRequest.swift; sourceTree = "<group>"; };
+		F4C8F69C2B5939AB0012A1CF /* SearchConversationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConversationRequest.swift; sourceTree = "<group>"; };
+		F4C8F69F2B593B490012A1CF /* GetReportTagsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetReportTagsRequest.swift; sourceTree = "<group>"; };
+		F4C8F6A12B593BA60012A1CF /* PostReportRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostReportRequest.swift; sourceTree = "<group>"; };
+		F4C8F6A32B5A365B0012A1CF /* ReportTagResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagResponse.swift; sourceTree = "<group>"; };
+		F4C8F6A52B5A36FB0012A1CF /* SearchChatroomResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChatroomResponse.swift; sourceTree = "<group>"; };
+		F4C8F6A72B5A37C50012A1CF /* SearchConversationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConversationResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,7 +327,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1B1DEA766F95AA8A9999149 /* Pods_LikeMindsChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -452,7 +460,6 @@
 				F457D7A02B49E8B300BCECDF /* ChatDBUtil.swift */,
 				F457D7AA2B4C845400BCECDF /* ROConverter.swift */,
 				F457D7A22B49EA8100BCECDF /* DBKey.swift */,
-				F42C1E7E2B320B7400720D5D /* ModelConverterUtil.swift */,
 				F42C1E742B320B7400720D5D /* External */,
 				F42C1E7F2B320B7400720D5D /* RealmObject */,
 				F420C0872A5C194C008C48DE /* CoreFeed */,
@@ -463,10 +470,10 @@
 		F420C0872A5C194C008C48DE /* CoreFeed */ = {
 			isa = PBXGroup;
 			children = (
-				F420C0A82A5D7820008C48DE /* ConfigResponse */,
 				F420C08E2A5C194C008C48DE /* Logout */,
 				F420C0902A5C194C008C48DE /* InitiateUser */,
 				F420C0952A5C194C008C48DE /* RegisterDevice */,
+				F4C8F6892B57B74E0012A1CF /* InitiateUserClient.swift */,
 			);
 			path = CoreFeed;
 			sourceTree = "<group>";
@@ -513,14 +520,6 @@
 				F420C0A62A5D780F008C48DE /* LMResponse.swift */,
 			);
 			path = Response;
-			sourceTree = "<group>";
-		};
-		F420C0A82A5D7820008C48DE /* ConfigResponse */ = {
-			isa = PBXGroup;
-			children = (
-				F420C0A92A5D7835008C48DE /* ConfigResponse.swift */,
-			);
-			path = ConfigResponse;
 			sourceTree = "<group>";
 		};
 		F420C0AB2A5E7965008C48DE /* HomeFeed */ = {
@@ -585,21 +584,19 @@
 			children = (
 				F42C1E9C2B32F94400720D5D /* _SyncChatroomResponse_.swift */,
 				F412238C2B43EFB000CB1532 /* _SyncConversationResponse_.swift */,
-				F42C1E992B32F94400720D5D /* _Attachment_.swift */,
-				F42C1E9A2B32F94400720D5D /* _Chatroom_.swift */,
-				F42C1E9D2B32F94400720D5D /* _Poll_.swift */,
+				F42C1E992B32F94400720D5D /* Attachment.swift */,
+				F4C8F6992B5925EF0012A1CF /* Chatroom */,
+				F42C1E9D2B32F94400720D5D /* Poll.swift */,
 				F42C1E9E2B32F94400720D5D /* _Conversation_.swift */,
-				F42C1E9F2B32F94400720D5D /* _Community_.swift */,
-				F412236F2B330FB500CB1532 /* _Member_.swift */,
-				F41223712B336E8D00CB1532 /* _LinkOGTags_.swift */,
-				F41223732B336F4000CB1532 /* _ConversationState_.swift */,
-				F41223752B33701B00CB1532 /* _ChatroomType_.swift */,
-				F412238E2B43F16F00CB1532 /* _ReactionMeta_.swift */,
-				F4BEB9892B4D1AD700D12B62 /* _Question_.swift */,
-				F4BEB98B2B4D1BAD00D12B62 /* _MemberAction_.swift */,
-				F4BEB98D2B4D7D6A00D12B62 /* _Reaction_.swift */,
-				F4BEB98F2B4D831B00D12B62 /* _AttachmentMeta_.swift */,
-				F4BEB9912B4D89F600D12B62 /* _Cohort_.swift */,
+				F42C1E9F2B32F94400720D5D /* Community.swift */,
+				F412236F2B330FB500CB1532 /* Member.swift */,
+				F41223712B336E8D00CB1532 /* LinkOGTags.swift */,
+				F41223732B336F4000CB1532 /* ConversationState.swift */,
+				F412238E2B43F16F00CB1532 /* ReactionMeta.swift */,
+				F4BEB9892B4D1AD700D12B62 /* Question.swift */,
+				F4BEB98B2B4D1BAD00D12B62 /* MemberAction.swift */,
+				F4BEB98D2B4D7D6A00D12B62 /* Reaction.swift */,
+				F4BEB98F2B4D831B00D12B62 /* AttachmentMeta.swift */,
 			);
 			path = SyncModel;
 			sourceTree = "<group>";
@@ -638,6 +635,9 @@
 		F4BEB9962B4DBAEA00D12B62 /* Moderation */ = {
 			isa = PBXGroup;
 			children = (
+				F4C8F69F2B593B490012A1CF /* GetReportTagsRequest.swift */,
+				F4C8F6A12B593BA60012A1CF /* PostReportRequest.swift */,
+				F4C8F6A32B5A365B0012A1CF /* ReportTagResponse.swift */,
 			);
 			path = Moderation;
 			sourceTree = "<group>";
@@ -662,6 +662,8 @@
 		F4BEB9992B4DBB0D00D12B62 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				F4C8F69E2B593A240012A1CF /* Request */,
+				F4C8F6A92B5A37F40012A1CF /* Response */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -676,6 +678,8 @@
 		F4BEB99D2B4DBB5900D12B62 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				F4C8F6902B57DF6E0012A1CF /* Response */,
+				F4C8F68B2B57DF330012A1CF /* Request */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -709,10 +713,6 @@
 			isa = PBXGroup;
 			children = (
 				F42C1E752B320B7400720D5D /* Conversation.swift */,
-				F4BEB9A22B4FB37D00D12B62 /* Attachment.swift */,
-				F4BEB9A42B4FB3C300D12B62 /* AttachmentMeta.swift */,
-				F4BEB9A62B4FB41D00D12B62 /* Reaction.swift */,
-				F4BEB9A92B4FB4CD00D12B62 /* LinkOGTags.swift */,
 				F4BEB9AF2B4FC64D00D12B62 /* PostConversationResponse.swift */,
 				F4BEBA122B546CD000D12B62 /* DeleteConversationsResponse.swift */,
 				F4BEBA142B546CFC00D12B62 /* EditConversationResponse.swift */,
@@ -791,10 +791,7 @@
 		F4BEBA282B546FD300D12B62 /* Response */ = {
 			isa = PBXGroup;
 			children = (
-				F42C1E762B320B7400720D5D /* Member.swift */,
-				F4BEB9B12B4FE47100D12B62 /* MemberAction.swift */,
-				F4BEB9B32B4FE4C100D12B62 /* Question.swift */,
-				F4BEBA222B546EA000D12B62 /* Community.swift */,
+				F4BEBA222B546EA000D12B62 /* CommunityData.swift */,
 				F4BEBA242B546F6F00D12B62 /* ContentDownloadSetting.swift */,
 				F4BEBA262B546FB000D12B62 /* GetContentDownloadSettingsResponse.swift */,
 				F4BEBA2E2B54710200D12B62 /* GetMemberResponse.swift */,
@@ -815,6 +812,8 @@
 			children = (
 				F420C0B32A5E8922008C48DE /* GetExploreTabCountResponse.swift */,
 				F420C0B52A5E8944008C48DE /* GetExploreFeedResponse.swift */,
+				F4C8F6952B57F0B10012A1CF /* ConfigResponse.swift */,
+				F4C8F6972B57F10C0012A1CF /* UserMetrics.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -825,6 +824,52 @@
 				F420C0B12A5E88DD008C48DE /* GetExploreFeedRequest.swift */,
 			);
 			path = Request;
+			sourceTree = "<group>";
+		};
+		F4C8F68B2B57DF330012A1CF /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				F4C8F68C2B57DF4E0012A1CF /* DecodeUrlRequest.swift */,
+				F4C8F68E2B57DF670012A1CF /* GetTaggingListRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		F4C8F6902B57DF6E0012A1CF /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				F4C8F6912B57E4650012A1CF /* DecodeUrlResponse.swift */,
+				F4C8F6932B57E47E0012A1CF /* GetTaggingListResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		F4C8F6992B5925EF0012A1CF /* Chatroom */ = {
+			isa = PBXGroup;
+			children = (
+				F42C1E9A2B32F94400720D5D /* _Chatroom_.swift */,
+				F41223752B33701B00CB1532 /* ChatroomType.swift */,
+				F4BEB9912B4D89F600D12B62 /* Cohort.swift */,
+			);
+			path = Chatroom;
+			sourceTree = "<group>";
+		};
+		F4C8F69E2B593A240012A1CF /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				F4C8F69A2B5938230012A1CF /* SearchChatroomRequest.swift */,
+				F4C8F69C2B5939AB0012A1CF /* SearchConversationRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		F4C8F6A92B5A37F40012A1CF /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				F4C8F6A52B5A36FB0012A1CF /* SearchChatroomResponse.swift */,
+				F4C8F6A72B5A37C50012A1CF /* SearchConversationResponse.swift */,
+			);
+			path = Response;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -939,6 +984,7 @@
 				F42C1E902B320B7400720D5D /* ConversationRO.swift in Sources */,
 				F457D7A32B49EA8100BCECDF /* DBKey.swift in Sources */,
 				F4BEB9F82B54670C00D12B62 /* DeleteReactionRequest.swift in Sources */,
+				F4C8F68A2B57B74E0012A1CF /* InitiateUserClient.swift in Sources */,
 				F42C1E862B320B7400720D5D /* Chatroom.swift in Sources */,
 				F420C0A72A5D780F008C48DE /* LMResponse.swift in Sources */,
 				F420C0762A5C06B7008C48DE /* TokenManager.swift in Sources */,
@@ -947,7 +993,7 @@
 				F457D7A52B49EB4500BCECDF /* DatabaseSyncOperation.swift in Sources */,
 				F412239B2B467B8900CB1532 /* ReopenChatroomSyncOperation.swift in Sources */,
 				F4BEBA1B2B546D9400D12B62 /* GetConversationsResponse.swift in Sources */,
-				F42C1EA02B32F94500720D5D /* _Attachment_.swift in Sources */,
+				F42C1EA02B32F94500720D5D /* Attachment.swift in Sources */,
 				F4BEB9BF2B544B0800D12B62 /* GetChatroomResponse.swift in Sources */,
 				F4BEB9C62B544CE000D12B62 /* FollowChatroomRequest.swift in Sources */,
 				F4BEBA272B546FB000D12B62 /* GetContentDownloadSettingsResponse.swift in Sources */,
@@ -958,45 +1004,44 @@
 				F41223992B467B5E00CB1532 /* FirstTimeConversationSyncOperation.swift in Sources */,
 				F420C0852A5C0E2E008C48DE /* LMChatClientServiceRequest.swift in Sources */,
 				F420C09D2A5C194C008C48DE /* InitiateUserResponse.swift in Sources */,
-				F4BEB98C2B4D1BAD00D12B62 /* _MemberAction_.swift in Sources */,
+				F4BEB98C2B4D1BAD00D12B62 /* MemberAction.swift in Sources */,
 				F4BEB9D02B544F4100D12B62 /* SetChatroomTopicRequest.swift in Sources */,
 				F4BEBA1F2B546E3400D12B62 /* PutMultimediaResponse.swift in Sources */,
 				F4BEB9FA2B54675500D12B62 /* EditConversationRequest.swift in Sources */,
 				F4BEBA212B546E7500D12B62 /* CommunityClient.swift in Sources */,
 				F4BEB9F02B54642900D12B62 /* PostPollConversationResponse.swift in Sources */,
 				F420C09C2A5C194C008C48DE /* LogoutRequest.swift in Sources */,
-				F4BEB9B22B4FE47100D12B62 /* MemberAction.swift in Sources */,
 				F420C0AF2A5E887B008C48DE /* GetHomeFeedResponse.swift in Sources */,
 				F420C0732A5C06B7008C48DE /* LMLogger.swift in Sources */,
 				F42C1E922B32C69D00720D5D /* Uploadable.swift in Sources */,
 				F4BEBA042B54692D00D12B62 /* PutMultimediaRequest.swift in Sources */,
-				F4BEB98E2B4D7D6A00D12B62 /* _Reaction_.swift in Sources */,
+				F4BEB98E2B4D7D6A00D12B62 /* Reaction.swift in Sources */,
 				F420C0832A5C0E2E008C48DE /* LMChatClientServiceRequest+Extension.swift in Sources */,
 				F42C1EA12B32F94500720D5D /* _Chatroom_.swift in Sources */,
 				F42C1E8F2B320B7400720D5D /* ChatroomRO.swift in Sources */,
-				F42C1EA42B32F94500720D5D /* _Poll_.swift in Sources */,
+				F42C1EA42B32F94500720D5D /* Poll.swift in Sources */,
 				F420C0B22A5E88DD008C48DE /* GetExploreFeedRequest.swift in Sources */,
 				F4BEBA172B546D3500D12B62 /* GetConversationResponse.swift in Sources */,
 				F4BEBA0F2B546BC300D12B62 /* ConversationTypeUtil.swift in Sources */,
 				F4BEBA022B5468D800D12B62 /* ObserveConversationsRequest.swift in Sources */,
 				F4A859D12A6A7B9E00F494AC /* GetConversationMetaRequest.swift in Sources */,
 				F420C05D2A5C0472008C48DE /* LikeMindsChat.docc in Sources */,
-				F420C0AA2A5D7835008C48DE /* ConfigResponse.swift in Sources */,
 				F412238A2B433E4A00CB1532 /* LastConversationRO.swift in Sources */,
+				F4C8F6962B57F0B10012A1CF /* ConfigResponse.swift in Sources */,
 				F4BEBA002B54688300D12B62 /* GetConversationsRequest.swift in Sources */,
 				F420C07B2A5C08B7008C48DE /* LMChatClient.swift in Sources */,
 				F42C1E8E2B320B7400720D5D /* CommunityRO.swift in Sources */,
 				F4BEB9FE2B5467D600D12B62 /* GetConversationsCountRequest.swift in Sources */,
-				F42C1E8C2B320B7400720D5D /* ModelConverterUtil.swift in Sources */,
 				F4BEB9BA2B503C4600D12B62 /* Cohort.swift in Sources */,
 				F4BEBA2F2B54710200D12B62 /* GetMemberResponse.swift in Sources */,
-				F412238F2B43F16F00CB1532 /* _ReactionMeta_.swift in Sources */,
+				F4C8F6A42B5A365B0012A1CF /* ReportTagResponse.swift in Sources */,
+				F412238F2B43F16F00CB1532 /* ReactionMeta.swift in Sources */,
 				F420C0742A5C06B7008C48DE /* RefreshAccessToken.swift in Sources */,
 				F412237C2B4336D000CB1532 /* SDKClientInfoRO.swift in Sources */,
 				F4BEB9E62B5462A000D12B62 /* PostPollConversationRequest.swift in Sources */,
-				F41223742B336F4000CB1532 /* _ConversationState_.swift in Sources */,
-				F4BEB9922B4D89F600D12B62 /* _Cohort_.swift in Sources */,
-				F4BEB9A32B4FB37D00D12B62 /* Attachment.swift in Sources */,
+				F41223742B336F4000CB1532 /* ConversationState.swift in Sources */,
+				F4BEB9922B4D89F600D12B62 /* Cohort.swift in Sources */,
+				F4C8F6942B57E47E0012A1CF /* GetTaggingListResponse.swift in Sources */,
 				F4BEB9C22B544B4F00D12B62 /* GetChatroomRequest.swift in Sources */,
 				F420C0752A5C06B7008C48DE /* BuildManager.swift in Sources */,
 				F41223842B433B0E00CB1532 /* AttachmentMetaRO.swift in Sources */,
@@ -1006,32 +1051,31 @@
 				F457D7AB2B4C845400BCECDF /* ROConverter.swift in Sources */,
 				F4BEBA0A2B546A2D00D12B62 /* UpdateConversationRequest.swift in Sources */,
 				F420C0722A5C06B7008C48DE /* Reachability.swift in Sources */,
-				F41223702B330FB500CB1532 /* _Member_.swift in Sources */,
-				F42C1E852B320B7400720D5D /* Member.swift in Sources */,
+				F41223702B330FB500CB1532 /* Member.swift in Sources */,
 				F420C0702A5C06B7008C48DE /* ServiceRequest.swift in Sources */,
-				F4BEBA232B546EA000D12B62 /* Community.swift in Sources */,
+				F4BEBA232B546EA000D12B62 /* CommunityData.swift in Sources */,
 				F4BEB9B02B4FC64D00D12B62 /* PostConversationResponse.swift in Sources */,
 				F42C1EA32B32F94500720D5D /* _SyncChatroomResponse_.swift in Sources */,
 				F4BEBA352B54731F00D12B62 /* SavePostedConversationRequest.swift in Sources */,
+				F4C8F6982B57F10C0012A1CF /* UserMetrics.swift in Sources */,
 				F412239D2B467BAF00CB1532 /* ReopenConversationSyncOperation.swift in Sources */,
 				F457D7A92B4C2F8700BCECDF /* RealmManager.swift in Sources */,
 				F420C0782A5C06B7008C48DE /* String+Extension.swift in Sources */,
 				F4BEB9DC2B54537C00D12B62 /* ShareChatroomUrlResponse.swift in Sources */,
 				F4BEB9F22B54645F00D12B62 /* PollClient.swift in Sources */,
 				F420C09F2A5C194C008C48DE /* Community.swift in Sources */,
+				F4C8F6A22B593BA60012A1CF /* PostReportRequest.swift in Sources */,
 				F41223882B433DD000CB1532 /* AppConfigRO.swift in Sources */,
 				F4BEBA1D2B546DDE00D12B62 /* LiveConversationResponse.swift in Sources */,
 				F412237A2B432F7A00CB1532 /* ChatroomSyncRequest.swift in Sources */,
 				F420C0772A5C06B7008C48DE /* Date+Extension.swift in Sources */,
-				F4BEB9A72B4FB41D00D12B62 /* Reaction.swift in Sources */,
 				F4BEBA252B546F6F00D12B62 /* ContentDownloadSetting.swift in Sources */,
+				F4C8F68D2B57DF4E0012A1CF /* DecodeUrlRequest.swift in Sources */,
 				F420C07C2A5C08B7008C48DE /* LMChatClient+Extension.swift in Sources */,
-				F4BEB9B42B4FE4C100D12B62 /* Question.swift in Sources */,
 				F420C0822A5C0E2E008C48DE /* ChatClientServiceRequest.swift in Sources */,
 				F4BEB9BC2B544A1300D12B62 /* ChatroomClient.swift in Sources */,
 				F4BEBA192B546D6000D12B62 /* GetConversationsCountResponse.swift in Sources */,
 				F420C0A02A5C194C008C48DE /* InitiateUserRequest.swift in Sources */,
-				F4BEB9A52B4FB3C400D12B62 /* AttachmentMeta.swift in Sources */,
 				F4A859D32A6A7C9200F494AC /* PostConversationRequest.swift in Sources */,
 				F4BEBA112B546C5B00D12B62 /* ConversationChangeDelegate.swift in Sources */,
 				F4BEB9CE2B544EEF00D12B62 /* MarkReadChatroomRequest.swift in Sources */,
@@ -1039,42 +1083,48 @@
 				F4BEBA372B5476C700D12B62 /* UpdateTemporaryConversationRequest.swift in Sources */,
 				F4BEB9F62B5466D500D12B62 /* DeleteConversationsRequest.swift in Sources */,
 				F42C1EA52B32F94500720D5D /* _Conversation_.swift in Sources */,
+				F4C8F6922B57E4650012A1CF /* DecodeUrlResponse.swift in Sources */,
 				F420C0842A5C0E2E008C48DE /* ServiceConfiguration.swift in Sources */,
 				F4BEB9F42B54662900D12B62 /* DeleteConversationPermanentlyRequest.swift in Sources */,
 				F4BEB9D62B54512E00D12B62 /* MuteChatroomRequest.swift in Sources */,
-				F41223722B336E8D00CB1532 /* _LinkOGTags_.swift in Sources */,
-				F4BEB9902B4D831B00D12B62 /* _AttachmentMeta_.swift in Sources */,
+				F41223722B336E8D00CB1532 /* LinkOGTags.swift in Sources */,
+				F4C8F6A02B593B490012A1CF /* GetReportTagsRequest.swift in Sources */,
+				F4BEB9902B4D831B00D12B62 /* AttachmentMeta.swift in Sources */,
 				F41223952B46782A00CB1532 /* LMAsyncOperation.swift in Sources */,
 				F4BEB9CA2B544E4300D12B62 /* GetParticipantsRequest.swift in Sources */,
-				F41223762B33701B00CB1532 /* _ChatroomType_.swift in Sources */,
+				F41223762B33701B00CB1532 /* ChatroomType.swift in Sources */,
 				F4BEB9DA2B54532B00D12B62 /* GetParticipantsResponse.swift in Sources */,
 				F4BEBA2D2B54705200D12B62 /* GetMemberRequest.swift in Sources */,
 				F4BEBA082B5469A700D12B62 /* SaveConversationRequest.swift in Sources */,
 				F4BEB9CC2B544EA300D12B62 /* LeaveSecretChatroomRequest.swift in Sources */,
-				F4BEB9AA2B4FB4CD00D12B62 /* LinkOGTags.swift in Sources */,
+				F4C8F6A82B5A37C50012A1CF /* SearchConversationResponse.swift in Sources */,
 				F4BEB9E82B54632000D12B62 /* Poll.swift in Sources */,
 				F42C1E842B320B7400720D5D /* Conversation.swift in Sources */,
 				F4BEB9C82B544D3E00D12B62 /* GetChatroomActionsRequest.swift in Sources */,
+				F4C8F68F2B57DF670012A1CF /* GetTaggingListRequest.swift in Sources */,
 				F457D7A12B49E8B300BCECDF /* ChatDBUtil.swift in Sources */,
 				F4BEB9FC2B54679200D12B62 /* GetConversationRequest.swift in Sources */,
+				F4C8F6A62B5A36FB0012A1CF /* SearchChatroomResponse.swift in Sources */,
 				F4BEBA132B546CD000D12B62 /* DeleteConversationsResponse.swift in Sources */,
 				F4A859CF2A6A7B2000F494AC /* ConversationSyncRequest.swift in Sources */,
 				F457D7A72B4B18FA00BCECDF /* SyncUtil.swift in Sources */,
 				F41223822B433A8D00CB1532 /* AttachmentRO.swift in Sources */,
 				F42C1E942B32F5FD00720D5D /* LMChatClientDBService.swift in Sources */,
 				F4BEBA062B54696900D12B62 /* PutReactionRequest.swift in Sources */,
+				F4C8F69B2B5938230012A1CF /* SearchChatroomRequest.swift in Sources */,
 				F4BEB9AD2B4FC49100D12B62 /* ConversationClient.swift in Sources */,
 				F420C0AD2A5E7DCC008C48DE /* GetHomeFeedRequest.swift in Sources */,
-				F42C1EA62B32F94500720D5D /* _Community_.swift in Sources */,
+				F42C1EA62B32F94500720D5D /* Community.swift in Sources */,
 				F42C1E8D2B320B7400720D5D /* MemberRO.swift in Sources */,
 				F4BEBA152B546CFC00D12B62 /* EditConversationResponse.swift in Sources */,
 				F420C0B42A5E8922008C48DE /* GetExploreTabCountResponse.swift in Sources */,
 				F420C0A12A5C194C008C48DE /* RegisterDeviceRequest.swift in Sources */,
+				F4C8F69D2B5939AB0012A1CF /* SearchConversationRequest.swift in Sources */,
 				F420C09E2A5C194C008C48DE /* User.swift in Sources */,
 				F4BEB9EC2B5463B900D12B62 /* AddPollOptionResponse.swift in Sources */,
 				F4BEBA332B54714A00D12B62 /* ExplorerFeedClient.swift in Sources */,
 				F4BEB9E22B5460CD00D12B62 /* AddPollOptionRequest.swift in Sources */,
-				F4BEB98A2B4D1AD700D12B62 /* _Question_.swift in Sources */,
+				F4BEB98A2B4D1AD700D12B62 /* Question.swift in Sources */,
 				F4BEB9D82B54520E00D12B62 /* GetChatroomActionsResponse.swift in Sources */,
 				F4BEBA0C2B546AB500D12B62 /* UpdateConversationUploadWorkerUUIDRequest.swift in Sources */,
 				F41223862B433B5E00CB1532 /* PollRO.swift in Sources */,

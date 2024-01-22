@@ -14,6 +14,10 @@ class GetConversationRequest {
         self.conversationId = conversationId
     }
     
+    enum CodingKeys: String, CodingKey {
+        case conversationId = "conversation_id"
+    }
+    
     class Builder {
         private var conversationId: String = ""
         

@@ -21,7 +21,7 @@ class ReopenChatroomSyncOperation: LMAsyncOperation {
             .minTimestamp(minTimestamp)
             .maxTimestamp(maxTimestamp)
             .build()
-        ChatClientServiceRequest.syncChatrooms(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { response in
+        ChatroomClient.syncChatrooms(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { response in
             if let error = response.errorMessage {
                 // retry
             } else if let chatrooms = response.data?.chatrooms, chatrooms.isEmpty {

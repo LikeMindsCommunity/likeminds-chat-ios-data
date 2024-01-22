@@ -22,7 +22,7 @@ class GetConversationsRequest {
     
     class Builder {
         private var chatroomId: String = ""
-        private var type: GetConversationType = GetConversationType.NONE
+        private var type: GetConversationType = .none
         private var conversation: Conversation? = nil
         private var limit: Int = 50
         
@@ -52,9 +52,9 @@ class GetConversationsRequest {
     }
     
     func toBuilder() -> Builder {
-        return Builder().chatroomId(chatroomId)
-            .type(type)
-            .conversation(conversation)
-            .limit(limit)
+        return Builder().chatroomId(chatroomId: chatroomId)
+            .type(type: type)
+            .conversation(conversation: conversation)
+            .limit(limit: limit)
     }
 }

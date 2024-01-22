@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Poll {
+class Poll: Codable {
     let id: String?
     let text: String
     let isSelected: Bool?
@@ -26,6 +26,17 @@ class Poll {
         self.noVotes = noVotes
         self.member = member
         self.userId = userId
+    }
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case text
+        case isSelected = "is_selected"
+        case percentage
+        case subText = "sub_text"
+        case noVotes = "no_votes"
+        case member
+        case userId = "user_id"
     }
     
     class Builder {

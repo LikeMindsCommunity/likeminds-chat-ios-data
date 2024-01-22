@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetChatroomRequest {
+class GetChatroomRequest: Encodable {
     private let chatroomId: String
     
     private init(chatroomId: String) {

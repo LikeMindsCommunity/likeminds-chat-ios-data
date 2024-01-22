@@ -7,13 +7,18 @@
 
 import Foundation
 
-class GetPollUsersRequest {
+class GetPollUsersRequest: Encodable {
     private let pollId: String
     private let conversationId: String
     
     private init(pollId: String, conversationId: String) {
         self.pollId = pollId
         self.conversationId = conversationId
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case conversationId = "conversation_id"
+        case pollId = "poll_id"
     }
     
     class Builder {

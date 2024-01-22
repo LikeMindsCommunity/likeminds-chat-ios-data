@@ -7,8 +7,8 @@
 
 import Foundation
 
-class GetChatroomActionsRequest {
-    private let chatroomId: String
+class GetChatroomActionsRequest: Encodable {
+    let chatroomId: String
     
     private init(chatroomId: String) {
         self.chatroomId = chatroomId
@@ -29,5 +29,8 @@ class GetChatroomActionsRequest {
     
     func toBuilder() -> Builder {
         return Builder().chatroomId(chatroomId)
+    }
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
     }
 }

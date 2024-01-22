@@ -7,13 +7,18 @@
 
 import Foundation
 
-class EditChatroomTitleRequest {
+class EditChatroomTitleRequest: Encodable {
     private let chatroomId: String
     private let text: String
     
     private init(chatroomId: String, text: String) {
         self.chatroomId = chatroomId
         self.text = text
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case text
     }
     
     class Builder {

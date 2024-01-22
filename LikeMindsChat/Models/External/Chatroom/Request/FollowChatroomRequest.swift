@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FollowChatroomRequest {
+class FollowChatroomRequest: Encodable {
     private let chatroomId: String
     private let uuid: String
     private let value: Bool
@@ -16,6 +16,11 @@ class FollowChatroomRequest {
         self.chatroomId = chatroomId
         self.uuid = uuid
         self.value = value
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case uuid, value
     }
     
     class Builder {

@@ -1,5 +1,5 @@
 //
-//  Community.swift
+//  CommunityData.swift
 //  LikeMindsChat
 //
 //  Created by Pushpendra Singh on 15/01/24.

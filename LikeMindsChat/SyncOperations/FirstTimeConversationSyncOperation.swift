@@ -39,7 +39,7 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
             conversationSyncRequest.maxTimestamp = Int(Date().millisecondsSince1970)
         }
         SyncPreferences.shared.setTimestampForSyncConversation(time: conversationSyncRequest.maxTimestamp ?? 0)
-        ChatClientServiceRequest.syncConversations(request: conversationSyncRequest, moduleName: "FirstTimeConversationSync") { response in
+        ConversationClient.syncConversations(request: conversationSyncRequest, moduleName: "FirstTimeConversationSync") { response in
             
             if let _ = response.errorMessage {
                 // retry

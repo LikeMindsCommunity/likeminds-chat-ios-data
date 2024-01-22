@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct GetContentDownloadSettingsResponse {
+struct GetContentDownloadSettingsResponse: Decodable {
     var settings: [ContentDownloadSetting]
 }

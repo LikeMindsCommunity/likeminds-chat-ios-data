@@ -65,4 +65,39 @@ class SDKPreferences: BasePreferences {
     
 }
 
+class UserPreferences: BasePreferences {
+    
+    static let shared = UserPreferences()
+    private let lmUUID = "lm_uuid_key"
+    private let lmMemberId = "lm_memberid_key"
+    private let clientUUID = "client_uuid_key"
+    
+    private override init() {}
+    
+    func setLMMemberId(_ lmMemberID: String) {
+        setValue(lmMemberID, forKey: lmMemberId)
+    }
+    
+    func setLMUUID(_ lmuuid: String) {
+        setValue(lmuuid, forKey: lmUUID)
+    }
+    
+    func setClientUUID(_ clientUUid: String) {
+        setValue(clientUUid, forKey: clientUUID)
+    }
+    
+    func getLMMemberId() -> String? {
+        return getValue(forKey: lmMemberId) as? String
+    }
+    
+    func getClientUUID() -> String? {
+        return getValue(forKey: clientUUID) as? String
+    }
+    
+    func getLMUUID() -> String? {
+        return getValue(forKey: lmUUID) as? String
+    }
+    
+}
+
 

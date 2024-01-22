@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct _ReactionMeta_: Decodable {
+struct ReactionMeta: Decodable {
     
      var id: Int?
      var reaction: String?
      var chatroomId: Int?
      var conversationId: Int?
      var userId: Int?
-     var member: _Member_?
+     var member: Member?
     
     enum CodingKeys: String, CodingKey {
         case id, reaction, member

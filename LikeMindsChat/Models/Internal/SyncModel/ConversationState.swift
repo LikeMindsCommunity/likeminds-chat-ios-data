@@ -16,7 +16,7 @@ extension CaseIterableDefaultsLast {
     }
 }
 
-enum _ConversationState_: Int, Codable, CaseIterableDefaultsLast {
+enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
     
     case unknown = -1
     case normal = 0 // normal conversation

@@ -83,6 +83,9 @@ class SyncUtil {
                                    loggedInUUID: String,
                                    dataList: [_SyncConversationResponse_]
     ) {
+        RealmManager.write { realm, object in
+            
+        }
         
     }
     

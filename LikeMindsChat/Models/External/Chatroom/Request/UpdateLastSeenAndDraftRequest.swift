@@ -16,6 +16,11 @@ class UpdateLastSeenAndDraftRequest {
         self.draft = draft
     }
     
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case draft
+    }
+    
     class Builder {
         private var chatroomId: String = ""
         private var draft: String?

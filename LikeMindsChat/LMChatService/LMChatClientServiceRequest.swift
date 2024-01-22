@@ -9,7 +9,7 @@ import Foundation
 
 class LMChatClientServiceRequest: ServiceRequest {
     
-    public static func getChatrooms(request: ChatroomSyncRequest, withModuleName moduleName: String, response: LMClientResponse<_SyncChatroomResponse_>?) {
+    public static func getChatrooms(request: ChatroomSyncRequest, withModuleName moduleName: String, response: _LMClientResponse_<_SyncChatroomResponse_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.syncChatrooms(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -20,17 +20,17 @@ class LMChatClientServiceRequest: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(LMResponse<_SyncChatroomResponse_>.self, from: data)
+                let result = try JSONDecoder().decode(_LMResponse_<_SyncChatroomResponse_>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
     
-    public static func getExploreTabCount(withModuleName moduleName: String,response: LMClientResponse<GetExploreTabCountResponse>?) {
+    public static func getExploreTabCount(withModuleName moduleName: String,response: _LMClientResponse_<GetExploreTabCountResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.explorTabCount
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -41,17 +41,18 @@ class LMChatClientServiceRequest: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(LMResponse<GetExploreTabCountResponse>.self, from: data)
+                let result = try JSONDecoder().decode(_LMResponse_<GetExploreTabCountResponse>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
-    
-    public static func getExploreFeed(request: GetExploreFeedRequest, withModuleName moduleName: String, response: LMClientResponse<GetExploreFeedResponse>?) {
+  
+    /*
+    public static func getExploreFeed(request: GetExploreFeedRequest, withModuleName moduleName: String, response: _LMClientResponse_<GetExploreFeedResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.explorFeed
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -62,14 +63,15 @@ class LMChatClientServiceRequest: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(LMResponse<GetExploreFeedResponse>.self, from: data)
+                let result = try JSONDecoder().decode(_LMResponse_<GetExploreFeedResponse>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                response?(_LMResponse_.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
         }
     }
+    */
     
 }

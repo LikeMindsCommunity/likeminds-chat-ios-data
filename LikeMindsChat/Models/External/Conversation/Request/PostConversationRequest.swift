@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PostConversationRequest {
+class PostConversationRequest: Encodable {
     private let chatroomId: String
     private let text: String
     private let isFromNotification: Bool
@@ -17,6 +17,18 @@ class PostConversationRequest {
     private let attachmentCount: Int?
     private let temporaryId: String?
     private let repliedChatroomId: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case ogTags = "og_tags"
+        case text
+        case shareLink = "share_link"
+        case attachmentCount = "attachment_count"
+        case temporaryId = "temporary_id"
+        case repliedChatroomId = "replied_chatroom_id"
+        case repliedConversationId = "replied_conversation_id"
+        case isFromNotification = "is_from_notification"
+    }
     
     private init(chatroomId: String, text: String, isFromNotification: Bool, shareLink: String?, ogTags: LinkOGTags?, repliedConversationId: String?, attachmentCount: Int?, temporaryId: String?, repliedChatroomId: String?) {
         self.chatroomId = chatroomId
