@@ -19,6 +19,14 @@ extension Data
         }
         return "Error in parsing"
     }
+    
+    var prettyPrintedJSONString: NSString? { /// NSString gives us a nice sanitized debugDescription
+        guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
+              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
+              let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
+        
+        return prettyPrintedString
+    }
 }
 
 typealias SuccessCompletionBlock = (_ moduleName: String, _ responseData: Any?) -> Void
@@ -145,7 +153,7 @@ internal final class DataNetwork {
         }
     }
     
-    func request<T: Decodable>(for url:URL, withHTTPMethod httpMethod: Alamofire.HTTPMethod, headers: HTTPHeaders, withParameters parameters: Parameters? = nil, withEncoding encoding: ParameterEncoding, withResponseType objectType: T.Type, withModuleName moduleName:String, successCallback:@escaping SuccessCompletionBlock, failureCallback:@escaping FailureCompletionBlock) {
+    func requestWithDecoded<T: Decodable>(for url:URL, withHTTPMethod httpMethod: Alamofire.HTTPMethod, headers: HTTPHeaders, withParameters parameters: Parameters? = nil, withEncoding encoding: ParameterEncoding, withResponseType objectType: T.Type, withModuleName moduleName:String, successCallback:@escaping SuccessCompletionBlock, failureCallback:@escaping FailureCompletionBlock) {
         guard Reachability.currentReachabilityStatus != .notReachable else {
             failureCallback(moduleName, .noInternet)
             return
@@ -198,9 +206,10 @@ internal final class DataNetwork {
             do {
                 let lmResponse  = try JSONDecoder().decode(_LMResponse_<T>.self, from: responseData)
                 lmLog("response - \(String(describing: lmResponse))")
+                lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
                 successCallback(moduleName, lmResponse)
             } catch let error {
-                lmLog("response - \(String(describing: responseData.jsonString()))")
+                lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
                 failureCallback(moduleName, .failedJsonParse(error.localizedDescription))
             }
             lmLog("--------------------------")
@@ -210,7 +219,7 @@ internal final class DataNetwork {
 
 func lmLog(_ items: Any...) {
 //    if AppManager.environment == .devtest {
-//        print(items)
-    LMLogger.info(items)
+        print(items)
+//    LMLogger.info(items)
 //    }
 }

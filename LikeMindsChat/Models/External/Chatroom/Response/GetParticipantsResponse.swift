@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GetParticipantsResponse {
+struct GetParticipantsResponse: Decodable {
     var canEditParticipant: Bool
     var participants: [Member]
     var totalParticipantsCount: Int

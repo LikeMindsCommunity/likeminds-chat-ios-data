@@ -13,13 +13,14 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
     private var page: Int = 1
     private var maxTimestamp: Int = Int(Date().millisecondsSince1970)
     private var chatroomTypes: [Int]
+    private var groupQueue: DispatchGroup = DispatchGroup()
     
     init(chatroomTypes: [Int]) {
         self.chatroomTypes = chatroomTypes
     }
     
     func syncChatrooms() {
-        
+        groupQueue.enter()
         let chatroomSyncRequest = ChatroomSyncRequest.builder()
             .page(page)
             .pageSize(50)
@@ -36,8 +37,10 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
             chatroomSyncRequest.maxTimestamp = Int(Date().millisecondsSince1970)
         }
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
-        ChatroomClient.syncChatrooms(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { response in
+        ChatroomClient.syncChatrooms(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { [weak self] response in
+            self?.groupQueue.leave()
             if let _ = response.errorMessage {
+                print("Retry first time chatroom sync")
               // retry
             } else if let chatrooms = response.data?.chatrooms, chatrooms.isEmpty {
               // No data but success
@@ -49,10 +52,11 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
                 }
                 SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "")
                 SyncUtil.saveChatroomResponse(communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: "", data: data)
-                self.page += 1
-                self.syncChatrooms()
+                self?.page += 1
+//                self?.syncChatrooms()
             }
         }
+        groupQueue.wait()
     }
     
     override func main() {

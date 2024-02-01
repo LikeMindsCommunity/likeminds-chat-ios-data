@@ -9,7 +9,7 @@ import Foundation
 
 class Poll: Codable {
     let id: String?
-    let text: String
+    let text: String?
     let isSelected: Bool?
     let percentage: Int?
     let subText: String?
@@ -17,7 +17,7 @@ class Poll: Codable {
 //    let member: Member?
     let userId: String?
     
-    private init(id: String?, text: String, isSelected: Bool?, percentage: Int?, subText: String?, noVotes: Int?, member: Member?, userId: String?) {
+    private init(id: String?, text: String?, isSelected: Bool?, percentage: Int?, subText: String?, noVotes: Int?, member: Member?, userId: String?) {
         self.id = id
         self.text = text
         self.isSelected = isSelected
@@ -26,6 +26,18 @@ class Poll: Codable {
         self.noVotes = noVotes
 //        self.member = member
         self.userId = userId
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        id = try container.decodeIntToStringIfPresent(forKey: .id)
+        text = try container.decodeIfPresent(String.self, forKey: .text)
+        isSelected = try container.decodeIfPresent(Bool.self, forKey: .isSelected)
+        percentage = try container.decodeIfPresent(Int.self, forKey: .percentage)
+        subText = try container.decodeIfPresent(String.self, forKey: .subText)
+        noVotes = try container.decodeIfPresent(Int.self, forKey: .noVotes)
+        userId = try container.decodeIntToStringIfPresent(forKey: .userId)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -41,7 +53,7 @@ class Poll: Codable {
     
     class Builder {
         private var id: String?
-        private var text: String = ""
+        private var text: String?
         private var isSelected: Bool? = nil
         private var percentage: Int? = nil
         private var subText: String? = nil
@@ -54,7 +66,7 @@ class Poll: Codable {
             return self
         }
         
-        func text(_ text: String) -> Builder {
+        func text(_ text: String?) -> Builder {
             self.text = text
             return self
         }
@@ -115,3 +127,4 @@ class Poll: Codable {
             .userId(userId)
     }
 }
+

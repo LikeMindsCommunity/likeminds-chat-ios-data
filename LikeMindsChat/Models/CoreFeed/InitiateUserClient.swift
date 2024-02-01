@@ -34,11 +34,13 @@ class InitiateUserClient: ServiceRequest {
                     }
                     let lmUUID = user.uuid ?? ""
                     let lmMemberId = user.id ?? 0
-                    let clientUUID = user.sdkClientInfo.uuid
+                    let clientUUID = user.sdkClientInfo.uuid ?? ""
+                    let communityId = user.sdkClientInfo.community ?? 0
                     
                     UserPreferences.shared.setLMUUID(lmUUID)
                     UserPreferences.shared.setLMMemberId("\(lmMemberId)")
                     UserPreferences.shared.setClientUUID(clientUUID)
+                    SDKPreferences.shared.setCommunityId(communityId: "\(communityId)")
                 }
                 response?(result)
             } catch let error {

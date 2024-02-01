@@ -56,6 +56,36 @@ struct Member: Decodable {
         case attendingStatus = "attending_status"
         case hasProfileImage = "has_profile_image"
     }
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // Decode your properties using the container
+        id = try container.decodeIntToStringIfPresent(forKey: .id)
+        userUniqueId = try container.decodeIfPresent(String.self, forKey: .userUniqueId)
+        name = try container.decodeIfPresent(String.self, forKey: .name)
+        imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
+        questionAnswers = try container.decodeIfPresent([Question].self, forKey: .questionAnswers)
+        state = try container.decodeIfPresent(Int.self, forKey: .state)
+        isGuest = try container.decodeIfPresent(Bool.self, forKey: .isGuest) ?? false
+        customIntroText = try container.decodeIfPresent(String.self, forKey: .customIntroText)
+        customClickText = try container.decodeIfPresent(String.self, forKey: .customClickText)
+        memberSince = try container.decodeIfPresent(String.self, forKey: .memberSince)
+        communityName = try container.decodeIfPresent(String.self, forKey: .communityName)
+        isOwner = try container.decodeIfPresent(Bool.self, forKey: .isOwner) ?? false
+        isDeleted = try container.decodeIfPresent(Bool.self, forKey: .isDeleted)
+        customTitle = try container.decodeIfPresent(String.self, forKey: .customTitle)
+        menu = try container.decodeIfPresent([MemberAction].self, forKey: .menu)
+        communityId = try container.decodeIfPresent(Int.self, forKey: .communityId)
+        chatroomId = try container.decodeIfPresent(Int.self, forKey: .chatroomId)
+        route = try container.decodeIfPresent(String.self, forKey: .route)
+        attendingStatus = try container.decodeIfPresent(Bool.self, forKey: .attendingStatus)
+        hasProfileImage = try container.decodeIfPresent(Bool.self, forKey: .hasProfileImage)
+        updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
+        sdkClientInfo = try container.decodeIfPresent(SDKClientInfo.self, forKey: .sdkClientInfo)
+        uuid = try container.decodeIfPresent(String.self, forKey: .uuid)
+    }
+    
     // Using UUID for user unique id
     var clientUUID: String? {
         return self.sdkClientInfo?.uuid ?? ""

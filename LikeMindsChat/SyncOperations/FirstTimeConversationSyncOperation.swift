@@ -9,14 +9,14 @@ import Foundation
 
 class FirstTimeConversationSyncOperation: LMAsyncOperation {
     
-    var chatroomId: Int = 0
+    var chatroomId: String = ""
     private var maxTimestamp: Int = Int(Date().millisecondsSince1970)
     var page: Int = 1
     
     override private init() {
     }
     
-    convenience init(chatroomId: Int) {
+    convenience init(chatroomId: String) {
         self.init()
         self.chatroomId = chatroomId
     }
@@ -25,7 +25,7 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
         
         let conversationSyncRequest = ConversationSyncRequest.builder()
             .page(page)
-            .chatroomId(chatroomId)
+            .chatroomId(Int(chatroomId) ?? 0)
             .pageSize(500)
             .minTimestamp(0)
             .maxTimestamp(maxTimestamp)
@@ -51,11 +51,10 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
                     // retry flow
                     return
                 }
+                SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: [data])
                 self.page += 1
                 self.syncConversations()
             }
-            
-            
         }
     }
     

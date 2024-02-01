@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 class LastConversationRO: Object {
-    @Persisted var id: Int = 0
+    @Persisted var id: String?
     @Persisted var answer: String?
     @Persisted var state: Int?
     @Persisted var createdEpoch: Int?

@@ -128,8 +128,14 @@ struct ServiceAPIRequest {
                 return "community/feed"
                 
             //MARK:- Chatrooms api URL
-            case .syncChatrooms:
-                return "chatroom/sync"
+            case .syncChatrooms(let request):
+                var urlRequest = "chatroom/sync?is_local_db=true&page=\(request.page)&page_size=\(request.pageSize)&min_timestamp=\(request.minTimestamp)&max_timestamp=\(request.maxTimestamp)"
+                
+                if !request.chatroomTypes.isEmpty {
+                    urlRequest.append("&chatroom_types=[\(request.chatroomTypes.map({"\($0)"}).joined(separator: ","))]")
+                }
+                
+                return urlRequest
             case .getChatroomActions(let request):
                 return "chatroom?chatroom_id=\(request.chatroomId)"
             case .followChatroom:

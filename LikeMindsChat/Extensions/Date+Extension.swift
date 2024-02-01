@@ -32,3 +32,14 @@ extension Date {
         return date2
     }
 }
+
+struct TimeUtil {
+    
+    private static let APPROX_INITIAL_LAUNCH_MILLIS = 1546281000000
+    
+    //to check whether [time] is on millisecond or not
+    static func isInMillis(_ time: Int) -> Bool {
+        return time > APPROX_INITIAL_LAUNCH_MILLIS
+    }
+    
+}

@@ -14,6 +14,7 @@ class SyncUtil {
     static let CHATROOM_PAGE_SIZE = 50
     static let CONVERSATION_PAGE_SIZE = 500
     let CHATROOM_TYPE_LIST = [0, 7]
+    
     //Query Key
     static let PAGE_KEY = "page"
     static let PAGE_SIZE_KEY = "page_size"
@@ -62,18 +63,46 @@ class SyncUtil {
                    let chatroomCreatorRO = ROConverter.convertMember(member: creator, communityId: communityId){
                     realm.insertOrUpdate(chatroomCreatorRO)
                 } else { return }
-                //last conversation
+                //isConversation Deleted
                 let lastConversationId = chatroom.lastConversationId ?? ""
                 if let lastConversation = data.conversationMeta?[lastConversationId] {
+                    // Delete conversation
+                    var lastConversationDeletedByMemberRO:MemberRO?
                     if let lastConversationDeletedById = lastConversation.deletedBy,
                        let lastConversationDeletedBy =
                         data.userMeta?["\(lastConversationDeletedById)"],
-                       let lastConversationDeletedByMemberRO = ROConverter.convertMember(member: lastConversationDeletedBy, communityId: communityId) {
-                        
+                       let lastConversationDeletedByMemRO = ROConverter.convertMember(member: lastConversationDeletedBy, communityId: communityId) {
+                        lastConversationDeletedByMemberRO = lastConversationDeletedByMemRO
                     }
+                    // Poll check
+                    if ConversationState.isPoll(stateValue: lastConversation.state) {
+                        var polls = data.conversationPollMeta?[lastConversationId] ?? []
+                        polls.sort(by: { ($0.id ?? "0") < ($1.id ?? "0")})
+                    }
+                    //attachments
+                    var lastConversationAttachment: [Attachment]?
+                    if lastConversation.attachmentUploaded == true && (lastConversation.attachmentCount ?? 0) > 0 {
+                        lastConversationAttachment = data.conversationAttachementMeta?[lastConversationId]
+                    }
+                    
+                    //last conversation creator
+                    var lastConversationCreatorRO:MemberRO?
+                    if let lastConversationCreatorId = lastConversation.memberId {
+                        let lastConversationCreator =
+                        data.userMeta?[lastConversationCreatorId]
+                        lastConversationCreatorRO =
+                        ROConverter.convertMember(member: lastConversationCreator, communityId: communityId)
+                    }
+                    let lastConversationRO = ROConverter.convertLastConversation(
+                        realm: RealmManager.realmInstance(),
+                        conversation: lastConversation,
+                        creator: lastConversationCreatorRO,
+                        attachments: lastConversationAttachment,
+                        deletedByMember: lastConversationDeletedByMemberRO
+                    )
+                    
                 }
             })
-            
         }
     }
     

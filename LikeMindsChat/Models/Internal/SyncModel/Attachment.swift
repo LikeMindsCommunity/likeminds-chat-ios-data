@@ -22,8 +22,8 @@ struct Attachment: Decodable {
     let thumbnailAWSFolderPath: String?
     let thumbnailLocalFilePath: String?
     let meta: AttachmentMeta?
-    let createdAt: Int64?
-    let updatedAt: Int64?
+    let createdAt: Int32?
+    let updatedAt: Int32?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -45,7 +45,7 @@ struct Attachment: Decodable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decodeIfPresent(String.self, forKey: .id)
+        id = try container.decodeIntToStringIfPresent(forKey: .id)
         name = try container.decodeIfPresent(String.self, forKey: .name)
         url = try container.decodeIfPresent(String.self, forKey: .url)
         type = try container.decodeIfPresent(String.self, forKey: .type)
@@ -58,7 +58,7 @@ struct Attachment: Decodable {
         thumbnailAWSFolderPath = try container.decodeIfPresent(String.self, forKey: .thumbnailAWSFolderPath)
         thumbnailLocalFilePath = try container.decodeIfPresent(String.self, forKey: .thumbnailLocalFilePath)
         meta = try container.decodeIfPresent(AttachmentMeta.self, forKey: .meta)
-        createdAt = try container.decodeIfPresent(Int64.self, forKey: .createdAt)
-        updatedAt = try container.decodeIfPresent(Int64.self, forKey: .updatedAt)
+        createdAt = try container.decodeIfPresent(Int32.self, forKey: .createdAt)
+        updatedAt = try container.decodeIfPresent(Int32.self, forKey: .updatedAt)
     }
 }

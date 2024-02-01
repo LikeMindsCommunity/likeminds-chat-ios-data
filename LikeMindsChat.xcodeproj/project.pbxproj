@@ -78,6 +78,8 @@
 		F4A859CF2A6A7B2000F494AC /* ConversationSyncRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859CE2A6A7B2000F494AC /* ConversationSyncRequest.swift */; };
 		F4A859D12A6A7B9E00F494AC /* GetConversationMetaRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859D02A6A7B9E00F494AC /* GetConversationMetaRequest.swift */; };
 		F4A859D32A6A7C9200F494AC /* PostConversationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859D22A6A7C9200F494AC /* PostConversationRequest.swift */; };
+		F4B6CB102B60EA0200824D94 /* HomeFeedClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6CB0F2B60EA0200824D94 /* HomeFeedClient.swift */; };
+		F4B6CB122B60EBE800824D94 /* SyncOperationUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4B6CB112B60EBE800824D94 /* SyncOperationUtil.swift */; };
 		F4BEB98A2B4D1AD700D12B62 /* Question.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9892B4D1AD700D12B62 /* Question.swift */; };
 		F4BEB98C2B4D1BAD00D12B62 /* MemberAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB98B2B4D1BAD00D12B62 /* MemberAction.swift */; };
 		F4BEB98E2B4D7D6A00D12B62 /* Reaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB98D2B4D7D6A00D12B62 /* Reaction.swift */; };
@@ -235,6 +237,8 @@
 		F4A859CE2A6A7B2000F494AC /* ConversationSyncRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationSyncRequest.swift; sourceTree = "<group>"; };
 		F4A859D02A6A7B9E00F494AC /* GetConversationMetaRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetConversationMetaRequest.swift; sourceTree = "<group>"; };
 		F4A859D22A6A7C9200F494AC /* PostConversationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConversationRequest.swift; sourceTree = "<group>"; };
+		F4B6CB0F2B60EA0200824D94 /* HomeFeedClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedClient.swift; sourceTree = "<group>"; };
+		F4B6CB112B60EBE800824D94 /* SyncOperationUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncOperationUtil.swift; sourceTree = "<group>"; };
 		F4BEB9892B4D1AD700D12B62 /* Question.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Question.swift; sourceTree = "<group>"; };
 		F4BEB98B2B4D1BAD00D12B62 /* MemberAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAction.swift; sourceTree = "<group>"; };
 		F4BEB98D2B4D7D6A00D12B62 /* Reaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reaction.swift; sourceTree = "<group>"; };
@@ -349,6 +353,7 @@
 			children = (
 				F42C1E982B32F94400720D5D /* SyncModel */,
 				F4BEB9DD2B54547600D12B62 /* _LMResponse_.swift */,
+				F4B6CB112B60EBE800824D94 /* SyncOperationUtil.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -520,6 +525,7 @@
 			children = (
 				F420C0AC2A5E7DCC008C48DE /* GetHomeFeedRequest.swift */,
 				F420C0AE2A5E887B008C48DE /* GetHomeFeedResponse.swift */,
+				F4B6CB0F2B60EA0200824D94 /* HomeFeedClient.swift */,
 			);
 			path = HomeFeed;
 			sourceTree = "<group>";
@@ -975,6 +981,7 @@
 				F42C1E902B320B7400720D5D /* ConversationRO.swift in Sources */,
 				F457D7A32B49EA8100BCECDF /* DBKey.swift in Sources */,
 				F4BEB9F82B54670C00D12B62 /* DeleteReactionRequest.swift in Sources */,
+				F4B6CB102B60EA0200824D94 /* HomeFeedClient.swift in Sources */,
 				F4C8F68A2B57B74E0012A1CF /* InitiateUserClient.swift in Sources */,
 				F42C1E862B320B7400720D5D /* Chatroom.swift in Sources */,
 				F420C0A72A5D780F008C48DE /* LMResponse.swift in Sources */,
@@ -1022,6 +1029,7 @@
 				F420C07B2A5C08B7008C48DE /* LMChatClient.swift in Sources */,
 				F42C1E8E2B320B7400720D5D /* CommunityRO.swift in Sources */,
 				F4BEB9FE2B5467D600D12B62 /* GetConversationsCountRequest.swift in Sources */,
+				F4B6CB122B60EBE800824D94 /* SyncOperationUtil.swift in Sources */,
 				F4BEBA2F2B54710200D12B62 /* GetMemberResponse.swift in Sources */,
 				F4C8F6A42B5A365B0012A1CF /* ReportTagResponse.swift in Sources */,
 				F412238F2B43F16F00CB1532 /* ReactionMeta.swift in Sources */,

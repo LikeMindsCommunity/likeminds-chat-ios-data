@@ -14,4 +14,5 @@ class LinkRO: Object {
     @Persisted var title: String?
     @Persisted var image: String?
     @Persisted var linkDescription: String?
+    @Persisted var link: String?
 }

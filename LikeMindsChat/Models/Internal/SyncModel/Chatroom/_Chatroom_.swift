@@ -11,11 +11,11 @@ import Foundation
 struct _Chatroom_: Decodable {
     
     let member: Member?
-    let id: String
-    let title: String
+    let id: String?
+    let title: String?
     let createdAt: Int?
     let answerText: String?
-    let state: Int
+    let state: Int?
     let unseenCount: Int?
     let shareUrl: String?
     let communityId: String?
@@ -88,7 +88,7 @@ struct _Chatroom_: Decodable {
         case isPending = "is_pending"
         case isPinned = "is_pinned"
         case isDeleted = "is_deleted"
-        case userId = "member_id"
+        case userId = "user_id"
         case deletedBy = "deleted_by"
         case deletedByMember = "deleted_by_member"
         case updatedAt = "updated_at"
@@ -118,14 +118,14 @@ extension _Chatroom_ {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         member = try container.decodeIfPresent(Member.self, forKey: .member)
-        id = try container.decode(String.self, forKey: .id)
-        title = try container.decode(String.self, forKey: .title)
+        id = try container.decodeIntToStringIfPresent(forKey: .id)
+        title = try container.decodeIfPresent(String.self, forKey: .title)
         createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAt)
         answerText = try container.decodeIfPresent(String.self, forKey: .answerText)
-        state = try container.decode(Int.self, forKey: .state)
+        state = try container.decodeIfPresent(Int.self, forKey: .state)
         unseenCount = try container.decodeIfPresent(Int.self, forKey: .unseenCount)
         shareUrl = try container.decodeIfPresent(String.self, forKey: .shareUrl)
-        communityId = try container.decodeIfPresent(String.self, forKey: .communityId)
+        communityId = try container.decodeIntToStringIfPresent(forKey: .communityId)
         communityName = try container.decodeIfPresent(String.self, forKey: .communityName)
         type = try container.decodeIfPresent(Int.self, forKey: .type)
         about = try container.decodeIfPresent(String.self, forKey: .about)
@@ -144,18 +144,18 @@ extension _Chatroom_ {
         isPending = try container.decodeIfPresent(Bool.self, forKey: .isPending)
         isPinned = try container.decodeIfPresent(Bool.self, forKey: .isPinned)
         isDeleted = try container.decodeIfPresent(Bool.self, forKey: .isDeleted)
-        userId = try container.decodeIfPresent(String.self, forKey: .userId)
+        userId = try container.decodeIntToStringIfPresent(forKey: .userId)
         deletedBy = try container.decodeIfPresent(String.self, forKey: .deletedBy)
         deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
         updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
         lastSeenConversationId = try container.decodeIfPresent(String.self, forKey: .lastSeenConversationId)
-        lastConversationId = try container.decodeIfPresent(String.self, forKey: .lastConversationId)
+        lastConversationId = try container.decodeIntToStringIfPresent(forKey: .lastConversationId)
         dateEpoch = try container.decodeIfPresent(Int.self, forKey: .dateEpoch)
         isSecret = try container.decodeIfPresent(Bool.self, forKey: .isSecret)
         secretChatroomParticipants = try container.decodeIfPresent([Int].self, forKey: .secretChatroomParticipants)
         secretChatroomLeft = try container.decodeIfPresent(Bool.self, forKey: .secretChatroomLeft)
         reactions = try container.decodeIfPresent([Reaction].self, forKey: .reactions)
-        topicId = try container.decodeIfPresent(String.self, forKey: .topicId)
+        topicId = try container.decodeIntToStringIfPresent(forKey: .topicId)
         topic = try container.decodeIfPresent(_Conversation_.self, forKey: .topic)
         autoFollowDone = try container.decodeIfPresent(Bool.self, forKey: .autoFollowDone)
         isEdited = try container.decodeIfPresent(Bool.self, forKey: .isEdited)
@@ -166,5 +166,17 @@ extension _Chatroom_ {
         unreadConversationCount = try container.decodeIfPresent(Int.self, forKey: .unreadConversationCount)
         chatroomImageUrl = try container.decodeIfPresent(String.self, forKey: .chatroomImageUrl)
         accessWithoutSubscription = try container.decodeIfPresent(Bool.self, forKey: .accessWithoutSubscription)
+    }
+}
+
+extension KeyedDecodingContainer {
+    
+    public func decodeIntToStringIfPresent(forKey key: KeyedDecodingContainer<K>.Key) throws -> String? {
+        if let decodedValue = try? self.decodeIfPresent(String.self, forKey: key) {
+            return decodedValue
+        } else if let decodedValue = try? self.decodeIfPresent(Int.self, forKey: key) {
+            return String(decodedValue)
+        }
+        return nil
     }
 }

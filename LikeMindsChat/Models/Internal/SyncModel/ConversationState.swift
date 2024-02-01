@@ -39,4 +39,8 @@ enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
     case directMessageMemberBecomesCMEnableChat = 17
     case directMessageMemberRequestRejected = 19
     case directMessageMemberRequestApproved = 20
+    
+    static func isPoll(stateValue: Int) -> Bool {
+        microPoll.rawValue == stateValue
+    }
 }

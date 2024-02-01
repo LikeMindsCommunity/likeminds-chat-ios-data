@@ -8,14 +8,14 @@
 import Foundation
 
 
-struct GetChatroomActionsResponse {
+struct GetChatroomActionsResponse: Decodable {
     var canAccessSecretChatroom: Bool
     var chatroomActions: [ChatroomAction]
     var participantCount: Int
     var placeHolder: String?
 }
 
-struct ChatroomAction {
+struct ChatroomAction: Decodable {
     var id: Int
     var title: String
     var route: String?
