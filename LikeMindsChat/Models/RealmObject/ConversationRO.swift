@@ -29,7 +29,7 @@ class ConversationRO: Object {
     @Persisted var attachmentCount: Int?
     @Persisted var attachmentsUploaded: Bool?
     @Persisted var uploadWorkerUUID: String?
-    @Persisted var localSavedEpoch: Int32?
+    @Persisted var localSavedEpoch: Int?
     @Persisted var temporaryId: String?
     @Persisted var reactions = List<ReactionRO>()
     @Persisted var isAnonymous: Bool?
@@ -37,13 +37,13 @@ class ConversationRO: Object {
     @Persisted var pollType: Int?
     @Persisted var pollTypeText: String?
     @Persisted var submitTypeText: String?
-    @Persisted var expiryTime: Int32?
+    @Persisted var expiryTime: Int?
     @Persisted var multipleSelectNum: Int?
     @Persisted var multipleSelectState: Int?
     @Persisted var polls = List<PollRO>()
     @Persisted var pollAnswerText: String?
     @Persisted var toShowResults: Bool?
     @Persisted var replyChatRoomId: String?
-    @Persisted var lastUpdatedAt: Int32?
+    @Persisted var lastUpdatedAt: Int?
     @Persisted var deletedByMember: MemberRO?
 }

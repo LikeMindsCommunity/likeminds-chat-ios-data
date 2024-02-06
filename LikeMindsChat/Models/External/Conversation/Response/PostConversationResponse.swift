@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PostConversationResponse {
+class PostConversationResponse: Decodable {
     var conversation: Conversation?
     var id: String?
 }

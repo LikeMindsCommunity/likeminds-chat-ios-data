@@ -33,9 +33,9 @@ class InitiateUserClient: ServiceRequest {
                         return
                     }
                     let lmUUID = user.uuid ?? ""
-                    let lmMemberId = user.id ?? 0
-                    let clientUUID = user.sdkClientInfo.uuid ?? ""
-                    let communityId = user.sdkClientInfo.community ?? 0
+                    let lmMemberId = user.id ?? ""
+                    let clientUUID = user.sdkClientInfo?.uuid ?? ""
+                    let communityId = user.sdkClientInfo?.community ?? 0
                     
                     UserPreferences.shared.setLMUUID(lmUUID)
                     UserPreferences.shared.setLMMemberId("\(lmMemberId)")

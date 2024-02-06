@@ -16,7 +16,7 @@ public struct Community: Decodable {
     let purpose: String?
     let subType: Int?
     let type: Int?
-    let updatedAt: Int32?
+    let updatedAt: Int?
     
     enum CodingKeys: String, CodingKey {
         case id,

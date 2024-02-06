@@ -18,7 +18,7 @@ class MemberRO: Object {
     @Persisted var customIntroText: String?
     @Persisted var customClickText: String?
     @Persisted var customTitle: String?
-    @Persisted var communityId: Int?
+    @Persisted var communityId: String?
     @Persisted var isOwner: Bool? = false
     @Persisted var isGuest: Bool? = false
     @Persisted var userUniqueId: String?

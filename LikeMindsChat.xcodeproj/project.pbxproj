@@ -159,6 +159,9 @@
 		F4C8F6A42B5A365B0012A1CF /* ReportTagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A32B5A365B0012A1CF /* ReportTagResponse.swift */; };
 		F4C8F6A62B5A36FB0012A1CF /* SearchChatroomResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A52B5A36FB0012A1CF /* SearchChatroomResponse.swift */; };
 		F4C8F6A82B5A37C50012A1CF /* SearchConversationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A72B5A37C50012A1CF /* SearchConversationResponse.swift */; };
+		F4F864082B70B5D600F28048 /* UserRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F864072B70B5D600F28048 /* UserRO.swift */; };
+		F4F8640A2B713C8E00F28048 /* RealmDatabaseObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */; };
+		F4F8640C2B716CD800F28048 /* ModelConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8640B2B716CD800F28048 /* ModelConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -318,6 +321,9 @@
 		F4C8F6A32B5A365B0012A1CF /* ReportTagResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagResponse.swift; sourceTree = "<group>"; };
 		F4C8F6A52B5A36FB0012A1CF /* SearchChatroomResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChatroomResponse.swift; sourceTree = "<group>"; };
 		F4C8F6A72B5A37C50012A1CF /* SearchConversationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConversationResponse.swift; sourceTree = "<group>"; };
+		F4F864072B70B5D600F28048 /* UserRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRO.swift; sourceTree = "<group>"; };
+		F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDatabaseObserver.swift; sourceTree = "<group>"; };
+		F4F8640B2B716CD800F28048 /* ModelConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -454,8 +460,10 @@
 			children = (
 				F41223772B3CA6CE00CB1532 /* Internal */,
 				F42C1E912B32C69D00720D5D /* Uploadable.swift */,
+				F4F8640B2B716CD800F28048 /* ModelConverter.swift */,
 				F457D7A82B4C2F8700BCECDF /* RealmManager.swift */,
 				F457D7A62B4B18FA00BCECDF /* SyncUtil.swift */,
+				F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */,
 				F457D7A02B49E8B300BCECDF /* ChatDBUtil.swift */,
 				F457D7AA2B4C845400BCECDF /* ROConverter.swift */,
 				F457D7A22B49EA8100BCECDF /* DBKey.swift */,
@@ -574,6 +582,7 @@
 				F41223852B433B5E00CB1532 /* PollRO.swift */,
 				F41223872B433DD000CB1532 /* AppConfigRO.swift */,
 				F41223892B433E4A00CB1532 /* LastConversationRO.swift */,
+				F4F864072B70B5D600F28048 /* UserRO.swift */,
 			);
 			path = RealmObject;
 			sourceTree = "<group>";
@@ -1004,6 +1013,7 @@
 				F420C09D2A5C194C008C48DE /* InitiateUserResponse.swift in Sources */,
 				F4BEB98C2B4D1BAD00D12B62 /* MemberAction.swift in Sources */,
 				F4BEB9D02B544F4100D12B62 /* SetChatroomTopicRequest.swift in Sources */,
+				F4F8640A2B713C8E00F28048 /* RealmDatabaseObserver.swift in Sources */,
 				F4BEBA1F2B546E3400D12B62 /* PutMultimediaResponse.swift in Sources */,
 				F4BEB9FA2B54675500D12B62 /* EditConversationRequest.swift in Sources */,
 				F4BEBA212B546E7500D12B62 /* CommunityClient.swift in Sources */,
@@ -1025,6 +1035,7 @@
 				F420C05D2A5C0472008C48DE /* LikeMindsChat.docc in Sources */,
 				F412238A2B433E4A00CB1532 /* LastConversationRO.swift in Sources */,
 				F4C8F6962B57F0B10012A1CF /* ConfigResponse.swift in Sources */,
+				F4F8640C2B716CD800F28048 /* ModelConverter.swift in Sources */,
 				F4BEBA002B54688300D12B62 /* GetConversationsRequest.swift in Sources */,
 				F420C07B2A5C08B7008C48DE /* LMChatClient.swift in Sources */,
 				F42C1E8E2B320B7400720D5D /* CommunityRO.swift in Sources */,
@@ -1069,6 +1080,7 @@
 				F4C8F68D2B57DF4E0012A1CF /* DecodeUrlRequest.swift in Sources */,
 				F420C07C2A5C08B7008C48DE /* LMChatClient+Extension.swift in Sources */,
 				F420C0822A5C0E2E008C48DE /* ChatClientServiceRequest.swift in Sources */,
+				F4F864082B70B5D600F28048 /* UserRO.swift in Sources */,
 				F4BEB9BC2B544A1300D12B62 /* ChatroomClient.swift in Sources */,
 				F4BEBA192B546D6000D12B62 /* GetConversationsCountResponse.swift in Sources */,
 				F420C0A02A5C194C008C48DE /* InitiateUserRequest.swift in Sources */,

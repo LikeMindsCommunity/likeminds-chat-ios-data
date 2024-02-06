@@ -65,4 +65,161 @@ extension LMChatClient {
     func getChatrooms() {
         
     }
+    
+    func getUser() {
+        
+    }
+    
+    func getMember() {
+        
+    }
+    
+    func getChatroom() {
+        
+    }
+    
+    func getChatroomActions() {
+        
+    }
+    
+    func followChatroom() {
+        
+    }
+    
+    func leaveSecretChatroom() {
+        
+    }
+    
+    func muteChatroom() {
+        
+    }
+    
+    func markReadChatroom() {
+        
+    }
+    
+    func setChatroomTopic() {
+        
+    }
+    
+    func getParticipants() {
+        
+    }
+    
+    func getReportTags() {
+        
+    }
+    
+    func postReport() {
+        
+    }
+    
+    func addPollOption() {
+        
+    }
+    
+    func submitPoll() {
+        
+    }
+  
+    func getPollUsers() {
+        
+    }
+    
+    func postPollConversation() {
+        
+    }
+    
+    func decodeUrl() {
+        
+    }
+    
+    func getTaggingList() {
+        
+    }
+    
+    func getDBEmpty() {
+        
+    }
+    
+    func searchChatroom() {
+        
+    }
+    
+    func searchConversation() {
+        
+    }
+    
+    func loadConversations() {
+        
+    }
+    
+    func getConversations() {
+        
+    }
+    
+    func getConversationsCount() {
+        
+    }
+    
+    func deleteConversationPermanatly() {
+        
+    }
+    
+    func updateConversation() {
+        
+    }
+    
+    func updateTemporaryConversation() {
+        
+    }
+    
+    func getConversation() {
+        
+    }
+    
+    func postConversation() {
+        
+    }
+    
+    func editConversation() {
+        
+    }
+    
+    func deleteConversations() {
+        
+    }
+    
+    func putReaction() {
+        
+    }
+    
+    func deleteReaction() {
+        
+    }
+    
+    func getUnreadConversationNotification() {
+        
+    }
+    
+    func putMultimedia() {
+        
+    }
+    
+    func updateLastSeenAndDraft() {
+        
+    }
+    
+    func editChatroomTitle() {
+        
+    }
+    
+    func savePostedConversation() {
+        
+    }
+    
+    func getContentDownloadSettings() {
+        
+    }
+    
 }

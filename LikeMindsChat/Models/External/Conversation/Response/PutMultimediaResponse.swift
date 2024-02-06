@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct PutMultimediaResponse {
+struct PutMultimediaResponse: Decodable {
     var conversation: Conversation?
 }

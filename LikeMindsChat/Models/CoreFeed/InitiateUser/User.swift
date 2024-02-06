@@ -8,15 +8,15 @@
 import Foundation
 
 public struct User: Codable {
-    public let id: Int?
-    public let imageUrl, name, organisationName: String?
-    public let userUniqueID, uuid: String?
-    public let isGuest: Bool
-    public let isDeleted: Bool?
-    public let isOwner: Bool?
-    public let customTitle: String?
-    public let state, updatedAt: Int?
-    public let sdkClientInfo: SDKClientInfo
+    public var id: String?
+    public var imageUrl, name, organisationName: String?
+    public var userUniqueID, uuid: String?
+    public var isGuest: Bool = false
+    public var isDeleted: Bool?
+    public var isOwner: Bool?
+    public var customTitle: String?
+    public var state, updatedAt: Int?
+    public var sdkClientInfo: SDKClientInfo?
     
     enum CodingKeys: String, CodingKey {
         case id, name
@@ -33,9 +33,11 @@ public struct User: Codable {
         case uuid
     }
     
+    init(id: String?, imageUrl: String?) {}
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.id = try container.decodeIfPresent(Int.self, forKey: .id)
+        self.id = try container.decodeIntToStringIfPresent(forKey: .id)
         self.name = try container.decodeIfPresent(String.self, forKey: .name)
         self.imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
         self.organisationName = try container.decodeIfPresent(String.self, forKey: .organisationName)
@@ -51,6 +53,6 @@ public struct User: Codable {
     }
     // Using UUID for user unique id
     public var clientUUID: String? {
-        return self.sdkClientInfo.uuid
+        return self.sdkClientInfo?.uuid
     }
 }

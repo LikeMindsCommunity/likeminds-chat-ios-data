@@ -10,14 +10,29 @@ import RealmSwift
 
 class ConversationClient: ServiceRequest {
     
+    let moduleName: String = "ConversationClient"
+    
     /**
      * Converts client request model to internal model and calls the api
      * @param postConversationRequest - client request model to post a conversation
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<PostConversationResponse> - Base LM response[PostConversationResponse]
      */
-    func postConversation(request: PostConversationRequest, response: LMClientResponse<PostConversationResponse>?) {
-        
+    func postConversation(request: PostConversationRequest, response: _LMClientResponse_<PostConversationResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.postConversation(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: PostConversationResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? _LMResponse_<PostConversationResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
+        }
     }
     
     /**
@@ -187,8 +202,21 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<EditConversationResponse> - Base LM response[EditConversationResponse]
      */
-    func editConversation(editConversationRequest: EditConversationRequest, response: LMClientResponse<EditConversationResponse>) {
-        
+    func editConversation(request: EditConversationRequest, response: _LMClientResponse_<EditConversationResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.editConversation(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: EditConversationResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? _LMResponse_<EditConversationResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
+        }
     }
     
     /**
@@ -197,7 +225,21 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<DeleteConversationRequest> - Base LM response[DeleteConversationsRequest]
      */
-    func deleteConversations(deleteConversationsRequest: DeleteConversationsRequest, response: LMClientResponse<DeleteConversationsResponse>) {
+    func deleteConversations(request: DeleteConversationsRequest, response: _LMClientResponse_<DeleteConversationsResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.deleteConversations(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: DeleteConversationsResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? _LMResponse_<DeleteConversationsResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
+        }
     }
     
     /**
@@ -206,7 +248,21 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    func putReaction(putReactionRequest: PutReactionRequest, response: LMClientResponse<NoData>) {
+    func putReaction(request: PutReactionRequest, response: _LMClientResponse_<_NoData_>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.putReaction(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: _NoData_.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? _LMResponse_<_NoData_> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
+        }
     }
     
     /**
@@ -215,7 +271,22 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    func deleteReaction(deleteReactionRequest: DeleteReactionRequest, response: LMClientResponse<NoData>) {
+    func deleteReaction(request: DeleteReactionRequest, response: _LMClientResponse_<_NoData_>?) {
+        
+        let networkPath = ServiceAPIRequest.NetworkPath.deleteReaction(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: _NoData_.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? _LMResponse_<_NoData_> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
+        }
     }
     
     /**
@@ -224,7 +295,21 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<PutMultimediaResponse> - Base LM response[PutMultimediaResponse]
      */
-    func putMultimedia(putMultimediaRequest: PutMultimediaRequest, response: LMClientResponse<PutMultimediaResponse>) {
+    func putMultimedia(request: PutMultimediaRequest, response: _LMClientResponse_<PutMultimediaResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.putMultimedia(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: PutMultimediaResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? _LMResponse_<PutMultimediaResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(_LMResponse_.failureResponse(error.localizedDescription))
+        }
     }
     
     static func syncConversations(request: ConversationSyncRequest, moduleName: String, _ response: _LMClientResponse_<_SyncConversationResponse_>?) {

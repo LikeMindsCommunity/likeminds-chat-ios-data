@@ -8,6 +8,6 @@
 import Foundation
 
 
-struct EditConversationResponse {
+struct EditConversationResponse: Decodable {
     var conversation: Conversation
 }

@@ -14,7 +14,7 @@ class CommunityRO: Object {
     @Persisted var name: String?
     @Persisted var imageUrl: String? = nil
     @Persisted var membersCount: Int? = nil
-    @Persisted var updatedAt: Int32? = nil
+    @Persisted var updatedAt: Int? = nil
     @Persisted var relationshipNeeded: Bool = true
     @Persisted var conversations: List<ConversationRO> = List()
     @Persisted var downloadableContentTypes: List<String> = List()

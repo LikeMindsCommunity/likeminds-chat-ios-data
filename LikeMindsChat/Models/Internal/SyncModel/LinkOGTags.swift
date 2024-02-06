@@ -24,4 +24,48 @@ struct LinkOGTags: Codable {
         self.description = description
         self.url = url
     }
+    
+    class Builder {
+        private var title: String?
+        private var image: String?
+        private var description: String?
+        private var url: String?
+        
+        func title(_ title: String?) -> Builder {
+            self.title = title
+            return self
+        }
+        
+        func image(_ image: String?) -> Builder {
+            self.image = image
+            return self
+        }
+        
+        func description(_ description: String?) -> Builder {
+            self.description = description
+            return self
+        }
+        
+        func url(_ url: String?) -> Builder {
+            self.url = url
+            return self
+        }
+        
+        func build() -> LinkOGTags {
+            return LinkOGTags(
+                title: title,
+                image: image,
+                description: description,
+                url: url
+            )
+        }
+    }
+    
+    func toBuilder() -> Builder {
+        return Builder()
+            .title(title)
+            .image(image)
+            .description(description)
+            .url(url)
+    }
 }

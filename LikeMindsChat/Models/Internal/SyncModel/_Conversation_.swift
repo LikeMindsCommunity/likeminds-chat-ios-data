@@ -109,7 +109,7 @@ extension _Conversation_ {
         ogTags = try container.decodeIfPresent(LinkOGTags.self, forKey: .ogTags)
         date = try container.decodeIfPresent(String.self, forKey: .date)
         isEdited = try container.decodeIfPresent(Bool.self, forKey: .isEdited)
-        memberId = try container.decodeIfPresent(String.self, forKey: .memberId)
+        memberId = try container.decodeIntToStringIfPresent(forKey: .memberId)
         replyConversationId = try container.decodeIntToStringIfPresent(forKey: .replyConversationId)
         deletedBy = try container.decodeIntToStringIfPresent(forKey: .deletedBy)
         createdEpoch = try container.decodeIfPresent(Int.self, forKey: .createdEpoch)

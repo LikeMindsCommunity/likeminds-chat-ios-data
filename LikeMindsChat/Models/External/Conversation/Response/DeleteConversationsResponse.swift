@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct DeleteConversationsResponse {
+struct DeleteConversationsResponse: Decodable {
     var conversations: [Conversation]
 }

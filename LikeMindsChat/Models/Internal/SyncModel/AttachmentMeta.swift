@@ -24,4 +24,42 @@ struct AttachmentMeta: Codable {
         size = try container.decodeIfPresent(Int64.self, forKey: .size)
         duration = try container.decodeIfPresent(Int.self, forKey: .duration)
     }
+    
+    private init(numberOfPage: Int?, size: Int64?, duration: Int?) {
+        self.numberOfPage = numberOfPage
+        self.size = size
+        self.duration = duration
+    }
+    
+    class Builder {
+        private var numberOfPage: Int?
+        private var size: Int64?
+        private var duration: Int?
+        
+        func numberOfPage(_ numberOfPage: Int?) -> Builder {
+            self.numberOfPage = numberOfPage
+            return self
+        }
+        
+        func size(_ size: Int64?) -> Builder {
+            self.size = size
+            return self
+        }
+        
+        func duration(_ duration: Int?) -> Builder {
+            self.duration = duration
+            return self
+        }
+        
+        func build() -> AttachmentMeta {
+            return AttachmentMeta(numberOfPage: numberOfPage, size: size, duration: duration)
+        }
+    }
+    
+    func toBuilder() -> Builder {
+        return Builder()
+            .numberOfPage(numberOfPage)
+            .size(size)
+            .duration(duration)
+    }
 }

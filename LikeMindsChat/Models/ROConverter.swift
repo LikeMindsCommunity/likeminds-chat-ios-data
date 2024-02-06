@@ -26,7 +26,7 @@ class ROConverter {
         let uid = "\(uuid)#\(communityId)"
         
         let memberRO = MemberRO()
-        memberRO.communityId = Int(communityId)
+        memberRO.communityId = communityId
         memberRO.name = member.name
         memberRO.id = member.id
         memberRO.imageUrl = member.imageUrl ?? ""
@@ -52,7 +52,7 @@ class ROConverter {
         guard let sdkClientInfo else { return nil }
         let sdkClientInfoRO = SDKClientInfoRO()
         sdkClientInfoRO.community = sdkClientInfo.community
-        sdkClientInfoRO.user = "\(sdkClientInfo.user)"
+        sdkClientInfoRO.user = "\(sdkClientInfo.user ?? 0)"
         sdkClientInfoRO.uuid = sdkClientInfo.uuid
         sdkClientInfoRO.userUniqueId = sdkClientInfo.userUniqueID
         return sdkClientInfoRO
@@ -61,9 +61,9 @@ class ROConverter {
     static func convertChatroom(fromChatroomJsonModel chatroom: _Chatroom_,
                                 chatroomCreatorRO: MemberRO,
                                 lastConversationRO: LastConversationRO? = nil,
-                                reactions: [ReactionMeta] = []) -> ChatroomRO {
-        let chatroomId = chatroom.id
-        let communityId = chatroom.communityId ?? ""
+                                reactions: [ReactionMeta] = []) -> ChatroomRO? {
+       guard let chatroomId = chatroom.id,
+             let communityId = chatroom.communityId else { return nil }
         
         let savedChatroom = ChatDBUtil.shared.getChatroom(realm: RealmManager.realmInstance(), chatroomId: chatroomId)
         let reactionsRO = Self.convertReactionsMeta(realm: RealmManager.realmInstance(), communityId: communityId, reactions: reactions)
@@ -177,19 +177,19 @@ class ROConverter {
            let attachs = attachments.map { attachment in
                 convertAttachment(chatroomId: chatroomId, communityId: communityId, attachment: attachment)
             }
-            var roAttachs = List<AttachmentRO>()
+            let roAttachs = List<AttachmentRO>()
             roAttachs.append(objectsIn: attachs)
             return roAttachs
         }
         
         if !oldAttachments.isEmpty && attachments.isEmpty {
-            var roAttachs = List<AttachmentRO>()
+            let roAttachs = List<AttachmentRO>()
             roAttachs.append(objectsIn: oldAttachments)
             return roAttachs
         }
         
         if oldAttachments.count > attachments.count {
-            var roAttachs = List<AttachmentRO>()
+            let roAttachs = List<AttachmentRO>()
             roAttachs.append(objectsIn: oldAttachments)
             return roAttachs
         }
@@ -197,7 +197,7 @@ class ROConverter {
         let attachs = attachments.map { attachment in
             convertAttachment(chatroomId: chatroomId, communityId: communityId, attachment: attachment)
         }
-        var roAttachs = List<AttachmentRO>()
+        let roAttachs = List<AttachmentRO>()
         roAttachs.append(objectsIn: attachs)
         return roAttachs
     }
@@ -219,7 +219,7 @@ class ROConverter {
         let pollsData = (polls ?? []).compactMap { poll in
             convertPoll(realm: realm, communityId: communityId, poll: poll, uuid: nil)
         }
-        var pollsList = List<PollRO>()
+        let pollsList = List<PollRO>()
         pollsList.append(objectsIn: pollsData)
         return pollsList
     }
@@ -260,7 +260,7 @@ class ROConverter {
         let reactionsData = (reactions ?? []).compactMap { reaction in
            convertReaction(realm: realm, reaction: reaction, communityId: communityId)
         }
-        var reactionList = List<ReactionRO>()
+        let reactionList = List<ReactionRO>()
         reactionList.append(objectsIn: reactionsData)
         return reactionList
     }
@@ -379,7 +379,7 @@ class ROConverter {
             conversationRO.attachmentCount = conversation.attachmentCount
             conversationRO.attachmentsUploaded = conversation.attachmentUploaded
             conversationRO.uploadWorkerUUID = savedAnswer?.uploadWorkerUUID ?? conversation.uploadWorkerUUID
-            conversationRO.localSavedEpoch = Int32(conversation.localCreatedEpoch ?? 0)
+            conversationRO.localSavedEpoch = conversation.localCreatedEpoch ?? 0
             conversationRO.temporaryId = conversation.temporaryId
             conversationRO.reactions = reactionsList
             conversationRO.isAnonymous = conversation.isAnonymous
@@ -387,7 +387,7 @@ class ROConverter {
             conversationRO.pollType = conversation.pollType
             conversationRO.pollTypeText = conversation.pollTypeText
             conversationRO.submitTypeText = conversation.submitTypeText
-            conversationRO.expiryTime = Int32(conversation.expiryTime ?? 0)
+            conversationRO.expiryTime = conversation.expiryTime ?? 0
             conversationRO.multipleSelectNum = conversation.multipleSelectNum
             conversationRO.multipleSelectState = conversation.multipleSelectState
             conversationRO.polls = pollsList
@@ -468,7 +468,7 @@ class ROConverter {
         conversationRO.member = creator
         
         conversationRO.createdAt = conversation.createdAt
-        conversationRO.lastUpdatedAt = Int32(conversation.lastUpdated ?? 0)
+        conversationRO.lastUpdatedAt = conversation.lastUpdated ?? 0
         conversationRO.date = conversation.date
         conversationRO.isEdited = conversation.isEdited
         
@@ -484,7 +484,7 @@ class ROConverter {
         conversationRO.attachments = updatedAttachments
         conversationRO.link = linkRO
         
-        conversationRO.localSavedEpoch = Int32(conversation.localCreatedEpoch ?? 0)
+        conversationRO.localSavedEpoch = conversation.localCreatedEpoch ?? 0
         
         conversationRO.temporaryId = conversation.temporaryId
         
@@ -495,7 +495,7 @@ class ROConverter {
         conversationRO.pollType = conversation.pollType
         conversationRO.pollTypeText = conversation.pollTypeText
         conversationRO.submitTypeText = conversation.submitTypeText
-        conversationRO.expiryTime = Int32(conversation.expiryTime ?? 0)
+        conversationRO.expiryTime = conversation.expiryTime ?? 0
         conversationRO.multipleSelectNum = conversation.multipleSelectNum
         conversationRO.multipleSelectState = conversation.multipleSelectState
         conversationRO.polls = pollsRO
@@ -540,7 +540,6 @@ class ROConverter {
         //get attachments as per saved and new conversation
         let updatedAttachments = convertUpdatedAttachments(chatroomId: chatroomId, communityId: communityId, attachments: conversation.attachments ?? [], oldAttachments: savedAnswer?.attachments ?? List())
         
-        
         //Clear embedded object list if already present else calling insertToRealmOrUpdate will duplicate it
 //        savedAnswer?.attachments?.deleteAllFromRealm()
         
@@ -568,22 +567,23 @@ class ROConverter {
      * convert [_User_] to [UserRO]
      * @param user: Object of user to be converted
      * */
-    /*
-     static func convertUser(user: User?) -> UserRO? {
-     guard let user return nil
-     
-     return UserRO.build(user.id, user.userUniqueId) {
-     imageUrl = user.imageUrl
-     name = user.name
-     isGuest = user.isGuest
-     organizationName = user.organisationName
-     updatedAt = user.updatedAt ?: 0L
-     sdkClientInfoRO = convertSDKClientInfo(user.sdkClientInfo)
-     isDeleted = user.isDeleted
-     customTitle = user.customTitle
-     }
-     }
-     */
+
+    static func convertUser(user: User?) -> UserRO? {
+        guard let user else { return nil }
+        let userRO = UserRO()
+        userRO.id = user.id
+        userRO.userUniqueId = user.userUniqueID
+        userRO.imageUrl = user.imageUrl
+        userRO.name = user.name
+        userRO.isGuest = user.isGuest
+        userRO.organizationName = user.organisationName
+        userRO.updatedAt = user.updatedAt ?? 0
+        userRO.sdkClientInfoRO = convertSDKClientInfo(user.sdkClientInfo)
+        userRO.isDeleted = user.isDeleted
+        userRO.customTitle = user.customTitle
+        return userRO
+    }
+
     
     /**
      * convert [UserRO] to [MemberRO] and save it [MemberRO] table
@@ -592,27 +592,28 @@ class ROConverter {
      *
      * @return [MemberRO]: object created
      */
-    /*
+
     private func convertToMember(userRO: UserRO?, communityId: String?) -> MemberRO? {
-        userRO == null) return null
-            val uuid = userRO.sdkClientInfoRO?.uuid ?: ""
-            val uid = "$uuid#$communityId"
-            val memberRO = MemberRO.build(uid, uuid) {
-            name = userRO.name
-            id = userRO.id
-            imageUrl = userRO.imageUrl
-            customTitle = userRO.customTitle
-            userUniqueId = userRO.userUniqueId
-            isGuest = userRO.isGuest
-            sdkClientInfoRO = userRO.sdkClientInfoRO
-        }
-        ChatDBUtil.writeAsync({
-            it.insertOrUpdate(memberRO)
-        })
-        
+        guard let userRO, let communityId else { return nil }
+        let uuid = userRO.sdkClientInfoRO?.uuid ?? ""
+        let uid = "\(uuid)#\(communityId)"
+        let memberRO = MemberRO()
+        memberRO.uid = uid
+        memberRO.uuid = uuid
+        memberRO.name = userRO.name
+        memberRO.id = userRO.id
+        memberRO.imageUrl = userRO.imageUrl
+        memberRO.customTitle = userRO.customTitle
+        memberRO.userUniqueId = userRO.userUniqueId
+        memberRO.isGuest = userRO.isGuest
+        memberRO.sdkClientInfoRO = userRO.sdkClientInfoRO
+        memberRO.communityId = communityId
+//        ChatDBUtil.writeAsync({
+//            it.insertOrUpdate(memberRO)
+//        })
         return memberRO
     }
-    */
+
     
     /**
      * convert [_ReactionMeta_] to [ReactionRO]
@@ -627,6 +628,12 @@ class ROConverter {
         communityId: String?,
         reactions: [ReactionMeta]?
     ) -> List<ReactionRO>? {
+        guard let communityId, let reactions else { return nil }
+        let metaReactions = reactions.compactMap({ reactionMeta in
+            return convertReactionMeta(realm: RealmManager.realmInstance(), reaction: reactionMeta, communityId: communityId)
+        })
+        let list = List<ReactionRO>()
+        list.append(objectsIn: metaReactions)
         return List()
     }
     

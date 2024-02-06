@@ -8,7 +8,8 @@
 
 import Foundation
 
-class Conversation {
+class Conversation: Decodable {
+    
     let id: String?
     let chatroomId: String?
     let communityId: String?
@@ -23,21 +24,20 @@ class Conversation {
     let isEdited: Bool?
     let memberId: String?
     let replyConversationId: String?
-    let replyConversation: Conversation?
     let deletedBy: String?
-    let createdEpoch: Int64?
+    let createdEpoch: Int?
     let attachmentCount: Int?
     let attachmentUploaded: Bool?
     let uploadWorkerUUID: String?
     let temporaryId: String?
-    let localCreatedEpoch: Int64?
+    let localCreatedEpoch: Int?
     let reactions: [Reaction]?
     let isAnonymous: Bool?
     let allowAddOption: Bool?
     let pollType: Int?
     let pollTypeText: String?
     let submitTypeText: String?
-    let expiryTime: Int64?
+    let expiryTime: Int?
     let multipleSelectNum: Int?
     let multipleSelectState: Int?
     let polls: [Poll]?
@@ -47,8 +47,96 @@ class Conversation {
     let deviceId: String?
     let hasFiles: Bool?
     let hasReactions: Bool?
-    let lastUpdated: Int64?
+    let lastUpdated: Int?
     let deletedByMember: Member?
+    let replyConversation: Conversation?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case chatroomId = "chatroom_id"
+        case communityId = "community_id"
+        case member
+        case answer
+        case createdAt = "created_at"
+        case state
+        case attachments
+        case lastSeen = "last_seen"
+        case ogTags = "og_tags"
+        case date
+        case isEdited = "is_edited"
+        case memberId = "member_id"
+        case replyConversationId = "reply_conversation"
+        case deletedBy = "delete_by"
+        case createdEpoch = "created_epoch"
+        case attachmentCount = "attachment_count"
+        case attachmentUploaded = "attachments_uploaded"
+        case uploadWorkerUUID = "upload_worker_uuid"
+        case temporaryId = "temporary_id"
+        case localCreatedEpoch = "local_created_epoch"
+        case reactions
+        case isAnonymous = "is_anonymous"
+        case allowAddOption = "allow_add_option"
+        case pollType = "poll_type"
+        case pollTypeText = "poll_type_text"
+        case submitTypeText = "submit_type_text"
+        case expiryTime = "expiry_time"
+        case multipleSelectNum = "multiple_select_no"
+        case multipleSelectState = "multiple_select_state"
+        case polls
+        case toShowResults = "to_show_results"
+        case pollAnswerText = "poll_answer_text"
+        case replyChatroomId = "reply_chatroom_id"
+        case deviceId = "device_id"
+        case hasFiles = "has_files"
+        case hasReactions = "has_reactions"
+        case lastUpdated = "last_updated"
+        case deletedByMember = "deleted_by_member"
+        case replyConversation = "reply_conversation_model"
+    }
+    
+    required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        id = try container.decodeIfPresent(String.self, forKey: .id)
+        chatroomId = try container.decodeIfPresent(String.self, forKey: .chatroomId)
+        communityId = try container.decodeIfPresent(String.self, forKey: .communityId)
+        member = try container.decodeIfPresent(Member.self, forKey: .member)
+        answer = try container.decode(String.self, forKey: .answer)
+        createdAt = try container.decodeIfPresent(String.self, forKey: .createdAt)
+        state = try container.decode(Int.self, forKey: .state)
+        attachments = try container.decodeIfPresent([Attachment].self, forKey: .attachments)
+        lastSeen = try container.decodeIfPresent(Bool.self, forKey: .lastSeen)
+        ogTags = try container.decodeIfPresent(LinkOGTags.self, forKey: .ogTags)
+        date = try container.decodeIfPresent(String.self, forKey: .date)
+        isEdited = try container.decodeIfPresent(Bool.self, forKey: .isEdited)
+        memberId = try container.decodeIfPresent(String.self, forKey: .memberId)
+        replyConversationId = try container.decodeIfPresent(String.self, forKey: .replyConversationId)
+        deletedBy = try container.decodeIfPresent(String.self, forKey: .deletedBy)
+        createdEpoch = try container.decodeIfPresent(Int.self, forKey: .createdEpoch)
+        attachmentCount = try container.decodeIfPresent(Int.self, forKey: .attachmentCount)
+        attachmentUploaded = try container.decodeIfPresent(Bool.self, forKey: .attachmentUploaded)
+        uploadWorkerUUID = try container.decodeIfPresent(String.self, forKey: .uploadWorkerUUID)
+        temporaryId = try container.decodeIfPresent(String.self, forKey: .temporaryId)
+        localCreatedEpoch = try container.decodeIfPresent(Int.self, forKey: .localCreatedEpoch)
+        reactions = try container.decodeIfPresent([Reaction].self, forKey: .reactions)
+        isAnonymous = try container.decodeIfPresent(Bool.self, forKey: .isAnonymous)
+        allowAddOption = try container.decodeIfPresent(Bool.self, forKey: .allowAddOption)
+        pollType = try container.decodeIfPresent(Int.self, forKey: .pollType)
+        pollTypeText = try container.decodeIfPresent(String.self, forKey: .pollTypeText)
+        submitTypeText = try container.decodeIfPresent(String.self, forKey: .submitTypeText)
+        expiryTime = try container.decodeIfPresent(Int.self, forKey: .expiryTime)
+        multipleSelectNum = try container.decodeIfPresent(Int.self, forKey: .multipleSelectNum)
+        multipleSelectState = try container.decodeIfPresent(Int.self, forKey: .multipleSelectState)
+        polls = try container.decodeIfPresent([Poll].self, forKey: .polls)
+        toShowResults = try container.decodeIfPresent(Bool.self, forKey: .toShowResults)
+        pollAnswerText = try container.decodeIfPresent(String.self, forKey: .pollAnswerText)
+        replyChatroomId = try container.decodeIfPresent(String.self, forKey: .replyChatroomId)
+        deviceId = try container.decodeIfPresent(String.self, forKey: .deviceId)
+        hasFiles = try container.decodeIfPresent(Bool.self, forKey: .hasFiles)
+        hasReactions = try container.decodeIfPresent(Bool.self, forKey: .hasReactions)
+        lastUpdated = try container.decodeIfPresent(Int.self, forKey: .lastUpdated)
+        deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
+        replyConversation = try container.decodeIfPresent(Conversation.self, forKey: .replyConversation)
+    }
     
     private init(
         id: String?,
@@ -67,19 +155,19 @@ class Conversation {
         replyConversationId: String?,
         replyConversation: Conversation?,
         deletedBy: String?,
-        createdEpoch: Int64?,
+        createdEpoch: Int?,
         attachmentCount: Int?,
         attachmentUploaded: Bool?,
         uploadWorkerUUID: String?,
         temporaryId: String?,
-        localCreatedEpoch: Int64?,
+        localCreatedEpoch: Int?,
         reactions: [Reaction]?,
         isAnonymous: Bool?,
         allowAddOption: Bool?,
         pollType: Int?,
         pollTypeText: String?,
         submitTypeText: String?,
-        expiryTime: Int64?,
+        expiryTime: Int?,
         multipleSelectNum: Int?,
         multipleSelectState: Int?,
         polls: [Poll]?,
@@ -89,7 +177,7 @@ class Conversation {
         deviceId: String?,
         hasFiles: Bool?,
         hasReactions: Bool?,
-        lastUpdated: Int64?,
+        lastUpdated: Int?,
         deletedByMember: Member?
     ) {
         self.id = id
@@ -151,19 +239,19 @@ class Conversation {
         private var replyConversation: Conversation? = nil
         private var replyConversationId: String? = nil
         private var deletedBy: String? = nil
-        private var createdEpoch: Int64? = nil
+        private var createdEpoch: Int? = nil
         private var attachmentCount: Int? = nil
         private var attachmentUploaded: Bool? = nil
         private var uploadWorkerUUID: String? = nil
         private var temporaryId: String? = nil
-        private var localCreatedEpoch: Int64? = nil
+        private var localCreatedEpoch: Int? = nil
         private var reactions: [Reaction]? = nil
         private var isAnonymous: Bool? = nil
         private var allowAddOption: Bool? = nil
         private var pollType: Int? = nil
         private var pollTypeText: String? = nil
         private var submitTypeText: String? = nil
-        private var expiryTime: Int64? = nil
+        private var expiryTime: Int? = nil
         private var multipleSelectNum: Int? = nil
         private var multipleSelectState: Int? = nil
         private var polls: [Poll]? = nil
@@ -173,7 +261,7 @@ class Conversation {
         private var deviceId: String? = nil
         private var hasFiles: Bool? = false
         private var hasReactions: Bool? = false
-        private var lastUpdated: Int64? = nil
+        private var lastUpdated: Int? = nil
         private var deletedByMember: Member? = nil
         
         func id(_ id: String?) -> Builder {
@@ -256,7 +344,7 @@ class Conversation {
             return self
         }
         
-        func createdEpoch(_ createdEpoch: Int64?) -> Builder {
+        func createdEpoch(_ createdEpoch: Int?) -> Builder {
             self.createdEpoch = createdEpoch
             return self
         }
@@ -281,7 +369,7 @@ class Conversation {
             return self
         }
         
-        func localCreatedEpoch(_ localCreatedEpoch: Int64?) -> Builder {
+        func localCreatedEpoch(_ localCreatedEpoch: Int?) -> Builder {
             self.localCreatedEpoch = localCreatedEpoch
             return self
         }
@@ -316,7 +404,7 @@ class Conversation {
             return self
         }
         
-        func expiryTime(_ expiryTime: Int64?) -> Builder {
+        func expiryTime(_ expiryTime: Int?) -> Builder {
             self.expiryTime = expiryTime
             return self
         }
@@ -366,7 +454,7 @@ class Conversation {
             return self
         }
         
-        func lastUpdated(_ lastUpdated: Int64?) -> Builder {
+        func lastUpdated(_ lastUpdated: Int?) -> Builder {
             self.lastUpdated = lastUpdated
             return self
         }

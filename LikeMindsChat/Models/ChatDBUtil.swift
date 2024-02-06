@@ -226,10 +226,10 @@ class ChatDBUtil {
         realm: Realm,
         conversation: _Conversation_
     ) -> MemberRO? {
+        guard let communityId = conversation.communityId, let uuid = conversation.member?.sdkClientInfo?.uuid ?? conversation.memberId else { return nil }
         return getMember(
             realm: realm,
-            communityId: conversation.communityId, uuid:
-            conversation.member?.sdkClientInfo?.uuid ?? conversation.memberId
+            communityId: communityId, uuid:uuid
         )
     }
     
@@ -247,7 +247,8 @@ class ChatDBUtil {
         communityId: String?,
         uuid: String?
     ) -> MemberRO? {
-        let uid = "$uuid#${communityId}"
+        guard let communityId, let uuid else { return nil }
+        let uid = "$\(uuid)#\(communityId)"
         let member = getMemberByUid(realm: realm, uid: uid)
         return member
     }
