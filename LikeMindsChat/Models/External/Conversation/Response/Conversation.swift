@@ -8,48 +8,48 @@
 
 import Foundation
 
-class Conversation: Decodable {
+public class Conversation: Decodable {
     
-    let id: String?
-    let chatroomId: String?
-    let communityId: String?
-    let member: Member?
-    let answer: String
-    let createdAt: String?
-    let state: Int
-    let attachments: [Attachment]?
-    let lastSeen: Bool?
-    let ogTags: LinkOGTags?
-    let date: String?
-    let isEdited: Bool?
-    let memberId: String?
-    let replyConversationId: String?
-    let deletedBy: String?
-    let createdEpoch: Int?
-    let attachmentCount: Int?
-    let attachmentUploaded: Bool?
-    let uploadWorkerUUID: String?
-    let temporaryId: String?
-    let localCreatedEpoch: Int?
-    let reactions: [Reaction]?
-    let isAnonymous: Bool?
-    let allowAddOption: Bool?
-    let pollType: Int?
-    let pollTypeText: String?
-    let submitTypeText: String?
-    let expiryTime: Int?
-    let multipleSelectNum: Int?
-    let multipleSelectState: Int?
-    let polls: [Poll]?
-    let toShowResults: Bool?
-    let pollAnswerText: String?
-    let replyChatroomId: String?
-    let deviceId: String?
-    let hasFiles: Bool?
-    let hasReactions: Bool?
-    let lastUpdated: Int?
-    let deletedByMember: Member?
-    let replyConversation: Conversation?
+    public private(set) var id: String?
+    public private(set) var chatroomId: String?
+    public private(set) var communityId: String?
+    public private(set) var member: Member?
+    public private(set) var answer: String
+    public private(set) var createdAt: String?
+    public private(set) var state: Int
+    public private(set) var attachments: [Attachment]?
+    public private(set) var lastSeen: Bool?
+    public private(set) var ogTags: LinkOGTags?
+    public private(set) var date: String?
+    public private(set) var isEdited: Bool?
+    public private(set) var memberId: String?
+    public private(set) var replyConversationId: String?
+    public private(set) var deletedBy: String?
+    public private(set) var createdEpoch: Int?
+    public private(set) var attachmentCount: Int?
+    public private(set) var attachmentUploaded: Bool?
+    public private(set) var uploadWorkerUUID: String?
+    public private(set) var temporaryId: String?
+    public private(set) var localCreatedEpoch: Int?
+    public private(set) var reactions: [Reaction]?
+    public private(set) var isAnonymous: Bool?
+    public private(set) var allowAddOption: Bool?
+    public private(set) var pollType: Int?
+    public private(set) var pollTypeText: String?
+    public private(set) var submitTypeText: String?
+    public private(set) var expiryTime: Int?
+    public private(set) var multipleSelectNum: Int?
+    public private(set) var multipleSelectState: Int?
+    public private(set) var polls: [Poll]?
+    public private(set) var toShowResults: Bool?
+    public private(set) var pollAnswerText: String?
+    public private(set) var replyChatroomId: String?
+    public private(set) var deviceId: String?
+    public private(set) var hasFiles: Bool?
+    public private(set) var hasReactions: Bool?
+    public private(set) var lastUpdated: Int?
+    public private(set) var deletedByMember: Member?
+    public private(set) var replyConversation: Conversation?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -94,7 +94,7 @@ class Conversation: Decodable {
         case replyConversation = "reply_conversation_model"
     }
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decodeIfPresent(String.self, forKey: .id)
         chatroomId = try container.decodeIfPresent(String.self, forKey: .chatroomId)

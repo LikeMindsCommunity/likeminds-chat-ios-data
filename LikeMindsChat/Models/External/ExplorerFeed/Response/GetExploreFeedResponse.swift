@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct GetExploreFeedResponse {
+public struct GetExploreFeedResponse: Decodable {
      var chatrooms: [Chatroom]
      var pinnedChatroomCount: Int
 }

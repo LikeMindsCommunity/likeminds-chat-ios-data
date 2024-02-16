@@ -59,8 +59,12 @@ class ChatDBUtil {
     ) -> Results<ChatroomRO> {
         return realm.objects(ChatroomRO.self)
             .where { query in
-                query.communityId == communityId
-            }
+                query.communityId == communityId &&
+                query.deletedBy == nil &&
+                query.state != ChatroomType.directMessage.rawValue &&
+                query.state != ChatroomType.event.rawValue &&
+                query.state != ChatroomType.publicEvent.rawValue
+            }.sorted(byKeyPath: DbKey.UPDATED_AT, ascending: false)
     }
     
     /**

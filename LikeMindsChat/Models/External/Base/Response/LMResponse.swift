@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+/*
 public struct LMResponse<T> {
     public let success: Bool
     public let errorMessage: String?
@@ -24,3 +24,5 @@ public struct LMResponse<T> {
 }
 
 public struct NoData {}
+
+*/

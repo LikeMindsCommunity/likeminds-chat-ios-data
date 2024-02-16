@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemberAction: Decodable {
-    var title: String?
-    var route: String?
+public struct MemberAction: Decodable {
+    public var title: String?
+    public var route: String?
 }

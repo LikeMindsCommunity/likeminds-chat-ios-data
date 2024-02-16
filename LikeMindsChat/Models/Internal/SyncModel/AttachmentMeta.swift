@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct AttachmentMeta: Codable {
-    let numberOfPage: Int?
-    let size: Int64?
-    let duration: Int?
+public struct AttachmentMeta: Codable {
+    public let numberOfPage: Int?
+    public let size: Int64?
+    public let duration: Int?
     
     private enum CodingKeys: String, CodingKey {
         case numberOfPage = "number_of_page"
@@ -18,7 +18,7 @@ struct AttachmentMeta: Codable {
         case duration
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         numberOfPage = try container.decodeIfPresent(Int.self, forKey: .numberOfPage)
         size = try container.decodeIfPresent(Int64.self, forKey: .size)

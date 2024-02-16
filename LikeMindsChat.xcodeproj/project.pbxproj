@@ -75,6 +75,7 @@
 		F457D7A72B4B18FA00BCECDF /* SyncUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7A62B4B18FA00BCECDF /* SyncUtil.swift */; };
 		F457D7A92B4C2F8700BCECDF /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7A82B4C2F8700BCECDF /* RealmManager.swift */; };
 		F457D7AB2B4C845400BCECDF /* ROConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7AA2B4C845400BCECDF /* ROConverter.swift */; };
+		F49682812B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49682802B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift */; };
 		F4A859CF2A6A7B2000F494AC /* ConversationSyncRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859CE2A6A7B2000F494AC /* ConversationSyncRequest.swift */; };
 		F4A859D12A6A7B9E00F494AC /* GetConversationMetaRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859D02A6A7B9E00F494AC /* GetConversationMetaRequest.swift */; };
 		F4A859D32A6A7C9200F494AC /* PostConversationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859D22A6A7C9200F494AC /* PostConversationRequest.swift */; };
@@ -162,6 +163,7 @@
 		F4F864082B70B5D600F28048 /* UserRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F864072B70B5D600F28048 /* UserRO.swift */; };
 		F4F8640A2B713C8E00F28048 /* RealmDatabaseObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */; };
 		F4F8640C2B716CD800F28048 /* ModelConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8640B2B716CD800F28048 /* ModelConverter.swift */; };
+		F4F8640E2B72086200F28048 /* ConversationDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8640D2B72086200F28048 /* ConversationDBService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -237,6 +239,7 @@
 		F457D7A62B4B18FA00BCECDF /* SyncUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncUtil.swift; sourceTree = "<group>"; };
 		F457D7A82B4C2F8700BCECDF /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		F457D7AA2B4C845400BCECDF /* ROConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROConverter.swift; sourceTree = "<group>"; };
+		F49682802B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedClientDelegate.swift; sourceTree = "<group>"; };
 		F4A859CE2A6A7B2000F494AC /* ConversationSyncRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationSyncRequest.swift; sourceTree = "<group>"; };
 		F4A859D02A6A7B9E00F494AC /* GetConversationMetaRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetConversationMetaRequest.swift; sourceTree = "<group>"; };
 		F4A859D22A6A7C9200F494AC /* PostConversationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostConversationRequest.swift; sourceTree = "<group>"; };
@@ -324,6 +327,7 @@
 		F4F864072B70B5D600F28048 /* UserRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRO.swift; sourceTree = "<group>"; };
 		F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDatabaseObserver.swift; sourceTree = "<group>"; };
 		F4F8640B2B716CD800F28048 /* ModelConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelConverter.swift; sourceTree = "<group>"; };
+		F4F8640D2B72086200F28048 /* ConversationDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDBService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -534,6 +538,7 @@
 				F420C0AC2A5E7DCC008C48DE /* GetHomeFeedRequest.swift */,
 				F420C0AE2A5E887B008C48DE /* GetHomeFeedResponse.swift */,
 				F4B6CB0F2B60EA0200824D94 /* HomeFeedClient.swift */,
+				F49682802B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift */,
 			);
 			path = HomeFeed;
 			sourceTree = "<group>";
@@ -625,6 +630,7 @@
 				F4BEB9AE2B4FC63700D12B62 /* Response */,
 				F4BEB9A82B4FB45600D12B62 /* Request */,
 				F4BEB9AC2B4FC49100D12B62 /* ConversationClient.swift */,
+				F4F8640D2B72086200F28048 /* ConversationDBService.swift */,
 			);
 			path = Conversation;
 			sourceTree = "<group>";
@@ -1001,6 +1007,7 @@
 				F412239B2B467B8900CB1532 /* ReopenChatroomSyncOperation.swift in Sources */,
 				F4BEBA1B2B546D9400D12B62 /* GetConversationsResponse.swift in Sources */,
 				F42C1EA02B32F94500720D5D /* Attachment.swift in Sources */,
+				F49682812B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift in Sources */,
 				F4BEB9BF2B544B0800D12B62 /* GetChatroomResponse.swift in Sources */,
 				F4BEB9C62B544CE000D12B62 /* FollowChatroomRequest.swift in Sources */,
 				F4BEBA272B546FB000D12B62 /* GetContentDownloadSettingsResponse.swift in Sources */,
@@ -1129,6 +1136,7 @@
 				F420C0A12A5C194C008C48DE /* RegisterDeviceRequest.swift in Sources */,
 				F4C8F69D2B5939AB0012A1CF /* SearchConversationRequest.swift in Sources */,
 				F420C09E2A5C194C008C48DE /* User.swift in Sources */,
+				F4F8640E2B72086200F28048 /* ConversationDBService.swift in Sources */,
 				F4BEB9EC2B5463B900D12B62 /* AddPollOptionResponse.swift in Sources */,
 				F4BEBA332B54714A00D12B62 /* ExplorerFeedClient.swift in Sources */,
 				F4BEB9E22B5460CD00D12B62 /* AddPollOptionRequest.swift in Sources */,

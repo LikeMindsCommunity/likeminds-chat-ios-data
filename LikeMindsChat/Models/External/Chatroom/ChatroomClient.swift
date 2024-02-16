@@ -10,7 +10,7 @@ import Foundation
 class ChatroomClient: ServiceRequest {
     
     let moduleName = "ChatroomClient"
-    
+    static let shared = ChatroomClient()
     /**
      * Converts client request model to internal model and calls the api
      * @param getChatroomRequest - client request model to fetch chatroom
@@ -48,7 +48,7 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return [GetChatroomActionsResponse] - GetChatroomActionsResponse model for [getChatroomActions]
      */
-    func getChatroomActions(request: GetChatroomActionsRequest, response: _LMClientResponse_<GetChatroomActionsResponse>?) {
+    func getChatroomActions(request: GetChatroomActionsRequest, response: LMClientResponse<GetChatroomActionsResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.getChatroomActions(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -58,10 +58,10 @@ class ChatroomClient: ServiceRequest {
                                               withEncoding: networkPath.encoding,
                                               withResponseType: GetChatroomActionsResponse.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<GetChatroomActionsResponse> else {return}
+            guard let data = responseData as? LMResponse<GetChatroomActionsResponse> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
@@ -71,19 +71,19 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    func followChatroom(request: FollowChatroomRequest, response: _LMClientResponse_<_NoData_>?) {
+    func followChatroom(request: FollowChatroomRequest, response: LMClientResponse<NoData>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.followChatroom(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
                                               headers: ServiceRequest.httpHeaders(),
                                               withEncoding: networkPath.encoding,
-                                              withResponseType: _NoData_.self,
+                                              withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<_NoData_> else {return}
+            guard let data = responseData as? LMResponse<NoData> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
@@ -93,7 +93,7 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    func leaveSecretChatroom(request: LeaveSecretChatroomRequest, response: _LMClientResponse_<_NoData_>?) {
+    func leaveSecretChatroom(request: LeaveSecretChatroomRequest, response: LMClientResponse<NoData>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.leaveSecretChatroom(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -101,12 +101,12 @@ class ChatroomClient: ServiceRequest {
                                               headers: ServiceRequest.httpHeaders(),
                                               withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
-                                              withResponseType: _NoData_.self,
+                                              withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<_NoData_> else {return}
+            guard let data = responseData as? LMResponse<NoData> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
@@ -116,7 +116,7 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    func muteChatroom(request: MuteChatroomRequest, response: _LMClientResponse_<_NoData_>?) {
+    func muteChatroom(request: MuteChatroomRequest, response: LMClientResponse<NoData>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.muteChatroom(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -124,12 +124,12 @@ class ChatroomClient: ServiceRequest {
                                               headers: ServiceRequest.httpHeaders(),
                                               withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
-                                              withResponseType: _NoData_.self,
+                                              withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<_NoData_> else {return}
+            guard let data = responseData as? LMResponse<NoData> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
@@ -139,7 +139,7 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    func markReadChatroom(request: MarkReadChatroomRequest, response: _LMClientResponse_<_NoData_>?) {
+    func markReadChatroom(request: MarkReadChatroomRequest, response: LMClientResponse<NoData>?) {
         
         let networkPath = ServiceAPIRequest.NetworkPath.markReadChatroom(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
@@ -148,12 +148,12 @@ class ChatroomClient: ServiceRequest {
                                               headers: ServiceRequest.httpHeaders(),
                                               withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
-                                              withResponseType: _NoData_.self,
+                                              withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<_NoData_> else {return}
+            guard let data = responseData as? LMResponse<NoData> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
@@ -163,7 +163,7 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    func setChatroomTopic(request: SetChatroomTopicRequest, response: _LMClientResponse_<_NoData_>?) {
+    func setChatroomTopic(request: SetChatroomTopicRequest, response: LMClientResponse<NoData>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.setChatroomTopic(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -171,12 +171,12 @@ class ChatroomClient: ServiceRequest {
                                               headers: ServiceRequest.httpHeaders(),
                                               withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
-                                              withResponseType: _NoData_.self,
+                                              withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<_NoData_> else {return}
+            guard let data = responseData as? LMResponse<NoData> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
@@ -186,7 +186,7 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return GetParticipantsResponse - GetParticipantsResponse model for getParticipantsRequest
      */
-    func getParticipants(request: GetParticipantsRequest, response: _LMClientResponse_<GetParticipantsResponse>?) {
+    func getParticipants(request: GetParticipantsRequest, response: LMClientResponse<GetParticipantsResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.getParticipants(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -195,10 +195,10 @@ class ChatroomClient: ServiceRequest {
                                               withEncoding: networkPath.encoding,
                                               withResponseType: GetParticipantsResponse.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<GetParticipantsResponse> else {return}
+            guard let data = responseData as? LMResponse<GetParticipantsResponse> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
@@ -217,23 +217,24 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<Nothing> - Base LM response
      */
-    func editChatroomTitle(request: EditChatroomTitleRequest, response: _LMClientResponse_<_NoData_>?) {
+    func editChatroomTitle(request: EditChatroomTitleRequest, response: LMClientResponse<NoData>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.editChatroomTitle(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
                                               headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
-                                              withResponseType: _NoData_.self,
+                                              withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<_NoData_> else {return}
+            guard let data = responseData as? LMResponse<NoData> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
-    static func syncChatrooms(request: ChatroomSyncRequest, moduleName: String, _ response: _LMClientResponse_<_SyncChatroomResponse_>?) {
+    static func syncChatrooms(request: ChatroomSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncChatroomResponse_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.syncChatrooms(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -242,10 +243,10 @@ class ChatroomClient: ServiceRequest {
                                               withEncoding: networkPath.encoding,
                                               withResponseType: _SyncChatroomResponse_.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? _LMResponse_<_SyncChatroomResponse_> else {return}
+            guard let data = responseData as? LMResponse<_SyncChatroomResponse_> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     

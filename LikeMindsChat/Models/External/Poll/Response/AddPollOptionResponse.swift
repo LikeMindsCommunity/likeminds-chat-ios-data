@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct AddPollOptionResponse {
+struct AddPollOptionResponse: Decodable {
     var poll: Poll
 }

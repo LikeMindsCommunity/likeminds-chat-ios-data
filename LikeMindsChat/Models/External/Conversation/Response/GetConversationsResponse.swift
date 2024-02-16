@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GetConversationsResponse {
+struct GetConversationsResponse: Decodable {
     var conversations: [Conversation]?
     var count: Int = 0
 }

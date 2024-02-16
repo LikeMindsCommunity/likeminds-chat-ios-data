@@ -76,7 +76,7 @@ final public class TokenManager {
         ]
     }
     
-    private func refreshAccessToken(refreshToken: String, withModuleName moduleName: String, _ response: _LMClientResponse_<InitiateUserResponse>?) {
+    private func refreshAccessToken(refreshToken: String, withModuleName moduleName: String, _ response: LMClientResponse<InitiateUserResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.refreshServiceToken(rtm: "")
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -87,13 +87,13 @@ final public class TokenManager {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(_LMResponse_<InitiateUserResponse>.self, from: data)
+                let result = try JSONDecoder().decode(LMResponse<InitiateUserResponse>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(_LMResponse_.failureResponse(error.localizedDescription))
+                response?(LMResponse.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     

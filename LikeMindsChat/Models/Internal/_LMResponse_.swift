@@ -7,9 +7,9 @@
 
 import Foundation
 
-public typealias _LMClientResponse_<T:Decodable> = (_LMResponse_<T>) -> (Void)
+public typealias LMClientResponse<T:Decodable> = (LMResponse<T>) -> (Void)
 
-public struct _LMResponse_<T: Decodable>: Decodable {
+public struct LMResponse<T: Decodable>: Decodable {
     public let success: Bool
     public let errorMessage: String?
     public let data: T?
@@ -31,9 +31,9 @@ public struct _LMResponse_<T: Decodable>: Decodable {
         data = try values.decodeIfPresent(T.self, forKey: .data)
     }
     
-    static func failureResponse(_ errorMessage: String) -> _LMResponse_ {
-        return _LMResponse_(false, errorMessage: errorMessage)
+    static func failureResponse(_ errorMessage: String) -> LMResponse {
+        return LMResponse(false, errorMessage: errorMessage)
     }
 }
 
-public struct _NoData_: Decodable {}
+public struct NoData: Decodable {}

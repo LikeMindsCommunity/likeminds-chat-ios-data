@@ -8,22 +8,22 @@
 
 import Foundation
 
-struct Attachment: Decodable {
-    let id: String?
-    let name: String?
-    let url: String?
-    let type: String?
-    let index: Int?
-    let width: Int?
-    let height: Int?
-    let awsFolderPath: String?
-    let localFilePath: String?
-    let thumbnailUrl: String?
-    let thumbnailAWSFolderPath: String?
-    let thumbnailLocalFilePath: String?
-    let meta: AttachmentMeta?
-    let createdAt: Int?
-    let updatedAt: Int?
+public struct Attachment: Decodable {
+    public let id: String?
+    public let name: String?
+    public let url: String?
+    public let type: String?
+    public let index: Int?
+    public let width: Int?
+    public let height: Int?
+    public let awsFolderPath: String?
+    public let localFilePath: String?
+    public let thumbnailUrl: String?
+    public let thumbnailAWSFolderPath: String?
+    public let thumbnailLocalFilePath: String?
+    public let meta: AttachmentMeta?
+    public let createdAt: Int?
+    public let updatedAt: Int?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -43,7 +43,7 @@ struct Attachment: Decodable {
         case updatedAt = "updated_at"
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decodeIntToStringIfPresent(forKey: .id)
         name = try container.decodeIfPresent(String.self, forKey: .name)

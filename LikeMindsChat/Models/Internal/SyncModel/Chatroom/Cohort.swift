@@ -7,11 +7,11 @@
 
 import Foundation
 
-struct Cohort: Decodable {
-    let id: Int?
-    let totalMembers: Int?
-    let name: String?
-    let members: [Member]?
+public struct Cohort: Decodable {
+    public let id: Int?
+    public let totalMembers: Int?
+    public let name: String?
+    public let members: [Member]?
     
     private enum CodingKeys: String, CodingKey {
         case id = "cohort_id"
@@ -22,7 +22,7 @@ struct Cohort: Decodable {
 }
 
 extension Cohort {
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decodeIfPresent(Int.self, forKey: .id)

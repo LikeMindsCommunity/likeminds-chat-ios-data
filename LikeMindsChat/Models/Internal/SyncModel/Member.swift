@@ -8,31 +8,31 @@
 import Foundation
 
 
-struct Member: Decodable {
+public struct Member: Decodable {
     
-    var id: String?
-    var userUniqueId: String?
-    var name: String?
-    var imageUrl: String?
-    var questionAnswers: [Question]?
-    var state: Int?
-    var isGuest: Bool = false
-    var customIntroText: String?
-    var customClickText: String?
-    var memberSince: String?
-    var communityName: String?
-    var isOwner: Bool = false
-    var isDeleted: Bool?
-    var customTitle: String?
-    var menu: [MemberAction]?
-    var communityId: String?
-    var chatroomId: String?
-    var route: String?
-    var attendingStatus: Bool?
-    var hasProfileImage: Bool?
-    var updatedAt: Int?
-    var sdkClientInfo: SDKClientInfo?
-    var uuid: String?
+    public private(set) var id: String?
+    public private(set) var userUniqueId: String?
+    public private(set) var name: String?
+    public private(set) var imageUrl: String?
+    public private(set) var questionAnswers: [Question]?
+    public private(set) var state: Int?
+    public private(set) var isGuest: Bool = false
+    public private(set) var customIntroText: String?
+    public private(set) var customClickText: String?
+    public private(set) var memberSince: String?
+    public private(set) var communityName: String?
+    public private(set) var isOwner: Bool = false
+    public private(set) var isDeleted: Bool?
+    public private(set) var customTitle: String?
+    public private(set) var menu: [MemberAction]?
+    public private(set) var communityId: String?
+    public private(set) var chatroomId: String?
+    public private(set) var route: String?
+    public private(set) var attendingStatus: Bool?
+    public private(set) var hasProfileImage: Bool?
+    public private(set) var updatedAt: Int?
+    public private(set) var sdkClientInfo: SDKClientInfo?
+    public private(set) var uuid: String?
     
     enum CodingKeys: String, CodingKey {
         case id, name
@@ -59,7 +59,7 @@ struct Member: Decodable {
     
     init(){}
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         // Decode your properties using the container

@@ -36,7 +36,7 @@ class ChatroomRO: Object {
     @Persisted var lastSeenConversation: ConversationRO? //last seen conversation
     @Persisted var dateEpoch: Int?
     @Persisted var unseenCount: Int = 0
-    @Persisted  var relationshipNeeded: Bool = true
+    @Persisted var relationshipNeeded: Bool = true
     @Persisted var draftConversation: String?
     @Persisted var isSecret: Bool?
     @Persisted var secretChatRoomParticipants: List<Int> = List()

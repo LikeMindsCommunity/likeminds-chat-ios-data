@@ -7,15 +7,15 @@
 
 import Foundation
 
-class Poll: Codable {
-    let id: String?
-    let text: String?
-    let isSelected: Bool?
-    let percentage: Int?
-    let subText: String?
-    let noVotes: Int?
-//    let member: Member?
-    let userId: String?
+public class Poll: Codable {
+    public let id: String?
+    public let text: String?
+    public let isSelected: Bool?
+    public let percentage: Int?
+    public let subText: String?
+    public let noVotes: Int?
+//    public let member: Member?
+    public let userId: String?
     
     private init(id: String?, text: String?, isSelected: Bool?, percentage: Int?, subText: String?, noVotes: Int?, member: Member?, userId: String?) {
         self.id = id
@@ -28,7 +28,7 @@ class Poll: Codable {
         self.userId = userId
     }
     
-    required init(from decoder: Decoder) throws {
+    public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decodeIntToStringIfPresent(forKey: .id)

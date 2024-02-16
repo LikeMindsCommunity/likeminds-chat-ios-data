@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetConversationRequest {
+class GetConversationRequest: Encodable {
     private let conversationId: String
     
     private init(conversationId: String) {

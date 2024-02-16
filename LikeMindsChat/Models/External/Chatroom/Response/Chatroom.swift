@@ -8,67 +8,68 @@
 
 import Foundation
 
-class Chatroom {
-    private var member: Member?
-    private var id: String = ""
-    private var title: String = ""
-    private var createdAt: Int?
-    private var answerText: String?
-    private var state: Int = 0
-    private var unseenCount: Int?
-    private var shareUrl: String?
-    private var communityId: String?
-    private var communityName: String?
-    private var type: Int?
-    private var about: String?
-    private var header: String?
-    private var showFollowTelescope: Bool?
-    private var showFollowAutoTag: Bool?
-    private var cardCreationTime: String?
-    private var participantsCount: String?
-    private var totalResponseCount: Int = 0
-    private var muteStatus: Bool?
-    private var followStatus: Bool?
-    private var hasBeenNamed: Bool?
-    private var hasReactions: Bool?
-    private var date: String?
-    private var isTagged: Bool?
-    private var isPending: Bool?
-    private var isPinned: Bool?
-    private var isDeleted: Bool?
-    private var userId: String?
-    private var deletedBy: String?
-    private var deletedByMember: Member?
-    private var updatedAt: Int?
-    private var lastSeenConversationId: String?
-    private var lastConversationId: String?
-    private var dateEpoch: Int?
-    private var isSecret: Bool?
-    private var secretChatroomParticipants: [Int]?
-    private var secretChatroomLeft: Bool?
-    private var reactions: [Reaction]?
-    private var topicId: String?
-    private var topic: Conversation?
-    private var autoFollowDone: Bool?
-    private var isEdited: Bool?
-    private var access: Int?
-    private var memberCanMessage: Bool?
-    private var cohorts: [Cohort]?
-    private var externalSeen: Bool?
-    private var unreadConversationCount: Int?
-    private var chatroomImageUrl: String?
-    private var accessWithoutSubscription: Bool?
-    private var lastConversation: Conversation?
-    private var lastSeenConversation: Conversation?
-    private var draftConversation: String?
-    private var isConversationStored: Bool = false
-    private var isDraft: Bool?
-    private var totalAllResponseCount: Int?
+public class Chatroom: Decodable {
     
-    private init() {}
+    public private(set) var member: Member?
+    public private(set) var id: String = ""
+    public private(set) var title: String = ""
+    public private(set) var createdAt: Int?
+    public private(set) var answerText: String?
+    public private(set) var state: Int = 0
+    public private(set) var unseenCount: Int?
+    public private(set) var shareUrl: String?
+    public private(set) var communityId: String?
+    public private(set) var communityName: String?
+    public private(set) var type: Int?
+    public private(set) var about: String?
+    public private(set) var header: String?
+    public private(set) var showFollowTelescope: Bool?
+    public private(set) var showFollowAutoTag: Bool?
+    public private(set) var cardCreationTime: String?
+    public private(set) var participantsCount: String?
+    public private(set) var totalResponseCount: Int = 0
+    public private(set) var muteStatus: Bool?
+    public private(set) var followStatus: Bool?
+    public private(set) var hasBeenNamed: Bool?
+    public private(set) var hasReactions: Bool?
+    public private(set) var date: String?
+    public private(set) var isTagged: Bool?
+    public private(set) var isPending: Bool?
+    public private(set) var isPinned: Bool?
+    public private(set) var isDeleted: Bool?
+    public private(set) var userId: String?
+    public private(set) var deletedBy: String?
+    public private(set) var deletedByMember: Member?
+    public private(set) var updatedAt: Int?
+    public private(set) var lastSeenConversationId: String?
+    public private(set) var lastConversationId: String?
+    public private(set) var dateEpoch: Int?
+    public private(set) var isSecret: Bool?
+    public private(set) var secretChatroomParticipants: [Int]?
+    public private(set) var secretChatroomLeft: Bool?
+    public private(set) var reactions: [Reaction]?
+    public private(set) var topicId: String?
+    public private(set) var topic: Conversation?
+    public private(set) var autoFollowDone: Bool?
+    public private(set) var isEdited: Bool?
+    public private(set) var access: Int?
+    public private(set) var memberCanMessage: Bool?
+    public private(set) var cohorts: [Cohort]?
+    public private(set) var externalSeen: Bool?
+    public private(set) var unreadConversationCount: Int?
+    public private(set) var chatroomImageUrl: String?
+    public private(set) var accessWithoutSubscription: Bool?
+    public private(set) var lastConversation: Conversation?
+    public private(set) var lastSeenConversation: Conversation?
+    public private(set) var draftConversation: String?
+    public private(set) var isConversationStored: Bool = false
+    public private(set) var isDraft: Bool?
+    public private(set) var totalAllResponseCount: Int?
+    
+    public init() {}
     
     class Builder {
-        private var chatroom: Chatroom
+        public private(set) var chatroom: Chatroom
         
         init() {
             chatroom = Chatroom()

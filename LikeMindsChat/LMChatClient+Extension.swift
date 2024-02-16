@@ -8,35 +8,36 @@
 import Foundation
 import UIKit
 
-public typealias LMClientResponse<T> = (LMResponse<T>) -> (Void)
+//public typealias LMClientResponse<T> = (LMResponse<T>) -> (Void)
 
 extension LMChatClient {
     
     func initialize() {
+        
     }
 
-    public func initiateUser(request: InitiateUserRequest, response: _LMClientResponse_<InitiateUserResponse>?) {
+    public func initiateUser(request: InitiateUserRequest, response: LMClientResponse<InitiateUserResponse>?) {
         InitiateUserClient.initiateChatService(request, withModuleName: moduleName) { result in
             if result.success {
-                self.syncChatrooms()
+//                self.syncChatrooms()
             }
             response?(result)
         }
     }
 
-    public func registerDevice(request: RegisterDeviceRequest, response: _LMClientResponse_<RegisterDeviceResponse>?) {
+    public func registerDevice(request: RegisterDeviceRequest, response: LMClientResponse<RegisterDeviceResponse>?) {
         InitiateUserClient.registerDevice(request: request, withModuleName: moduleName) { result in
             response?(result)
         }
     }
     
-    public func logout(request: LogoutRequest, response: _LMClientResponse_<_NoData_>?) {
+    public func logout(request: LogoutRequest, response: LMClientResponse<NoData>?) {
         InitiateUserClient.logout(request: request, withModuleName: moduleName) { result in
             response?(result)
         }
     }
     
-    public func getConfig(response: _LMClientResponse_<ConfigResponse>?) {
+    public func getConfig(response: LMClientResponse<ConfigResponse>?) {
         InitiateUserClient.getConfig(withModuleName: moduleName) { result in
             response?(result)
         }
@@ -47,7 +48,7 @@ extension LMChatClient {
     }
     
     public func getExploreTabCount(response: LMClientResponse<GetExploreTabCountResponse>?) {
-        HomeFeedClient.getExploreTabCount(withModuleName: moduleName) { response in
+        HomeFeedClient.shared.getExploreTabCount(withModuleName: moduleName) { response in
             
         }
     }
@@ -56,14 +57,12 @@ extension LMChatClient {
         
     }
     
-    func syncChatrooms() {
-        SyncOperationUtil.startFirstHomeFeedSync { respone in
-            print(respone)
-        }
+    public func syncChatrooms() {
+        HomeFeedClient.shared.syncChatrooms()
     }
     
-    func getChatrooms() {
-        
+    func getChatrooms(withObserver observer: HomeFeedClientObserver) {
+        HomeFeedClient.shared.getChatrooms(withObserver: observer)
     }
     
     func getUser() {
@@ -218,8 +217,10 @@ extension LMChatClient {
         
     }
     
-    func getContentDownloadSettings() {
-        
+    func getContentDownloadSettings(_ response: LMClientResponse<GetContentDownloadSettingsResponse>?) {
+        CommunityClient.shared.getContentDownloadSettings() { result in
+            response?(result)
+        }
     }
     
 }

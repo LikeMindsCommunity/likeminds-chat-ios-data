@@ -8,6 +8,8 @@
 
 import Foundation
 
+
+
 struct _Chatroom_: Decodable {
     
     let member: Member?

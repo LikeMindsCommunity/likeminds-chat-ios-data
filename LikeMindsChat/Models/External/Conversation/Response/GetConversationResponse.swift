@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct GetConversationResponse {
+struct GetConversationResponse: Decodable {
     var conversation: Conversation?
 }

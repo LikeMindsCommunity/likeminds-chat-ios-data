@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct GetChatroomResponse {
+struct GetChatroomResponse: Decodable {
     var chatroom: Chatroom?
 }

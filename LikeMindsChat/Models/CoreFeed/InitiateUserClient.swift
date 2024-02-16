@@ -9,7 +9,7 @@ import Foundation
 
 class InitiateUserClient: ServiceRequest {
 
-    static func initiateChatService(_ request: InitiateUserRequest, withModuleName moduleName: String, _ response: _LMClientResponse_<InitiateUserResponse>?) {
+    static func initiateChatService(_ request: InitiateUserRequest, withModuleName moduleName: String, _ response: LMClientResponse<InitiateUserResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.initiateChatClient(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -20,7 +20,7 @@ class InitiateUserClient: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(_LMResponse_<InitiateUserResponse>.self, from: data)
+                let result = try JSONDecoder().decode(LMResponse<InitiateUserResponse>.self, from: data)
                 TokenManager.shared.updateToken(result.data?.accessToken, result.data?.refreshToken)
                 if !(result.data?.appAccess ?? false){
                     let logoutRequest = LogoutRequest.builder()
@@ -44,14 +44,14 @@ class InitiateUserClient: ServiceRequest {
                 }
                 response?(result)
             } catch let error {
-                response?(_LMResponse_.failureResponse(error.localizedDescription))
+                response?(LMResponse.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
-    static func registerDevice(request: RegisterDeviceRequest, withModuleName moduleName: String, _ response: _LMClientResponse_<RegisterDeviceResponse>?) {
+    static func registerDevice(request: RegisterDeviceRequest, withModuleName moduleName: String, _ response: LMClientResponse<RegisterDeviceResponse>?) {
         
         let networkPath = ServiceAPIRequest.NetworkPath.pushToken(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
@@ -63,17 +63,17 @@ class InitiateUserClient: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(_LMResponse_<RegisterDeviceResponse>.self, from: data)
+                let result = try JSONDecoder().decode(LMResponse<RegisterDeviceResponse>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(_LMResponse_.failureResponse(error.localizedDescription))
+                response?(LMResponse.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
-    static func logout(request: LogoutRequest, withModuleName moduleName: String, _ response: _LMClientResponse_<_NoData_>?) {
+    static func logout(request: LogoutRequest, withModuleName moduleName: String, _ response: LMClientResponse<NoData>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.logout(request)
         var headers = ServiceRequest.httpHeaders()
         headers["x-device-id"] = request.deviceId ?? ""
@@ -86,17 +86,17 @@ class InitiateUserClient: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(_LMResponse_<_NoData_>.self, from: data)
+                let result = try JSONDecoder().decode(LMResponse<NoData>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(_LMResponse_.failureResponse(error.localizedDescription))
+                response?(LMResponse.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     
-    static func getConfig(withModuleName moduleName: String, _ response: _LMClientResponse_<ConfigResponse>?) {
+    static func getConfig(withModuleName moduleName: String, _ response: LMClientResponse<ConfigResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.getConfig
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
@@ -107,13 +107,13 @@ class InitiateUserClient: ServiceRequest {
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {
-                let result = try JSONDecoder().decode(_LMResponse_<ConfigResponse>.self, from: data)
+                let result = try JSONDecoder().decode(LMResponse<ConfigResponse>.self, from: data)
                 response?(result)
             } catch let error {
-                response?(_LMResponse_.failureResponse(error.localizedDescription))
+                response?(LMResponse.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(_LMResponse_.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
     

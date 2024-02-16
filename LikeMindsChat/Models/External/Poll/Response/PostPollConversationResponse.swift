@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PostPollConversationResponse {
+struct PostPollConversationResponse: Decodable {
     var id: String
     var conversation: Conversation
 }

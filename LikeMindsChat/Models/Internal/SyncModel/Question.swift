@@ -7,24 +7,24 @@
 
 import Foundation
 
-struct Question: Decodable {
+public struct Question: Decodable {
     
-    let id: Int?
-    let questionTitle: String?
-    let state: Int?
-    let value: String?
-    let optional: Bool
-    let helpText: String?
-    let field: Bool?
-    let isCompulsory: Bool?
-    let isHidden: Bool?
-    let communityId: String?
-    let memberId: String?
-    let directoryFields: Bool?
-    let imageUrl: String?
-    let canAddOtherOptions: Bool?
-    let questionChangeState: Int?
-    let isAnswerEditable: Bool
+    public let id: Int?
+    public let questionTitle: String?
+    public let state: Int?
+    public let value: String?
+    public let optional: Bool
+    public let helpText: String?
+    public let field: Bool?
+    public let isCompulsory: Bool?
+    public let isHidden: Bool?
+    public let communityId: String?
+    public let memberId: String?
+    public let directoryFields: Bool?
+    public let imageUrl: String?
+    public let canAddOtherOptions: Bool?
+    public let questionChangeState: Int?
+    public let isAnswerEditable: Bool
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -45,7 +45,7 @@ struct Question: Decodable {
         case isAnswerEditable = "is_answer_editable"
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decodeIfPresent(Int.self, forKey: .id)
         questionTitle = try container.decode(String.self, forKey: .questionTitle)

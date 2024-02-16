@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct LinkOGTags: Codable {
+public struct LinkOGTags: Codable {
     
-    var title: String?
-    var image: String?
-    var description: String?
-    var url: String?
+    public var title: String?
+    public var image: String?
+    public var description: String?
+    public var url: String?
     
     enum CodingKeys: String, CodingKey {
         case title, image, description, url
