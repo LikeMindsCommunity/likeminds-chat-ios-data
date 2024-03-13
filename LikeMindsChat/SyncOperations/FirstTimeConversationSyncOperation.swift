@@ -52,6 +52,7 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
                     return
                 }
                 SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: [data])
+                SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "", isConversationSynced: true)
                 self.page += 1
                 self.syncConversations()
             }

@@ -7,27 +7,32 @@
 
 import Foundation
 
-class GetReportTagsRequest {
-    private var type: Int = 0
+public class GetReportTagsRequest {
+    
+    var type: Int = 0
     
     init(type: Int) {
         self.type = type
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public class Builder {
         private var type: Int = 0
         
-        func type(type: Int) -> Builder {
+        public func type(_ type: Int) -> Builder {
             self.type = type
             return self
         }
         
-        func build() -> GetReportTagsRequest {
+        public func build() -> GetReportTagsRequest {
             return GetReportTagsRequest(type: type)
         }
     }
     
-    func toBuilder() -> Builder {
-        return Builder().type(type: type)
+    public func toBuilder() -> Builder {
+        return Builder().type(type)
     }
 }

@@ -16,7 +16,7 @@ class ChatDBUtil {
      * Check whether local db is empty or not
      */
     func isEmpty() -> Bool {
-        let realm = try! Realm()
+        let realm = RealmManager.realmInstance()
         guard let query = realm.objects(AppConfigRO.self).first else { return true }
         return !query.isConversationsSynced && !query.isChatroomsSynced && !query.isCommunitiesSynced
     }
@@ -59,7 +59,7 @@ class ChatDBUtil {
     ) -> Results<ChatroomRO> {
         return realm.objects(ChatroomRO.self)
             .where { query in
-                query.communityId == communityId &&
+               // query.communityId == communityId &&
                 query.deletedBy == nil &&
                 query.state != ChatroomType.directMessage.rawValue &&
                 query.state != ChatroomType.event.rawValue &&

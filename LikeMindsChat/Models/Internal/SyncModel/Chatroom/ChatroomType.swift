@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ChatroomType: Int, Codable, CaseIterableDefaultsLast {
+public enum ChatroomType: Int, Codable, CaseIterableDefaultsLast {
     case unknown = -1
     case normal = 0
     case introduction = 1 // introduction

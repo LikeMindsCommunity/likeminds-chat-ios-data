@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct GetReportTagsResponse: Decodable {
-    let tags: [ReportTag]?
+public struct GetReportTagsResponse: Decodable {
+    public let tags: [ReportTag]?
     
     private enum CodingKeys: String, CodingKey {
         case tags = "report_tags"
     }
 }
 
-struct ReportTag: Decodable {
-    let id: Int?
-    let name: String?
+public struct ReportTag: Decodable {
+    public let id: Int?
+    public let name: String?
 }

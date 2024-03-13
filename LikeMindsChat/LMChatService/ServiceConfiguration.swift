@@ -105,8 +105,8 @@ struct ServiceAPIRequest {
         case searchConversation(_ request: SearchConversationRequest)
         
         //MARK:- Report api
-        case getReportTags(_ reqeust: String)
-        case postReport(_ request: String)
+        case getReportTags(_ reqeust: GetReportTagsRequest)
+        case postReport(_ request: PostReportRequest)
         
         var apiURL: String {
             switch self {
@@ -149,7 +149,9 @@ struct ServiceAPIRequest {
             case .setChatroomTopic:
                 return "conversation/topic"
             case .getParticipants(let request):
-                return "chatroom/participants?"
+                var queryUrl =  "chatroom/participants?chatroom_id=\(request.chatroomId)&is_secret=\(request.isChatroomSecret)&page=\(request.page)&page_size=\(request.pageSize)"
+                guard let searchName = request.participantName else { return queryUrl }
+                return queryUrl + "&participant_name=\(searchName)"
             case .editChatroomTitle:
                 return "chatroom"
                 
@@ -196,7 +198,7 @@ struct ServiceAPIRequest {
                 
             //MARK:- Report api
             case .getReportTags(let request):
-                return "community/report/tag"
+                return "community/report/tag?type=\(request.type)"
             case .postReport(let request):
                 return "community/report"
             }

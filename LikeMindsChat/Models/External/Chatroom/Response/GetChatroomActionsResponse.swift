@@ -13,6 +13,13 @@ struct GetChatroomActionsResponse: Decodable {
     var chatroomActions: [ChatroomAction]
     var participantCount: Int
     var placeHolder: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case canAccessSecretChatroom = "can_access_secret_chatroom"
+        case chatroomActions = "chatroom_actions"
+        case participantCount = "participant_count"
+        case placeHolder = "placeholder"
+    }
 }
 
 struct ChatroomAction: Decodable {

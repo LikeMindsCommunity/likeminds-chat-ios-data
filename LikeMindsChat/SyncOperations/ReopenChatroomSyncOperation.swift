@@ -11,7 +11,7 @@ class ReopenChatroomSyncOperation: LMAsyncOperation {
     
     var page: Int = 1
     var maxTimestamp: Int = Int(Date().millisecondsSince1970)
-    var minTimestamp: Int = 0
+    var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncChatroom()
     private var chatroomTypes: [Int]
     private var groupQueue: DispatchGroup = DispatchGroup()
     
@@ -25,17 +25,10 @@ class ReopenChatroomSyncOperation: LMAsyncOperation {
             .page(page)
             .pageSize(50)
             .chatroomTypes(chatroomTypes)
-            .minTimestamp(0)
+            .minTimestamp(minTimestamp)
             .maxTimestamp(maxTimestamp)
             .build()
         
-        if page == 1 {
-            chatroomSyncRequest.minTimestamp = 0
-            chatroomSyncRequest.maxTimestamp = maxTimestamp
-        } else {
-            chatroomSyncRequest.minTimestamp = SyncPreferences.shared.getTimestampForSyncChatroom()
-            chatroomSyncRequest.maxTimestamp = Int(Date().millisecondsSince1970)
-        }
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
         ChatroomClient.syncChatrooms(request: chatroomSyncRequest, moduleName: "ReopenChatroomSync") { [weak self] response in
             self?.groupQueue.leave()
@@ -50,7 +43,6 @@ class ReopenChatroomSyncOperation: LMAsyncOperation {
                     // retry flow
                     return
                 }
-                SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "")
                 SyncUtil.saveChatroomResponse(communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: "", data: data)
                 self?.page += 1
                 self?.syncChatrooms()

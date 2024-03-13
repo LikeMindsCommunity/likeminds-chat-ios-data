@@ -16,7 +16,7 @@ protocol BaseClientProtocol: AnyObject {
 class HomeFeedClient {
     
     private var notificationToken: NotificationToken?
-    private var chatroomsResult: List<ChatroomRO>?
+    private var homeFeedChatrooms: Results<ChatroomRO>?
     private var observers: [HomeFeedClientObserver?] = []
     
     static let shared = HomeFeedClient()
@@ -88,23 +88,23 @@ class HomeFeedClient {
     func getChatrooms(withObserver observer: HomeFeedClientObserver) {
         guard let communityId = SDKPreferences.shared.getCommunityId() else { return }
         addObserver(observer)
-        chatroomsResult = ChatDBUtil.shared.getChatrooms(realm: RealmManager.realmInstance(), communityId: communityId).list
+        homeFeedChatrooms = ChatDBUtil.shared.getChatrooms(realm: RealmManager.realmInstance(), communityId: communityId)
         
         // Observe collection notifications. Keep a strong
         // reference to the notification token or the
         // observation will stop.
-        notificationToken = chatroomsResult?.observe { [weak self] (changes: RealmCollectionChange) in
+        notificationToken = homeFeedChatrooms?.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self else { return }
             switch changes {
-            case .initial:
-                guard let chatrooms = chatroomsResult?.compactMap({ ro in
+            case .initial(let collections):
+                guard let chatrooms = homeFeedChatrooms?.list.compactMap({ ro in
                     return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
                 }) else { return }
                 observers.forEach { $0?.initial(Array(chatrooms))}
-            case .update(_, let deletions, let insertions, let modifications):
-                guard let chatrooms = chatroomsResult?.compactMap({ ro in
+            case .update(let collections, let deletions, let insertions, let modifications):
+                guard (homeFeedChatrooms?.list.compactMap({ ro in
                     return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
-                }) else { return }
+                })) != nil else { return }
                 observers.forEach { $0?.onChange(removed: deletions, inserted: self.getIndexedChatrooms(indexArray: insertions), updated: self.getIndexedChatrooms(indexArray: modifications))}
                 break
             case .error(let error):
@@ -116,7 +116,7 @@ class HomeFeedClient {
     
     private func getIndexedChatrooms(indexArray: [Int]) -> [(Int, Chatroom)] {
         return indexArray.compactMap {  index in
-            let chatroomRO = chatroomsResult?[index]
+            let chatroomRO = homeFeedChatrooms?[index]
             let chatroom = ModelConverter.shared.convertChatroomRO(chatroomRO: chatroomRO)
             return (index, chatroom) as? (Int, Chatroom)
         }

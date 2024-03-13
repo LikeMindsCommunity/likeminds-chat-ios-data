@@ -29,13 +29,9 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
             .maxTimestamp(maxTimestamp)
             .build()
         
-        if page == 1 {
-            chatroomSyncRequest.minTimestamp = 0
-            chatroomSyncRequest.maxTimestamp = maxTimestamp
-        } else {
-            chatroomSyncRequest.minTimestamp = SyncPreferences.shared.getTimestampForSyncChatroom()
-            chatroomSyncRequest.maxTimestamp = Int(Date().millisecondsSince1970)
-        }
+        chatroomSyncRequest.minTimestamp = 0
+        chatroomSyncRequest.maxTimestamp = maxTimestamp
+
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
         ChatroomClient.syncChatrooms(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { [weak self] response in
             self?.groupQueue.leave()
@@ -50,10 +46,10 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
                     // retry flow
                     return
                 }
-                SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "")
                 SyncUtil.saveChatroomResponse(communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: "", data: data)
+                SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "", isChatroomSynced: true)
                 self?.page += 1
-//                self?.syncChatrooms()
+                self?.syncChatrooms()
             }
         }
         groupQueue.wait()

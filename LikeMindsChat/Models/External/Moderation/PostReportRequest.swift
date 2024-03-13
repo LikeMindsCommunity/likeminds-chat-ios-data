@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PostReportRequest: Encodable {
+public class PostReportRequest: Encodable {
     private var tagId: Int = -1
     private var reason: String? = nil
     private var uuid: String? = nil
@@ -24,7 +24,11 @@ class PostReportRequest: Encodable {
         case reportedLink = "link"
     }
     
-    class Builder {
+    public static func builder(tagId: Int) -> Builder {
+        return Builder(tagId: tagId)
+    }
+    
+    public class Builder {
         
         private var tagId: Int = -1
         private var reason: String? = nil
@@ -37,37 +41,43 @@ class PostReportRequest: Encodable {
             self.tagId = tagId
         }
         
-        func reason(_ reason: String?) -> Self {
+        public func reason(_ reason: String?) -> Self {
             self.reason = reason
             return self
         }
         
-        func uuid(_ uuid: String?) -> Self {
+        public func uuid(_ uuid: String?) -> Self {
             self.uuid = uuid
             return self
         }
         
-        func reportedConversationId(_ reportedConversationId: String?) -> Self {
+        public func reportedConversationId(_ reportedConversationId: String?) -> Self {
             self.reportedConversationId = reportedConversationId
             return self
         }
         
-        func reportedChatroomId(_ reportedChatroomId: String?) -> Self {
+        public func reportedChatroomId(_ reportedChatroomId: String?) -> Self {
             self.reportedChatroomId = reportedChatroomId
             return self
         }
         
-        func reportedLink(_ reportedLink: String?) -> Self {
+        public func reportedLink(_ reportedLink: String?) -> Self {
             self.reportedLink = reportedLink
             return self
         }
         
-        func build() -> PostReportRequest {
+        public func build() -> PostReportRequest {
             return PostReportRequest()
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder(tagId: tagId)
     }
+}
+
+public enum ReportEntityType: String {
+    case chatroom
+    case message
+    case member
 }

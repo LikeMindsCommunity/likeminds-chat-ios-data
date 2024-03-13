@@ -52,7 +52,7 @@ struct _Conversation_: Decodable {
 
     enum CodingKeys: String, CodingKey {
         case id
-        case chatroomId = "chatroom_id"
+        case chatroomId = "card_id"
         case communityId = "community_id"
         case member
         case answer
@@ -63,7 +63,7 @@ struct _Conversation_: Decodable {
         case ogTags = "og_tags"
         case date
         case isEdited = "is_edited"
-        case memberId = "member_id"
+        case memberId = "user_id"
         case replyConversationId = "reply_conversation"
         case deletedBy = "delete_by"
         case createdEpoch = "created_epoch"

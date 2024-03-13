@@ -8,9 +8,9 @@
 import Foundation
 
 public class GetExploreFeedRequest {
-    private let orderType: Int
-    private let isPinned: Bool?
-    private let page: Int
+    let orderType: Int
+    let isPinned: Bool?
+    let page: Int
     
     private init(orderType: Int, isPinned: Bool?, page: Int) {
         self.orderType = orderType

@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 class PollRO: Object {
-    @Persisted var id: String = ""
+    @Persisted(primaryKey: true) var id: String = ""
     @Persisted var text: String = ""
     @Persisted var subText: String?
     @Persisted var isSelected: Bool?

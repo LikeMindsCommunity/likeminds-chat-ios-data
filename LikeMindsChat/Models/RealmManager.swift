@@ -32,9 +32,9 @@ class RealmManager {
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
-        config.schemaVersion = 1
+        config.schemaVersion = 2
         return config
-        return Realm.Configuration(schemaVersion: 1, migrationBlock: { (migration, oldSchemaVersion) in
+        return Realm.Configuration(schemaVersion: 2, migrationBlock: { (migration, oldSchemaVersion) in
             /// Migration block. Useful when you upgrade the schema version.
             
         })

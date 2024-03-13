@@ -28,7 +28,7 @@ class SyncUtil {
     
     
     //Stores App config data to DB
-    static func saveAppConfig(communityId: String) {
+    static func saveAppConfig(communityId: String, isChatroomSynced: Bool? = nil, isConversationSynced: Bool? = nil) {
         if communityId.isEmpty { return }
         RealmManager.write { realm, object in
             let appConfig = ChatDBUtil.shared.getAppConfig(realm: realm)
@@ -36,11 +36,24 @@ class SyncUtil {
                 let list = List<String>()
                 list.append(communityId)
                 appConfig.communities = list
+                if let isChatroomSynced {
+                    appConfig.isChatroomsSynced = isChatroomSynced
+                }
+                if let isConversationSynced {
+                    appConfig.isConversationsSynced = isConversationSynced
+                }
             } else {
                 let appConfigRO = AppConfigRO()
                 let list = List<String>()
                 list.append(objectsIn: [communityId])
                 appConfigRO.communities = list
+                appConfigRO.isCommunitiesSynced = true
+                if let isChatroomSynced {
+                    appConfigRO.isChatroomsSynced = isChatroomSynced
+                }
+                if let isConversationSynced {
+                    appConfigRO.isConversationsSynced = isConversationSynced
+                }
                 realm.insertOrUpdate(appConfigRO)
             }
         }
@@ -100,7 +113,7 @@ class SyncUtil {
                         ROConverter.convertMember(member: lastConversationCreator, communityId: communityId)
                     }
                     guard let lastConversationRO = ROConverter.convertLastConversation(
-                        realm: RealmManager.realmInstance(),
+                        realm: realm,
                         conversation: lastConversation,
                         creator: lastConversationCreatorRO,
                         attachments: lastConversationAttachment,

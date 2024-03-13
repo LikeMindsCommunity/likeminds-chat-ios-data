@@ -8,8 +8,8 @@
 import Foundation
 
 public struct GetExploreTabCountResponse: Decodable {
-    let unseenChatroomCount: Int?
-    let totalChatroomCount: Int?
+    public let unseenChatroomCount: Int?
+    public let totalChatroomCount: Int?
     
     private enum CodingKeys: String, CodingKey {
         case unseenChatroomCount = "unseen_channel_count"

@@ -12,9 +12,7 @@ import UIKit
 
 extension LMChatClient {
     
-    func initialize() {
-        
-    }
+    func initialize() {}
 
     public func initiateUser(request: InitiateUserRequest, response: LMClientResponse<InitiateUserResponse>?) {
         InitiateUserClient.initiateChatService(request, withModuleName: moduleName) { result in
@@ -43,53 +41,82 @@ extension LMChatClient {
         }
     }
     
-    public func getHomeFeed(request: GetHomeFeedRequest, response: LMClientResponse<GetHomeFeedResponse>?) {
-        
-    }
-    
     public func getExploreTabCount(response: LMClientResponse<GetExploreTabCountResponse>?) {
-        HomeFeedClient.shared.getExploreTabCount(withModuleName: moduleName) { response in
-            
+        HomeFeedClient.shared.getExploreTabCount(withModuleName: moduleName) { result in
+            response?(result)
         }
     }
     
     public func getExploreFeed(request: GetExploreFeedRequest, response: LMClientResponse<GetExploreFeedResponse>?) {
-        
+        ExplorerFeedClient.shared.getExploreFeed(getExploreFeedRequest: request) { result in
+            response?(result)
+        }
     }
     
     public func syncChatrooms() {
         HomeFeedClient.shared.syncChatrooms()
     }
     
-    func getChatrooms(withObserver observer: HomeFeedClientObserver) {
+    public func getChatrooms(withObserver observer: HomeFeedClientObserver) {
         HomeFeedClient.shared.getChatrooms(withObserver: observer)
     }
     
-    func getUser() {
+    public func getParticipants(request: GetParticipantsRequest, response: LMClientResponse<GetParticipantsResponse>?) {
+        ChatroomClient.shared.getParticipants(request: request) { result in
+            response?(result)
+        }
+    }
+    
+    public func getReportTags(request: GetReportTagsRequest, response: LMClientResponse<GetReportTagsResponse>?) {
+        ReportClient.shared.getReportTags(request: request) { result in
+            response?(result)
+        }
+    }
+    
+    public func postReport(request: PostReportRequest, response: LMClientResponse<NoData>?) {
+        ReportClient.shared.postReport(request: request) { result in
+            response?(result)
+        }
+    }
+    
+    
+    public func getContentDownloadSettings(_ response: LMClientResponse<GetContentDownloadSettingsResponse>?) {
+        CommunityClient.shared.getContentDownloadSettings() { result in
+            response?(result)
+        }
+    }
+    
+    
+    public func getHomeFeed(request: GetHomeFeedRequest, response: LMClientResponse<GetHomeFeedResponse>?) {
         
     }
     
-    func getMember() {
+    
+    public func getUser() {
         
     }
     
-    func getChatroom() {
+    public func getMember() {
         
     }
     
-    func getChatroomActions() {
+    public func getChatroom() {
         
     }
     
-    func followChatroom() {
+    public func getChatroomActions() {
         
     }
     
-    func leaveSecretChatroom() {
+    public func followChatroom() {
         
     }
     
-    func muteChatroom() {
+    public func leaveSecretChatroom() {
+        
+    }
+    
+    public func muteChatroom() {
         
     }
     
@@ -97,130 +124,112 @@ extension LMChatClient {
         
     }
     
-    func setChatroomTopic() {
+    public func setChatroomTopic() {
         
     }
     
-    func getParticipants() {
+    public func addPollOption() {
         
     }
     
-    func getReportTags() {
-        
-    }
-    
-    func postReport() {
-        
-    }
-    
-    func addPollOption() {
-        
-    }
-    
-    func submitPoll() {
+    public func submitPoll() {
         
     }
   
-    func getPollUsers() {
+    public func getPollUsers() {
         
     }
     
-    func postPollConversation() {
+    public func postPollConversation() {
         
     }
     
-    func decodeUrl() {
+    public func decodeUrl() {
         
     }
     
-    func getTaggingList() {
+    public func getTaggingList() {
         
     }
     
-    func getDBEmpty() {
+    public func getDBEmpty() {
         
     }
     
-    func searchChatroom() {
+    public func searchChatroom() {
         
     }
     
-    func searchConversation() {
+    public func searchConversation() {
         
     }
     
-    func loadConversations() {
+    public func loadConversations() {
         
     }
     
-    func getConversations() {
+    public func getConversations() {
         
     }
     
-    func getConversationsCount() {
+    public func getConversationsCount() {
         
     }
     
-    func deleteConversationPermanatly() {
+    public func deleteConversationPermanatly() {
         
     }
     
-    func updateConversation() {
+    public func updateConversation() {
         
     }
     
-    func updateTemporaryConversation() {
+    public func updateTemporaryConversation() {
         
     }
     
-    func getConversation() {
+    public func getConversation() {
         
     }
     
-    func postConversation() {
+    public func postConversation() {
         
     }
     
-    func editConversation() {
+    public func editConversation() {
         
     }
     
-    func deleteConversations() {
+    public func deleteConversations() {
         
     }
     
-    func putReaction() {
+    public func putReaction() {
         
     }
     
-    func deleteReaction() {
+    public func deleteReaction() {
         
     }
     
-    func getUnreadConversationNotification() {
+    public func getUnreadConversationNotification() {
         
     }
     
-    func putMultimedia() {
+    public func putMultimedia() {
         
     }
     
-    func updateLastSeenAndDraft() {
+    public func updateLastSeenAndDraft() {
         
     }
     
-    func editChatroomTitle() {
+    public func editChatroomTitle() {
         
     }
     
-    func savePostedConversation() {
+    public func savePostedConversation() {
         
-    }
-    
-    func getContentDownloadSettings(_ response: LMClientResponse<GetContentDownloadSettingsResponse>?) {
-        CommunityClient.shared.getContentDownloadSettings() { result in
-            response?(result)
-        }
     }
     
 }

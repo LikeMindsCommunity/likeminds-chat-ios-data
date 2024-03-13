@@ -7,8 +7,14 @@
 
 import Foundation
 
-struct GetParticipantsResponse: Decodable {
-    var canEditParticipant: Bool
-    var participants: [Member]
-    var totalParticipantsCount: Int
+public struct GetParticipantsResponse: Decodable {
+    public var canEditParticipant: Bool?
+    public var participants: [Member]?
+    public var totalParticipantsCount: Int?
+    
+    enum CodingKeys: String, CodingKey {
+        case canEditParticipant = "can_edit_participant"
+        case participants
+        case totalParticipantsCount = "total_participants_count"
+    }
 }

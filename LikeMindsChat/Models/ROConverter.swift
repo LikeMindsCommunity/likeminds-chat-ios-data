@@ -69,6 +69,7 @@ class ROConverter {
         let reactionsRO = Self.convertReactionsMeta(realm: RealmManager.realmInstance(), communityId: communityId, reactions: reactions)
         
         let chatroomRO = ChatroomRO()
+        chatroomRO.id = chatroomId
         chatroomRO.state = chatroom.state ?? 0
         chatroomRO.member = chatroomCreatorRO
         chatroomRO.createdAt = chatroom.createdAt
