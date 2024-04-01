@@ -30,7 +30,7 @@ class ReopenChatroomSyncOperation: LMAsyncOperation {
             .build()
         
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
-        ChatroomClient.syncChatrooms(request: chatroomSyncRequest, moduleName: "ReopenChatroomSync") { [weak self] response in
+        ChatroomClient.syncChatroomsApi(request: chatroomSyncRequest, moduleName: "ReopenChatroomSync") { [weak self] response in
             self?.groupQueue.leave()
             if let _ = response.errorMessage {
                 print("Retry reopen chatroom sync")

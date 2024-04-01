@@ -168,8 +168,9 @@ struct ServiceAPIRequest {
                     .postPollConversation:
                 return "conversation"
                 
-            case .syncConversations:
-                return "conversation/sync"
+            case .syncConversations(let request):
+                var urlRequest = "conversation/sync?is_local_db=true&chatroom_id=\(request.chatroomId ?? "")&page=\(request.page)&page_size=\(request.pageSize)&min_timestamp=\(request.minTimestamp ?? 0)&max_timestamp=\(request.maxTimestamp ?? 0)"
+                return urlRequest
             case .putReaction,
                     .deleteReaction:
                 return "conversation/reaction"

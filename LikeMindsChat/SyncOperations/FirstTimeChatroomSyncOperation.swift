@@ -33,7 +33,7 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
         chatroomSyncRequest.maxTimestamp = maxTimestamp
 
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
-        ChatroomClient.syncChatrooms(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { [weak self] response in
+        ChatroomClient.syncChatroomsApi(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { [weak self] response in
             self?.groupQueue.leave()
             if let _ = response.errorMessage {
                 print("Retry first time chatroom sync")

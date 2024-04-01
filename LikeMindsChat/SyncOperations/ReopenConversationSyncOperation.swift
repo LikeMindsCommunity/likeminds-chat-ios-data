@@ -11,7 +11,8 @@ class ReopenConversationSyncOperation: LMAsyncOperation {
     
     var chatroomId: String = ""
     
-    private var maxTimestamp: Int = Int(Date().millisecondsSince1970)
+    var maxTimestamp: Int = Int(Date().millisecondsSince1970)
+    var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncChatroom()
     var page: Int = 1
     
     override private init() {
@@ -27,21 +28,14 @@ class ReopenConversationSyncOperation: LMAsyncOperation {
         
         let conversationSyncRequest = ConversationSyncRequest.builder()
             .page(page)
-            .chatroomId(Int(chatroomId) ?? 0)
+            .chatroomId(chatroomId)
             .pageSize(500)
-            .minTimestamp(0)
+            .minTimestamp(minTimestamp)
             .maxTimestamp(maxTimestamp)
             .build()
         
-        if page == 1 {
-            conversationSyncRequest.minTimestamp = 0
-            conversationSyncRequest.maxTimestamp = maxTimestamp
-        } else {
-            conversationSyncRequest.minTimestamp = SyncPreferences.shared.getTimestampForSyncConversation()
-            conversationSyncRequest.maxTimestamp = Int(Date().millisecondsSince1970)
-        }
         SyncPreferences.shared.setTimestampForSyncConversation(time: conversationSyncRequest.maxTimestamp ?? 0)
-        ConversationClient.syncConversations(request: conversationSyncRequest, moduleName: "FirstTimeConversationSync") { response in
+        ConversationClient.syncConversationsApi(request: conversationSyncRequest, moduleName: "ReopenConversationSync") { response in
             
             if let _ = response.errorMessage {
                 // retry

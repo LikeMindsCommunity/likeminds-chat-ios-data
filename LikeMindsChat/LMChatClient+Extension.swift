@@ -56,7 +56,7 @@ extension LMChatClient {
     public func syncChatrooms() {
         HomeFeedClient.shared.syncChatrooms()
     }
-    
+
     public func getChatrooms(withObserver observer: HomeFeedClientObserver) {
         HomeFeedClient.shared.getChatrooms(withObserver: observer)
     }
@@ -164,12 +164,12 @@ extension LMChatClient {
         
     }
     
-    public func loadConversations() {
-        
+    public func loadConversations(withChatroomId chatroomId: String) {
+        ConversationClient.shared.loadConversations(type: .firstTime, chatroomId: chatroomId)
     }
     
-    public func getConversations() {
-        
+    public func getConversations(withObserver observer: ConversationClientObserver) {
+//        ConversationClient.shared.getConversations(getConversationsRequest: <#T##GetConversationsRequest#>, response: <#T##(LMResponse<GetConversationsResponse>) -> (Void)#>)
     }
     
     public func getConversationsCount() {

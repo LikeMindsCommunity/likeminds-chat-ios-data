@@ -234,7 +234,7 @@ class ChatroomClient: ServiceRequest {
         }
     }
     
-    static func syncChatrooms(request: ChatroomSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncChatroomResponse_>?) {
+    static func syncChatroomsApi(request: ChatroomSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncChatroomResponse_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.syncChatrooms(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,

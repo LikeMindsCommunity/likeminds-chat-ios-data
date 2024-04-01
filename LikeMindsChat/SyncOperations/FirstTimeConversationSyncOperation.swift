@@ -25,21 +25,17 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
         
         let conversationSyncRequest = ConversationSyncRequest.builder()
             .page(page)
-            .chatroomId(Int(chatroomId) ?? 0)
+            .chatroomId(chatroomId)
             .pageSize(500)
             .minTimestamp(0)
             .maxTimestamp(maxTimestamp)
             .build()
         
-        if page == 1 {
-            conversationSyncRequest.minTimestamp = 0
-            conversationSyncRequest.maxTimestamp = maxTimestamp
-        } else {
-            conversationSyncRequest.minTimestamp = SyncPreferences.shared.getTimestampForSyncConversation()
-            conversationSyncRequest.maxTimestamp = Int(Date().millisecondsSince1970)
-        }
+        conversationSyncRequest.minTimestamp = 0
+        conversationSyncRequest.maxTimestamp = maxTimestamp
+        
         SyncPreferences.shared.setTimestampForSyncConversation(time: conversationSyncRequest.maxTimestamp ?? 0)
-        ConversationClient.syncConversations(request: conversationSyncRequest, moduleName: "FirstTimeConversationSync") { response in
+        ConversationClient.syncConversationsApi(request: conversationSyncRequest, moduleName: "FirstTimeConversationSync") { response in
             
             if let _ = response.errorMessage {
                 // retry

@@ -11,7 +11,16 @@ import RealmSwift
 class ConversationClient: ServiceRequest {
     
     let moduleName: String = "ConversationClient"
+    static let shared = ConversationClient()
     
+    private var notificationToken: NotificationToken?
+    private var conversations: Results<ConversationRO>?
+    private var observers: [ConversationClientObserver?] = []
+    
+    func addObserver(_ ob: ConversationClientObserver) {
+        guard observers.first(where: {type(of: $0) == type(of: ob)}) == nil else { return }
+        observers.append(ob)
+    }
     /**
      * Converts client request model to internal model and calls the api
      * @param postConversationRequest - client request model to post a conversation
@@ -50,9 +59,36 @@ class ConversationClient: ServiceRequest {
      *
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      */
-    func observeConversations(
-        observeConversationsRequest: ObserveConversationsRequest
+    public func observeConversations(
+        observerConversationsRequest: ObserveConversationsRequest
     ) {
+        let chatroomId = observerConversationsRequest.chatroomId
+        let observer = observerConversationsRequest.listener
+//        addObserver(observer)
+        let conversations = ConversationDBService.shared.observerConversations(chatroomId: chatroomId)
+        
+        // Observe collection notifications. Keep a strong
+        // reference to the notification token or the
+        // observation will stop.
+        notificationToken = conversations?.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self else { return }
+            switch changes {
+            case .initial(let collections):
+                guard let chatrooms = conversations?.list.compactMap({ ro in
+                    return ModelConverter.shared.convertConversationRO(ro)
+                }) else { return }
+                observers.forEach { $0?.initial(Array(chatrooms))}
+            case .update(let collections, let deletions, let insertions, let modifications):
+                guard (conversations?.list.compactMap({ ro in
+                    return ModelConverter.shared.convertConversationRO(ro)
+                })) != nil else { return }
+//                observers.forEach { $0?.onChange(removed: deletions, inserted: self.getConversationFromChanges(indexArray: insertions), updated: self.getConversationFromChanges(indexArray: modifications))}
+                break
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+        }
     }
     
     /**
@@ -78,20 +114,15 @@ class ConversationClient: ServiceRequest {
         type: LoadConversationType,
         chatroomId: String
     ) {
-       /*
-        return when (type) {
-            LoadConversationType.FIRST_TIME -> {
-                SyncSDK.startFirstTimeSyncForChatroom(context, chatroomId)
+        if type == .firstTime {
+            SyncOperationUtil.startFirstTimeSyncConversations(chatroomId: chatroomId) { response in
+                // Do somthing with response
             }
-            
-            LoadConversationType.FIRST_TIME_BACKGROUND -> {
-                SyncSDK.startFirstTimeBackgroundSync(context, chatroomId)
+        } else if type == .reopen {
+            SyncOperationUtil.reopenSyncConversations(chatroomId: chatroomId) { response in
+                // Do somthing with response
             }
-            
-            LoadConversationType.REOPEN -> {
-                SyncSDK.startReopenSyncForChatroom(context, chatroomId)
-            }
-        }*/
+        }
     }
     
     /**
@@ -102,6 +133,7 @@ class ConversationClient: ServiceRequest {
      * @return LMResponse<GetConversationsResponse> - Base LM response[GetConversationsResponse]
      */
     func getConversations(getConversationsRequest: GetConversationsRequest, response: LMClientResponse<GetConversationsResponse>) {
+    
     }
     
     //get conversations below a particular conversation
@@ -312,12 +344,13 @@ class ConversationClient: ServiceRequest {
         }
     }
     
-    static func syncConversations(request: ConversationSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncConversationResponse_>?) {
+    static func syncConversationsApi(request: ConversationSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncConversationResponse_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.syncConversations(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.request(for: url,
                                    withHTTPMethod: networkPath.httpMethod,
                                    headers: ServiceRequest.httpHeaders(),
+                                   withParameters: networkPath.parameters,
                                    withEncoding: networkPath.encoding, withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? Data else {return}
             do {

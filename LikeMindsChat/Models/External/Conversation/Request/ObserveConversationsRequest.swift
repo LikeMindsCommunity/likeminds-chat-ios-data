@@ -8,8 +8,8 @@
 import Foundation
 
 class ObserveConversationsRequest {
-    private let chatroomId: String
-    private let listener: ConversationChangeDelegate
+    let chatroomId: String
+    let listener: ConversationChangeDelegate
     
     private init(chatroomId: String, listener: ConversationChangeDelegate) {
         self.chatroomId = chatroomId

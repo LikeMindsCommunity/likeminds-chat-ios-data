@@ -8,7 +8,7 @@
 import Foundation
 
 
-protocol ConversationChangeDelegate: AnyObject {
+public protocol ConversationChangeDelegate: AnyObject {
     func getPostedConversations(conversations: [Conversation]?)
     func getChangedConversations(conversations: [Conversation]?)
     func getNewConversations(conversations: [Conversation]?)

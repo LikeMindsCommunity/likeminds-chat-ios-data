@@ -8,9 +8,9 @@
 import Foundation
 
 public class ConversationSyncRequest: Encodable {
-    var chatroomId: Int?
+    var chatroomId: String?
     var page: Int = 1
-    var pageSize: Int = 10
+    var pageSize: Int = 50
     var minTimestamp: Int?
     var maxTimestamp: Int?
     
@@ -33,7 +33,7 @@ public class ConversationSyncRequest: Encodable {
         case pageSize = "page_size"
     }
     
-    public func chatroomId(_ chatroomId: Int) -> ConversationSyncRequest {
+    public func chatroomId(_ chatroomId: String) -> ConversationSyncRequest {
         self.chatroomId = chatroomId
         return self
     }

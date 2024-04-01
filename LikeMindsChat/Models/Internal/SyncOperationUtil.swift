@@ -21,13 +21,13 @@ class SyncOperationUtil {
         queue.addOperation(reopenTimeSyncChatroomOperation)
     }
     
-    static func startFirstTimeSyncForChatroom(chatroomId: String, response: LMClientResponse<_SyncConversationResponse_>) {
+    static func startFirstTimeSyncConversations(chatroomId: String, response: LMClientResponse<_SyncConversationResponse_>) {
         let firstTimeSyncConversationOperation = FirstTimeConversationSyncOperation(chatroomId: chatroomId)
         let queue = OperationQueue()
         queue.addOperation(firstTimeSyncConversationOperation)
     }
     
-    static func startReopenSyncForChatroom(chatroomId: String, response: LMClientResponse<_SyncConversationResponse_>) {
+    static func reopenSyncConversations(chatroomId: String, response: LMClientResponse<_SyncConversationResponse_>) {
         let reopenTimeSyncConversationOperation = ReopenConversationSyncOperation(chatroomId: chatroomId)
         let queue = OperationQueue()
         queue.addOperation(reopenTimeSyncConversationOperation)
