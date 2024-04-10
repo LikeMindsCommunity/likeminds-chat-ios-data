@@ -7,27 +7,29 @@
 
 import Foundation
 
-class GetChatroomRequest: Encodable {
-    private let chatroomId: String
+public class GetChatroomRequest: Encodable {
+    public let chatroomId: String
     
     private init(chatroomId: String) {
         self.chatroomId = chatroomId
     }
     
-    class Builder {
+    public class Builder {
         private var chatroomId: String = ""
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public init() {}
+        
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func build() -> GetChatroomRequest {
+        public func build() -> GetChatroomRequest {
             return GetChatroomRequest(chatroomId: chatroomId)
         }
     }
     
-    func toBuilder() -> Builder {
+    public  func toBuilder() -> Builder {
         return Builder().chatroomId(chatroomId)
     }
 }

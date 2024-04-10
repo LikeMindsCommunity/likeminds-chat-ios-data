@@ -7,7 +7,7 @@
 
 import Foundation
 
-class EditConversationRequest: Encodable {
+public class EditConversationRequest: Encodable {
     private let conversationId: String
     private let text: String
     private let shareLink: String?
@@ -24,32 +24,32 @@ class EditConversationRequest: Encodable {
         case shareLink = "share_link"
     }
     
-    class Builder {
+    public class Builder {
         private var conversationId: String = ""
         private var text: String = ""
         private var shareLink: String?
         
-        func conversationId(_ conversationId: String) -> Builder {
+        public func conversationId(_ conversationId: String) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func text(_ text: String) -> Builder {
+        public func text(_ text: String) -> Builder {
             self.text = text
             return self
         }
         
-        func shareLink(_ shareLink: String?) -> Builder {
+        public func shareLink(_ shareLink: String?) -> Builder {
             self.shareLink = shareLink
             return self
         }
         
-        func build() -> EditConversationRequest {
+        public func build() -> EditConversationRequest {
             return EditConversationRequest(conversationId: conversationId, text: text, shareLink: shareLink)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .conversationId(conversationId)
             .text(text)

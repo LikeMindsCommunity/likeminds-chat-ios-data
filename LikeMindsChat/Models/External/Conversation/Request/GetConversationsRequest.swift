@@ -7,54 +7,65 @@
 
 import Foundation
 
-class GetConversationsRequest {
-    private let chatroomId: String
-    private let type: GetConversationType
-    private let conversation: Conversation?
-    private let limit: Int
+public class GetConversationsRequest {
+    public let chatroomId: String
+    public let type: GetConversationType
+    public let conversation: Conversation?
+    public let limit: Int
+    public let observer: ConversationClientObserver?
     
-    private init(chatroomId: String, type: GetConversationType, conversation: Conversation?, limit: Int) {
+    private init(chatroomId: String, type: GetConversationType, conversation: Conversation?, limit: Int, observer: ConversationClientObserver?) {
         self.chatroomId = chatroomId
         self.type = type
         self.conversation = conversation
         self.limit = limit
+        self.observer = observer
     }
     
-    class Builder {
+    public class Builder {
         private var chatroomId: String = ""
         private var type: GetConversationType = .none
         private var conversation: Conversation? = nil
         private var limit: Int = 50
+        private var observer: ConversationClientObserver?
         
-        func chatroomId(chatroomId: String) -> Builder {
+        public init() { }
+        
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func type(type: GetConversationType) -> Builder {
+        public func type(_ type: GetConversationType) -> Builder {
             self.type = type
             return self
         }
         
-        func conversation(conversation: Conversation?) -> Builder {
+        public func conversation(_ conversation: Conversation?) -> Builder {
             self.conversation = conversation
             return self
         }
         
-        func limit(limit: Int) -> Builder {
+        public func limit(_ limit: Int) -> Builder {
             self.limit = limit
             return self
         }
         
-        func build() -> GetConversationsRequest {
-            return GetConversationsRequest(chatroomId: chatroomId, type: type, conversation: conversation, limit: limit)
+        public func observer(_ observer: ConversationClientObserver?) -> Builder {
+            self.observer = observer
+            return self
+        }
+        
+        public func build() -> GetConversationsRequest {
+            return GetConversationsRequest(chatroomId: chatroomId, type: type, conversation: conversation, limit: limit, observer: observer)
         }
     }
     
-    func toBuilder() -> Builder {
-        return Builder().chatroomId(chatroomId: chatroomId)
-            .type(type: type)
-            .conversation(conversation: conversation)
-            .limit(limit: limit)
+    public func toBuilder() -> Builder {
+        return Builder().chatroomId(chatroomId)
+            .type(type)
+            .conversation(conversation)
+            .limit(limit)
+            .observer(observer)
     }
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PutReactionRequest: Encodable {
+public class PutReactionRequest: Encodable {
     private var conversationId: String?
     private var chatroomId: String?
     private var reaction: String = ""
@@ -24,27 +24,27 @@ class PutReactionRequest: Encodable {
         case reaction
     }
     
-    class Builder {
+    public class Builder {
         private var conversationId: String?
         private var chatroomId: String?
         private var reaction: String = ""
         
-        func conversationId(_ conversationId: String?) -> Builder {
+        public func conversationId(_ conversationId: String?) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func chatroomId(_ chatroomId: String?) -> Builder {
+        public func chatroomId(_ chatroomId: String?) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func reaction(_ reaction: String) -> Builder {
+        public func reaction(_ reaction: String) -> Builder {
             self.reaction = reaction
             return self
         }
         
-        func build() -> PutReactionRequest {
+        public func build() -> PutReactionRequest {
             return PutReactionRequest(
                 conversationId: conversationId,
                 chatroomId: chatroomId,
@@ -53,7 +53,7 @@ class PutReactionRequest: Encodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .reaction(reaction)
             .chatroomId(chatroomId)

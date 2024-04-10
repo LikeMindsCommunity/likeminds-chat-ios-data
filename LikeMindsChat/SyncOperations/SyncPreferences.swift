@@ -7,7 +7,7 @@
 
 import Foundation
 
-class BasePreferences {
+public class BasePreferences {
     
     let userDefault = UserDefaults.standard
     
@@ -65,9 +65,9 @@ class SDKPreferences: BasePreferences {
     
 }
 
-class UserPreferences: BasePreferences {
+public class UserPreferences: BasePreferences {
     
-    static let shared = UserPreferences()
+    public static let shared = UserPreferences()
     private let lmUUID = "lm_uuid_key"
     private let lmMemberId = "lm_memberid_key"
     private let clientUUID = "client_uuid_key"
@@ -86,15 +86,15 @@ class UserPreferences: BasePreferences {
         setValue(clientUUid, forKey: clientUUID)
     }
     
-    func getLMMemberId() -> String? {
+    public func getLMMemberId() -> String? {
         return getValue(forKey: lmMemberId) as? String
     }
     
-    func getClientUUID() -> String? {
+    public func getClientUUID() -> String? {
         return getValue(forKey: clientUUID) as? String
     }
     
-    func getLMUUID() -> String? {
+    public func getLMUUID() -> String? {
         return getValue(forKey: lmUUID) as? String
     }
     

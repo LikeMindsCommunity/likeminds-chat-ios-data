@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PostConversationRequest: Encodable {
+public class PostConversationRequest: Encodable {
     private let chatroomId: String
     private let text: String
     private let isFromNotification: Bool
@@ -42,7 +42,7 @@ class PostConversationRequest: Encodable {
         self.repliedChatroomId = repliedChatroomId
     }
     
-    class Builder {
+    public class Builder {
         private var chatroomId: String = ""
         private var text: String = ""
         private var isFromNotification: Bool = false
@@ -53,52 +53,54 @@ class PostConversationRequest: Encodable {
         private var temporaryId: String? = nil
         private var repliedChatroomId: String? = nil
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public init() {}
+        
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func text(_ text: String) -> Builder {
+        public func text(_ text: String) -> Builder {
             self.text = text
             return self
         }
         
-        func isFromNotification(_ isFromNotification: Bool) -> Builder {
+        public func isFromNotification(_ isFromNotification: Bool) -> Builder {
             self.isFromNotification = isFromNotification
             return self
         }
         
-        func shareLink(_ shareLink: String?) -> Builder {
+        public func shareLink(_ shareLink: String?) -> Builder {
             self.shareLink = shareLink
             return self
         }
         
-        func ogTags(_ ogTags: LinkOGTags?) -> Builder {
+        public func ogTags(_ ogTags: LinkOGTags?) -> Builder {
             self.ogTags = ogTags
             return self
         }
         
-        func repliedConversationId(_ repliedConversationId: String?) -> Builder {
+        public func repliedConversationId(_ repliedConversationId: String?) -> Builder {
             self.repliedConversationId = repliedConversationId
             return self
         }
         
-        func attachmentCount(_ attachmentCount: Int?) -> Builder {
+        public func attachmentCount(_ attachmentCount: Int?) -> Builder {
             self.attachmentCount = attachmentCount
             return self
         }
         
-        func temporaryId(_ temporaryId: String?) -> Builder {
+        public func temporaryId(_ temporaryId: String?) -> Builder {
             self.temporaryId = temporaryId
             return self
         }
         
-        func repliedChatroomId(_ repliedChatroomId: String?) -> Builder {
+        public func repliedChatroomId(_ repliedChatroomId: String?) -> Builder {
             self.repliedChatroomId = repliedChatroomId
             return self
         }
         
-        func build() -> PostConversationRequest {
+        public func build() -> PostConversationRequest {
             return PostConversationRequest(
                 chatroomId: chatroomId,
                 text: text,
@@ -113,7 +115,7 @@ class PostConversationRequest: Encodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .chatroomId(chatroomId)
             .text(text)

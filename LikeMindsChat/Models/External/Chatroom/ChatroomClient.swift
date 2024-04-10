@@ -17,29 +17,19 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return GetChatroomResponse - GetChatroomResponse model for getChatroomRequest
      */
-    func getChatroom(getChatroomRequest: GetChatroomRequest, response: LMClientResponse<GetChatroomResponse>?) {
-        // validates the client request
-//        RequestUtils.validate()
-//        validateGetChatroomRequest(getChatroomRequest)
+    func getChatroom(request: GetChatroomRequest, response: LMClientResponse<GetChatroomResponse>?) {
         
+        guard let chatroomRO = ChatroomDBService.shared.getChatroom(chatroomId: request.chatroomId) else {
+            response?(LMResponse.failureResponse("Chatroom not present!"))
+            return
+        }
+        guard let chatroom = ModelConverter.shared.convertChatroomRO(chatroomRO: chatroomRO) else {
+            response?(LMResponse.failureResponse("Chatroom conversion failed!"))
+            return
+        }
         
-//        val realm = Realm.getDefaultInstance()
-//        val chatroomRO = chatroomDB.getChatroom(realm, getChatroomRequest.chatroomId)
-//        val getChatroomResponse = ModelConverter.convertGetChatroomResponse(chatroomRO)
-//        val chatroom = getChatroomResponse.chatroom
-//        realm.close()
-//        return if (chatroom == null) {
-//            LMResponse(
-//                success = false,
-//                errorMessage = "Chatroom with respect to chatroomId not found."
-//            )
-//        } else {
-//            LMResponse(
-//                success = true,
-//                errorMessage = null,
-//                getChatroomResponse
-//            )
-//        }
+        let chatroomResponse = GetChatroomResponse(chatroom: chatroom)
+        response?(LMResponse.successResponse(chatroomResponse))
     }
     
     /**

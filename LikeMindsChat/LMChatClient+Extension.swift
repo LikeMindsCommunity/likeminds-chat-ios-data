@@ -100,8 +100,10 @@ extension LMChatClient {
         
     }
     
-    public func getChatroom() {
-        
+    public func getChatroom(request: GetChatroomRequest, response: LMClientResponse<GetChatroomResponse>?) {
+        ChatroomClient.shared.getChatroom(request: request) { result in
+            response?(result)
+        }
     }
     
     public func getChatroomActions() {
@@ -144,12 +146,16 @@ extension LMChatClient {
         
     }
     
-    public func decodeUrl() {
-        
+    public func decodeUrl(request: DecodeUrlRequest, response: LMClientResponse<DecodeUrlResponse>?) {
+        ConversationClient.shared.decodeUrl(request: request) { result in
+            response?(result)
+        }
     }
     
-    public func getTaggingList() {
-        
+    public func getTaggingList(request: GetTaggingListRequest, response: LMClientResponse<GetTaggingListResponse>?) {
+        ConversationClient.shared.getTaggingList(request: request) { result in
+            response?(result)
+        }
     }
     
     public func getDBEmpty() {
@@ -164,12 +170,12 @@ extension LMChatClient {
         
     }
     
-    public func loadConversations(withChatroomId chatroomId: String) {
-        ConversationClient.shared.loadConversations(type: .firstTime, chatroomId: chatroomId)
+    public func loadConversations(withChatroomId chatroomId: String, loadType: LoadConversationType) {
+        ConversationClient.shared.loadConversations(type: loadType, chatroomId: chatroomId)
     }
     
-    public func getConversations(withObserver observer: ConversationClientObserver) {
-//        ConversationClient.shared.getConversations(getConversationsRequest: <#T##GetConversationsRequest#>, response: <#T##(LMResponse<GetConversationsResponse>) -> (Void)#>)
+    public func getConversations(withRequest request: GetConversationsRequest) {
+        ConversationClient.shared.getConversations(request: request) { response in }
     }
     
     public func getConversationsCount() {
@@ -192,24 +198,34 @@ extension LMChatClient {
         
     }
     
-    public func postConversation() {
-        
+    public func postConversation(request: PostConversationRequest, response: LMClientResponse<PostConversationResponse>?) {
+        ConversationClient.shared.postConversation(request: request) { result in
+            response?(result)
+        }
     }
     
-    public func editConversation() {
-        
+    public func editConversation(request: EditConversationRequest, response: LMClientResponse<EditConversationResponse>?) {
+        ConversationClient.shared.editConversation(request: request) { result in
+            response?(result)
+        }
     }
     
-    public func deleteConversations() {
-        
+    public func deleteConversations(request: DeleteConversationsRequest, response: LMClientResponse<DeleteConversationsResponse>?) {
+        ConversationClient.shared.deleteConversations(request: request) { result in
+            response?(result)
+        }
     }
     
-    public func putReaction() {
-        
+    public func putReaction(request: PutReactionRequest, response: LMClientResponse<NoData>?) {
+        ConversationClient.shared.putReaction(request: request) { result in
+            response?(result)
+        }
     }
     
-    public func deleteReaction() {
-        
+    public func deleteReaction(request: DeleteReactionRequest, response: LMClientResponse<NoData>?) {
+        ConversationClient.shared.deleteReaction(request: request) { result in
+            response?(result)
+        }
     }
     
     public func getUnreadConversationNotification() {

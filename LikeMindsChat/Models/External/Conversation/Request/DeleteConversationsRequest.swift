@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DeleteConversationsRequest: Encodable {
+public class DeleteConversationsRequest: Encodable {
     private let conversationIds: [String]
     
     private init(conversationIds: [String]) {
@@ -18,20 +18,20 @@ class DeleteConversationsRequest: Encodable {
         case conversationIds = "conversation_ids"
     }
     
-    class Builder {
+    public class Builder {
         private var conversationIds: [String] = []
         
-        func conversationIds(_ conversationIds: [String]) -> Builder {
+        public func conversationIds(_ conversationIds: [String]) -> Builder {
             self.conversationIds = conversationIds
             return self
         }
         
-        func build() -> DeleteConversationsRequest {
+        public func build() -> DeleteConversationsRequest {
             return DeleteConversationsRequest(conversationIds: conversationIds)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().conversationIds(conversationIds)
     }
 }

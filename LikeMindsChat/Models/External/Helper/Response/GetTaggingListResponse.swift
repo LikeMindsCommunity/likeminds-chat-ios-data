@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct GetTaggingListResponse: Decodable {
-    let groupTags: [GroupTag]?
-    let chatroomParticipants: [Member]?
-    let communityMembers: [Member]?
+public struct GetTaggingListResponse: Decodable {
+    public let groupTags: [GroupTag]?
+    public let chatroomParticipants: [Member]?
+    public let communityMembers: [Member]?
     
     private enum CodingKeys: String, CodingKey {
         case groupTags = "group_tags"
@@ -19,12 +19,12 @@ struct GetTaggingListResponse: Decodable {
     }
 }
 
-struct GroupTag: Decodable {
-    let description: String?
-    let name: String?
-    let route: String?
-    let tag: String?
-    let imageUrl: String?
+public struct GroupTag: Decodable {
+    public let description: String?
+    public let name: String?
+    public let route: String?
+    public let tag: String?
+    public let imageUrl: String?
     
     private enum CodingKeys: String, CodingKey {
         case description
@@ -34,6 +34,3 @@ struct GroupTag: Decodable {
         case imageUrl = "image_url"
     }
 }
-
-
-

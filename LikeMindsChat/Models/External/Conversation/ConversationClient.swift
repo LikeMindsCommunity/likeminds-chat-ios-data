@@ -62,33 +62,7 @@ class ConversationClient: ServiceRequest {
     public func observeConversations(
         observerConversationsRequest: ObserveConversationsRequest
     ) {
-        let chatroomId = observerConversationsRequest.chatroomId
-        let observer = observerConversationsRequest.listener
-//        addObserver(observer)
-        let conversations = ConversationDBService.shared.observerConversations(chatroomId: chatroomId)
-        
-        // Observe collection notifications. Keep a strong
-        // reference to the notification token or the
-        // observation will stop.
-        notificationToken = conversations?.observe { [weak self] (changes: RealmCollectionChange) in
-            guard let self else { return }
-            switch changes {
-            case .initial(let collections):
-                guard let chatrooms = conversations?.list.compactMap({ ro in
-                    return ModelConverter.shared.convertConversationRO(ro)
-                }) else { return }
-                observers.forEach { $0?.initial(Array(chatrooms))}
-            case .update(let collections, let deletions, let insertions, let modifications):
-                guard (conversations?.list.compactMap({ ro in
-                    return ModelConverter.shared.convertConversationRO(ro)
-                })) != nil else { return }
-//                observers.forEach { $0?.onChange(removed: deletions, inserted: self.getConversationFromChanges(indexArray: insertions), updated: self.getConversationFromChanges(indexArray: modifications))}
-                break
-            case .error(let error):
-                // An error occurred while opening the Realm file on the background worker thread
-                fatalError("\(error)")
-            }
-        }
+
     }
     
     /**
@@ -132,8 +106,42 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<GetConversationsResponse> - Base LM response[GetConversationsResponse]
      */
-    func getConversations(getConversationsRequest: GetConversationsRequest, response: LMClientResponse<GetConversationsResponse>) {
+    func getConversations(request: GetConversationsRequest, response: LMClientResponse<GetConversationsResponse>) {
+        
+        guard let communityId = SDKPreferences.shared.getCommunityId(), let observer = request.observer else { return }
+        addObserver(observer)
+        conversations = ConversationDBService.shared.getChatroomConversations(chatroomId: request.chatroomId)
+        
+        // Observe collection notifications. Keep a strong
+        // reference to the notification token or the
+        // observation will stop.
+        notificationToken = conversations?.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self else { return }
+            switch changes {
+            case .initial(let collections):
+                guard let chatrooms = conversations?.list.compactMap({ ro in
+                    return ModelConverter.shared.convertConversationRO(ro)
+                }) else { return }
+                observers.forEach { $0?.initial(Array(chatrooms))}
+            case .update(let collections, let deletions, let insertions, let modifications):
+                guard (conversations?.list.compactMap({ ro in
+                    return ModelConverter.shared.convertConversationRO(ro)
+                })) != nil else { return }
+                observers.forEach { $0?.onChange(removed: deletions, inserted: self.getIndexedConversations(indexArray: insertions), updated: self.getIndexedConversations(indexArray: modifications))}
+                break
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+        }
+    }
     
+    private func getIndexedConversations(indexArray: [Int]) -> [(Int, Conversation)] {
+        return indexArray.compactMap {  index in
+            let conversationRO = conversations?[index]
+            let conversation = ModelConverter.shared.convertConversationRO(conversationRO)
+            return (index, conversation) as? (Int, Conversation)
+        }
     }
     
     //get conversations below a particular conversation
@@ -226,6 +234,23 @@ class ConversationClient: ServiceRequest {
      * @return LMResponse<GetConversationResponse> - Base LM response[GetConversationResponse]
      */
     func getConversation(getConversationRequest: GetConversationRequest, response: LMClientResponse<GetConversationResponse>) {
+    }
+    
+    func decodeUrl(request: DecodeUrlRequest, response: LMClientResponse<DecodeUrlResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.decodeUrl(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: DecodeUrlResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? LMResponse<DecodeUrlResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(LMResponse.failureResponse(error.localizedDescription))
+        }
     }
     
     /**
@@ -359,6 +384,23 @@ class ConversationClient: ServiceRequest {
             } catch {
                 response?(LMResponse.failureResponse(error.localizedDescription))
             }
+        } failureCallback: { (moduleName, error) in
+            response?(LMResponse.failureResponse(error.localizedDescription))
+        }
+    }
+    
+    func getTaggingList(request: GetTaggingListRequest, response: LMClientResponse<GetTaggingListResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.getTaggingList(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: GetTaggingListResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? LMResponse<GetTaggingListResponse> else {return}
+            response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
         }

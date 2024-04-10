@@ -16,7 +16,7 @@ extension CaseIterableDefaultsLast {
     }
 }
 
-enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
+public enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
     
     case unknown = -1
     case normal = 0 // normal conversation
@@ -40,7 +40,7 @@ enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
     case directMessageMemberRequestRejected = 19
     case directMessageMemberRequestApproved = 20
     
-    static func isPoll(stateValue: Int) -> Bool {
+    public static func isPoll(stateValue: Int) -> Bool {
         microPoll.rawValue == stateValue
     }
 }

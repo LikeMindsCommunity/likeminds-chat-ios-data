@@ -7,27 +7,27 @@
 
 import Foundation
 
-class DecodeUrlRequest: Encodable {
+public class DecodeUrlRequest: Encodable {
     let url: String
     
     private init(url: String) {
         self.url = url
     }
     
-    class Builder {
+    public class Builder {
         private var url: String = ""
         
-        func url(_ url: String) -> Builder {
+        public func url(_ url: String) -> Builder {
             self.url = url
             return self
         }
         
-        func build() -> DecodeUrlRequest {
+        public func build() -> DecodeUrlRequest {
             return DecodeUrlRequest(url: url)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().url(url)
     }
 }

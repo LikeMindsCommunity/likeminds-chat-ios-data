@@ -7,13 +7,13 @@
 
 import Foundation
 
-enum LoadConversationType: Int {
+public enum LoadConversationType: Int {
     case firstTime = 1,
     firstTimeBackground,
     reopen
 }
 
-enum GetConversationType: Int {
+public enum GetConversationType: Int {
     case none = 0,
     below,
     above,
@@ -21,7 +21,7 @@ enum GetConversationType: Int {
     bottom
 }
 
-enum GetConversationCountType: Int {
+public enum GetConversationCountType: Int {
     case none = 0,
     below,
     above

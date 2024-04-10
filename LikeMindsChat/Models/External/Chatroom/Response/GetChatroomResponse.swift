@@ -7,6 +7,18 @@
 
 import Foundation
 
-struct GetChatroomResponse: Decodable {
-    var chatroom: Chatroom?
+public struct GetChatroomResponse: Decodable {
+    public var chatroom: Chatroom?
+    enum CodingKeys: CodingKey {
+        case chatroom
+    }
+    
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.chatroom = try container.decodeIfPresent(Chatroom.self, forKey: .chatroom)
+    }
+    
+    init(chatroom: Chatroom? = nil) {
+        self.chatroom = chatroom
+    }
 }

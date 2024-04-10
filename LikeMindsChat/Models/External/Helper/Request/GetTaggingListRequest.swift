@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetTaggingListRequest: Encodable {
+public class GetTaggingListRequest: Encodable {
     let chatroomId: String
     let page: Int
     let pageSize: Int
@@ -20,33 +20,33 @@ class GetTaggingListRequest: Encodable {
         self.searchName = searchName
     }
     
-    class Builder {
+    public class Builder {
         private var chatroomId: String = ""
         private var page: Int = 1
         private var pageSize: Int = 10
         private var searchName: String? = nil
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func page(_ page: Int) -> Builder {
+        public func page(_ page: Int) -> Builder {
             self.page = page
             return self
         }
         
-        func pageSize(_ pageSize: Int) -> Builder {
+        public func pageSize(_ pageSize: Int) -> Builder {
             self.pageSize = pageSize
             return self
         }
         
-        func searchName(_ searchName: String?) -> Builder {
+        public func searchName(_ searchName: String?) -> Builder {
             self.searchName = searchName
             return self
         }
         
-        func build() -> GetTaggingListRequest {
+        public func build() -> GetTaggingListRequest {
             return GetTaggingListRequest(
                 chatroomId: chatroomId,
                 page: page,
@@ -56,7 +56,7 @@ class GetTaggingListRequest: Encodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .chatroomId(chatroomId)
             .page(page)

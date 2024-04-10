@@ -16,7 +16,7 @@ public class Conversation: Decodable {
     public private(set) var member: Member?
     public private(set) var answer: String
     public private(set) var createdAt: String?
-    public private(set) var state: Int
+    public private(set) var state: ConversationState
     public private(set) var attachments: [Attachment]?
     public private(set) var lastSeen: Bool?
     public private(set) var ogTags: LinkOGTags?
@@ -96,20 +96,20 @@ public class Conversation: Decodable {
     
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decodeIfPresent(String.self, forKey: .id)
-        chatroomId = try container.decodeIfPresent(String.self, forKey: .chatroomId)
-        communityId = try container.decodeIfPresent(String.self, forKey: .communityId)
+        id = try container.decodeIntToStringIfPresent(forKey: .id)
+        chatroomId = try container.decodeIntToStringIfPresent(forKey: .chatroomId)
+        communityId = try container.decodeIntToStringIfPresent(forKey: .communityId)
         member = try container.decodeIfPresent(Member.self, forKey: .member)
         answer = try container.decode(String.self, forKey: .answer)
         createdAt = try container.decodeIfPresent(String.self, forKey: .createdAt)
-        state = try container.decode(Int.self, forKey: .state)
+        state = try container.decode(ConversationState.self, forKey: .state)
         attachments = try container.decodeIfPresent([Attachment].self, forKey: .attachments)
         lastSeen = try container.decodeIfPresent(Bool.self, forKey: .lastSeen)
         ogTags = try container.decodeIfPresent(LinkOGTags.self, forKey: .ogTags)
         date = try container.decodeIfPresent(String.self, forKey: .date)
         isEdited = try container.decodeIfPresent(Bool.self, forKey: .isEdited)
-        memberId = try container.decodeIfPresent(String.self, forKey: .memberId)
-        replyConversationId = try container.decodeIfPresent(String.self, forKey: .replyConversationId)
+        memberId = try container.decodeIntToStringIfPresent(forKey: .memberId)
+        replyConversationId = try container.decodeIntToStringIfPresent(forKey: .replyConversationId)
         deletedBy = try container.decodeIfPresent(String.self, forKey: .deletedBy)
         createdEpoch = try container.decodeIfPresent(Int.self, forKey: .createdEpoch)
         attachmentCount = try container.decodeIfPresent(Int.self, forKey: .attachmentCount)
@@ -129,7 +129,7 @@ public class Conversation: Decodable {
         polls = try container.decodeIfPresent([Poll].self, forKey: .polls)
         toShowResults = try container.decodeIfPresent(Bool.self, forKey: .toShowResults)
         pollAnswerText = try container.decodeIfPresent(String.self, forKey: .pollAnswerText)
-        replyChatroomId = try container.decodeIfPresent(String.self, forKey: .replyChatroomId)
+        replyChatroomId = try container.decodeIntToStringIfPresent(forKey: .replyChatroomId)
         deviceId = try container.decodeIfPresent(String.self, forKey: .deviceId)
         hasFiles = try container.decodeIfPresent(Bool.self, forKey: .hasFiles)
         hasReactions = try container.decodeIfPresent(Bool.self, forKey: .hasReactions)
@@ -186,7 +186,7 @@ public class Conversation: Decodable {
         self.member = member
         self.answer = answer
         self.createdAt = createdAt
-        self.state = state
+        self.state = ConversationState(rawValue: state) ?? .normal
         self.attachments = attachments
         self.lastSeen = lastSeen
         self.ogTags = ogTags
@@ -229,7 +229,7 @@ public class Conversation: Decodable {
         private var member: Member? = nil
         private var answer: String = ""
         private var createdAt: String? = nil
-        private var state: Int = 0
+        private var state: ConversationState = .unknown
         private var attachments: [Attachment]? = nil
         private var lastSeen: Bool? = nil
         private var ogTags: LinkOGTags? = nil
@@ -295,7 +295,7 @@ public class Conversation: Decodable {
         }
         
         func state(_ state: Int) -> Builder {
-            self.state = state
+            self.state = ConversationState(rawValue: state) ?? .unknown
             return self
         }
         
@@ -472,7 +472,7 @@ public class Conversation: Decodable {
                 member: member,
                 answer: answer,
                 createdAt: createdAt,
-                state: state,
+                state: state.rawValue,
                 attachments: attachments,
                 lastSeen: lastSeen,
                 ogTags: ogTags,
@@ -518,7 +518,7 @@ public class Conversation: Decodable {
             .member(member)
             .answer(answer)
             .createdAt(createdAt)
-            .state(state)
+            .state(state.rawValue)
             .attachments(attachments)
             .lastSeen(lastSeen)
             .ogTags(ogTags)

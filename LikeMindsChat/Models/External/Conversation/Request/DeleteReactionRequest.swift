@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DeleteReactionRequest: Encodable {
+public class DeleteReactionRequest: Encodable {
     private var conversationId: String?
     private var chatroomId: String?
     
@@ -21,26 +21,26 @@ class DeleteReactionRequest: Encodable {
         case conversationId = "conversation_id"
     }
     
-    class Builder {
+    public class Builder {
         private var conversationId: String?
         private var chatroomId: String?
         
-        func conversationId(_ conversationId: String?) -> Builder {
+        public func conversationId(_ conversationId: String?) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func chatroomId(_ chatroomId: String?) -> Builder {
+        public func chatroomId(_ chatroomId: String?) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func build() -> DeleteReactionRequest {
+        public func build() -> DeleteReactionRequest {
             return DeleteReactionRequest(conversationId: conversationId, chatroomId: chatroomId)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().conversationId(conversationId).chatroomId(chatroomId)
     }
 }

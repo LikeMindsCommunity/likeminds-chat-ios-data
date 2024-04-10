@@ -133,7 +133,7 @@ class ChatDBUtil {
     ) -> Results<ConversationRO> {
         return realm.objects(ConversationRO.self)
             .where { query in
-                query.chatroomId == chatroomId
+                query.chatroomId == chatroomId 
             }
     }
     

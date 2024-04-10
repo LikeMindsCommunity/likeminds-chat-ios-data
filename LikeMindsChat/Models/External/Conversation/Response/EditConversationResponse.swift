@@ -8,6 +8,6 @@
 import Foundation
 
 
-struct EditConversationResponse: Decodable {
-    var conversation: Conversation
+public struct EditConversationResponse: Decodable {
+    public var conversation: Conversation
 }

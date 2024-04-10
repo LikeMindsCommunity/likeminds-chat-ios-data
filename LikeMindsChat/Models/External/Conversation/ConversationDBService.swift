@@ -39,7 +39,7 @@ class ConversationDBService {
         }
     
     
-    func observerConversations(chatroomId: String) -> Results<ConversationRO>? {
+    func getChatroomConversations(chatroomId: String) -> Results<ConversationRO>? {
         let realm = RealmManager.realmInstance()
         let conversations = ChatDBUtil.shared.getChatroomConversations(realm: realm, chatroomId: chatroomId)
         return conversations
