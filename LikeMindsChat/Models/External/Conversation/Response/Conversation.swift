@@ -66,7 +66,7 @@ public class Conversation: Decodable {
         case isEdited = "is_edited"
         case memberId = "member_id"
         case replyConversationId = "reply_conversation"
-        case deletedBy = "delete_by"
+        case deletedBy = "delete_by_user_id"
         case createdEpoch = "created_epoch"
         case attachmentCount = "attachment_count"
         case attachmentUploaded = "attachments_uploaded"
@@ -222,7 +222,7 @@ public class Conversation: Decodable {
         self.deletedByMember = deletedByMember
     }
     
-    class Builder {
+    public class Builder {
         private var id: String? = ""
         private var chatroomId: String? = nil
         private var communityId: String? = nil
@@ -264,207 +264,209 @@ public class Conversation: Decodable {
         private var lastUpdated: Int? = nil
         private var deletedByMember: Member? = nil
         
-        func id(_ id: String?) -> Builder {
+        public init() {}
+        
+        public func id(_ id: String?) -> Builder {
             self.id = id
             return self
         }
         
-        func chatroomId(_ chatroomId: String?) -> Builder {
+        public func chatroomId(_ chatroomId: String?) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func communityId(_ communityId: String?) -> Builder {
+        public func communityId(_ communityId: String?) -> Builder {
             self.communityId = communityId
             return self
         }
         
-        func member(_ member: Member?) -> Builder {
+        public func member(_ member: Member?) -> Builder {
             self.member = member
             return self
         }
         
-        func answer(_ answer: String) -> Builder {
+        public func answer(_ answer: String) -> Builder {
             self.answer = answer
             return self
         }
         
-        func createdAt(_ createdAt: String?) -> Builder {
+        public func createdAt(_ createdAt: String?) -> Builder {
             self.createdAt = createdAt
             return self
         }
         
-        func state(_ state: Int) -> Builder {
+        public func state(_ state: Int) -> Builder {
             self.state = ConversationState(rawValue: state) ?? .unknown
             return self
         }
         
-        func attachments(_ attachments: [Attachment]?) -> Builder {
+        public func attachments(_ attachments: [Attachment]?) -> Builder {
             self.attachments = attachments
             return self
         }
         
-        func lastSeen(_ lastSeen: Bool?) -> Builder {
+        public func lastSeen(_ lastSeen: Bool?) -> Builder {
             self.lastSeen = lastSeen
             return self
         }
         
-        func ogTags(_ ogTags: LinkOGTags?) -> Builder {
+        public func ogTags(_ ogTags: LinkOGTags?) -> Builder {
             self.ogTags = ogTags
             return self
         }
         
-        func date(_ date: String?) -> Builder {
+        public func date(_ date: String?) -> Builder {
             self.date = date
             return self
         }
         
-        func isEdited(_ isEdited: Bool?) -> Builder {
+        public func isEdited(_ isEdited: Bool?) -> Builder {
             self.isEdited = isEdited
             return self
         }
         
-        func memberId(_ memberId: String?) -> Builder {
+        public func memberId(_ memberId: String?) -> Builder {
             self.memberId = memberId
             return self
         }
         
-        func replyConversationId(_ replyConversationId: String?) -> Builder {
+        public func replyConversationId(_ replyConversationId: String?) -> Builder {
             self.replyConversationId = replyConversationId
             return self
         }
         
-        func replyConversation(_ replyConversation: Conversation?) -> Builder {
+        public func replyConversation(_ replyConversation: Conversation?) -> Builder {
             self.replyConversation = replyConversation
             return self
         }
         
-        func deletedBy(_ deletedBy: String?) -> Builder {
+        public func deletedBy(_ deletedBy: String?) -> Builder {
             self.deletedBy = deletedBy
             return self
         }
         
-        func createdEpoch(_ createdEpoch: Int?) -> Builder {
+        public func createdEpoch(_ createdEpoch: Int?) -> Builder {
             self.createdEpoch = createdEpoch
             return self
         }
         
-        func attachmentCount(_ attachmentCount: Int?) -> Builder {
+        public func attachmentCount(_ attachmentCount: Int?) -> Builder {
             self.attachmentCount = attachmentCount
             return self
         }
         
-        func attachmentUploaded(_ attachmentUploaded: Bool?) -> Builder {
+        public func attachmentUploaded(_ attachmentUploaded: Bool?) -> Builder {
             self.attachmentUploaded = attachmentUploaded
             return self
         }
         
-        func uploadWorkerUUID(_ uploadWorkerUUID: String?) -> Builder {
+        public func uploadWorkerUUID(_ uploadWorkerUUID: String?) -> Builder {
             self.uploadWorkerUUID = uploadWorkerUUID
             return self
         }
         
-        func temporaryId(_ temporaryId: String?) -> Builder {
+        public func temporaryId(_ temporaryId: String?) -> Builder {
             self.temporaryId = temporaryId
             return self
         }
         
-        func localCreatedEpoch(_ localCreatedEpoch: Int?) -> Builder {
+        public func localCreatedEpoch(_ localCreatedEpoch: Int?) -> Builder {
             self.localCreatedEpoch = localCreatedEpoch
             return self
         }
         
-        func reactions(_ reactions: [Reaction]?) -> Builder {
+        public func reactions(_ reactions: [Reaction]?) -> Builder {
             self.reactions = reactions
             return self
         }
         
-        func isAnonymous(_ isAnonymous: Bool?) -> Builder {
+        public func isAnonymous(_ isAnonymous: Bool?) -> Builder {
             self.isAnonymous = isAnonymous
             return self
         }
         
-        func allowAddOption(_ allowAddOption: Bool?) -> Builder {
+        public func allowAddOption(_ allowAddOption: Bool?) -> Builder {
             self.allowAddOption = allowAddOption
             return self
         }
         
-        func pollType(_ pollType: Int?) -> Builder {
+        public func pollType(_ pollType: Int?) -> Builder {
             self.pollType = pollType
             return self
         }
         
-        func pollTypeText(_ pollTypeText: String?) -> Builder {
+        public func pollTypeText(_ pollTypeText: String?) -> Builder {
             self.pollTypeText = pollTypeText
             return self
         }
         
-        func submitTypeText(_ submitTypeText: String?) -> Builder {
+        public func submitTypeText(_ submitTypeText: String?) -> Builder {
             self.submitTypeText = submitTypeText
             return self
         }
         
-        func expiryTime(_ expiryTime: Int?) -> Builder {
+        public func expiryTime(_ expiryTime: Int?) -> Builder {
             self.expiryTime = expiryTime
             return self
         }
         
-        func multipleSelectNum(_ multipleSelectNum: Int?) -> Builder {
+        public func multipleSelectNum(_ multipleSelectNum: Int?) -> Builder {
             self.multipleSelectNum = multipleSelectNum
             return self
         }
         
-        func multipleSelectState(_ multipleSelectState: Int?) -> Builder {
+        public func multipleSelectState(_ multipleSelectState: Int?) -> Builder {
             self.multipleSelectState = multipleSelectState
             return self
         }
         
-        func polls(_ polls: [Poll]?) -> Builder {
+        public func polls(_ polls: [Poll]?) -> Builder {
             self.polls = polls
             return self
         }
         
-        func toShowResults(_ toShowResults: Bool?) -> Builder {
+        public func toShowResults(_ toShowResults: Bool?) -> Builder {
             self.toShowResults = toShowResults
             return self
         }
         
-        func pollAnswerText(_ pollAnswerText: String?) -> Builder {
+        public func pollAnswerText(_ pollAnswerText: String?) -> Builder {
             self.pollAnswerText = pollAnswerText
             return self
         }
         
-        func replyChatroomId(_ replyChatroomId: String?) -> Builder {
+        public func replyChatroomId(_ replyChatroomId: String?) -> Builder {
             self.replyChatroomId = replyChatroomId
             return self
         }
         
-        func deviceId(_ deviceId: String?) -> Builder {
+        public func deviceId(_ deviceId: String?) -> Builder {
             self.deviceId = deviceId
             return self
         }
         
-        func hasFiles(_ hasFiles: Bool?) -> Builder {
+        public func hasFiles(_ hasFiles: Bool?) -> Builder {
             self.hasFiles = hasFiles
             return self
         }
         
-        func hasReactions(_ hasReactions: Bool?) -> Builder {
+        public func hasReactions(_ hasReactions: Bool?) -> Builder {
             self.hasReactions = hasReactions
             return self
         }
         
-        func lastUpdated(_ lastUpdated: Int?) -> Builder {
+        public func lastUpdated(_ lastUpdated: Int?) -> Builder {
             self.lastUpdated = lastUpdated
             return self
         }
         
-        func deletedByMember(_ deletedByMember: Member?) -> Builder {
+        public func deletedByMember(_ deletedByMember: Member?) -> Builder {
             self.deletedByMember = deletedByMember
             return self
         }
         
-        func build() -> Conversation {
+        public func build() -> Conversation {
             return Conversation(
                 id: id,
                 chatroomId: chatroomId,
@@ -510,7 +512,7 @@ public class Conversation: Decodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .id(id)
             .chatroomId(chatroomId)

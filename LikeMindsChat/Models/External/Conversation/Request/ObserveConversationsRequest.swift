@@ -16,21 +16,21 @@ class ObserveConversationsRequest {
         self.listener = listener
     }
     
-    class Builder {
+    public class Builder {
         private var chatroomId: String = ""
         private var listener: ConversationChangeDelegate?
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func listener(_ listener: ConversationChangeDelegate) -> Builder {
+        public func listener(_ listener: ConversationChangeDelegate) -> Builder {
             self.listener = listener
             return self
         }
         
-        func build() -> ObserveConversationsRequest {
+        public func build() -> ObserveConversationsRequest {
             guard let listener = listener else {
                 fatalError("Listener must be set")
             }
@@ -38,7 +38,7 @@ class ObserveConversationsRequest {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().chatroomId(chatroomId)
     }
 }

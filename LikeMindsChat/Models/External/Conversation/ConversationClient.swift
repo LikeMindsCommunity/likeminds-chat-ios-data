@@ -15,9 +15,9 @@ class ConversationClient: ServiceRequest {
     
     private var notificationToken: NotificationToken?
     private var conversations: Results<ConversationRO>?
-    private var observers: [ConversationClientObserver?] = []
+    private var observers: [ConversationChangeDelegate?] = []
     
-    func addObserver(_ ob: ConversationClientObserver) {
+    func addObserver(_ ob: ConversationChangeDelegate) {
         guard observers.first(where: {type(of: $0) == type(of: ob)}) == nil else { return }
         observers.append(ob)
     }
@@ -60,9 +60,32 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      */
     public func observeConversations(
-        observerConversationsRequest: ObserveConversationsRequest
+        request: ObserveConversationsRequest
     ) {
+        guard let communityId = SDKPreferences.shared.getCommunityId()else { return }
+        addObserver(request.listener)
+        conversations = ConversationDBService.shared.getChatroomConversations(chatroomId: request.chatroomId)
+        // Observe collection notifications. Keep a strong
+        // reference to the notification token or the
+        // observation will stop.
+        notificationToken = conversations?.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self else { return }
+            switch changes {
+            case .initial(let _):
+                break
+            case .update(let collections, let deletions, let insertions, let modifications):
 
+                observers.forEach {
+                    $0?.getNewConversations(conversations: self.getIndexedConversations(indexArray: insertions))
+                    $0?.getPostedConversations(conversations: self.getIndexedConversations(indexArray: modifications))
+                    $0?.getChangedConversations(conversations: self.getIndexedConversations(indexArray: modifications))
+                }
+                break
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+        }
     }
     
     /**
@@ -106,36 +129,40 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<GetConversationsResponse> - Base LM response[GetConversationsResponse]
      */
-    func getConversations(request: GetConversationsRequest, response: LMClientResponse<GetConversationsResponse>) {
-        
-        guard let communityId = SDKPreferences.shared.getCommunityId(), let observer = request.observer else { return }
-        addObserver(observer)
-        conversations = ConversationDBService.shared.getChatroomConversations(chatroomId: request.chatroomId)
-        
-        // Observe collection notifications. Keep a strong
-        // reference to the notification token or the
-        // observation will stop.
-        notificationToken = conversations?.observe { [weak self] (changes: RealmCollectionChange) in
-            guard let self else { return }
-            switch changes {
-            case .initial(let collections):
-                guard let chatrooms = conversations?.list.compactMap({ ro in
-                    return ModelConverter.shared.convertConversationRO(ro)
-                }) else { return }
-                observers.forEach { $0?.initial(Array(chatrooms))}
-            case .update(let collections, let deletions, let insertions, let modifications):
-                guard (conversations?.list.compactMap({ ro in
-                    return ModelConverter.shared.convertConversationRO(ro)
-                })) != nil else { return }
-                observers.forEach { $0?.onChange(removed: deletions, inserted: self.getIndexedConversations(indexArray: insertions), updated: self.getIndexedConversations(indexArray: modifications))}
-                break
-            case .error(let error):
-                // An error occurred while opening the Realm file on the background worker thread
-                fatalError("\(error)")
+    func getConversations(request: GetConversationsRequest, response: LMClientResponse<GetConversationsResponse>?) {
+
+        switch request.type {
+        case .above:
+            getAboveConversations(chatroomId: request.chatroomId, limit: request.limit, conversation: request.conversation) { result in
+                response?(result)
             }
+        case .below:
+            getAboveConversations(chatroomId: request.chatroomId, limit: request.limit, conversation: request.conversation) { result in
+                response?(result)
+            }
+        case .top:
+            getTopConversations(chatroomId: request.chatroomId, limit: request.limit) { result in
+                response?(result)
+            }
+        case .bottom:
+            getBottomConversations(chatroomId: request.chatroomId, limit: request.limit) { result in
+                response?(result)
+            }
+        case .none:
+            break
         }
+        
+        return
     }
     
+    private func getIndexedConversations(indexArray: [Int]) -> [Conversation] {
+        return indexArray.compactMap {  index in
+            let conversationRO = conversations?[index]
+            let conversation = ModelConverter.shared.convertConversationRO(conversationRO)
+            return conversation
+        }
+    }
+   /*
     private func getIndexedConversations(indexArray: [Int]) -> [(Int, Conversation)] {
         return indexArray.compactMap {  index in
             let conversationRO = conversations?[index]
@@ -143,32 +170,65 @@ class ConversationClient: ServiceRequest {
             return (index, conversation) as? (Int, Conversation)
         }
     }
+    */
     
     //get conversations below a particular conversation
     private func getBelowConversations(
         chatroomId: String,
         limit: Int,
-        belowConversation: Conversation?, response: LMClientResponse<GetConversationsResponse>) {
-    }
+        belowConversation: Conversation?, response: LMClientResponse<GetConversationsResponse>?) {
+            guard let topConversations =  ConversationDBService.shared.getBelowConversations(chatroomId: chatroomId, limit: limit, timestmap: belowConversation?.createdEpoch ?? 0)?.compactMap({ ro in
+                ModelConverter.shared.convertConversationRO(ro)
+            }) else {
+                response?(LMResponse.failureResponse("Unable to fetch below conversations!"))
+                return
+            }
+            var responseData = GetConversationsResponse(conversations: Array(topConversations))
+            response?(LMResponse.successResponse(responseData))
+        }
     
     //get conversations above a particular conversation
-    private func getAboveConversation(
+    private func getAboveConversations(
         chatroomId: String,
         limit: Int,
-        conversation: Conversation?, response: LMClientResponse<GetConversationsResponse>) {
-    }
+        conversation: Conversation?, response: LMClientResponse<GetConversationsResponse>?) {
+            guard let topConversations =  ConversationDBService.shared.getAboveConversations(chatroomId: chatroomId, limit: limit, timestmap: conversation?.createdEpoch ?? 0)?.compactMap({ ro in
+                ModelConverter.shared.convertConversationRO(ro)
+            }) else {
+                response?(LMResponse.failureResponse("Unable to fetch above conversations!"))
+                return
+            }
+            var responseData = GetConversationsResponse(conversations: Array(topConversations))
+            response?(LMResponse.successResponse(responseData))
+        }
     
     //get conversations from start of a chatroom
     private func getTopConversations(
         chatroomId: String,
-        limit: Int, response: LMClientResponse<GetConversationsResponse>) {
+        limit: Int, response: LMClientResponse<GetConversationsResponse>?) {
+            guard let topConversations =  ConversationDBService.shared.getTopConversations(chatroomId: chatroomId, limit: limit)?.compactMap({ ro in
+                ModelConverter.shared.convertConversationRO(ro)
+            }) else {
+                response?(LMResponse.failureResponse("Unable to fetch top conversations!"))
+                return
+            }
+            var responseData = GetConversationsResponse(conversations: Array(topConversations))
+            response?(LMResponse.successResponse(responseData))
     }
     
     //get conversations from end of a chatroom
     private func getBottomConversations(
         chatroomId: String,
-        limit: Int, response: LMClientResponse<GetConversationsResponse>) {
-    }
+        limit: Int, response: LMClientResponse<GetConversationsResponse>?) {
+            guard let topConversations =  ConversationDBService.shared.getBottomConversations(chatroomId: chatroomId, limit: limit)?.compactMap({ ro in
+                ModelConverter.shared.convertConversationRO(ro)
+            }) else {
+                response?(LMResponse.failureResponse("Unable to fetch Bottom conversations!"))
+                return
+            }
+            let responseData = GetConversationsResponse(conversations: Array(topConversations))
+            response?(LMResponse.successResponse(responseData))
+        }
     
     /**
      * runs the query and returns the conversations above count
@@ -208,6 +268,7 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * */
     func saveTemporaryConversation(saveConversationRequest: SaveConversationRequest) {
+        
     }
     
     /**
@@ -233,7 +294,9 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<GetConversationResponse> - Base LM response[GetConversationResponse]
      */
-    func getConversation(getConversationRequest: GetConversationRequest, response: LMClientResponse<GetConversationResponse>) {
+    func getConversation(getConversationRequest: GetConversationRequest) -> Conversation? {
+        let conversationRO = ConversationDBService.shared.getConversation(conversationId: getConversationRequest.conversationId)
+        return ModelConverter.shared.convertConversationRO(conversationRO)
     }
     
     func decodeUrl(request: DecodeUrlRequest, response: LMClientResponse<DecodeUrlResponse>?) {

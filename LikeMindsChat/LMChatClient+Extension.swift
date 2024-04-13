@@ -86,6 +86,20 @@ extension LMChatClient {
         }
     }
     
+    public func loadConversations(withChatroomId chatroomId: String, loadType: LoadConversationType) {
+        ConversationClient.shared.loadConversations(type: loadType, chatroomId: chatroomId)
+    }
+    
+    public func getConversations(withRequest request: GetConversationsRequest, response: LMClientResponse<GetConversationsResponse>?) {
+        ConversationClient.shared.getConversations(request: request) { result in
+            response?(result)
+        }
+    }
+    
+    public func saveTemporaryConversation(request: SaveConversationRequest) {
+        ConversationClient.shared.saveTemporaryConversation(saveConversationRequest: request)
+    }
+    
     
     public func getHomeFeed(request: GetHomeFeedRequest, response: LMClientResponse<GetHomeFeedResponse>?) {
         
@@ -96,8 +110,11 @@ extension LMChatClient {
         
     }
     
-    public func getMember() {
-        
+    public func getMember(request: GetMemberRequest) -> LMResponse<GetMemberResponse>? {
+        guard let response = CommunityClient.shared.getMember(request: request) else {
+            return LMResponse.failureResponse("failed to fetch member!")
+        }
+        return LMResponse.successResponse(response)
     }
     
     public func getChatroom(request: GetChatroomRequest, response: LMClientResponse<GetChatroomResponse>?) {
@@ -170,14 +187,6 @@ extension LMChatClient {
         
     }
     
-    public func loadConversations(withChatroomId chatroomId: String, loadType: LoadConversationType) {
-        ConversationClient.shared.loadConversations(type: loadType, chatroomId: chatroomId)
-    }
-    
-    public func getConversations(withRequest request: GetConversationsRequest) {
-        ConversationClient.shared.getConversations(request: request) { response in }
-    }
-    
     public func getConversationsCount() {
         
     }
@@ -194,8 +203,11 @@ extension LMChatClient {
         
     }
     
-    public func getConversation() {
-        
+    public func getConversation(request: GetConversationRequest) -> LMResponse<GetConversationResponse>? {
+        guard let conversation = ConversationClient.shared.getConversation(getConversationRequest: request) else {
+            return LMResponse.failureResponse("failed to fetch conversation!")
+        }
+        return LMResponse.successResponse(GetConversationResponse(conversation: conversation))
     }
     
     public func postConversation(request: PostConversationRequest, response: LMClientResponse<PostConversationResponse>?) {

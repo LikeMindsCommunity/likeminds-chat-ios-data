@@ -91,7 +91,7 @@ struct _Chatroom_: Decodable {
         case isPinned = "is_pinned"
         case isDeleted = "is_deleted"
         case userId = "user_id"
-        case deletedBy = "deleted_by"
+        case deletedBy = "deleted_by_user_id"
         case deletedByMember = "deleted_by_member"
         case updatedAt = "updated_at"
         case lastSeenConversationId = "last_seen_conversation"

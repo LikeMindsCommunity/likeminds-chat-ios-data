@@ -8,15 +8,15 @@
 import Foundation
 
 public class PostConversationRequest: Encodable {
-    private let chatroomId: String
-    private let text: String
-    private let isFromNotification: Bool
-    private let shareLink: String?
-    private let ogTags: LinkOGTags?
-    private let repliedConversationId: String?
-    private let attachmentCount: Int?
-    private let temporaryId: String?
-    private let repliedChatroomId: String?
+    public private(set) var chatroomId: String
+    public private(set) var text: String
+    public private(set) var isFromNotification: Bool
+    public private(set) var shareLink: String?
+    public private(set) var ogTags: LinkOGTags?
+    public private(set) var repliedConversationId: String?
+    public private(set) var attachmentCount: Int?
+    public private(set) var temporaryId: String?
+    public private(set) var repliedChatroomId: String?
     
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"

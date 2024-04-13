@@ -98,7 +98,7 @@ class ModelConverter {
     }
     
     // converts MemberRO model to client model
-    private func convertMemberRO(_ memberRO: MemberRO?) -> Member? {
+    func convertMemberRO(_ memberRO: MemberRO?) -> Member? {
         guard let memberRO else { return nil}
         return Member.Builder()
             .id(memberRO.id ?? "")

@@ -7,27 +7,29 @@
 
 import Foundation
 
-class GetMemberRequest {
-    private let uuid: String
+public class GetMemberRequest {
+    let uuid: String
     
     private init(uuid: String) {
         self.uuid = uuid
     }
-    
-    class Builder {
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    public  class Builder {
         private var uuid: String = ""
         
-        func uuid(_ uuid: String) -> Builder {
+        public func uuid(_ uuid: String) -> Builder {
             self.uuid = uuid
             return self
         }
         
-        func build() -> GetMemberRequest {
+        public func build() -> GetMemberRequest {
             return GetMemberRequest(uuid: uuid)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().uuid(uuid)
     }
 }

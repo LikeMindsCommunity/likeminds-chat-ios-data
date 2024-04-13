@@ -26,6 +26,8 @@ public class GetTaggingListRequest: Encodable {
         private var pageSize: Int = 10
         private var searchName: String? = nil
         
+        public init() {}
+        
         public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self

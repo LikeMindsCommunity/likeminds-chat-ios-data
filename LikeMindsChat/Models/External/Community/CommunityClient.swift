@@ -43,4 +43,10 @@ class CommunityClient {
 //        
 //    }
     
+    func getMember(request: GetMemberRequest) -> GetMemberResponse? {
+        guard let memberRO = CommunityDBService.shared.getMember(uuid: request.uuid) else { return nil }
+        let response = GetMemberResponse(member: ModelConverter.shared.convertMemberRO(memberRO))
+        return response
+    }
+    
 }

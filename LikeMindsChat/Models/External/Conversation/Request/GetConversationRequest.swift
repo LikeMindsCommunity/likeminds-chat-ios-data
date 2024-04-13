@@ -7,31 +7,35 @@
 
 import Foundation
 
-class GetConversationRequest: Encodable {
-    private let conversationId: String
+public class GetConversationRequest: Encodable {
+    let conversationId: String
     
     private init(conversationId: String) {
         self.conversationId = conversationId
+    }
+    
+    public static func builder() -> Builder {
+        return Builder()
     }
     
     enum CodingKeys: String, CodingKey {
         case conversationId = "conversation_id"
     }
     
-    class Builder {
+    public class Builder {
         private var conversationId: String = ""
         
-        func conversationId(_ conversationId: String) -> Builder {
+        public func conversationId(_ conversationId: String) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func build() -> GetConversationRequest {
+        public func build() -> GetConversationRequest {
             return GetConversationRequest(conversationId: conversationId)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().conversationId(conversationId)
     }
 }

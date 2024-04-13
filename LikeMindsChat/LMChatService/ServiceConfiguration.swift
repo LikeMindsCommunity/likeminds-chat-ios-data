@@ -181,7 +181,8 @@ struct ServiceAPIRequest {
             case .decodeUrl(let request):
                 return "helper/url?url=\(request.url)"
             case .getTaggingList(let request):
-                return "community/tag"
+                let requestUrl = "community/tag?page_size=\(request.pageSize)&page=\(request.page)" + ((request.searchName ?? "").isEmpty ? "" : "&search_name=\(request.searchName ?? "")")
+                return requestUrl
             case .getExploreTabCount:
                 return "community/member/home/meta"
                 

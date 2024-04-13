@@ -28,7 +28,7 @@ public struct Attachment: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case name
-        case url
+        case url = "file_url"
         case type
         case index
         case width
@@ -80,7 +80,11 @@ public struct Attachment: Decodable {
         self.updatedAt = updatedAt
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public class Builder {
         private var id: String?
         private var name: String?
         private var url: String = ""
@@ -97,82 +101,82 @@ public struct Attachment: Decodable {
         private var createdAt: Int? = nil
         private var updatedAt: Int? = nil
         
-        func id(_ id: String?) -> Builder {
+        public func id(_ id: String?) -> Builder {
             self.id = id
             return self
         }
         
-        func name(_ name: String?) -> Builder {
+        public func name(_ name: String?) -> Builder {
             self.name = name
             return self
         }
         
-        func url(_ url: String) -> Builder {
+        public func url(_ url: String) -> Builder {
             self.url = url
             return self
         }
         
-        func type(_ type: String) -> Builder {
+        public func type(_ type: String) -> Builder {
             self.type = type
             return self
         }
         
-        func index(_ index: Int?) -> Builder {
+        public func index(_ index: Int?) -> Builder {
             self.index = index
             return self
         }
         
-        func width(_ width: Int?) -> Builder {
+        public func width(_ width: Int?) -> Builder {
             self.width = width
             return self
         }
         
-        func height(_ height: Int?) -> Builder {
+        public func height(_ height: Int?) -> Builder {
             self.height = height
             return self
         }
         
-        func awsFolderPath(_ awsFolderPath: String?) -> Builder {
+        public func awsFolderPath(_ awsFolderPath: String?) -> Builder {
             self.awsFolderPath = awsFolderPath
             return self
         }
         
-        func localFilePath(_ localFilePath: String?) -> Builder {
+        public func localFilePath(_ localFilePath: String?) -> Builder {
             self.localFilePath = localFilePath
             return self
         }
         
-        func thumbnailUrl(_ thumbnailUrl: String?) -> Builder {
+        public func thumbnailUrl(_ thumbnailUrl: String?) -> Builder {
             self.thumbnailUrl = thumbnailUrl
             return self
         }
         
-        func thumbnailAWSFolderPath(_ thumbnailAWSFolderPath: String?) -> Builder {
+        public func thumbnailAWSFolderPath(_ thumbnailAWSFolderPath: String?) -> Builder {
             self.thumbnailAWSFolderPath = thumbnailAWSFolderPath
             return self
         }
         
-        func thumbnailLocalFilePath(_ thumbnailLocalFilePath: String?) -> Builder {
+        public func thumbnailLocalFilePath(_ thumbnailLocalFilePath: String?) -> Builder {
             self.thumbnailLocalFilePath = thumbnailLocalFilePath
             return self
         }
         
-        func meta(_ meta: AttachmentMeta?) -> Builder {
+        public func meta(_ meta: AttachmentMeta?) -> Builder {
             self.meta = meta
             return self
         }
         
-        func createdAt(_ createdAt: Int?) -> Builder {
+        public func createdAt(_ createdAt: Int?) -> Builder {
             self.createdAt = createdAt
             return self
         }
         
-        func updatedAt(_ updatedAt: Int?) -> Builder {
+        public func updatedAt(_ updatedAt: Int?) -> Builder {
             self.updatedAt = updatedAt
             return self
         }
         
-        func build() -> Attachment {
+        public func build() -> Attachment {
             return Attachment(
                 id: id,
                 name: name,
@@ -193,7 +197,7 @@ public struct Attachment: Decodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .id(id)
             .name(name)

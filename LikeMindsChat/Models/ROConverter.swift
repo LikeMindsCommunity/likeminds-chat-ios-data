@@ -70,12 +70,14 @@ class ROConverter {
         
         let chatroomRO = ChatroomRO()
         chatroomRO.id = chatroomId
+        chatroomRO.communityId = communityId
         chatroomRO.state = chatroom.state ?? 0
         chatroomRO.member = chatroomCreatorRO
         chatroomRO.createdAt = chatroom.createdAt
         chatroomRO.type = chatroom.type
         chatroomRO.chatroomImageUrl = chatroom.chatroomImageUrl
         chatroomRO.header = chatroom.header
+        chatroomRO.title = chatroom.title ?? ""
         chatroomRO.cardCreationTime = chatroom.cardCreationTime
         chatroomRO.totalResponseCount = savedChatroom?.totalResponseCount ?? 0
         chatroomRO.totalAllResponseCount = savedChatroom?.totalAllResponseCount ?? 0
@@ -146,6 +148,7 @@ class ROConverter {
         attachmentRO.metaRO = convertAttachmentMeta(meta: attachment.meta)
         attachmentRO.createdAt = attachment.createdAt
         attachmentRO.updatedAt = attachment.updatedAt
+        attachmentRO.url = attachment.url
         return attachmentRO
     }
     
@@ -397,6 +400,7 @@ class ROConverter {
             conversationRO.replyChatRoomId = conversation.replyChatroomId
             return conversationRO
     }
+    
     /**
      * Use this function to convert sync conversation/chatroom
      *
@@ -445,7 +449,7 @@ class ROConverter {
         }
         
         //get attachments as per saved and new conversation
-        let updatedAttachments = convertUpdatedAttachments(chatroomId: chatroomId, communityId: communityId, attachments: conversation.attachments ?? [], oldAttachments: savedAnswer?.attachments ?? List())
+        let updatedAttachments = convertUpdatedAttachments(chatroomId: chatroomId, communityId: communityId, attachments: attachments ?? [], oldAttachments: savedAnswer?.attachments ?? List())
         
         let reactionsRO = convertReactions(realm: RealmManager.realmInstance(), communityId: communityId, reactions: conversation.reactions)
         

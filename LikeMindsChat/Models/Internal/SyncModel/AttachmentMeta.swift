@@ -31,32 +31,36 @@ public struct AttachmentMeta: Codable {
         self.duration = duration
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public class Builder {
         private var numberOfPage: Int?
         private var size: Int64?
         private var duration: Int?
         
-        func numberOfPage(_ numberOfPage: Int?) -> Builder {
+        public func numberOfPage(_ numberOfPage: Int?) -> Builder {
             self.numberOfPage = numberOfPage
             return self
         }
         
-        func size(_ size: Int64?) -> Builder {
+        public func size(_ size: Int64?) -> Builder {
             self.size = size
             return self
         }
         
-        func duration(_ duration: Int?) -> Builder {
+        public func duration(_ duration: Int?) -> Builder {
             self.duration = duration
             return self
         }
         
-        func build() -> AttachmentMeta {
+        public func build() -> AttachmentMeta {
             return AttachmentMeta(numberOfPage: numberOfPage, size: size, duration: duration)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .numberOfPage(numberOfPage)
             .size(size)

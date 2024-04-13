@@ -7,28 +7,32 @@
 
 import Foundation
 
-class SaveConversationRequest {
+public class SaveConversationRequest {
     private let conversation: Conversation?
     
     private init(conversation: Conversation?) {
         self.conversation = conversation
     }
     
-    class Builder {
+    public class Builder {
         private var conversation: Conversation?
-
+                
         @discardableResult
-        func conversation(_ conversation: Conversation?) -> Builder {
+        public func conversation(_ conversation: Conversation?) -> Builder {
             self.conversation = conversation
             return self
         }
         
-        func build() -> SaveConversationRequest {
+        public func build() -> SaveConversationRequest {
             return SaveConversationRequest(conversation: conversation)
         }
     }
     
-    func toBuilder() -> Builder {
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public func toBuilder() -> Builder {
         return Builder().conversation(conversation)
     }
 }
