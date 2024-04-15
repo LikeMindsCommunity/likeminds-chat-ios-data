@@ -90,10 +90,8 @@ extension LMChatClient {
         ConversationClient.shared.loadConversations(type: loadType, chatroomId: chatroomId)
     }
     
-    public func getConversations(withRequest request: GetConversationsRequest, response: LMClientResponse<GetConversationsResponse>?) {
-        ConversationClient.shared.getConversations(request: request) { result in
-            response?(result)
-        }
+    public func getConversations(withRequest request: GetConversationsRequest) -> LMResponse<GetConversationsResponse>? {
+        return ConversationClient.shared.getConversations(request: request)
     }
     
     public func saveTemporaryConversation(request: SaveConversationRequest) {

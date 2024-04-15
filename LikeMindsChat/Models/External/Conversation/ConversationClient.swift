@@ -129,30 +129,21 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return LMResponse<GetConversationsResponse> - Base LM response[GetConversationsResponse]
      */
-    func getConversations(request: GetConversationsRequest, response: LMClientResponse<GetConversationsResponse>?) {
+    func getConversations(request: GetConversationsRequest) -> LMResponse<GetConversationsResponse>? {
 
         switch request.type {
         case .above:
-            getAboveConversations(chatroomId: request.chatroomId, limit: request.limit, conversation: request.conversation) { result in
-                response?(result)
-            }
+            return getAboveConversations(chatroomId: request.chatroomId, limit: request.limit, conversation: request.conversation)
         case .below:
-            getAboveConversations(chatroomId: request.chatroomId, limit: request.limit, conversation: request.conversation) { result in
-                response?(result)
-            }
+            return getBelowConversations(chatroomId: request.chatroomId, limit: request.limit, belowConversation: request.conversation)
         case .top:
-            getTopConversations(chatroomId: request.chatroomId, limit: request.limit) { result in
-                response?(result)
-            }
+            return getTopConversations(chatroomId: request.chatroomId, limit: request.limit)
         case .bottom:
-            getBottomConversations(chatroomId: request.chatroomId, limit: request.limit) { result in
-                response?(result)
-            }
+            return getBottomConversations(chatroomId: request.chatroomId, limit: request.limit)
         case .none:
             break
         }
-        
-        return
+        return LMResponse.failureResponse("Failed to fetch conversations!")
     }
     
     private func getIndexedConversations(indexArray: [Int]) -> [Conversation] {
@@ -176,58 +167,54 @@ class ConversationClient: ServiceRequest {
     private func getBelowConversations(
         chatroomId: String,
         limit: Int,
-        belowConversation: Conversation?, response: LMClientResponse<GetConversationsResponse>?) {
+        belowConversation: Conversation?) -> LMResponse<GetConversationsResponse>? {
             guard let topConversations =  ConversationDBService.shared.getBelowConversations(chatroomId: chatroomId, limit: limit, timestmap: belowConversation?.createdEpoch ?? 0)?.compactMap({ ro in
                 ModelConverter.shared.convertConversationRO(ro)
             }) else {
-                response?(LMResponse.failureResponse("Unable to fetch below conversations!"))
-                return
+                return LMResponse.failureResponse("Unable to fetch below conversations!")
             }
-            var responseData = GetConversationsResponse(conversations: Array(topConversations))
-            response?(LMResponse.successResponse(responseData))
+            let responseData = GetConversationsResponse(conversations: Array(topConversations))
+            return LMResponse.successResponse(responseData)
         }
     
     //get conversations above a particular conversation
     private func getAboveConversations(
         chatroomId: String,
         limit: Int,
-        conversation: Conversation?, response: LMClientResponse<GetConversationsResponse>?) {
+        conversation: Conversation?) -> LMResponse<GetConversationsResponse>? {
             guard let topConversations =  ConversationDBService.shared.getAboveConversations(chatroomId: chatroomId, limit: limit, timestmap: conversation?.createdEpoch ?? 0)?.compactMap({ ro in
                 ModelConverter.shared.convertConversationRO(ro)
             }) else {
-                response?(LMResponse.failureResponse("Unable to fetch above conversations!"))
-                return
+                return LMResponse.failureResponse("Unable to fetch above conversations!")
             }
-            var responseData = GetConversationsResponse(conversations: Array(topConversations))
-            response?(LMResponse.successResponse(responseData))
+            let responseData = GetConversationsResponse(conversations: Array(topConversations))
+            return LMResponse.successResponse(responseData)
         }
     
     //get conversations from start of a chatroom
     private func getTopConversations(
         chatroomId: String,
-        limit: Int, response: LMClientResponse<GetConversationsResponse>?) {
+        limit: Int) -> LMResponse<GetConversationsResponse>? {
             guard let topConversations =  ConversationDBService.shared.getTopConversations(chatroomId: chatroomId, limit: limit)?.compactMap({ ro in
                 ModelConverter.shared.convertConversationRO(ro)
             }) else {
-                response?(LMResponse.failureResponse("Unable to fetch top conversations!"))
-                return
+                return LMResponse.failureResponse("Unable to fetch top conversations!")
             }
             var responseData = GetConversationsResponse(conversations: Array(topConversations))
-            response?(LMResponse.successResponse(responseData))
+            return LMResponse.successResponse(responseData)
     }
     
     //get conversations from end of a chatroom
     private func getBottomConversations(
         chatroomId: String,
-        limit: Int, response: LMClientResponse<GetConversationsResponse>?) {
+        limit: Int) -> LMResponse<GetConversationsResponse>? {
             guard let topConversations =  ConversationDBService.shared.getBottomConversations(chatroomId: chatroomId, limit: limit)?.compactMap({ ro in
                 ModelConverter.shared.convertConversationRO(ro)
             }) else {
-                response?(LMResponse.failureResponse("Unable to fetch Bottom conversations!"))
-                return
+               return LMResponse.failureResponse("Unable to fetch Bottom conversations!")
             }
             let responseData = GetConversationsResponse(conversations: Array(topConversations))
-            response?(LMResponse.successResponse(responseData))
+            return LMResponse.successResponse(responseData)
         }
     
     /**

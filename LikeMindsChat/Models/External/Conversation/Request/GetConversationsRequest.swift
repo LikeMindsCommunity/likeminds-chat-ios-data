@@ -22,6 +22,10 @@ public class GetConversationsRequest {
         self.observer = observer
     }
     
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
     public class Builder {
         private var chatroomId: String = ""
         private var type: GetConversationType = .none
