@@ -16,6 +16,10 @@ public class DeleteReactionRequest: Encodable {
         self.chatroomId = chatroomId
     }
     
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"
         case conversationId = "conversation_id"

@@ -64,8 +64,8 @@ struct _Conversation_: Decodable {
         case date
         case isEdited = "is_edited"
         case memberId = "user_id"
-        case replyConversationId = "reply_conversation"
-        case deletedBy = "delete_by_user_id"
+        case replyConversationId = "reply_id"
+        case deletedBy = "deleted_by_user_id"
         case createdEpoch = "created_epoch"
         case attachmentCount = "attachment_count"
         case attachmentUploaded = "attachments_uploaded"

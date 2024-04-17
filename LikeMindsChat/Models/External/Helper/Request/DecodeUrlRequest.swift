@@ -13,7 +13,9 @@ public class DecodeUrlRequest: Encodable {
     private init(url: String) {
         self.url = url
     }
-    
+    public static func builder() -> Builder {
+        return Builder()
+    }
     public class Builder {
         private var url: String = ""
         

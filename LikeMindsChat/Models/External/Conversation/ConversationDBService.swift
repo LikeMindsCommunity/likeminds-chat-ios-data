@@ -104,7 +104,7 @@ class ConversationDBService {
     
     func saveNewConversation(
         realm: Realm,
-        conversation: _Conversation_
+        conversation: Conversation
     ) {
     }
     

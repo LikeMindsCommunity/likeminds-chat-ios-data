@@ -18,6 +18,10 @@ public class PutReactionRequest: Encodable {
         self.reaction = reaction
     }
     
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"
         case conversationId = "conversation_id"

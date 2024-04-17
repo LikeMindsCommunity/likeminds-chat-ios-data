@@ -18,6 +18,10 @@ public class EditConversationRequest: Encodable {
         self.shareLink = shareLink
     }
     
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
     enum CodingKeys: String, CodingKey {
         case conversationId = "conversation_id"
         case text

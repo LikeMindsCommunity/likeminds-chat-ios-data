@@ -18,6 +18,10 @@ public class DeleteConversationsRequest: Encodable {
         case conversationIds = "conversation_ids"
     }
     
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
     public class Builder {
         private var conversationIds: [String] = []
         

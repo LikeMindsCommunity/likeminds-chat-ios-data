@@ -254,7 +254,7 @@ extension LMChatClient {
         
     }
     
-    public func savePostedConversation() {
+    public func savePostedConversation(request: SavePostedConversationRequest) {
         
     }
     

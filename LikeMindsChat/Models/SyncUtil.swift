@@ -289,6 +289,7 @@ class SyncUtil {
                     reactions: chatroomReactions
                 ) else { return }
                 chatroomRO.relationshipNeeded = true
+                chatroomRO.isConversationStored
                 realm.insertOrUpdate(chatroomRO)
                 
                 data.conversations?.forEach({ conversation in

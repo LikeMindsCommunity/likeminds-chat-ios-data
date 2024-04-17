@@ -59,8 +59,9 @@ class ChatDBUtil {
     ) -> Results<ChatroomRO> {
         return realm.objects(ChatroomRO.self)
             .where { query in
-               // query.communityId == communityId &&
+//                query.communityId == communityId &&
                 query.deletedBy == nil &&
+                query.followStatus == true &&
                 query.state != ChatroomType.directMessage.rawValue &&
                 query.state != ChatroomType.event.rawValue &&
                 query.state != ChatroomType.publicEvent.rawValue

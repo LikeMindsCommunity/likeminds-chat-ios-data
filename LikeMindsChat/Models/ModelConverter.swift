@@ -169,7 +169,7 @@ class ModelConverter {
         return LinkOGTags.Builder()
             .url(linkRO.link)
             .title(linkRO.title)
-            .description(linkRO.description)
+            .description(linkRO.linkDescription)
             .image(linkRO.image)
             .build()
     }

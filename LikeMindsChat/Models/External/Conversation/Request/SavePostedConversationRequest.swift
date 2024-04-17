@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SavePostedConversationRequest {
+public class SavePostedConversationRequest {
     private let conversation: Conversation
     private let isFromNotification: Bool
     
@@ -16,26 +16,30 @@ class SavePostedConversationRequest {
         self.isFromNotification = isFromNotification
     }
     
-    class Builder {
+    public  static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var conversation: Conversation = Conversation.Builder().build()
         private var isFromNotification: Bool = false
         
-        func conversation(_ conversation: Conversation) -> Builder {
+        public func conversation(_ conversation: Conversation) -> Builder {
             self.conversation = conversation
             return self
         }
         
-        func isFromNotification(_ isFromNotification: Bool) -> Builder {
+        public func isFromNotification(_ isFromNotification: Bool) -> Builder {
             self.isFromNotification = isFromNotification
             return self
         }
         
-        func build() -> SavePostedConversationRequest {
+        public func build() -> SavePostedConversationRequest {
             return SavePostedConversationRequest(conversation: conversation, isFromNotification: isFromNotification)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().conversation(conversation).isFromNotification(isFromNotification)
     }
 }
