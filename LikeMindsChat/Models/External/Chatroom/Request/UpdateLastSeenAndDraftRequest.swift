@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UpdateLastSeenAndDraftRequest {
+public class UpdateLastSeenAndDraftRequest {
     private let chatroomId: String
     private let draft: String?
     
@@ -16,31 +16,35 @@ class UpdateLastSeenAndDraftRequest {
         self.draft = draft
     }
     
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"
         case draft
     }
     
-    class Builder {
+   public class Builder {
         private var chatroomId: String = ""
         private var draft: String?
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func draft(_ draft: String?) -> Builder {
+        public func draft(_ draft: String?) -> Builder {
             self.draft = draft
             return self
         }
         
-        func build() -> UpdateLastSeenAndDraftRequest {
+        public func build() -> UpdateLastSeenAndDraftRequest {
             return UpdateLastSeenAndDraftRequest(chatroomId: chatroomId, draft: draft)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().chatroomId(chatroomId).draft(draft)
     }
 }

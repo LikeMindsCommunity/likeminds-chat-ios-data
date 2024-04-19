@@ -15,7 +15,7 @@ class ChatroomRO: Object {
     @Persisted var communityId: String
     @Persisted var state: Int = 0
     @Persisted var member: MemberRO?
-    @Persisted var createdAt: Int?
+    @Persisted var createdAt: String?
     @Persisted var type: Int?
     @Persisted var chatroomImageUrl: String?
     @Persisted var header: String?

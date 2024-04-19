@@ -63,7 +63,7 @@ struct ServiceAPIRequest {
         case getConfig
         case sdkOnboarding
         case explorTabCount
-        case explorFeed
+        case explorFeed(_ request: GetExploreFeedRequest)
         
         //MARK:- Chatrooms api
         case syncChatrooms(_ request: ChatroomSyncRequest)
@@ -79,6 +79,7 @@ struct ServiceAPIRequest {
         //MARK:- Community api
         case getExploreFeed(_ request: GetExploreFeedRequest)
         case getContentDownloadSettings
+        case getMemberState
         
         //MARK:- Conversation api
         case syncConversations(_ request: ConversationSyncRequest)
@@ -124,8 +125,8 @@ struct ServiceAPIRequest {
                 return "sdk/onboarding"
             case .explorTabCount:
                 return "community/member/home/meta"
-            case .explorFeed:
-                return "community/feed"
+            case .explorFeed(let request):
+                return "community/feed?page=\(request.page)&order_type=\(request.orderType)"
                 
             //MARK:- Chatrooms api URL
             case .syncChatrooms(let request):
@@ -160,6 +161,8 @@ struct ServiceAPIRequest {
                 return "community/feed"
             case .getContentDownloadSettings:
                 return "community/settings/content_download"
+            case .getMemberState:
+                return "community/member/state"
                 
             //MARK:- Conversation api URL
             case .postConversation,
@@ -236,6 +239,7 @@ struct ServiceAPIRequest {
                     .searchChatroom,
                     .searchConversation,
                     .getPollUsers,
+                    .getMemberState,
                     .getReportTags:
                 return .get
             case .setChatroomTopic,

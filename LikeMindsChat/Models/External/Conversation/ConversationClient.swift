@@ -71,7 +71,7 @@ class ConversationClient: ServiceRequest {
         notificationToken = conversations?.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self else { return }
             switch changes {
-            case .initial(let _):
+            case .initial:
                 break
             case .update(let collections, let deletions, let insertions, let modifications):
 
@@ -357,6 +357,24 @@ class ConversationClient: ServiceRequest {
      */
     func putReaction(request: PutReactionRequest, response: LMClientResponse<NoData>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.putReaction(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: NoData.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? LMResponse<NoData> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(LMResponse.failureResponse(error.localizedDescription))
+        }
+    }
+    
+    func markRead(request: MarkReadChatroomRequest, response: LMClientResponse<NoData>?) {
+        
+        let networkPath = ServiceAPIRequest.NetworkPath.markReadChatroom(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,

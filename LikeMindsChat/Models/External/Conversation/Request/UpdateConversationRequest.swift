@@ -7,27 +7,31 @@
 
 import Foundation
 
-class UpdateConversationRequest {
+public class UpdateConversationRequest {
     private var conversation: Conversation?
     
     private init(conversation: Conversation?) {
         self.conversation = conversation
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var conversation: Conversation?
         
-        func conversation(_ conversation: Conversation?) -> Builder {
+        public func conversation(_ conversation: Conversation?) -> Builder {
             self.conversation = conversation
             return self
         }
         
-        func build() -> UpdateConversationRequest {
+        public func build() -> UpdateConversationRequest {
             return UpdateConversationRequest(conversation: conversation)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().conversation(conversation)
     }
 }

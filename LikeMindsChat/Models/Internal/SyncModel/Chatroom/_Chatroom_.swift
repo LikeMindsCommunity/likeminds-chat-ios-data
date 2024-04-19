@@ -15,7 +15,7 @@ struct _Chatroom_: Decodable {
     let member: Member?
     let id: String?
     let title: String?
-    let createdAt: Int?
+    let createdAt: String?
     let answerText: String?
     let state: Int?
     let unseenCount: Int?
@@ -28,8 +28,8 @@ struct _Chatroom_: Decodable {
     let showFollowTelescope: Bool?
     let showFollowAutoTag: Bool?
     let cardCreationTime: String?
-    let participantsCount: String?
-    let totalResponseCount: String?
+    let participantsCount: Int?
+    let totalResponseCount: Int?
     let muteStatus: Bool?
     let followStatus: Bool?
     let hasBeenNamed: Bool?
@@ -94,7 +94,7 @@ struct _Chatroom_: Decodable {
         case deletedBy = "deleted_by_user_id"
         case deletedByMember = "deleted_by_member"
         case updatedAt = "updated_at"
-        case lastSeenConversationId = "last_seen_conversation"
+        case lastSeenConversationId = "last_seen_conversation_id"
         case lastConversationId = "last_conversation_id"
         case dateEpoch = "date_epoch"
         case isSecret = "is_secret"
@@ -122,7 +122,7 @@ extension _Chatroom_ {
         member = try container.decodeIfPresent(Member.self, forKey: .member)
         id = try container.decodeIntToStringIfPresent(forKey: .id)
         title = try container.decodeIfPresent(String.self, forKey: .title)
-        createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAt)
+        createdAt = try container.decodeIntToStringIfPresent(forKey: .createdAt)
         answerText = try container.decodeIfPresent(String.self, forKey: .answerText)
         state = try container.decodeIfPresent(Int.self, forKey: .state)
         unseenCount = try container.decodeIfPresent(Int.self, forKey: .unseenCount)
@@ -135,8 +135,8 @@ extension _Chatroom_ {
         showFollowTelescope = try container.decodeIfPresent(Bool.self, forKey: .showFollowTelescope)
         showFollowAutoTag = try container.decodeIfPresent(Bool.self, forKey: .showFollowAutoTag)
         cardCreationTime = try container.decodeIfPresent(String.self, forKey: .cardCreationTime)
-        participantsCount = try container.decodeIfPresent(String.self, forKey: .participantsCount)
-        totalResponseCount = try container.decodeIfPresent(String.self, forKey: .totalResponseCount)
+        participantsCount = try container.decodeIfPresent(Int.self, forKey: .participantsCount)
+        totalResponseCount = try container.decodeIfPresent(Int.self, forKey: .totalResponseCount)
         muteStatus = try container.decodeIfPresent(Bool.self, forKey: .muteStatus)
         followStatus = try container.decodeIfPresent(Bool.self, forKey: .followStatus)
         hasBeenNamed = try container.decodeIfPresent(Bool.self, forKey: .hasBeenNamed)
@@ -147,10 +147,10 @@ extension _Chatroom_ {
         isPinned = try container.decodeIfPresent(Bool.self, forKey: .isPinned)
         isDeleted = try container.decodeIfPresent(Bool.self, forKey: .isDeleted)
         userId = try container.decodeIntToStringIfPresent(forKey: .userId)
-        deletedBy = try container.decodeIfPresent(String.self, forKey: .deletedBy)
+        deletedBy = try container.decodeIntToStringIfPresent(forKey: .deletedBy)
         deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
         updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
-        lastSeenConversationId = try container.decodeIfPresent(String.self, forKey: .lastSeenConversationId)
+        lastSeenConversationId = try container.decodeIntToStringIfPresent(forKey: .lastSeenConversationId)
         lastConversationId = try container.decodeIntToStringIfPresent(forKey: .lastConversationId)
         dateEpoch = try container.decodeIfPresent(Int.self, forKey: .dateEpoch)
         isSecret = try container.decodeIfPresent(Bool.self, forKey: .isSecret)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class ShareChatroomUrlRequest {
+public class ShareChatroomUrlRequest {
     private let chatroomId: String
     private let domain: String
     
@@ -16,31 +16,35 @@ class ShareChatroomUrlRequest {
         self.domain = domain
     }
     
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"
         case domain
     }
     
-    class Builder {
+    public class Builder {
         private var chatroomId: String = ""
         private var domain: String = ""
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func domain(_ domain: String) -> Builder {
+        public func domain(_ domain: String) -> Builder {
             self.domain = domain
             return self
         }
         
-        func build() -> ShareChatroomUrlRequest {
+        public func build() -> ShareChatroomUrlRequest {
             return ShareChatroomUrlRequest(chatroomId: chatroomId, domain: domain)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().chatroomId(chatroomId).domain(domain)
     }
 }

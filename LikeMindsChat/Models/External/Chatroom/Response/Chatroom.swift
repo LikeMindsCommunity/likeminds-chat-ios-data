@@ -13,7 +13,7 @@ public class Chatroom: Decodable {
     public private(set) var member: Member?
     public private(set) var id: String = ""
     public private(set) var title: String = ""
-    public private(set) var createdAt: Int?
+    public private(set) var createdAt: String?
     public private(set) var answerText: String?
     public private(set) var state: Int = 0
     public private(set) var unseenCount: Int?
@@ -26,7 +26,7 @@ public class Chatroom: Decodable {
     public private(set) var showFollowTelescope: Bool?
     public private(set) var showFollowAutoTag: Bool?
     public private(set) var cardCreationTime: String?
-    public private(set) var participantsCount: String?
+    public private(set) var participantsCount: Int?
     public private(set) var totalResponseCount: Int = 0
     public private(set) var muteStatus: Bool?
     public private(set) var followStatus: Bool?
@@ -66,10 +66,11 @@ public class Chatroom: Decodable {
     public private(set) var isDraft: Bool?
     public private(set) var totalAllResponseCount: Int?
     
-    public init() {}
+    public static func builder() -> Builder { Builder() }
     
-    class Builder {
-        public private(set) var chatroom: Chatroom
+    public class Builder {
+        
+        private(set) var chatroom: Chatroom
         
         init() {
             chatroom = Chatroom()
@@ -90,7 +91,7 @@ public class Chatroom: Decodable {
             return self
         }
         
-        func createdAt(_ createdAt: Int?) -> Builder {
+        func createdAt(_ createdAt: String?) -> Builder {
             chatroom.createdAt = createdAt
             return self
         }
@@ -155,7 +156,7 @@ public class Chatroom: Decodable {
             return self
         }
         
-        func participantsCount(_ participantsCount: String?) -> Builder {
+        func participantsCount(_ participantsCount: Int?) -> Builder {
             chatroom.participantsCount = participantsCount
             return self
         }

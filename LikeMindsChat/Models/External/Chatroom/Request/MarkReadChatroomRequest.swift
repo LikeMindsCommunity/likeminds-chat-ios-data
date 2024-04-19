@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MarkReadChatroomRequest: Encodable {
+public class MarkReadChatroomRequest: Encodable {
     private let chatroomId: String
     
     private init(chatroomId: String) {
@@ -18,20 +18,24 @@ class MarkReadChatroomRequest: Encodable {
         case chatroomId = "chatroom_id"
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var chatroomId: String = ""
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func build() -> MarkReadChatroomRequest {
+        public func build() -> MarkReadChatroomRequest {
             return MarkReadChatroomRequest(chatroomId: chatroomId)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().chatroomId(chatroomId)
     }
 }

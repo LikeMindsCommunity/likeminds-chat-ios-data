@@ -222,6 +222,10 @@ public class Conversation: Decodable {
         self.deletedByMember = deletedByMember
     }
     
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
     public class Builder {
         private var id: String? = ""
         private var chatroomId: String? = nil

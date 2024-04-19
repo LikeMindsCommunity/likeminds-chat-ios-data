@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PutMultimediaRequest: Encodable {
+public class PutMultimediaRequest: Encodable {
     let conversationId: String
     let name: String
     let url: String
@@ -32,7 +32,11 @@ class PutMultimediaRequest: Encodable {
         self.meta = meta
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var conversationId: String = ""
         private var name: String = ""
         private var url: String = ""
@@ -44,57 +48,57 @@ class PutMultimediaRequest: Encodable {
         private var height: Int? = nil
         private var meta: AttachmentMeta? = nil
         
-        func conversationId(_ conversationId: String) -> Builder {
+        public func conversationId(_ conversationId: String) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func name(_ name: String) -> Builder {
+        public func name(_ name: String) -> Builder {
             self.name = name
             return self
         }
         
-        func url(_ url: String) -> Builder {
+        public func url(_ url: String) -> Builder {
             self.url = url
             return self
         }
         
-        func thumbnailUrl(_ thumbnailUrl: String?) -> Builder {
+        public func thumbnailUrl(_ thumbnailUrl: String?) -> Builder {
             self.thumbnailUrl = thumbnailUrl
             return self
         }
         
-        func type(_ type: String) -> Builder {
+        public func type(_ type: String) -> Builder {
             self.type = type
             return self
         }
         
-        func filesCount(_ filesCount: Int?) -> Builder {
+        public func filesCount(_ filesCount: Int?) -> Builder {
             self.filesCount = filesCount
             return self
         }
         
-        func index(_ index: Int?) -> Builder {
+        public func index(_ index: Int?) -> Builder {
             self.index = index
             return self
         }
         
-        func width(_ width: Int?) -> Builder {
+        public func width(_ width: Int?) -> Builder {
             self.width = width
             return self
         }
         
-        func height(_ height: Int?) -> Builder {
+        public func height(_ height: Int?) -> Builder {
             self.height = height
             return self
         }
         
-        func meta(_ meta: AttachmentMeta?) -> Builder {
+        public func meta(_ meta: AttachmentMeta?) -> Builder {
             self.meta = meta
             return self
         }
         
-        func build() -> PutMultimediaRequest {
+        public func build() -> PutMultimediaRequest {
             return PutMultimediaRequest(
                 conversationId: conversationId,
                 name: name,
@@ -110,7 +114,7 @@ class PutMultimediaRequest: Encodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .conversationId(conversationId)
             .name(name)

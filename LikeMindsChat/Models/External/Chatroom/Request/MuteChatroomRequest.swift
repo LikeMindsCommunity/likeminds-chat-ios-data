@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MuteChatroomRequest: Encodable {
+public class MuteChatroomRequest: Encodable {
     private let chatroomId: String
     private let value: Bool
     
@@ -16,31 +16,35 @@ class MuteChatroomRequest: Encodable {
         self.value = value
     }
     
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"
         case value
     }
     
-    class Builder {
+    public class Builder {
         private var chatroomId: String = ""
         private var value: Bool = false
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func value(_ value: Bool) -> Builder {
+        public func value(_ value: Bool) -> Builder {
             self.value = value
             return self
         }
         
-        func build() -> MuteChatroomRequest {
+        public func build() -> MuteChatroomRequest {
             return MuteChatroomRequest(chatroomId: chatroomId, value: value)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().chatroomId(chatroomId).value(value)
     }
 }

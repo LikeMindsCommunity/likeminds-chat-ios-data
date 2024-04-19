@@ -99,7 +99,6 @@ class ROConverter {
         
         let updatedAt = lastConversationRO?.createdEpoch
         ?? savedChatroom?.lastConversationRO?.createdEpoch
-        ?? chatroom.createdAt
         
         chatroomRO.updatedAt = updatedAt
         

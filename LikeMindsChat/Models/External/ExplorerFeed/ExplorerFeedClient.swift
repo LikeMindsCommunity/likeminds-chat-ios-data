@@ -10,8 +10,9 @@ import Foundation
 
 class ExplorerFeedClient {
     
-    static let shared: ExplorerFeedClient = ExplorerFeedClient()
+    let moduleName = "ExplorerFeedClient"
     
+    static let shared: ExplorerFeedClient = ExplorerFeedClient()
     private init() {}
     
     /**
@@ -20,9 +21,23 @@ class ExplorerFeedClient {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return GetExploreFeedResponse - GetExploreFeedResponse model for getExploreFeedRequest
      */
-    func getExploreFeed(getExploreFeedRequest: GetExploreFeedRequest, response: LMClientResponse<GetExploreFeedResponse>?) {
-        
-        
+    func getExploreFeed(request: GetExploreFeedRequest, response: LMClientResponse<GetExploreFeedResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.explorFeed(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        var header = ServiceRequest.httpHeaders()
+        header["x-accept-version"] = "v2"
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: header,
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: GetExploreFeedResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? LMResponse<GetExploreFeedResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(LMResponse.failureResponse(error.localizedDescription))
+        }
     }
     
     

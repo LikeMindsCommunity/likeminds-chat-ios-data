@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UpdateTemporaryConversationRequest {
+public class UpdateTemporaryConversationRequest {
     private let conversationId: String
     private let localSavedEpoch: Int64
     
@@ -16,26 +16,30 @@ class UpdateTemporaryConversationRequest {
         self.localSavedEpoch = localSavedEpoch
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var conversationId: String = ""
         private var localSavedEpoch: Int64 = -1
         
-        func conversationId(_ conversationId: String) -> Builder {
+        public func conversationId(_ conversationId: String) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func localSavedEpoch(_ localSavedEpoch: Int64) -> Builder {
+        public func localSavedEpoch(_ localSavedEpoch: Int64) -> Builder {
             self.localSavedEpoch = localSavedEpoch
             return self
         }
         
-        func build() -> UpdateTemporaryConversationRequest {
+        public func build() -> UpdateTemporaryConversationRequest {
             return UpdateTemporaryConversationRequest(conversationId: conversationId, localSavedEpoch: localSavedEpoch)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().conversationId(conversationId).localSavedEpoch(localSavedEpoch)
     }
 }

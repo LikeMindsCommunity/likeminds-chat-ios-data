@@ -253,7 +253,7 @@ class ChatDBUtil {
         uuid: String?
     ) -> MemberRO? {
         guard let communityId, let uuid else { return nil }
-        let uid = "$\(uuid)#\(communityId)"
+        let uid = "\(uuid)#\(communityId)"
         let member = getMemberByUid(realm: realm, uid: uid)
         return member
     }
@@ -261,7 +261,7 @@ class ChatDBUtil {
     private func getMemberByUid(realm: Realm, uid: String) -> MemberRO? {
         return realm.objects(MemberRO.self)
             .where({ query in
-                query.id == uid
+                query.uid == uid
             })
             .first
     }

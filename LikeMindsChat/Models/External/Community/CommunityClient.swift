@@ -49,4 +49,21 @@ class CommunityClient {
         return response
     }
     
+    func getMemberState(response: LMClientResponse<GetMemberStateResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.getMemberState
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: GetMemberStateResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? LMResponse<GetMemberStateResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(LMResponse.failureResponse(error.localizedDescription))
+        }
+    }
+    
 }

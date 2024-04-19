@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DeleteConversationPermanentlyRequest {
+public class DeleteConversationPermanentlyRequest {
     private let conversationId: String
     private let chatroomId: String
     
@@ -16,26 +16,30 @@ class DeleteConversationPermanentlyRequest {
         self.chatroomId = chatroomId
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var conversationId: String = ""
         private var chatroomId: String = ""
         
-        func conversationId(_ conversationId: String) -> Builder {
+        public func conversationId(_ conversationId: String) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func build() -> DeleteConversationPermanentlyRequest {
+        public func build() -> DeleteConversationPermanentlyRequest {
             return DeleteConversationPermanentlyRequest(conversationId: conversationId, chatroomId: chatroomId)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().conversationId(conversationId).chatroomId(chatroomId)
     }
 }

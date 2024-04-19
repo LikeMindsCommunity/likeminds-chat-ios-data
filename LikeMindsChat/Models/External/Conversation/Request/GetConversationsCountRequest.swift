@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetConversationsCountRequest {
+public class GetConversationsCountRequest {
     private let chatroomId: String
     private let type: GetConversationCountType
     private let conversation: Conversation
@@ -24,27 +24,31 @@ class GetConversationsCountRequest {
         case conversation
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var chatroomId: String = ""
         private var type: GetConversationCountType = .none
         private var conversation: Conversation = Conversation.Builder().build()
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func type(_ type: GetConversationCountType) -> Builder {
+        public func type(_ type: GetConversationCountType) -> Builder {
             self.type = type
             return self
         }
         
-        func conversation(_ conversation: Conversation) -> Builder {
+        public func conversation(_ conversation: Conversation) -> Builder {
             self.conversation = conversation
             return self
         }
         
-        func build() -> GetConversationsCountRequest {
+        public func build() -> GetConversationsCountRequest {
             return GetConversationsCountRequest(
                 chatroomId: chatroomId,
                 type: type,
@@ -53,7 +57,7 @@ class GetConversationsCountRequest {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .chatroomId(chatroomId)
             .type(type)

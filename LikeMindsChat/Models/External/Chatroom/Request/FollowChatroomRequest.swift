@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FollowChatroomRequest: Encodable {
+public class FollowChatroomRequest: Encodable {
     private let chatroomId: String
     private let uuid: String
     private let value: Bool
@@ -23,32 +23,36 @@ class FollowChatroomRequest: Encodable {
         case uuid, value
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var chatroomId: String = ""
         private var uuid: String = ""
         private var value: Bool = false
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func uuid(_ uuid: String) -> Builder {
+        public func uuid(_ uuid: String) -> Builder {
             self.uuid = uuid
             return self
         }
         
-        func value(_ value: Bool) -> Builder {
+        public func value(_ value: Bool) -> Builder {
             self.value = value
             return self
         }
         
-        func build() -> FollowChatroomRequest {
+        public func build() -> FollowChatroomRequest {
             return FollowChatroomRequest(chatroomId: chatroomId, uuid: uuid, value: value)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().chatroomId(chatroomId)
             .uuid(uuid)
             .value(value)

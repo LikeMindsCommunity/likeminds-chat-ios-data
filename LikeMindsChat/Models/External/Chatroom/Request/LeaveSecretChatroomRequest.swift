@@ -8,7 +8,7 @@
 import Foundation
 
 
-class LeaveSecretChatroomRequest: Encodable {
+public class LeaveSecretChatroomRequest: Encodable {
     private let chatroomId: String
     private let isSecret: Bool
     
@@ -22,26 +22,30 @@ class LeaveSecretChatroomRequest: Encodable {
         case isSecret = "is_secret"
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
+    public class Builder {
         private var chatroomId: String = ""
         private var isSecret: Bool = true
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func isSecret(_ isSecret: Bool) -> Builder {
+        public func isSecret(_ isSecret: Bool) -> Builder {
             self.isSecret = isSecret
             return self
         }
         
-        func build() -> LeaveSecretChatroomRequest {
+        public func build() -> LeaveSecretChatroomRequest {
             return LeaveSecretChatroomRequest(chatroomId: chatroomId, isSecret: isSecret)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .isSecret(isSecret)
             .chatroomId(chatroomId)

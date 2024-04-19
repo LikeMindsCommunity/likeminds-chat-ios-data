@@ -8,6 +8,11 @@
 import Foundation
 
 public struct GetExploreFeedResponse: Decodable {
-     var chatrooms: [Chatroom]
-     var pinnedChatroomCount: Int
+     var chatrooms: [_Chatroom_]?
+     public var pinnedChatroomCount: Int?
+    public var exploreChatrooms: [Chatroom] {
+        return (chatrooms ?? []).compactMap({ chatroom in
+            return ModelConverter.shared.convertChatroom(chatroom: chatroom)
+        })
+    }
 }

@@ -206,6 +206,45 @@ class ModelConverter {
             .build()
     }
     
+    // converts internal Chatroom model to client model
+    func convertChatroom(chatroom: _Chatroom_?) -> Chatroom? {
+        guard let chatroom else { return nil }
+        return Chatroom.Builder()
+            .id(chatroom.id ?? "")
+            .member(chatroom.member)
+            .communityId(chatroom.communityId)
+            .communityName("")
+            .title(chatroom.title ?? "")
+            .state(chatroom.state ?? 0)
+            .createdAt(chatroom.createdAt)
+            .type(chatroom.type)
+            .chatroomImageUrl(chatroom.chatroomImageUrl)
+            .header(chatroom.header)
+            .cardCreationTime(chatroom.cardCreationTime)
+            .totalResponseCount(chatroom.totalResponseCount ?? 0)
+            .muteStatus(chatroom.muteStatus)
+            .followStatus(chatroom.followStatus)
+            .hasBeenNamed(chatroom.hasBeenNamed)
+            .date(chatroom.date)
+            .isTagged(chatroom.isTagged)
+            .isPending(chatroom.isPending)
+            .deletedBy(chatroom.deletedBy)
+            .updatedAt(chatroom.updatedAt)
+            .lastConversationId(chatroom.lastConversationId)
+            .lastSeenConversationId(chatroom.lastSeenConversationId)
+            .dateEpoch(chatroom.dateEpoch)
+            .unseenCount(chatroom.unseenCount)
+            .isSecret(chatroom.isSecret)
+            .topicId(chatroom.topicId)
+            .autoFollowDone(chatroom.autoFollowDone)
+            .memberCanMessage(chatroom.memberCanMessage)
+            .isEdited(chatroom.isEdited)
+            .accessWithoutSubscription(chatroom.accessWithoutSubscription)
+            .externalSeen(chatroom.externalSeen)
+            .participantsCount(chatroom.participantsCount)
+            .build()
+    }
+    
     // converts ChatroomRO model to client model
     func convertChatroomRO(chatroomRO: ChatroomRO?) -> Chatroom? {
         guard let chatroomRO else { return nil }

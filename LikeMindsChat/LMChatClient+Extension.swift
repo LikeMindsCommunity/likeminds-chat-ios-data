@@ -16,9 +16,6 @@ extension LMChatClient {
 
     public func initiateUser(request: InitiateUserRequest, response: LMClientResponse<InitiateUserResponse>?) {
         InitiateUserClient.initiateChatService(request, withModuleName: moduleName) { result in
-            if result.success {
-//                self.syncChatrooms()
-            }
             response?(result)
         }
     }
@@ -48,9 +45,7 @@ extension LMChatClient {
     }
     
     public func getExploreFeed(request: GetExploreFeedRequest, response: LMClientResponse<GetExploreFeedResponse>?) {
-        ExplorerFeedClient.shared.getExploreFeed(getExploreFeedRequest: request) { result in
-            response?(result)
-        }
+        ExplorerFeedClient.shared.getExploreFeed(request: request, response: response) 
     }
     
     public func syncChatrooms() {
@@ -98,6 +93,10 @@ extension LMChatClient {
         ConversationClient.shared.saveTemporaryConversation(saveConversationRequest: request)
     }
     
+    public func observeConversations(request: ObserveConversationsRequest) {
+        ConversationClient.shared.observeConversations(request: request)
+    }
+    
     
     public func getHomeFeed(request: GetHomeFeedRequest, response: LMClientResponse<GetHomeFeedResponse>?) {
         
@@ -115,30 +114,34 @@ extension LMChatClient {
         return LMResponse.successResponse(response)
     }
     
+    public func getMemberState(response: LMClientResponse<GetMemberStateResponse>?) {
+        CommunityClient.shared.getMemberState(response: response)
+    }
+    
     public func getChatroom(request: GetChatroomRequest, response: LMClientResponse<GetChatroomResponse>?) {
         ChatroomClient.shared.getChatroom(request: request) { result in
             response?(result)
         }
     }
     
-    public func getChatroomActions() {
-        
+    public func getChatroomActions(request: GetChatroomActionsRequest, response: LMClientResponse<GetChatroomActionsResponse>?) {
+        ChatroomClient.shared.getChatroomActions(request: request, response: response)
     }
     
-    public func followChatroom() {
-        
+    public func followChatroom(request: FollowChatroomRequest, response: LMClientResponse<NoData>?) {
+        ChatroomClient.shared.followChatroom(request: request, response: response)
     }
     
-    public func leaveSecretChatroom() {
-        
+    public func leaveSecretChatroom(request: LeaveSecretChatroomRequest, response: LMClientResponse<NoData>?) {
+        ChatroomClient.shared.leaveSecretChatroom(request: request, response: response)
     }
     
-    public func muteChatroom() {
-        
+    public func muteChatroom(request: MuteChatroomRequest, response: LMClientResponse<NoData>?) {
+        ChatroomClient.shared.muteChatroom(request: request, response: response)
     }
     
-    func markReadChatroom() {
-        
+    public func markReadChatroom(request: MarkReadChatroomRequest, response: LMClientResponse<NoData>?) {
+        ConversationClient.shared.markRead(request: request, response: response)
     }
     
     public func setChatroomTopic() {

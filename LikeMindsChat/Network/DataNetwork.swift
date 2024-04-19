@@ -114,14 +114,12 @@ internal final class DataNetwork {
         downloadResourceParams?.append(RequestParam(successCallback: successCallback, failureCallback: failureCallback, request: request, moduleName: moduleName))
         
         request.responseData { (response) in
-            lmLog("--------------------------")
-            lmLog("url - \(url)")
-            lmLog("request - \(request)")
-            lmLog("moduleName - \(moduleName)")
-            if let urlRequest = request.request, let httpBody = urlRequest.httpBody {
-                debugPrint("http request body - \(String(describing: String(data: httpBody, encoding: .utf8)))")
-            }
-            lmLog("headers - \(headers)")
+            print("\n===Request Start===\n")
+            print("Module: \(moduleName)")
+            print(request.cURLDescription())
+            print("Response status: \(response.response?.statusCode ?? 0)")
+            print("\n===Request End===\n")
+            
             guard let responseData = response.data else {
                 lmLog("failureCallback - \(response)")
                 if let error = response.error {
@@ -167,14 +165,12 @@ internal final class DataNetwork {
         downloadResourceParams?.append(RequestParam(successCallback: successCallback, failureCallback: failureCallback, request: request, moduleName: moduleName))
         
         request.responseData { (response) in
-            lmLog("--------------------------")
-            lmLog("url - \(url)")
-            lmLog("request - \(request)")
-            lmLog("moduleName - \(moduleName)")
-            if let urlRequest = request.request, let httpBody = urlRequest.httpBody {
-                debugPrint("http request body - \(String(describing: String(data: httpBody, encoding: .utf8)))")
-            }
-            lmLog("headers - \(headers)")
+            print("\n===Request Start===\n")
+            print("Module: \(moduleName)")
+            print(request.cURLDescription())
+            print("Response status: \(response.response?.statusCode ?? 0)")
+            print("\n===Request End===\n")
+            
             guard let responseData = response.data else {
                 lmLog("failureCallback - \(response)")
                 if let error = response.error {
@@ -205,10 +201,12 @@ internal final class DataNetwork {
             }
             do {
                 let lmResponse  = try JSONDecoder().decode(LMResponse<T>.self, from: responseData)
-                lmLog("response - \(String(describing: lmResponse))")
                 lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
                 successCallback(moduleName, lmResponse)
             } catch let error {
+                lmLog("-----------Error---------------")
+                lmLog("error in parsing---> \(error)")
+                lmLog("-----------End error---------------")
                 lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
                 failureCallback(moduleName, .failedJsonParse(error.localizedDescription))
             }

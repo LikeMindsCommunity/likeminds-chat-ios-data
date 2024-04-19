@@ -18,6 +18,10 @@ public class GetExploreFeedRequest {
         self.page = page
     }
     
+    public static func builder() -> Builder {
+        Builder()
+    }
+    
     public class Builder {
         private var orderType: Int = -1
         private var isPinned: Bool? = nil

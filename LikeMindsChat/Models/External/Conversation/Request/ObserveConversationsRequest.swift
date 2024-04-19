@@ -7,13 +7,17 @@
 
 import Foundation
 
-class ObserveConversationsRequest {
+public class ObserveConversationsRequest {
     let chatroomId: String
     let listener: ConversationChangeDelegate
     
     private init(chatroomId: String, listener: ConversationChangeDelegate) {
         self.chatroomId = chatroomId
         self.listener = listener
+    }
+    
+    public static func builder() -> Builder {
+        Builder()
     }
     
     public class Builder {
