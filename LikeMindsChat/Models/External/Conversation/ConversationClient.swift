@@ -49,7 +49,7 @@ class ConversationClient: ServiceRequest {
      * @param savePostedConversationRequest - client request model to store a posted conversation
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      */
-    func savePostedConversation(savePostedConversationRequest: SavePostedConversationRequest) {
+    func savePostedConversation(request: SavePostedConversationRequest) {
         
     }
     

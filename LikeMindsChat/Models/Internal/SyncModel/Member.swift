@@ -281,4 +281,13 @@ public struct Member: Decodable {
             .sdkClientInfo(sdkClientInfo)
             .uuid(uuid ?? "")
     }
+    
+    public func communityManager() -> String? {
+        switch state {
+        case 1:
+            return "Community manager"
+        default:
+            return nil
+        }
+    }
 }

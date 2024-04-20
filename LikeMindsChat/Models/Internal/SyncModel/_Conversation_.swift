@@ -8,6 +8,7 @@
 
 import Foundation
 
+
 struct _Conversation_: Decodable {
 
     let id: String?

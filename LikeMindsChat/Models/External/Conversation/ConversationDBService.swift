@@ -99,7 +99,28 @@ class ConversationDBService {
     }
     
     func savePostedConversation(savePostedConversationRequest: SavePostedConversationRequest) {
-        
+        let conversation = savePostedConversationRequest.conversation
+        guard let chatroomRO = ChatDBUtil.shared.getChatroom(realm: RealmManager.realmInstance(), chatroomId: conversation.id),
+              let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
+        if chatroomRO.conversations.isEmpty == true {
+            chatroomRO.conversations.realm?.add(conversationRO)
+        } else {
+            if (!savePostedConversationRequest.isFromNotification) {
+                chatroomRO.conversations.where({ query in
+                    query.id == (conversation.temporaryId ?? "")
+                }).realm?.deleteAll()
+                chatroomRO.conversations.realm?.add(conversationRO)
+            }
+        }
+        //Save this conversation as the last conversation
+        if ((conversationRO.createdEpoch) > (chatroomRO.lastConversationRO?.createdEpoch
+                                           ?? 0)) {
+            chatroomRO.lastConversation = conversationRO
+            chatroomRO.lastConversationId = conversationRO.id
+            chatroomRO.lastSeenConversation = conversationRO
+            chatroomRO.lastSeenConversationId = conversationRO.id
+        }
+        chatroomRO.updatedAt = conversationRO.createdEpoch
     }
     
     func saveNewConversation(

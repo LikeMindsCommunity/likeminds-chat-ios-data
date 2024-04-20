@@ -8,8 +8,8 @@
 import Foundation
 
 public class SavePostedConversationRequest {
-    private let conversation: Conversation
-    private let isFromNotification: Bool
+    let conversation: Conversation
+    let isFromNotification: Bool
     
     private init(conversation: Conversation, isFromNotification: Bool) {
         self.conversation = conversation

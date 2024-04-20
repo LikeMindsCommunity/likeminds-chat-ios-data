@@ -245,8 +245,8 @@ extension LMChatClient {
         
     }
     
-    public func putMultimedia() {
-        
+    public func putMultimedia(request: PutMultimediaRequest, response: LMClientResponse<PutMultimediaResponse>?) {
+        ConversationClient.shared.putMultimedia(request: request, response: response)
     }
     
     public func updateLastSeenAndDraft() {
@@ -258,7 +258,7 @@ extension LMChatClient {
     }
     
     public func savePostedConversation(request: SavePostedConversationRequest) {
-        
+        ConversationClient.shared.savePostedConversation(request: request)
     }
     
 }
