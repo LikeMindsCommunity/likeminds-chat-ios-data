@@ -242,6 +242,7 @@ class ModelConverter {
             .accessWithoutSubscription(chatroom.accessWithoutSubscription)
             .externalSeen(chatroom.externalSeen)
             .participantsCount(chatroom.participantsCount)
+            .isPinned(chatroom.isPinned)
             .build()
     }
     

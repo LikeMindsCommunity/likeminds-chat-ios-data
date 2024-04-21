@@ -63,7 +63,6 @@ struct ServiceAPIRequest {
         case getConfig
         case sdkOnboarding
         case explorTabCount
-        case explorFeed(_ request: GetExploreFeedRequest)
         
         //MARK:- Chatrooms api
         case syncChatrooms(_ request: ChatroomSyncRequest)
@@ -77,7 +76,7 @@ struct ServiceAPIRequest {
         case editChatroomTitle(_ request: EditChatroomTitleRequest)
         
         //MARK:- Community api
-        case getExploreFeed(_ request: GetExploreFeedRequest)
+        case explorFeed(_ request: GetExploreFeedRequest)
         case getContentDownloadSettings
         case getMemberState
         
@@ -150,15 +149,13 @@ struct ServiceAPIRequest {
             case .setChatroomTopic:
                 return "conversation/topic"
             case .getParticipants(let request):
-                var queryUrl =  "chatroom/participants?chatroom_id=\(request.chatroomId)&is_secret=\(request.isChatroomSecret)&page=\(request.page)&page_size=\(request.pageSize)"
-                guard let searchName = request.participantName else { return queryUrl }
+                let queryUrl =  "chatroom/participants?chatroom_id=\(request.chatroomId)&is_secret=\(request.isChatroomSecret)&page=\(request.page)&page_size=\(request.pageSize)"
+                guard let searchName = request.participantName, !searchName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { return queryUrl }
                 return queryUrl + "&participant_name=\(searchName)"
             case .editChatroomTitle:
                 return "chatroom"
                 
             //MARK:- Community api URL
-            case .getExploreFeed(let request):
-                return "community/feed"
             case .getContentDownloadSettings:
                 return "community/settings/content_download"
             case .getMemberState:
@@ -231,7 +228,6 @@ struct ServiceAPIRequest {
                     .explorFeed,
                     .getChatroomActions,
                     .getParticipants,
-                    .getExploreFeed,
                     .getContentDownloadSettings,
                     .decodeUrl,
                     .getTaggingList,

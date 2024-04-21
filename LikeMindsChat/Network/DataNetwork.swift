@@ -118,6 +118,8 @@ internal final class DataNetwork {
             print("Module: \(moduleName)")
             print(request.cURLDescription())
             print("Response status: \(response.response?.statusCode ?? 0)")
+            print("\n===Params Request===\n")
+            print("Param: \(parameters)")
             print("\n===Request End===\n")
             
             guard let responseData = response.data else {
@@ -169,6 +171,8 @@ internal final class DataNetwork {
             print("Module: \(moduleName)")
             print(request.cURLDescription())
             print("Response status: \(response.response?.statusCode ?? 0)")
+            print("\n===Params Request===\n")
+            print("Param: \(parameters)")
             print("\n===Request End===\n")
             
             guard let responseData = response.data else {

@@ -29,7 +29,7 @@ public class Chatroom: Decodable {
     public private(set) var participantsCount: Int?
     public private(set) var totalResponseCount: Int = 0
     public private(set) var muteStatus: Bool?
-    public private(set) var followStatus: Bool?
+    public var followStatus: Bool?
     public private(set) var hasBeenNamed: Bool?
     public private(set) var hasReactions: Bool?
     public private(set) var date: String?

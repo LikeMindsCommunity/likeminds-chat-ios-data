@@ -67,6 +67,7 @@ class ChatroomClient: ServiceRequest {
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
                                               headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
                                               withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
