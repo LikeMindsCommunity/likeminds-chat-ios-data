@@ -23,7 +23,7 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
         groupQueue.enter()
         let chatroomSyncRequest = ChatroomSyncRequest.builder()
             .page(page)
-            .pageSize(50)
+            .pageSize(500)
             .chatroomTypes(chatroomTypes)
             .minTimestamp(0)
             .maxTimestamp(maxTimestamp)
