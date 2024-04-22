@@ -181,7 +181,7 @@ struct ServiceAPIRequest {
             case .decodeUrl(let request):
                 return "helper/url?url=\(request.url)"
             case .getTaggingList(let request):
-                let requestUrl = "community/tag?page_size=\(request.pageSize)&page=\(request.page)" + ((request.searchName ?? "").isEmpty ? "" : "&search_name=\(request.searchName ?? "")")
+                let requestUrl = "community/tag?page_size=\(request.pageSize)&page=\(request.page)" + ((request.searchName ?? "").isEmpty ? "" : "&search_name=\(request.searchName ?? "")") + ((request.chatroomId).isEmpty ? "" : "&chatroom_id=\(request.chatroomId)")
                 return requestUrl
             case .getExploreTabCount:
                 return "community/member/home/meta"

@@ -50,7 +50,7 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      */
     func savePostedConversation(request: SavePostedConversationRequest) {
-        
+        ConversationDBService.shared.savePostedConversation(savePostedConversationRequest: request)
     }
     
     /**

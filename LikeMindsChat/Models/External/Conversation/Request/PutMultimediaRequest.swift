@@ -19,6 +19,13 @@ public class PutMultimediaRequest: Encodable {
     let height: Int?
     let meta: AttachmentMeta?
     
+    enum CodingKeys: String, CodingKey {
+        case conversationId = "conversation_id"
+        case name, url, type, index, width, height, meta
+        case filesCount = "files_count"
+        case thumbnailUrl = "thumbnail_url"
+    }
+    
     private init(conversationId: String, name: String, url: String, thumbnailUrl: String?, type: String, filesCount: Int?, index: Int?, width: Int?, height: Int?, meta: AttachmentMeta?) {
         self.conversationId = conversationId
         self.name = name
