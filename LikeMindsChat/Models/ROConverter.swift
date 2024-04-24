@@ -689,9 +689,6 @@ class ROConverter {
         memberRO.isGuest = userRO.isGuest
         memberRO.sdkClientInfoRO = userRO.sdkClientInfoRO
         memberRO.communityId = communityId
-//        ChatDBUtil.writeAsync({
-//            it.insertOrUpdate(memberRO)
-//        })
         return memberRO
     }
 

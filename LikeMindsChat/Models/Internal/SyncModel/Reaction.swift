@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Reaction: Decodable {
+public class Reaction: Decodable {
     public let member: Member?
     public let reaction: String
     
@@ -16,10 +16,14 @@ public struct Reaction: Decodable {
         case reaction
     }
     
-    public init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         member = try container.decodeIfPresent(Member.self, forKey: .member)
         reaction = try container.decode(String.self, forKey: .reaction)
+    }
+    
+    public static func builder() -> Builder {
+        Builder()
     }
     
     private init(member: Member?, reaction: String) {
@@ -27,26 +31,26 @@ public struct Reaction: Decodable {
         self.reaction = reaction
     }
     
-    class Builder {
+    public class Builder {
         private var member: Member?
         private var reaction: String = ""
         
-        func member(_ member: Member?) -> Builder {
+        public func member(_ member: Member?) -> Builder {
             self.member = member
             return self
         }
         
-        func reaction(_ reaction: String) -> Builder {
+        public func reaction(_ reaction: String) -> Builder {
             self.reaction = reaction
             return self
         }
         
-        func build() -> Reaction {
+        public func build() -> Reaction {
             return Reaction(member: member, reaction: reaction)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder().reaction(reaction).member(member)
     }
 }

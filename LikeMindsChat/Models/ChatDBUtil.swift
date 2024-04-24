@@ -138,6 +138,11 @@ class ChatDBUtil {
             }
     }
     
+    func userROUpdate(_ user: User) {
+        guard let userRO = ROConverter.convertUser(user: user) else { return }
+        RealmManager.insertOrUpdate(userRO)
+    }
+    
     /**
      * Make sure to pass this inside a write transaction and all the parameters have to be managed object
      *  @param chatroomRO: chatroom object

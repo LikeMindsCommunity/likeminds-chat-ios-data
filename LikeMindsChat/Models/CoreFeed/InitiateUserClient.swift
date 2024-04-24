@@ -41,6 +41,7 @@ class InitiateUserClient: ServiceRequest {
                     UserPreferences.shared.setLMMemberId("\(lmMemberId)")
                     UserPreferences.shared.setClientUUID(clientUUID)
                     SDKPreferences.shared.setCommunityId(communityId: "\(communityId)")
+                    ChatDBUtil.shared.userROUpdate(user)
                 }
                 response?(result)
             } catch let error {

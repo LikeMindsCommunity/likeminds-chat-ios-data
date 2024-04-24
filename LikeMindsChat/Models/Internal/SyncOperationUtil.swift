@@ -9,14 +9,16 @@ import Foundation
 
 class SyncOperationUtil {
     
+    static let chatroomTypes = [0, 7]
+    
     static func startFirstHomeFeedSync(response: LMClientResponse<_SyncChatroomResponse_>) {
-        let firstTimeSyncChatroomOperation = FirstTimeChatroomSyncOperation(chatroomTypes: [0, 7, 10])
+        let firstTimeSyncChatroomOperation = FirstTimeChatroomSyncOperation(chatroomTypes: chatroomTypes)
         let queue = OperationQueue()
         queue.addOperation(firstTimeSyncChatroomOperation)
     }
     
     static func startReopenSyncForHomeFeed(response: LMClientResponse<_SyncChatroomResponse_>) {
-        let reopenTimeSyncChatroomOperation = ReopenChatroomSyncOperation(chatroomTypes: [0, 7, 10])
+        let reopenTimeSyncChatroomOperation = ReopenChatroomSyncOperation(chatroomTypes: chatroomTypes)
         let queue = OperationQueue()
         queue.addOperation(reopenTimeSyncChatroomOperation)
     }

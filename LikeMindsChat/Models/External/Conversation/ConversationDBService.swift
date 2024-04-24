@@ -141,12 +141,33 @@ class ConversationDBService {
         return ChatDBUtil.shared.getConversation(realm: RealmManager.realmInstance(), conversationId: conversationId)
     }
     
-    func updateEditedConversation(
-        conversationId: String,
-        conversationText: String,
-        linkOgTags: LinkOGTags?
-    ) {
-        
+    func updateConversations(conversations: [Conversation]) {
+        let conversationsROs = conversations.compactMap({ROConverter.convertConversation(conversation:$0)})
+        conversationsROs.forEach { ro in
+            RealmManager.insertOrUpdate(ro)
+        }
+    }
+    
+    func updateEditedConversation(conversation: Conversation) {
+        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: RealmManager.realmInstance(), conversationId: conversation.id) else { return }
+        RealmManager.realmInstance().beginAsyncWrite {
+            conversationRO.answer = conversation.answer
+            conversationRO.link = ROConverter.convertLink(chatroomId: conversation.chatroomId ?? "", communityId: conversation.communityId ?? "", link: conversation.ogTags)
+        }
+    }
+    
+    func updateConversationReaction(reaction: String, conversationId: String) {
+        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: RealmManager.realmInstance(), conversationId: conversationId) else { return }
+        RealmManager.realmInstance().beginAsyncWrite {
+            guard let userUUID =  RealmManager.realmInstance().objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
+            let existingReactions = conversationRO.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
+            RealmManager.realmInstance().delete(existingReactions)
+            let member = ChatDBUtil.shared.getMember(realm: RealmManager.realmInstance(), communityId: conversationRO.communityId, uuid: userUUID)
+            let reactionRO = ReactionRO()
+            reactionRO.reaction = reaction
+            reactionRO.member = member
+            conversationRO.reactions.append(reactionRO)
+        }
     }
     
     func updateConversationSubmitPoll(conversationId: String, allPollItems: [Poll]) {

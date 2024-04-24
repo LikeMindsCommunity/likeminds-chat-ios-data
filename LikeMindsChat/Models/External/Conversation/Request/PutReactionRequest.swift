@@ -8,9 +8,9 @@
 import Foundation
 
 public class PutReactionRequest: Encodable {
-    private var conversationId: String?
-    private var chatroomId: String?
-    private var reaction: String = ""
+    var conversationId: String?
+    var chatroomId: String?
+    var reaction: String = ""
     
     private init(conversationId: String?, chatroomId: String?, reaction: String) {
         self.conversationId = conversationId

@@ -36,7 +36,7 @@ class RealmManager {
         print("realm db path: \(config.fileURL)")
         return config
         return Realm.Configuration(schemaVersion: 2, migrationBlock: { (migration, oldSchemaVersion) in
-            /// Migration block. Useful when you upgrade the schema version.
+          //TODO:   /// Migration block. Useful when you upgrade the schema version.
             
         })
     }
@@ -171,26 +171,3 @@ extension RealmManager: RealmOperations {
         }
     }
 }
-/*
-extension RealmManager {
-    
-    // MARK:- functions
-    func getPokemonsByID(offset: Int, limit: Int) -> [Pokemon] {
-        let pokemons = RealmManager.get(fromEntity: Pokemon.self, withPredicate: NSPredicate(format: "id >= %d AND id < %d", offset, limit))
-        return Array(pokemons)
-    }
-    
-    func getPokemonsByName(query: String) -> [Pokemon] {
-        let pokemons = RealmManager.get(fromEntity: Pokemon.self, withPredicate: NSPredicate(format: "name beginswith[cd] %@", query),
-                                        sortedByKey: "id", inAscending: true)
-        return Array(pokemons)
-    }
-    
-    func getPokemonsByType(query: String) -> [Pokemon] {
-        let pokemons = RealmManager.get(fromEntity: Pokemon.self, withPredicate: NSPredicate(format: "type contains[cd] %@", query),
-                                        sortedByKey: "id", inAscending: true)
-        return Array(pokemons)
-    }
-    
-}
-*/

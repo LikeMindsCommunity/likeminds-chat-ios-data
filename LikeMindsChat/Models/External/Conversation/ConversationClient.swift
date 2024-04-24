@@ -77,7 +77,7 @@ class ConversationClient: ServiceRequest {
 
                 observers.forEach {
                     $0?.getNewConversations(conversations: self.getIndexedConversations(indexArray: insertions))
-                    $0?.getPostedConversations(conversations: self.getIndexedConversations(indexArray: modifications))
+//                    $0?.getPostedConversations(conversations: self.getIndexedConversations(indexArray: modifications))
                     $0?.getChangedConversations(conversations: self.getIndexedConversations(indexArray: modifications))
                 }
                 break
@@ -320,6 +320,9 @@ class ConversationClient: ServiceRequest {
                                               withResponseType: EditConversationResponse.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<EditConversationResponse> else {return}
+            if let conversation = data.data?.conversation {
+                ConversationDBService.shared.updateEditedConversation(conversation: conversation)
+            }
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
@@ -342,7 +345,10 @@ class ConversationClient: ServiceRequest {
                                               withEncoding: networkPath.encoding,
                                               withResponseType: DeleteConversationsResponse.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? LMResponse<DeleteConversationsResponse> else {return}
+            guard let data = responseData as? LMResponse<DeleteConversationsResponse> else { return }
+            if let conversations = data.data?.conversations {
+                ConversationDBService.shared.updateConversations(conversations: conversations)
+            }
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
@@ -366,6 +372,9 @@ class ConversationClient: ServiceRequest {
                                               withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<NoData> else {return}
+            if let conversationId = request.conversationId {
+                ConversationDBService.shared.updateConversationReaction(reaction: request.reaction, conversationId: conversationId)
+            }
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
