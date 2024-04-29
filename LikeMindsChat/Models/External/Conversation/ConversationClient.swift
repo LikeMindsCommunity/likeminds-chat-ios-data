@@ -417,6 +417,9 @@ class ConversationClient: ServiceRequest {
                                               withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<NoData> else {return}
+            if data.success, let conversationId = request.conversationId {
+                ConversationDBService.shared.deleteReaction(conversationId: conversationId)
+            }
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
@@ -449,18 +452,15 @@ class ConversationClient: ServiceRequest {
     static func syncConversationsApi(request: ConversationSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncConversationResponse_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.syncConversations(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        DataNetwork.shared.request(for: url,
+        DataNetwork.shared.requestWithDecoded(for: url,
                                    withHTTPMethod: networkPath.httpMethod,
                                    headers: ServiceRequest.httpHeaders(),
                                    withParameters: networkPath.parameters,
-                                   withEncoding: networkPath.encoding, withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? Data else {return}
-            do {
-                let json = try JSONDecoder().decode(LMResponse<_SyncConversationResponse_>.self, from: data)
-                response?(json)
-            } catch {
-                response?(LMResponse.failureResponse(error.localizedDescription))
-            }
+                                   withEncoding: networkPath.encoding,
+                                   withResponseType: _SyncConversationResponse_.self,
+                                   withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? LMResponse<_SyncConversationResponse_> else {return}
+            response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
         }

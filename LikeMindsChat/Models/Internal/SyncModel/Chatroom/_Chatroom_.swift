@@ -109,7 +109,7 @@ struct _Chatroom_: Decodable {
         case memberCanMessage = "member_can_message"
         case cohorts
         case externalSeen = "external_seen"
-        case unreadConversationCount = "unread_messages"
+        case unreadConversationCount = "conversations_unread"
         case chatroomImageUrl = "chatroom_image_url"
         case accessWithoutSubscription = "access_without_subscription"
     }
@@ -178,6 +178,15 @@ extension KeyedDecodingContainer {
             return decodedValue
         } else if let decodedValue = try? self.decodeIfPresent(Int.self, forKey: key) {
             return String(decodedValue)
+        }
+        return nil
+    }
+    
+    public func decodeStringToIntIfPresent(forKey key: KeyedDecodingContainer<K>.Key) throws -> Int? {
+        if let decodedValue = try? self.decodeIfPresent(Int.self, forKey: key) {
+            return decodedValue
+        } else if let decodedValue = try? self.decodeIfPresent(String.self, forKey: key) {
+            return Int(decodedValue)
         }
         return nil
     }

@@ -180,7 +180,7 @@ internal final class DataNetwork {
                 if let error = response.error {
                     switch error {
                     case .sessionTaskFailed:
-                        self.request(for: url, withHTTPMethod: httpMethod, headers: headers, withParameters: parameters, withEncoding: encoding, withModuleName: moduleName, successCallback: successCallback, failureCallback: failureCallback)
+                        self.requestWithDecoded(for: url, withHTTPMethod: httpMethod, headers: headers, withParameters: parameters, withEncoding: encoding, withResponseType: objectType, withModuleName: moduleName, successCallback: successCallback, failureCallback: failureCallback)
                         return
                     default:
                         break
@@ -208,10 +208,10 @@ internal final class DataNetwork {
                 lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
                 successCallback(moduleName, lmResponse)
             } catch let error {
+                lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
                 lmLog("-----------Error---------------")
                 lmLog("error in parsing---> \(error)")
                 lmLog("-----------End error---------------")
-                lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
                 failureCallback(moduleName, .failedJsonParse(error.localizedDescription))
             }
             lmLog("--------------------------")

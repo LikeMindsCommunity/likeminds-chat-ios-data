@@ -26,7 +26,7 @@ extension Realm {
 class RealmManager {
     
     // MARK:- functions
-    static func realmConfig() -> Realm.Configuration {
+    static private func realmConfig() -> Realm.Configuration {
         let username = "GordonCole"
         var config = Realm.Configuration.defaultConfiguration
         config.fileURL!.deleteLastPathComponent()

@@ -9,7 +9,7 @@ import Foundation
 
 public struct AttachmentMeta: Codable {
     public let numberOfPage: Int?
-    public let size: Int64?
+    public let size: Int?
     public let duration: Int?
     
     private enum CodingKeys: String, CodingKey {
@@ -21,11 +21,11 @@ public struct AttachmentMeta: Codable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         numberOfPage = try container.decodeIfPresent(Int.self, forKey: .numberOfPage)
-        size = try container.decodeIfPresent(Int64.self, forKey: .size)
+        size = try container.decodeStringToIntIfPresent(forKey: .size)
         duration = try container.decodeIfPresent(Int.self, forKey: .duration)
     }
     
-    private init(numberOfPage: Int?, size: Int64?, duration: Int?) {
+    private init(numberOfPage: Int?, size: Int?, duration: Int?) {
         self.numberOfPage = numberOfPage
         self.size = size
         self.duration = duration
@@ -37,7 +37,7 @@ public struct AttachmentMeta: Codable {
     
     public class Builder {
         private var numberOfPage: Int?
-        private var size: Int64?
+        private var size: Int?
         private var duration: Int?
         
         public func numberOfPage(_ numberOfPage: Int?) -> Builder {
@@ -45,7 +45,7 @@ public struct AttachmentMeta: Codable {
             return self
         }
         
-        public func size(_ size: Int64?) -> Builder {
+        public func size(_ size: Int?) -> Builder {
             self.size = size
             return self
         }

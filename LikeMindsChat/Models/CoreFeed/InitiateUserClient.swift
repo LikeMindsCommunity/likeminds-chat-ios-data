@@ -12,41 +12,37 @@ class InitiateUserClient: ServiceRequest {
     static func initiateChatService(_ request: InitiateUserRequest, withModuleName moduleName: String, _ response: LMClientResponse<InitiateUserResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.initiateChatClient(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        DataNetwork.shared.request(for: url,
-                                   withHTTPMethod: networkPath.httpMethod,
-                                   headers: ServiceRequest.httpSdkHeaders(value: request.apiKey ?? ""),
-                                   withParameters: networkPath.parameters,
-                                   withEncoding: networkPath.encoding,
-                                   withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? Data else {return}
-            do {
-                let result = try JSONDecoder().decode(LMResponse<InitiateUserResponse>.self, from: data)
-                TokenManager.shared.updateToken(result.data?.accessToken, result.data?.refreshToken)
-                if !(result.data?.appAccess ?? false){
-                    let logoutRequest = LogoutRequest.builder()
-                        .deviceId(request.deviceId ?? "")
-                        .refreshToken(result.data?.refreshToken ?? "")
-                        .build()
-                    Self.logout(request: logoutRequest, withModuleName: "Intiate User Client", nil)
-                } else {
-                    guard let user = result.data?.user else {
-                        return
-                    }
-                    let lmUUID = user.uuid ?? ""
-                    let lmMemberId = user.id ?? ""
-                    let clientUUID = user.sdkClientInfo?.uuid ?? ""
-                    let communityId = user.sdkClientInfo?.community ?? 0
-                    
-                    UserPreferences.shared.setLMUUID(lmUUID)
-                    UserPreferences.shared.setLMMemberId("\(lmMemberId)")
-                    UserPreferences.shared.setClientUUID(clientUUID)
-                    SDKPreferences.shared.setCommunityId(communityId: "\(communityId)")
-                    ChatDBUtil.shared.userROUpdate(user)
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpSdkHeaders(value: request.apiKey ?? ""),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: InitiateUserResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let result = responseData as? LMResponse<InitiateUserResponse> else {return}
+            TokenManager.shared.updateToken(result.data?.accessToken, result.data?.refreshToken)
+            if !(result.data?.appAccess ?? false){
+                let logoutRequest = LogoutRequest.builder()
+                    .deviceId(request.deviceId ?? "")
+                    .refreshToken(result.data?.refreshToken ?? "")
+                    .build()
+                Self.logout(request: logoutRequest, withModuleName: "Intiate User Client", nil)
+            } else {
+                guard let user = result.data?.user else {
+                    return
                 }
-                response?(result)
-            } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+                let lmUUID = user.uuid ?? ""
+                let lmMemberId = user.id ?? ""
+                let clientUUID = user.sdkClientInfo?.uuid ?? ""
+                let communityId = user.sdkClientInfo?.community ?? 0
+                
+                UserPreferences.shared.setLMUUID(lmUUID)
+                UserPreferences.shared.setLMMemberId("\(lmMemberId)")
+                UserPreferences.shared.setClientUUID(clientUUID)
+                SDKPreferences.shared.setCommunityId(communityId: "\(communityId)")
+                ChatDBUtil.shared.userROUpdate(user)
             }
+            response?(result)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
         }
@@ -56,19 +52,17 @@ class InitiateUserClient: ServiceRequest {
         
         let networkPath = ServiceAPIRequest.NetworkPath.pushToken(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        DataNetwork.shared.request(for: url,
+        DataNetwork.shared.requestWithDecoded(for: url,
                                    withHTTPMethod: networkPath.httpMethod,
                                    headers: ServiceRequest.deviceRegisterHeaders(headerKey: "x-device-id", value: request.deviceId ?? ""),
                                    withParameters: networkPath.parameters,
                                    withEncoding: networkPath.encoding,
+                                   withResponseType: RegisterDeviceResponse.self,
                                    withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? Data else {return}
-            do {
-                let result = try JSONDecoder().decode(LMResponse<RegisterDeviceResponse>.self, from: data)
-                response?(result)
-            } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+            guard let result = responseData as? LMResponse<RegisterDeviceResponse> else {
+                return
             }
+            response?(result)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
         }

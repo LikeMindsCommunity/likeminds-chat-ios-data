@@ -16,8 +16,9 @@ public class Poll: Codable {
     public let noVotes: Int?
 //    public let member: Member?
     public let userId: String?
+    public let conversationId: String?
     
-    private init(id: String?, text: String?, isSelected: Bool?, percentage: Int?, subText: String?, noVotes: Int?, member: Member?, userId: String?) {
+    private init(id: String?, text: String?, isSelected: Bool?, percentage: Int?, subText: String?, noVotes: Int?, member: Member?, userId: String?, conversationId: String?) {
         self.id = id
         self.text = text
         self.isSelected = isSelected
@@ -26,6 +27,7 @@ public class Poll: Codable {
         self.noVotes = noVotes
 //        self.member = member
         self.userId = userId
+        self.conversationId = conversationId
     }
     
     public required init(from decoder: Decoder) throws {
@@ -38,6 +40,7 @@ public class Poll: Codable {
         subText = try container.decodeIfPresent(String.self, forKey: .subText)
         noVotes = try container.decodeIfPresent(Int.self, forKey: .noVotes)
         userId = try container.decodeIntToStringIfPresent(forKey: .userId)
+        conversationId = try container.decodeIntToStringIfPresent(forKey: .conversationId)
     }
     
     private enum CodingKeys: String, CodingKey {
@@ -49,6 +52,7 @@ public class Poll: Codable {
         case noVotes = "no_votes"
 //        case member
         case userId = "user_id"
+        case conversationId = "conversation_id"
     }
     
     class Builder {
@@ -60,6 +64,7 @@ public class Poll: Codable {
         private var noVotes: Int? = nil
         private var member: Member? = nil
         private var userId: String? = nil
+        private var conversationId: String?
         
         func id(_ id: String?) -> Builder {
             self.id = id
@@ -101,6 +106,11 @@ public class Poll: Codable {
             return self
         }
         
+        func conversationId(_ conversationId: String?) -> Builder {
+            self.conversationId = conversationId
+            return self
+        }
+        
         func build() -> Poll {
             return Poll(
                 id: id,
@@ -110,7 +120,8 @@ public class Poll: Codable {
                 subText: subText,
                 noVotes: noVotes,
                 member: member,
-                userId: userId
+                userId: userId,
+                conversationId: conversationId
             )
         }
     }
@@ -125,6 +136,7 @@ public class Poll: Codable {
             .noVotes(noVotes)
 //            .member(member)
             .userId(userId)
+            .conversationId(conversationId)
     }
 }
 

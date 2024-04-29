@@ -157,11 +157,12 @@ class ConversationDBService {
     }
     
     func updateConversationReaction(reaction: String, conversationId: String) {
-        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: RealmManager.realmInstance(), conversationId: conversationId) else { return }
-        RealmManager.realmInstance().beginAsyncWrite {
-            guard let userUUID =  RealmManager.realmInstance().objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
+        let realm = RealmManager.realmInstance()
+        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
+        realm.beginAsyncWrite {
+            guard let userUUID =  realm.objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
             let existingReactions = conversationRO.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
-            RealmManager.realmInstance().delete(existingReactions)
+            realm.delete(existingReactions)
             let member = ChatDBUtil.shared.getMember(realm: RealmManager.realmInstance(), communityId: conversationRO.communityId, uuid: userUUID)
             let reactionRO = ReactionRO()
             reactionRO.reaction = reaction
@@ -173,4 +174,15 @@ class ConversationDBService {
     func updateConversationSubmitPoll(conversationId: String, allPollItems: [Poll]) {
         
     }
+    
+    func deleteReaction(conversationId: String) {
+        let realm = RealmManager.realmInstance()
+        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
+        realm.beginAsyncWrite {
+            guard let userUUID =  realm.objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
+            let existingReactions = conversationRO.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
+            realm.delete(existingReactions)
+        }
+    }
+    
 }

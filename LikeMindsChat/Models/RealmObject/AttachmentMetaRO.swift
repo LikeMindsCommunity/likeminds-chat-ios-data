@@ -10,6 +10,6 @@ import RealmSwift
 
 class AttachmentMetaRO: Object {
     @Persisted var numberOfPage: Int?
-    @Persisted var size: Int64?
+    @Persisted var size: Int?
     @Persisted var duration: Int?
 }

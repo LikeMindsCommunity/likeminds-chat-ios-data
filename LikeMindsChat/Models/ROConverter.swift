@@ -95,7 +95,7 @@ class ROConverter {
         chatroomRO.accessWithoutSubscription = chatroom.accessWithoutSubscription == true
         chatroomRO.unreadConversationsCount = chatroom.unreadConversationCount
         
-        chatroomRO.reactions = reactionsRO ?? List()
+        chatroomRO.reactions = reactionsRO
         
         let updatedAt = lastConversationRO?.createdEpoch
         ?? savedChatroom?.lastConversationRO?.createdEpoch
@@ -113,7 +113,9 @@ class ROConverter {
         chatroomRO.dateEpoch = chatroom.dateEpoch
         chatroomRO.draftConversation = savedChatroom?.draftConversation //to maintain un-send conversation
         chatroomRO.isSecret = chatroom.isSecret
-        //        chatroomRO.secretChatRoomParticipants = chatroom.secretChatroomParticipants.toRealmList()
+        var secretParticipants = List<Int>()
+        secretParticipants.append(objectsIn: chatroom.secretChatroomParticipants ?? [])
+        chatroomRO.secretChatRoomParticipants = secretParticipants
         chatroomRO.secretChatRoomLeft = chatroom.secretChatroomLeft
         chatroomRO.topicId = chatroom.topicId ?? savedChatroom?.topicId
         chatroomRO.topic = savedChatroom?.topic

@@ -79,19 +79,17 @@ final public class TokenManager {
     private func refreshAccessToken(refreshToken: String, withModuleName moduleName: String, _ response: LMClientResponse<InitiateUserResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.refreshServiceToken(rtm: "")
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        DataNetwork.shared.request(for: url,
-                                   withHTTPMethod: networkPath.httpMethod,
-                                   headers: ServiceRequest.httpSdkHeaders(headerKey: "Authorization", value: refreshToken),
-                                   withParameters: networkPath.parameters,
-                                   withEncoding: networkPath.encoding,
-                                   withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? Data else {return}
-            do {
-                let result = try JSONDecoder().decode(LMResponse<InitiateUserResponse>.self, from: data)
-                response?(result)
-            } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpSdkHeaders(headerKey: "Authorization", value: refreshToken),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: InitiateUserResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let result = responseData as? LMResponse<InitiateUserResponse> else {
+                return
             }
+            response?(result)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
         }

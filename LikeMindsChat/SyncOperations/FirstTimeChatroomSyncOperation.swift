@@ -13,6 +13,7 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
     private var page: Int = 1
     private var maxTimestamp: Int = Int(Date().millisecondsSince1970)
     private var chatroomTypes: [Int]
+    private var pageSize = 500
     private var groupQueue: DispatchGroup = DispatchGroup()
     
     init(chatroomTypes: [Int]) {
@@ -23,7 +24,7 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
         groupQueue.enter()
         let chatroomSyncRequest = ChatroomSyncRequest.builder()
             .page(page)
-            .pageSize(500)
+            .pageSize(pageSize)
             .chatroomTypes(chatroomTypes)
             .minTimestamp(0)
             .maxTimestamp(maxTimestamp)
@@ -46,7 +47,7 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
                     // retry flow
                     return
                 }
-                SyncUtil.saveChatroomResponse(communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: "", data: data)
+                SyncUtil.saveChatroomResponse(communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", data: data)
                 SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "", isChatroomSynced: true)
                 self?.page += 1
                 self?.syncChatrooms()

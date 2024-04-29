@@ -15,11 +15,12 @@ protocol BaseClientProtocol: AnyObject {
 
 class HomeFeedClient {
     
-    private var notificationToken: NotificationToken?
+    private var chatroomResultnotificationToken: NotificationToken?
     private var homeFeedChatrooms: Results<ChatroomRO>?
     private var observers: [HomeFeedClientObserver?] = []
     
     static let shared = HomeFeedClient()
+    let realmInstance = RealmManager.realmInstance()
     
     func addObserver(_ ob: HomeFeedClientObserver) {
         guard observers.first(where: {type(of: $0) == type(of: ob)}) == nil else { return }
@@ -88,23 +89,32 @@ class HomeFeedClient {
     func getChatrooms(withObserver observer: HomeFeedClientObserver) {
         guard let communityId = SDKPreferences.shared.getCommunityId() else { return }
         addObserver(observer)
-        homeFeedChatrooms = ChatDBUtil.shared.getChatrooms(realm: RealmManager.realmInstance(), communityId: communityId)
+        homeFeedChatrooms = ChatDBUtil.shared.getChatrooms(realm: realmInstance, communityId: communityId)
         
         // Observe collection notifications. Keep a strong
         // reference to the notification token or the
         // observation will stop.
-        notificationToken = homeFeedChatrooms?.observe { [weak self] (changes: RealmCollectionChange) in
+        chatroomResultnotificationToken = homeFeedChatrooms?.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self else { return }
             switch changes {
             case .initial(let collections):
+                print("ResutlRealmNotification Initiate !$!$!$: \(homeFeedChatrooms?.count) == \(collections.count)")
                 guard let chatrooms = homeFeedChatrooms?.list.compactMap({ ro in
                     return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
                 }) else { return }
                 observers.forEach { $0?.initial(Array(chatrooms))}
             case .update(let collections, let deletions, let insertions, let modifications):
+                print("ResutlRealmNotification update !$!$!$: \(homeFeedChatrooms?.count) == \(collections.count)")
                 guard (homeFeedChatrooms?.list.compactMap({ ro in
                     return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
-                })) != nil else { return }
+                })) != nil else {
+                    print("ResutlRealmNotification update return !$!$!$: \(homeFeedChatrooms?.count) == \(collections.count)")
+                    guard let chatrooms = homeFeedChatrooms?.list.compactMap({ ro in
+                        return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
+                    }) else { return }
+                    observers.forEach { $0?.initial(Array(chatrooms))}
+                    return
+                }
                 observers.forEach { $0?.onChange(removed: deletions, inserted: self.getIndexedChatrooms(indexArray: insertions), updated: self.getIndexedChatrooms(indexArray: modifications))}
                 break
             case .error(let error):

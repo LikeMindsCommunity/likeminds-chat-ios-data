@@ -8,8 +8,8 @@
 import Foundation
 
 public class DeleteReactionRequest: Encodable {
-    private var conversationId: String?
-    private var chatroomId: String?
+    var conversationId: String?
+    var chatroomId: String?
     
     private init(conversationId: String?, chatroomId: String?) {
         self.conversationId = conversationId
