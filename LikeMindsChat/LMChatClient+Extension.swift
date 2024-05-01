@@ -184,12 +184,12 @@ extension LMChatClient {
         
     }
     
-    public func searchChatroom() {
-        
+    public func searchChatroom(request: SearchChatroomRequest, response: LMClientResponse<SearchChatroomResponse>?) {
+        SearchClient.shared.searchChatroom(with: request, response: response)
     }
     
-    public func searchConversation() {
-        
+    public func searchConversation(request: SearchConversationRequest, response: LMClientResponse<SearchConversationResponse>?) {
+        SearchClient.shared.searchConversation(with: request, response: response)
     }
     
     public func getConversationsCount() {

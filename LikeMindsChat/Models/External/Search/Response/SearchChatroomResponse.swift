@@ -7,30 +7,30 @@
 
 import Foundation
 
-struct SearchChatroomResponse: Decodable {
-    let conversations: [SearchChatroom]
+public struct SearchChatroomResponse: Decodable {
+    public let conversations: [SearchChatroom]
     
     private enum CodingKeys: String, CodingKey {
         case conversations = "chatrooms"
     }
 }
 
-struct SearchChatroom: Decodable {
+public struct SearchChatroom: Decodable {
     
-    let attachments: [Attachment]
-    let attendingStatus: Bool
+    public let attachments: [Attachment]
+    public let attendingStatus: Bool
     let chatroom: _Chatroom_
-    let community: Community
-    let followStatus: Bool
-    let id: Int
-    let isGuest: Bool
-    let isTagged: Bool
-    let member: Member
-    let muteStatus: Bool
-    let secretChatroomLeft: Bool
-    let state: Int
-    let updatedAt: TimeInterval
-    let isDisabled: Bool?
+    public let community: Community
+    public let followStatus: Bool
+    public let id: Int
+    public let isGuest: Bool
+    public let isTagged: Bool
+    public let member: Member
+    public let muteStatus: Bool
+    public let secretChatroomLeft: Bool
+    public let state: Int
+    public let updatedAt: TimeInterval
+    public let isDisabled: Bool?
     
     private enum CodingKeys: String, CodingKey {
         case attachments

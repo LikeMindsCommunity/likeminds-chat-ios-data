@@ -194,10 +194,28 @@ struct ServiceAPIRequest {
             case .getPollUsers(let request):
                 return "conversation/poll/users"
             case .searchChatroom(let request):
-                return "chatroom/search"
-            case .searchConversation(let request):
-                return "conversation/search"
+                var urlComponents = URLComponents()
+                urlComponents.path = "chatroom/search"
+                let followStatusQueryItem = URLQueryItem(name: "follow_status", value: "\(request.followStatus)")
+                let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
+                let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
+                let searchQueryItem = URLQueryItem(name: "search", value: request.search)
+                let searchTypeQueryItem = URLQueryItem(name: "search_type", value: request.searchType)
                 
+                urlComponents.queryItems = [followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem, searchTypeQueryItem]
+                
+                return (urlComponents.url?.absoluteString ?? "")
+            case .searchConversation(let request):
+                var urlComponents = URLComponents()
+                urlComponents.path = "conversation/search"
+                let followStatusQueryItem = URLQueryItem(name: "follow_status", value: "\(request.followStatus)")
+                let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
+                let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
+                let searchQueryItem = URLQueryItem(name: "search", value: request.search)
+                
+                urlComponents.queryItems = [followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem]
+                
+                return (urlComponents.url?.absoluteString ?? "")
             //MARK:- Report api
             case .getReportTags(let request):
                 return "community/report/tag?type=\(request.type)"

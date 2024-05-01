@@ -7,12 +7,12 @@
 
 import Foundation
 
-class SearchChatroomRequest: Encodable {
-    private var search: String = ""
-    private var followStatus: Bool = false
-    private var page: Int = 1
-    private var pageSize: Int = 10
-    private var searchType: String = ""
+public class SearchChatroomRequest: Encodable {
+    var search: String = ""
+    var followStatus: Bool = false
+    var page: Int = 1
+    var pageSize: Int = 10
+    var searchType: String = ""
     
     private init() {}
     
@@ -24,44 +24,46 @@ class SearchChatroomRequest: Encodable {
         case searchType = "search_type"
     }
     
-    class Builder {
+    public static func builder() -> Builder { Builder() }
+    
+    public class Builder {
         private var request: SearchChatroomRequest
         
         init() {
             request = SearchChatroomRequest()
         }
         
-        func setSearch(_ search: String) -> Builder {
+        public func setSearch(_ search: String) -> Builder {
             request.search = search
             return self
         }
         
-        func setFollowStatus(_ followStatus: Bool) -> Builder {
+        public func setFollowStatus(_ followStatus: Bool) -> Builder {
             request.followStatus = followStatus
             return self
         }
         
-        func setPage(_ page: Int) -> Builder {
+        public func setPage(_ page: Int) -> Builder {
             request.page = page
             return self
         }
         
-        func setPageSize(_ pageSize: Int) -> Builder {
+        public func setPageSize(_ pageSize: Int) -> Builder {
             request.pageSize = pageSize
             return self
         }
         
-        func setSearchType(_ searchType: String) -> Builder {
+        public func setSearchType(_ searchType: String) -> Builder {
             request.searchType = searchType
             return self
         }
         
-        func build() -> SearchChatroomRequest {
+        public func build() -> SearchChatroomRequest {
             return request
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .setSearch(search)
             .setFollowStatus(followStatus)

@@ -7,24 +7,24 @@
 
 import Foundation
 
-struct SearchConversationResponse: Decodable {
-    let conversations: [SearchConversation]
+public struct SearchConversationResponse: Decodable {
+    public let conversations: [SearchConversation]
 }
 
-struct SearchConversation: Decodable {
-    let answer: String
-    let attachmentCount: Int
-    let attachments: [Attachment]
-    let attachmentsUploaded: Bool
+public struct SearchConversation: Decodable {
+    public let answer: String
+    public let attachmentCount: Int
+    public let attachments: [Attachment]
+    public let attachmentsUploaded: Bool
     let chatroom: _Chatroom_
-    let community: Community
-    let createdAt: TimeInterval
-    let id: Int
-    let isDeleted: Bool
-    let isEdited: Bool
-    let lastUpdated: TimeInterval
-    let member: Member
-    let state: Int
+    public let community: Community
+    public let createdAt: TimeInterval
+    public let id: Int
+    public let isDeleted: Bool
+    public let isEdited: Bool
+    public let lastUpdated: TimeInterval
+    public let member: Member
+    public let state: Int
     
     private enum CodingKeys: String, CodingKey {
         case answer
@@ -42,7 +42,7 @@ struct SearchConversation: Decodable {
         case state
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         answer = try container.decode(String.self, forKey: .answer)
         attachmentCount = try container.decode(Int.self, forKey: .attachmentCount)

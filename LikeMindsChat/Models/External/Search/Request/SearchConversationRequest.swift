@@ -7,11 +7,11 @@
 
 import Foundation
 
-class SearchConversationRequest: Encodable {
-    private let search: String
-    private let followStatus: Bool
-    private let page: Int
-    private let pageSize: Int
+public class SearchConversationRequest: Encodable {
+    let search: String
+    let followStatus: Bool
+    let page: Int
+    let pageSize: Int
     
     private init(search: String, followStatus: Bool, page: Int, pageSize: Int) {
         self.search = search
@@ -27,33 +27,35 @@ class SearchConversationRequest: Encodable {
         case pageSize = "page_size"
     }
     
-    class Builder {
+    public static func builder() -> Builder { Builder() }
+    
+    public class Builder {
         private var search: String = ""
         private var followStatus: Bool = false
         private var page: Int = 1
         private var pageSize: Int = 10
         
-        func search(_ search: String) -> Builder {
+        public func search(_ search: String) -> Builder {
             self.search = search
             return self
         }
         
-        func followStatus(_ followStatus: Bool) -> Builder {
+        public func followStatus(_ followStatus: Bool) -> Builder {
             self.followStatus = followStatus
             return self
         }
         
-        func page(_ page: Int) -> Builder {
+        public func page(_ page: Int) -> Builder {
             self.page = page
             return self
         }
         
-        func pageSize(_ pageSize: Int) -> Builder {
+        public func pageSize(_ pageSize: Int) -> Builder {
             self.pageSize = pageSize
             return self
         }
         
-        func build() -> SearchConversationRequest {
+        public func build() -> SearchConversationRequest {
             return SearchConversationRequest(
                 search: search,
                 followStatus: followStatus,
@@ -63,7 +65,7 @@ class SearchConversationRequest: Encodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .search(search)
             .followStatus(followStatus)
