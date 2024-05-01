@@ -49,6 +49,12 @@ class CommunityClient {
         return response
     }
     
+    func getLoggedInUser() -> User? {
+        guard let user = CommunityDBService.shared.getUser() else { return nil }
+        let loggedInUser = ModelConverter.shared.convertUserRO(user)
+        return loggedInUser
+    }
+    
     func getMemberState(response: LMClientResponse<GetMemberStateResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.getMemberState
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}

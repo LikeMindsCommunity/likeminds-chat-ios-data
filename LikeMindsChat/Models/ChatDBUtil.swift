@@ -29,6 +29,10 @@ class ChatDBUtil {
         return realm.objects(AppConfigRO.self).first
     }
     
+    func getLoggedInUser(realm: Realm) -> UserRO? {
+        return realm.objects(UserRO.self).first
+    }
+    
     /**
      * To get the [CommunityRO] object as per [communityId]
      *

@@ -107,8 +107,8 @@ extension LMChatClient {
     }
     
     
-    public func getUser() {
-        
+    public func getLoggedInUser() -> User? {
+        CommunityClient.shared.getLoggedInUser()
     }
     
     public func getMember(request: GetMemberRequest) -> LMResponse<GetMemberResponse>? {
@@ -148,8 +148,8 @@ extension LMChatClient {
         ConversationClient.shared.markRead(request: request, response: response)
     }
     
-    public func setChatroomTopic() {
-        
+    public func setChatroomTopic(request: SetChatroomTopicRequest, response: LMClientResponse<NoData>?) {
+        ChatroomClient.shared.setChatroomTopic(request: request, response: response)
     }
     
     public func addPollOption() {

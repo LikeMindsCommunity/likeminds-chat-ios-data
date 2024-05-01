@@ -333,7 +333,7 @@ class ModelConverter {
     }
     
     // converts UserRO model to client model
-    private func convertUserRO(_ userRO: UserRO?) -> User? {
+    func convertUserRO(_ userRO: UserRO?) -> User? {
         guard let userRO else { return nil }
         var user = User(id: userRO.id, imageUrl: userRO.imageUrl)
         user.isGuest = userRO.isGuest ?? false

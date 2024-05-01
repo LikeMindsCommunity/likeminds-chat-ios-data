@@ -8,8 +8,8 @@
 import Foundation
 
 public class SetChatroomTopicRequest: Encodable {
-    private let chatroomId: String
-    private let conversationId: String
+    let chatroomId: String
+    let conversationId: String
     
     private init(chatroomId: String, conversationId: String) {
         self.chatroomId = chatroomId

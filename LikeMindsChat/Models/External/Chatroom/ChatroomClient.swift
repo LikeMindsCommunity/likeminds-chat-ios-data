@@ -165,6 +165,9 @@ class ChatroomClient: ServiceRequest {
                                               withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<NoData> else {return}
+            if data.success {
+                ChatroomDBService.shared.updateChatroomTopic(chatroomId: request.chatroomId, topicId: request.conversationId)
+            }
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
