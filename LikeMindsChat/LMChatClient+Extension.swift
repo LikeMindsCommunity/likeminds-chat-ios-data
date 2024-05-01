@@ -85,6 +85,10 @@ extension LMChatClient {
         ConversationClient.shared.loadConversations(type: loadType, chatroomId: chatroomId)
     }
     
+    public func loadLatestConversations(withConversationId conversationId: String, chatroomId: String) {
+        ConversationClient.shared.loadConversation(withConversationId: conversationId, chatroomId: chatroomId)
+    }
+    
     public func getConversations(withRequest request: GetConversationsRequest) -> LMResponse<GetConversationsResponse>? {
         return ConversationClient.shared.getConversations(request: request)
     }
@@ -236,9 +240,7 @@ extension LMChatClient {
     }
     
     public func deleteReaction(request: DeleteReactionRequest, response: LMClientResponse<NoData>?) {
-        ConversationClient.shared.deleteReaction(request: request) { result in
-            response?(result)
-        }
+        ConversationClient.shared.deleteReaction(request: request, response: response)
     }
     
     public func getUnreadConversationNotification() {

@@ -26,7 +26,7 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
         let conversationSyncRequest = ConversationSyncRequest.builder()
             .page(page)
             .chatroomId(chatroomId)
-            .pageSize(50)
+            .pageSize(100)
             .minTimestamp(0)
             .maxTimestamp(maxTimestamp)
             .build()

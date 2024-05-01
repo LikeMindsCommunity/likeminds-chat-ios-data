@@ -122,6 +122,35 @@ class ConversationClient: ServiceRequest {
         }
     }
     
+    func loadConversation(withConversationId conversationId: String, chatroomId: String) {
+        let maxTimestamp = Date().millisecondsSince1970
+        let conversationSyncRequest = ConversationSyncRequest.builder()
+            .page(1)
+            .chatroomId(chatroomId)
+            .conversationId(conversationId)
+            .pageSize(500)
+            .minTimestamp(0)
+            .maxTimestamp(Int(maxTimestamp))
+            .build()
+        
+        SyncPreferences.shared.setTimestampForSyncConversation(time: conversationSyncRequest.maxTimestamp ?? 0)
+        Self.syncConversationsApi(request: conversationSyncRequest, moduleName: "ConversationClient") { response in
+            
+            if let _ = response.errorMessage {
+                // retry
+            } else if let chatrooms = response.data?.conversations, chatrooms.isEmpty {
+                // No data but success
+                return
+            } else {
+                guard let data = response.data else {
+                    // retry flow
+                    return
+                }
+                SyncUtil.saveConversationResponses(chatroomId: chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: [data])
+            }
+        }
+    }
+    
     /**
      * runs the query and returns the conversations as per situations
      * @param getConversationsRequest - client request model to get conversations

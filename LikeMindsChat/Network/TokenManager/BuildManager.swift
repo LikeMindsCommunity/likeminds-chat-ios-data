@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum BuildEnvironment {
+public enum BuildEnvironment {
     case production
     case devtest
 }
-class BuildManager {
-    static let environment: BuildEnvironment = .devtest
+public class BuildManager {
+    public static let environment: BuildEnvironment = .devtest
 //    static let environment: BuildEnvironment = .production
-    static let buildVersion = "1000"
+    static let buildVersion = "9999"
 }
