@@ -8,4 +8,7 @@ target 'LikeMindsChat' do
   # Pods for LikeMindsChat
   pod 'Alamofire'
   pod 'RealmSwift', '~>10'
+  pod 'FirebaseCore'
+  pod 'FirebaseMessaging'
+  pod 'FirebaseDatabase'
 end

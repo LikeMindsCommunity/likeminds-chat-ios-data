@@ -6,12 +6,15 @@
 //
 
 import Foundation
+import FirebaseDatabase
 
 public class LMChatClient {
     let moduleName = "LMFeedClient-SDK"
     public private(set) static var shared = LMChatClient()
     
-    private init() {}
+    private init() {
+        FirebaseServiceConfiguration.setupFirebaseAppService()
+    }
     
     public static func builder() -> LMChatClient {
         Self.shared = LMChatClient()

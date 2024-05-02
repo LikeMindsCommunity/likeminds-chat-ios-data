@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import FirebaseDatabase
 
 protocol BaseClientProtocol: AnyObject {
     func addObserver(_ ob: RealmObjectChangeObserver)
@@ -18,6 +19,7 @@ class HomeFeedClient {
     private var chatroomResultnotificationToken: NotificationToken?
     private var homeFeedChatrooms: Results<ChatroomRO>?
     private var observers: [HomeFeedClientObserver?] = []
+    private var firebaseRealTimeDBReference: DatabaseReference?
     
     static let shared = HomeFeedClient()
     let realmInstance = RealmManager.realmInstance()
@@ -129,6 +131,20 @@ class HomeFeedClient {
             let chatroomRO = homeFeedChatrooms?[index]
             let chatroom = ModelConverter.shared.convertChatroomRO(chatroomRO: chatroomRO)
             return (index, chatroom) as? (Int, Chatroom)
+        }
+    }
+    
+    func observeLiveHomeFeed(forCommunity communityId: String) {
+        firebaseRealTimeDBReference = FirebaseServiceConfiguration.getDatabaseReferenceForHomeFeed(communityId)
+        FireBaseFactoryClass.shared.getDataForQuery(firebaseRealTimeDBReference) {[weak self] entity in
+            guard let data = entity else { return }
+            do {
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {return}
+                print("live home feed json: \(json)")
+                self?.syncChatrooms()
+            } catch let error {
+                print("json error parsing - \(#function) \(error)")
+            }
         }
     }
     

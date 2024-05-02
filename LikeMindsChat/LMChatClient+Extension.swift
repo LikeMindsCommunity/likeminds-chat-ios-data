@@ -263,4 +263,11 @@ extension LMChatClient {
         ConversationClient.shared.savePostedConversation(request: request)
     }
     
+    public func observeLiveConversation(withChatroomId chatroomId: String) {
+        ConversationClient.shared.observeChatRoomLatestConversations(forChatRoomID: chatroomId)
+    }
+    
+    public func observeLiveHomeFeed(withChatroomId communityId: String) {
+        HomeFeedClient.shared.observeLiveHomeFeed(forCommunity: communityId)
+    }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import FirebaseDatabase
 
 class ConversationClient: ServiceRequest {
     
@@ -16,6 +17,7 @@ class ConversationClient: ServiceRequest {
     private var notificationToken: NotificationToken?
     private var conversations: Results<ConversationRO>?
     private var observers: [ConversationChangeDelegate?] = []
+    private var firebaseRealTimeDBReference: DatabaseReference?
     
     func addObserver(_ ob: ConversationChangeDelegate) {
         guard observers.first(where: {type(of: $0) == type(of: ob)}) == nil else { return }
@@ -509,6 +511,21 @@ class ConversationClient: ServiceRequest {
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
+        }
+    }
+    
+    func observeChatRoomLatestConversations(forChatRoomID chatRoomID: String) {
+        firebaseRealTimeDBReference = FirebaseServiceConfiguration.getDatabaseReferenceForConversation(chatRoomID)
+        FireBaseFactoryClass.shared.getDataForQuery(firebaseRealTimeDBReference) {[weak self] entity in
+            guard let data = entity else { return }
+            do {
+                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
+                      let answerId = json["answer_id"] as? String else {return}
+                print("live conversation json: \(json)")
+                self?.loadConversation(withConversationId: answerId, chatroomId: chatRoomID)
+            } catch let error {
+                print("json error parsing - \(#function) \(error)")
+            }
         }
     }
 }

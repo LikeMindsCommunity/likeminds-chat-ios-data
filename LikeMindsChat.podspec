@@ -141,5 +141,8 @@ Pod::Spec.new do |spec|
   # spec.dependency "JSONKit", "~> 1.4"
   spec.dependency 'Alamofire'
   spec.dependency 'RealmSwift', '~>10'
+  spec.dependency "FirebaseCore"
+  spec.dependency "FirebaseMessaging"
+  spec.dependency "FirebaseDatabase"
 
 end
