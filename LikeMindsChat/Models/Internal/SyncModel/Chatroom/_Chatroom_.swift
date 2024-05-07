@@ -8,59 +8,56 @@
 
 import Foundation
 
-
-
-struct _Chatroom_: Decodable {
-    
-    let member: Member?
-    let id: String?
-    let title: String?
-    let createdAt: String?
-    let answerText: String?
-    let state: Int?
-    let unseenCount: Int?
-    let shareUrl: String?
-    let communityId: String?
-    let communityName: String?
-    let type: Int?
-    let about: String?
-    let header: String?
-    let showFollowTelescope: Bool?
-    let showFollowAutoTag: Bool?
-    let cardCreationTime: String?
-    let participantsCount: Int?
-    let totalResponseCount: Int?
-    let muteStatus: Bool?
-    let followStatus: Bool?
-    let hasBeenNamed: Bool?
-    let hasReactions: Bool?
-    let date: String?
-    let isTagged: Bool?
-    let isPending: Bool?
-    let isPinned: Bool?
-    let isDeleted: Bool?
-    let userId: String?
-    let deletedBy: String?
-    let deletedByMember: Member?
-    let updatedAt: Int?
-    let lastSeenConversationId: String?
-    let lastConversationId: String?
-    let dateEpoch: Int?
-    let isSecret: Bool?
-    let secretChatroomParticipants: [Int]?
-    let secretChatroomLeft: Bool?
-    let reactions: [Reaction]?
-    let topicId: String?
+public struct _Chatroom_: Decodable {
+    public let member: Member?
+    public let id: String?
+    public let title: String?
+    public let createdAt: String?
+    public let answerText: String?
+    public let state: Int?
+    public let unseenCount: Int?
+    public let shareUrl: String?
+    public let communityId: String?
+    public let communityName: String?
+    public let type: Int?
+    public let about: String?
+    public let header: String?
+    public let showFollowTelescope: Bool?
+    public let showFollowAutoTag: Bool?
+    public let cardCreationTime: String?
+    public let participantsCount: Int?
+    public let totalResponseCount: Int?
+    public let muteStatus: Bool?
+    public let followStatus: Bool?
+    public let hasBeenNamed: Bool?
+    public let hasReactions: Bool?
+    public let date: String?
+    public let isTagged: Bool?
+    public let isPending: Bool?
+    public let isPinned: Bool?
+    public let isDeleted: Bool?
+    public let userId: String?
+    public let deletedBy: String?
+    public let deletedByMember: Member?
+    public let updatedAt: Int?
+    public let lastSeenConversationId: String?
+    public let lastConversationId: String?
+    public let dateEpoch: Int?
+    public let isSecret: Bool?
+    public let secretChatroomParticipants: [Int]?
+    public let secretChatroomLeft: Bool?
+    public let reactions: [Reaction]?
+    public let topicId: String?
     let topic: _Conversation_?
-    let autoFollowDone: Bool?
-    let isEdited: Bool?
-    let access: Int?
-    let memberCanMessage: Bool?
-    let cohorts: [Cohort]?
-    let externalSeen: Bool?
-    let unreadConversationCount: Int?
-    let chatroomImageUrl: String?
-    let accessWithoutSubscription: Bool?
+    public let autoFollowDone: Bool?
+    public let isEdited: Bool?
+    public let access: Int?
+    public let memberCanMessage: Bool?
+    public let cohorts: [Cohort]?
+    public let externalSeen: Bool?
+    public let unreadConversationCount: Int?
+    public let chatroomImageUrl: String?
+    public let accessWithoutSubscription: Bool?
     
     enum CodingKeys: String, CodingKey {
         case member
@@ -115,7 +112,7 @@ struct _Chatroom_: Decodable {
     }
 }
 
-extension _Chatroom_ {
+public extension _Chatroom_ {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
