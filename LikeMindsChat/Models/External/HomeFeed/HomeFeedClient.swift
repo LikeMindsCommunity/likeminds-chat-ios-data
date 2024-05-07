@@ -131,10 +131,8 @@ class HomeFeedClient {
     }
     
     func observeLiveHomeFeed(forCommunity communityId: String) {
-        print("live home feed json: homefeed")
         firebaseRealTimeDBReference = FirebaseServiceConfiguration.getDatabaseReferenceForHomeFeed(communityId)
         firebaseRealTimeDBReference?.observe(.childChanged, with:{[weak self] snapshot in
-            print("live home feed json: homefeed")
             self?.syncChatrooms()
         })
     }
