@@ -267,7 +267,7 @@ extension LMChatClient {
         ConversationClient.shared.observeChatRoomLatestConversations(forChatRoomID: chatroomId)
     }
     
-    public func observeLiveHomeFeed(withChatroomId communityId: String) {
+    public func observeLiveHomeFeed(withCommunityId communityId: String) {
         HomeFeedClient.shared.observeLiveHomeFeed(forCommunity: communityId)
     }
 }

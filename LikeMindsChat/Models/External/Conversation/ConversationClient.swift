@@ -84,7 +84,6 @@ class ConversationClient: ServiceRequest {
                 }
                 break
             case .error(let error):
-                // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")
             }
         }

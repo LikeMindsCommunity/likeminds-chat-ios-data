@@ -11,17 +11,15 @@ import Foundation
 class FirstTimeChatroomSyncOperation: LMAsyncOperation {
     
     private var page: Int = 1
-    private var maxTimestamp: Int = Int(Date().millisecondsSince1970)
+    private var maxTimestamp: Int = Int(Date().timeIntervalSince1970)
     private var chatroomTypes: [Int]
     private var pageSize = 500
-    private var groupQueue: DispatchGroup = DispatchGroup()
     
     init(chatroomTypes: [Int]) {
         self.chatroomTypes = chatroomTypes
     }
     
     func syncChatrooms() {
-        groupQueue.enter()
         let chatroomSyncRequest = ChatroomSyncRequest.builder()
             .page(page)
             .pageSize(pageSize)
@@ -35,7 +33,6 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
 
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
         ChatroomClient.syncChatroomsApi(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { [weak self] response in
-            self?.groupQueue.leave()
             if let _ = response.errorMessage {
                 print("Retry first time chatroom sync")
               // retry
@@ -53,7 +50,6 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
                 self?.syncChatrooms()
             }
         }
-        groupQueue.wait()
     }
     
     override func main() {

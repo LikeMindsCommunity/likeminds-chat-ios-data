@@ -10,17 +10,15 @@ import Foundation
 class ReopenChatroomSyncOperation: LMAsyncOperation {
     
     var page: Int = 1
-    var maxTimestamp: Int = Int(Date().millisecondsSince1970)
+    var maxTimestamp: Int = Int(Date().timeIntervalSince1970)
     var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncChatroom()
     private var chatroomTypes: [Int]
-    private var groupQueue: DispatchGroup = DispatchGroup()
     
     init(chatroomTypes: [Int]) {
         self.chatroomTypes = chatroomTypes
     }
     
     func syncChatrooms() {
-        groupQueue.enter()
         let chatroomSyncRequest = ChatroomSyncRequest.builder()
             .page(page)
             .pageSize(50)
@@ -31,7 +29,6 @@ class ReopenChatroomSyncOperation: LMAsyncOperation {
         
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
         ChatroomClient.syncChatroomsApi(request: chatroomSyncRequest, moduleName: "ReopenChatroomSync") { [weak self] response in
-            self?.groupQueue.leave()
             if let _ = response.errorMessage {
                 print("Retry reopen chatroom sync")
                 // retry
@@ -48,7 +45,6 @@ class ReopenChatroomSyncOperation: LMAsyncOperation {
                 self?.syncChatrooms()
             }
         }
-        groupQueue.wait()
     }
     
     override func main() {

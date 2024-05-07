@@ -285,11 +285,11 @@ class ChatDBUtil {
         chatroomId: String,
         isConversationStored: Bool
     ) {
-//        write { realm ->
-//            val chatroomRO = getChatroom(realm, chatroomId)
-//            
-//            chatroomRO?.isConversationStored = isConversationStored
-//        }
+        let realm = RealmManager.realmInstance()
+        realm.writeAsync {
+            let chatroomRO = self.getChatroom(realm: realm, chatroomId: chatroomId)
+            chatroomRO?.isConversationStored = isConversationStored
+        }
     }
     
 }

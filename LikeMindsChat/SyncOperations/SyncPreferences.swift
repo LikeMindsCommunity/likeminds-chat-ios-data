@@ -48,9 +48,9 @@ class SyncPreferences: BasePreferences {
     
 }
 
-class SDKPreferences: BasePreferences {
+public class SDKPreferences: BasePreferences {
     
-    static let shared = SDKPreferences()
+    public static let shared = SDKPreferences()
     private let communityIDKey = "CommunityId_key"
     
     private override init() {}
@@ -59,7 +59,7 @@ class SDKPreferences: BasePreferences {
         setValue(communityId, forKey: communityIDKey)
     }
     
-    func getCommunityId() -> String? {
+    public func getCommunityId() -> String? {
         return getValue(forKey: communityIDKey) as? String
     }
     

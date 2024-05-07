@@ -69,23 +69,24 @@ class InitiateUserClient: ServiceRequest {
     }
     
     static func logout(request: LogoutRequest, withModuleName moduleName: String, _ response: LMClientResponse<NoData>?) {
+        guard let refreshToken = TokenManager.shared.refreshToken else {
+            response?(LMResponse.failureResponse("refresh token expired or not found!"))
+            return
+        }
+        let request = request.refreshToken(refreshToken)
         let networkPath = ServiceAPIRequest.NetworkPath.logout(request)
         var headers = ServiceRequest.httpHeaders()
         headers["x-device-id"] = request.deviceId ?? ""
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        DataNetwork.shared.request(for: url,
+        DataNetwork.shared.requestWithDecoded(for: url,
                                    withHTTPMethod: networkPath.httpMethod,
                                    headers: headers,
                                    withParameters: networkPath.parameters,
                                    withEncoding: networkPath.encoding,
+                                    withResponseType: NoData.self,
                                    withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? Data else {return}
-            do {
-                let result = try JSONDecoder().decode(LMResponse<NoData>.self, from: data)
-                response?(result)
-            } catch let error {
-                response?(LMResponse.failureResponse(error.localizedDescription))
-            }
+            guard let data = responseData as? LMResponse<NoData> else {return}
+            response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
         }

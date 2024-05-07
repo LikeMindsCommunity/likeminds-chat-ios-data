@@ -621,7 +621,7 @@ class ROConverter {
         }
         
         //get attachments as per saved and new conversation
-        let updatedAttachments = convertUpdatedAttachments(chatroomId: chatroomId, communityId: communityId, attachments: conversation.attachments ?? [], oldAttachments: savedAnswer?.attachments ?? List())
+        let updatedAttachments = convertUpdatedAttachments(chatroomId: chatroomId, communityId: communityId, attachments: attachments ?? [], oldAttachments: savedAnswer?.attachments ?? List())
         
         //Clear embedded object list if already present else calling insertToRealmOrUpdate will duplicate it
 //        savedAnswer?.attachments?.deleteAllFromRealm()

@@ -78,13 +78,9 @@ class HomeFeedClient {
     func syncChatrooms() {
         let isFirstSync = ChatDBUtil.shared.isEmpty()
         if isFirstSync {
-            SyncOperationUtil.startFirstHomeFeedSync { response in
-                // Do somthing with response
-            }
+            SyncOperationUtil.startFirstHomeFeedSync(response: nil)
         } else {
-            SyncOperationUtil.startReopenSyncForHomeFeed { response in
-                // Do somthing with response
-            }
+            SyncOperationUtil.startReopenSyncForHomeFeed(response: nil)
         }
     }
     
@@ -135,17 +131,12 @@ class HomeFeedClient {
     }
     
     func observeLiveHomeFeed(forCommunity communityId: String) {
+        print("live home feed json: homefeed")
         firebaseRealTimeDBReference = FirebaseServiceConfiguration.getDatabaseReferenceForHomeFeed(communityId)
-        FireBaseFactoryClass.shared.getDataForQuery(firebaseRealTimeDBReference) {[weak self] entity in
-            guard let data = entity else { return }
-            do {
-                guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any] else {return}
-                print("live home feed json: \(json)")
-                self?.syncChatrooms()
-            } catch let error {
-                print("json error parsing - \(#function) \(error)")
-            }
-        }
+        firebaseRealTimeDBReference?.observe(.childChanged, with:{[weak self] snapshot in
+            print("live home feed json: homefeed")
+            self?.syncChatrooms()
+        })
     }
     
 }
