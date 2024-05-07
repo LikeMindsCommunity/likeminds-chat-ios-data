@@ -16,7 +16,7 @@ public struct SearchConversation: Decodable {
     public let attachmentCount: Int
     public let attachments: [Attachment]
     public let attachmentsUploaded: Bool
-    let chatroom: _Chatroom_
+    public let chatroom: _Chatroom_
     public let community: Community
     public let createdAt: TimeInterval
     public let id: Int

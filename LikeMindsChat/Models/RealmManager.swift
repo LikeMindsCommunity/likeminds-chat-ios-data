@@ -32,7 +32,7 @@ class RealmManager {
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
-        config.schemaVersion = 2
+        config.schemaVersion = 3
         print("realm db path: \(config.fileURL)")
         return config
         return Realm.Configuration(schemaVersion: 2, migrationBlock: { (migration, oldSchemaVersion) in

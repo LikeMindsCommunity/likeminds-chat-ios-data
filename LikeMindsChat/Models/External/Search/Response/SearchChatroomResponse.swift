@@ -19,7 +19,7 @@ public struct SearchChatroom: Decodable {
     
     public let attachments: [Attachment]
     public let attendingStatus: Bool
-    let chatroom: _Chatroom_
+    public let chatroom: _Chatroom_
     public let community: Community
     public let followStatus: Bool
     public let id: Int
