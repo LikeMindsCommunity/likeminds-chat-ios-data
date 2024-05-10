@@ -20,12 +20,20 @@ class ChatroomDBService {
     
     func updateChatroomTopic(chatroomId: String, topicId: String) {
         let realm = RealmManager.realmInstance()
-        realm.beginAsyncWrite {
-            guard let chatroom = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: chatroomId) else { return }
+        guard let chatroom = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: chatroomId) else { return }
+        RealmManager.update(chatroom) { object in
             chatroom.topicId = topicId
             if let topic = ChatDBUtil.shared.getConversation(realm: realm, conversationId: topicId) {
                 chatroom.topic = topic
             }
+        }
+    }
+    
+    func updateChatroomFollow(chatroomId: String, status: Bool) {
+        let realm = RealmManager.realmInstance()
+        guard let chatroom = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: chatroomId) else { return }
+        RealmManager.update(chatroom) { object in
+            object.followStatus = status
         }
     }
 }

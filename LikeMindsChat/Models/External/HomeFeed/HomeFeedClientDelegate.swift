@@ -13,6 +13,6 @@ public protocol RealmObjectChangeObserver: AnyObject {
 public protocol HomeFeedClientObserver: RealmObjectChangeObserver {
     
     func initial(_ chatrooms: [Chatroom])
-    func onChange(removed: [Int], inserted: [(Int, Chatroom)], updated: [(Int, Chatroom)])
+    func onChange(removed: [Chatroom], inserted: [(Int, Chatroom)], updated: [(Int, Chatroom)])
     
 }

@@ -113,7 +113,7 @@ class HomeFeedClient {
                     observers.forEach { $0?.initial(Array(chatrooms))}
                     return
                 }
-                observers.forEach { $0?.onChange(removed: deletions, inserted: self.getIndexedChatrooms(indexArray: insertions), updated: self.getIndexedChatrooms(indexArray: modifications))}
+                observers.forEach { $0?.onChange(removed: collections.compactMap({ModelConverter.shared.convertChatroomRO(chatroomRO: $0)}), inserted: self.getIndexedChatrooms(indexArray: insertions), updated: self.getIndexedChatrooms(indexArray: modifications))}
                 break
             case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread

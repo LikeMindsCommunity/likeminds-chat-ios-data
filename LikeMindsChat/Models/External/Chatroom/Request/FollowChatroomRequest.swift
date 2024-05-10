@@ -8,9 +8,9 @@
 import Foundation
 
 public class FollowChatroomRequest: Encodable {
-    private let chatroomId: String
-    private let uuid: String
-    private let value: Bool
+    let chatroomId: String
+    let uuid: String
+    let value: Bool
     
     private init(chatroomId: String, uuid: String, value: Bool) {
         self.chatroomId = chatroomId

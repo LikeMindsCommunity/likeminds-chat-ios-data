@@ -27,7 +27,7 @@ class RealmManager {
     
     // MARK:- functions
     static private func realmConfig() -> Realm.Configuration {
-        let username = "GordonCole"
+        let username = "LMChatDB"
         var config = Realm.Configuration.defaultConfiguration
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)

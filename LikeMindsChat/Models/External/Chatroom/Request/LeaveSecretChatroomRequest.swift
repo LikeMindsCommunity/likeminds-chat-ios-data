@@ -9,12 +9,14 @@ import Foundation
 
 
 public class LeaveSecretChatroomRequest: Encodable {
-    private let chatroomId: String
+    let chatroomId: String
     private let isSecret: Bool
+    private let uuid: String
     
-    private init(chatroomId: String, isSecret: Bool) {
+    private init(chatroomId: String, isSecret: Bool, uuid: String) {
         self.chatroomId = chatroomId
         self.isSecret = isSecret
+        self.uuid = uuid
     }
     
     enum CodingKeys: String, CodingKey {
@@ -29,9 +31,15 @@ public class LeaveSecretChatroomRequest: Encodable {
     public class Builder {
         private var chatroomId: String = ""
         private var isSecret: Bool = true
+        private var uuid: String = ""
         
         public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
+            return self
+        }
+        
+        public func uuid(_ uuid: String) -> Builder {
+            self.uuid = uuid
             return self
         }
         
@@ -41,7 +49,7 @@ public class LeaveSecretChatroomRequest: Encodable {
         }
         
         public func build() -> LeaveSecretChatroomRequest {
-            return LeaveSecretChatroomRequest(chatroomId: chatroomId, isSecret: isSecret)
+            return LeaveSecretChatroomRequest(chatroomId: chatroomId, isSecret: isSecret, uuid: uuid)
         }
     }
     
@@ -49,5 +57,6 @@ public class LeaveSecretChatroomRequest: Encodable {
         return Builder()
             .isSecret(isSecret)
             .chatroomId(chatroomId)
+            .uuid(uuid)
     }
 }

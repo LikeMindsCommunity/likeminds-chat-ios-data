@@ -152,25 +152,26 @@ class ConversationDBService {
     }
     
     func updateEditedConversation(conversation: Conversation) {
-        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: RealmManager.realmInstance(), conversationId: conversation.id) else { return }
-        RealmManager.realmInstance().beginAsyncWrite {
-            conversationRO.answer = conversation.answer
-            conversationRO.link = ROConverter.convertLink(chatroomId: conversation.chatroomId ?? "", communityId: conversation.communityId ?? "", link: conversation.ogTags)
+        let realm = RealmManager.realmInstance()
+        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversation.id) else { return }
+        RealmManager.update(conversationRO) { object in
+            object.answer = conversation.answer
+            object.link = ROConverter.convertLink(chatroomId: conversation.chatroomId ?? "", communityId: conversation.communityId ?? "", link: conversation.ogTags)
         }
     }
     
     func updateConversationReaction(reaction: String, conversationId: String) {
         let realm = RealmManager.realmInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
-        realm.beginAsyncWrite {
+        RealmManager.update(conversationRO) { object in
             guard let userUUID =  realm.objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
-            let existingReactions = conversationRO.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
+            let existingReactions = object.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
             realm.delete(existingReactions)
-            let member = ChatDBUtil.shared.getMember(realm: RealmManager.realmInstance(), communityId: conversationRO.communityId, uuid: userUUID)
+            let member = ChatDBUtil.shared.getMember(realm: realm, communityId: object.communityId, uuid: userUUID)
             let reactionRO = ReactionRO()
             reactionRO.reaction = reaction
             reactionRO.member = member
-            conversationRO.reactions.append(reactionRO)
+            object.reactions.append(reactionRO)
         }
     }
     
@@ -181,10 +182,11 @@ class ConversationDBService {
     func deleteReaction(conversationId: String) {
         let realm = RealmManager.realmInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
-        realm.beginAsyncWrite {
+        
+        RealmManager.update(conversationRO) { object in
             guard let userUUID =  realm.objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
-            let existingReactions = conversationRO.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
-            realm.delete(existingReactions)
+            let existingReactions = object.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
+            RealmManager.delete(existingReactions)
         }
     }
     
