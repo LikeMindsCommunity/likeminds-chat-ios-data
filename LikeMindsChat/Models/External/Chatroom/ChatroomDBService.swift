@@ -36,4 +36,12 @@ class ChatroomDBService {
             object.followStatus = status
         }
     }
+    
+    func updateChatroomMuteUnMute(chatroomId: String, status: Bool) {
+        let realm = RealmManager.realmInstance()
+        guard let chatroom = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: chatroomId) else { return }
+        RealmManager.update(chatroom) { object in
+            object.muteStatus = status
+        }
+    }
 }

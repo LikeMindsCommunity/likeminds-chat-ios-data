@@ -8,8 +8,8 @@
 import Foundation
 
 public class MuteChatroomRequest: Encodable {
-    private let chatroomId: String
-    private let value: Bool
+    let chatroomId: String
+    let value: Bool
     
     private init(chatroomId: String, value: Bool) {
         self.chatroomId = chatroomId

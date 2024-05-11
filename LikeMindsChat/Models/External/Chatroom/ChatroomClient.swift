@@ -124,6 +124,9 @@ class ChatroomClient: ServiceRequest {
                                               withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<NoData> else {return}
+            if data.success {
+                ChatroomDBService.shared.updateChatroomMuteUnMute(chatroomId: request.chatroomId, status: request.value)
+            }
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))

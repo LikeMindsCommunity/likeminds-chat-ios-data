@@ -23,6 +23,12 @@ class ServiceRequest {
         ]
     }
     
+    static func httpHeadersWithAcceptVersionV2() -> HTTPHeaders {
+        var headers = httpHeaders()
+        headers["x-accept-version"] = "v2"
+        return headers
+    }
+    
     static func deviceRegisterHeaders(headerKey: String = "x-api-key", value: String = "") -> HTTPHeaders {
         var headers = Self.httpHeaders()
         headers[headerKey] = value

@@ -24,11 +24,9 @@ class ExplorerFeedClient {
     func getExploreFeed(request: GetExploreFeedRequest, response: LMClientResponse<GetExploreFeedResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.explorFeed(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        var header = ServiceRequest.httpHeaders()
-        header["x-accept-version"] = "v2"
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
-                                              headers: header,
+                                              headers: ServiceRequest.httpHeadersWithAcceptVersionV2(),
                                               withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
                                               withResponseType: GetExploreFeedResponse.self,

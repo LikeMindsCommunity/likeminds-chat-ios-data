@@ -12,6 +12,7 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
     var chatroomId: String = ""
     private var maxTimestamp: Int = Int(Date().millisecondsSince1970)
     var page: Int = 1
+    var syncConversationsData: [_SyncConversationResponse_] = []
     
     override private init() {
     }
@@ -40,15 +41,20 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
             if let _ = response.errorMessage {
                 // retry
             } else if let chatrooms = response.data?.conversations, chatrooms.isEmpty {
-                // No data but success
+                SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: self.syncConversationsData)
+                SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "", isConversationSynced: true)
                 return
             } else {
                 guard let data = response.data else {
                     // retry flow
                     return
                 }
-                SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: [data])
-                SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "", isConversationSynced: true)
+                if self.page == 1 {
+                    SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: [data])
+                    SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "", isConversationSynced: true)
+                } else {
+                    self.syncConversationsData.append(data)
+                }
                 self.page += 1
                 self.syncConversations()
             }

@@ -91,8 +91,11 @@ struct ServiceAPIRequest {
             case .explorTabCount:
                 return "community/member/home/meta"
             case .explorFeed(let request):
-                return "community/feed?page=\(request.page)&order_type=\(request.orderType)"
-                
+                var urlRequest = "community/feed?page=\(request.page)&order_type=\(request.orderType)"
+                if let isPinned = request.isPinned {
+                    urlRequest = urlRequest + "&pinned=\(isPinned)"
+                }
+                return urlRequest
                 //MARK:- Chatrooms api URL
             case .syncChatrooms(let request):
                 var urlRequest = "chatroom/sync?is_local_db=true&page=\(request.page)&page_size=\(request.pageSize)&min_timestamp=\(request.minTimestamp)&max_timestamp=\(request.maxTimestamp)"

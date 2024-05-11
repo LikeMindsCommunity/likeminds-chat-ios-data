@@ -14,6 +14,7 @@ class ReopenConversationSyncOperation: LMAsyncOperation {
     var maxTimestamp: Int = Int(Date().millisecondsSince1970)
     var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncChatroom()
     var page: Int = 1
+    var syncConversationsData: [_SyncConversationResponse_] = []
     
     override private init() {
         
@@ -40,14 +41,18 @@ class ReopenConversationSyncOperation: LMAsyncOperation {
             if let _ = response.errorMessage {
                 // retry
             } else if let chatrooms = response.data?.conversations, chatrooms.isEmpty {
-                // No data but success
+                SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: self.syncConversationsData)
                 return
             } else {
                 guard let data = response.data else {
                     // retry flow
                     return
                 }
-                SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: [data])
+                if self.page == 1 {
+                    SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: [data])
+                } else {
+                    self.syncConversationsData.append(data)
+                }
                 self.page += 1
                 self.syncConversations()
             }

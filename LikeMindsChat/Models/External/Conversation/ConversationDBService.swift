@@ -156,6 +156,7 @@ class ConversationDBService {
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversation.id) else { return }
         RealmManager.update(conversationRO) { object in
             object.answer = conversation.answer
+            object.isEdited = true
             object.link = ROConverter.convertLink(chatroomId: conversation.chatroomId ?? "", communityId: conversation.communityId ?? "", link: conversation.ogTags)
         }
     }
