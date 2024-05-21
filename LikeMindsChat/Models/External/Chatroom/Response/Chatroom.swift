@@ -76,287 +76,287 @@ public class Chatroom: Decodable {
             chatroom = Chatroom()
         }
         
-        func member(_ member: Member?) -> Builder {
+        public func member(_ member: Member?) -> Builder {
             chatroom.member = member
             return self
         }
         
-        func id(_ id: String) -> Builder {
+        public func id(_ id: String) -> Builder {
             chatroom.id = id
             return self
         }
         
-        func title(_ title: String) -> Builder {
+        public func title(_ title: String) -> Builder {
             chatroom.title = title
             return self
         }
         
-        func createdAt(_ createdAt: String?) -> Builder {
+        public func createdAt(_ createdAt: String?) -> Builder {
             chatroom.createdAt = createdAt
             return self
         }
         
-        func answerText(_ answerText: String?) -> Builder {
+        public func answerText(_ answerText: String?) -> Builder {
             chatroom.answerText = answerText
             return self
         }
         
-        func state(_ state: Int) -> Builder {
+        public func state(_ state: Int) -> Builder {
             chatroom.state = state
             return self
         }
         
-        func unseenCount(_ unseenCount: Int?) -> Builder {
+        public func unseenCount(_ unseenCount: Int?) -> Builder {
             chatroom.unseenCount = unseenCount
             return self
         }
         
-        func shareUrl(_ shareUrl: String?) -> Builder {
+        public func shareUrl(_ shareUrl: String?) -> Builder {
             chatroom.shareUrl = shareUrl
             return self
         }
         
-        func communityId(_ communityId: String?) -> Builder {
+        public func communityId(_ communityId: String?) -> Builder {
             chatroom.communityId = communityId
             return self
         }
         
-        func communityName(_ communityName: String?) -> Builder {
+        public func communityName(_ communityName: String?) -> Builder {
             chatroom.communityName = communityName
             return self
         }
         
-        func type(_ type: Int?) -> Builder {
+        public func type(_ type: Int?) -> Builder {
             chatroom.type = type
             return self
         }
         
-        func about(_ about: String?) -> Builder {
+        public func about(_ about: String?) -> Builder {
             chatroom.about = about
             return self
         }
         
-        func header(_ header: String?) -> Builder {
+        public func header(_ header: String?) -> Builder {
             chatroom.header = header
             return self
         }
         
-        func showFollowTelescope(_ showFollowTelescope: Bool?) -> Builder {
+        public func showFollowTelescope(_ showFollowTelescope: Bool?) -> Builder {
             chatroom.showFollowTelescope = showFollowTelescope
             return self
         }
         
-        func showFollowAutoTag(_ showFollowAutoTag: Bool?) -> Builder {
+        public func showFollowAutoTag(_ showFollowAutoTag: Bool?) -> Builder {
             chatroom.showFollowAutoTag = showFollowAutoTag
             return self
         }
         
-        func cardCreationTime(_ cardCreationTime: String?) -> Builder {
+        public func cardCreationTime(_ cardCreationTime: String?) -> Builder {
             chatroom.cardCreationTime = cardCreationTime
             return self
         }
         
-        func participantsCount(_ participantsCount: Int?) -> Builder {
+        public func participantsCount(_ participantsCount: Int?) -> Builder {
             chatroom.participantsCount = participantsCount
             return self
         }
         
-        func totalResponseCount(_ totalResponseCount: Int) -> Builder {
+        public func totalResponseCount(_ totalResponseCount: Int) -> Builder {
             chatroom.totalResponseCount = totalResponseCount
             return self
         }
         
-        func muteStatus(_ muteStatus: Bool?) -> Builder {
+        public func muteStatus(_ muteStatus: Bool?) -> Builder {
             chatroom.muteStatus = muteStatus
             return self
         }
         
-        func followStatus(_ followStatus: Bool?) -> Builder {
+        public func followStatus(_ followStatus: Bool?) -> Builder {
             chatroom.followStatus = followStatus
             return self
         }
         
-        func hasBeenNamed(_ hasBeenNamed: Bool?) -> Builder {
+        public func hasBeenNamed(_ hasBeenNamed: Bool?) -> Builder {
             chatroom.hasBeenNamed = hasBeenNamed
             return self
         }
         
-        func hasReactions(_ hasReactions: Bool?) -> Builder {
+        public func hasReactions(_ hasReactions: Bool?) -> Builder {
             chatroom.hasReactions = hasReactions
             return self
         }
         
-        func date(_ date: String?) -> Builder {
+        public func date(_ date: String?) -> Builder {
             chatroom.date = date
             return self
         }
         
-        func isTagged(_ isTagged: Bool?) -> Builder {
+        public func isTagged(_ isTagged: Bool?) -> Builder {
             chatroom.isTagged = isTagged
             return self
         }
         
-        func isPending(_ isPending: Bool?) -> Builder {
+        public func isPending(_ isPending: Bool?) -> Builder {
             chatroom.isPending = isPending
             return self
         }
         
-        func isPinned(_ isPinned: Bool?) -> Builder {
+        public func isPinned(_ isPinned: Bool?) -> Builder {
             chatroom.isPinned = isPinned
             return self
         }
         
-        func isDeleted(_ isDeleted: Bool?) -> Builder {
+        public func isDeleted(_ isDeleted: Bool?) -> Builder {
             chatroom.isDeleted = isDeleted
             return self
         }
         
-        func userId(_ userId: String?) -> Builder {
+        public func userId(_ userId: String?) -> Builder {
             chatroom.userId = userId
             return self
         }
         
-        func deletedBy(_ deletedBy: String?) -> Builder {
+        public func deletedBy(_ deletedBy: String?) -> Builder {
             chatroom.deletedBy = deletedBy
             return self
         }
         
-        func deletedByMember(_ deletedByMember: Member?) -> Builder {
+        public func deletedByMember(_ deletedByMember: Member?) -> Builder {
             chatroom.deletedByMember = deletedByMember
             return self
         }
         
-        func updatedAt(_ updatedAt: Int?) -> Builder {
+        public func updatedAt(_ updatedAt: Int?) -> Builder {
             chatroom.updatedAt = updatedAt
             return self
         }
         
-        func lastSeenConversationId(_ lastSeenConversationId: String?) -> Builder {
+        public func lastSeenConversationId(_ lastSeenConversationId: String?) -> Builder {
             chatroom.lastSeenConversationId = lastSeenConversationId
             return self
         }
         
-        func lastConversationId(_ lastConversationId: String?) -> Builder {
+        public func lastConversationId(_ lastConversationId: String?) -> Builder {
             chatroom.lastConversationId = lastConversationId
             return self
         }
         
-        func dateEpoch(_ dateEpoch: Int?) -> Builder {
+        public func dateEpoch(_ dateEpoch: Int?) -> Builder {
             chatroom.dateEpoch = dateEpoch
             return self
         }
         
-        func isSecret(_ isSecret: Bool?) -> Builder {
+        public func isSecret(_ isSecret: Bool?) -> Builder {
             chatroom.isSecret = isSecret
             return self
         }
         
-        func secretChatroomParticipants(_ secretChatroomParticipants: [Int]?) -> Builder {
+        public func secretChatroomParticipants(_ secretChatroomParticipants: [Int]?) -> Builder {
             chatroom.secretChatroomParticipants = secretChatroomParticipants
             return self
         }
         
-        func secretChatroomLeft(_ secretChatroomLeft: Bool?) -> Builder {
+        public func secretChatroomLeft(_ secretChatroomLeft: Bool?) -> Builder {
             chatroom.secretChatroomLeft = secretChatroomLeft
             return self
         }
         
-        func reactions(_ reactions: [Reaction]?) -> Builder {
+        public func reactions(_ reactions: [Reaction]?) -> Builder {
             chatroom.reactions = reactions
             return self
         }
         
-        func topicId(_ topicId: String?) -> Builder {
+        public func topicId(_ topicId: String?) -> Builder {
             chatroom.topicId = topicId
             return self
         }
         
-        func topic(_ topic: Conversation?) -> Builder {
+        public func topic(_ topic: Conversation?) -> Builder {
             chatroom.topic = topic
             return self
         }
         
-        func autoFollowDone(_ autoFollowDone: Bool?) -> Builder {
+        public func autoFollowDone(_ autoFollowDone: Bool?) -> Builder {
             chatroom.autoFollowDone = autoFollowDone
             return self
         }
         
-        func isEdited(_ isEdited: Bool?) -> Builder {
+        public func isEdited(_ isEdited: Bool?) -> Builder {
             chatroom.isEdited = isEdited
             return self
         }
         
-        func access(_ access: Int?) -> Builder {
+        public func access(_ access: Int?) -> Builder {
             chatroom.access = access
             return self
         }
         
-        func memberCanMessage(_ memberCanMessage: Bool?) -> Builder {
+        public func memberCanMessage(_ memberCanMessage: Bool?) -> Builder {
             chatroom.memberCanMessage = memberCanMessage
             return self
         }
         
-        func cohorts(_ cohorts: [Cohort]?) -> Builder {
+        public func cohorts(_ cohorts: [Cohort]?) -> Builder {
             chatroom.cohorts = cohorts
             return self
         }
         
-        func externalSeen(_ externalSeen: Bool?) -> Builder {
+        public func externalSeen(_ externalSeen: Bool?) -> Builder {
             chatroom.externalSeen = externalSeen
             return self
         }
         
-        func unreadConversationCount(_ unreadConversationCount: Int?) -> Builder {
+        public func unreadConversationCount(_ unreadConversationCount: Int?) -> Builder {
             chatroom.unreadConversationCount = unreadConversationCount
             return self
         }
         
-        func chatroomImageUrl(_ chatroomImageUrl: String?) -> Builder {
+        public func chatroomImageUrl(_ chatroomImageUrl: String?) -> Builder {
             chatroom.chatroomImageUrl = chatroomImageUrl
             return self
         }
         
-        func accessWithoutSubscription(_ accessWithoutSubscription: Bool?) -> Builder {
+        public func accessWithoutSubscription(_ accessWithoutSubscription: Bool?) -> Builder {
             chatroom.accessWithoutSubscription = accessWithoutSubscription
             return self
         }
         
-        func lastConversation(_ lastConversation: Conversation?) -> Builder {
+        public func lastConversation(_ lastConversation: Conversation?) -> Builder {
             chatroom.lastConversation = lastConversation
             return self
         }
         
-        func lastSeenConversation(_ lastSeenConversation: Conversation?) -> Builder {
+        public func lastSeenConversation(_ lastSeenConversation: Conversation?) -> Builder {
             chatroom.lastSeenConversation = lastSeenConversation
             return self
         }
         
-        func draftConversation(_ draftConversation: String?) -> Builder {
+        public func draftConversation(_ draftConversation: String?) -> Builder {
             chatroom.draftConversation = draftConversation
             return self
         }
         
-        func isConversationStored(_ isConversationStored: Bool) -> Builder {
+        public func isConversationStored(_ isConversationStored: Bool) -> Builder {
             chatroom.isConversationStored = isConversationStored
             return self
         }
         
-        func isDraft(_ isDraft: Bool?) -> Builder {
+        public func isDraft(_ isDraft: Bool?) -> Builder {
             chatroom.isDraft = isDraft
             return self
         }
         
-        func totalAllResponseCount(_ totalAllResponseCount: Int?) -> Builder {
+        public func totalAllResponseCount(_ totalAllResponseCount: Int?) -> Builder {
             chatroom.totalAllResponseCount = totalAllResponseCount
             return self
         }
         
-        func build() -> Chatroom {
+        public func build() -> Chatroom {
             return chatroom
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .member(member)
             .id(id)

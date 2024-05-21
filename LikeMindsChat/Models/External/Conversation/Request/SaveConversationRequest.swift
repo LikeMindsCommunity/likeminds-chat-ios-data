@@ -8,7 +8,7 @@
 import Foundation
 
 public class SaveConversationRequest {
-    private let conversation: Conversation?
+    let conversation: Conversation?
     
     private init(conversation: Conversation?) {
         self.conversation = conversation

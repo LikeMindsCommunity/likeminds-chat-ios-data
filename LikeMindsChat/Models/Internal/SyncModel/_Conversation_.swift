@@ -131,7 +131,7 @@ extension _Conversation_ {
         polls = try container.decodeIfPresent([Poll].self, forKey: .polls)
         toShowResults = try container.decodeIfPresent(Bool.self, forKey: .toShowResults)
         pollAnswerText = try container.decodeIfPresent(String.self, forKey: .pollAnswerText)
-        replyChatroomId = try container.decodeIfPresent(String.self, forKey: .replyChatroomId)
+        replyChatroomId = try container.decodeIntToStringIfPresent(forKey: .replyChatroomId)
         deviceId = try container.decodeIfPresent(String.self, forKey: .deviceId)
         hasFiles = try container.decodeIfPresent(Bool.self, forKey: .hasFiles)
         hasReactions = try container.decodeIfPresent(Bool.self, forKey: .hasReactions)

@@ -122,10 +122,8 @@ extension LMChatClient {
         CommunityClient.shared.getMemberState(response: response)
     }
     
-    public func getChatroom(request: GetChatroomRequest, response: LMClientResponse<GetChatroomResponse>?) {
-        ChatroomClient.shared.getChatroom(request: request) { result in
-            response?(result)
-        }
+    public func getChatroom(request: GetChatroomRequest) -> LMResponse<GetChatroomResponse>? {
+        ChatroomClient.shared.getChatroom(request: request)
     }
     
     public func getChatroomActions(request: GetChatroomActionsRequest, response: LMClientResponse<GetChatroomActionsResponse>?) {

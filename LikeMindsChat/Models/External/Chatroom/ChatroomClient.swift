@@ -17,19 +17,16 @@ class ChatroomClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * @return GetChatroomResponse - GetChatroomResponse model for getChatroomRequest
      */
-    func getChatroom(request: GetChatroomRequest, response: LMClientResponse<GetChatroomResponse>?) {
+    func getChatroom(request: GetChatroomRequest) -> LMResponse<GetChatroomResponse>? {
         
         guard let chatroomRO = ChatroomDBService.shared.getChatroom(chatroomId: request.chatroomId) else {
-            response?(LMResponse.failureResponse("Chatroom not present!"))
-            return
+            return LMResponse.failureResponse("Chatroom not present!")
         }
         guard let chatroom = ModelConverter.shared.convertChatroomRO(chatroomRO: chatroomRO) else {
-            response?(LMResponse.failureResponse("Chatroom conversion failed!"))
-            return
+            return LMResponse.failureResponse("Chatroom conversion failed!")
         }
-        
         let chatroomResponse = GetChatroomResponse(chatroom: chatroom)
-        response?(LMResponse.successResponse(chatroomResponse))
+        return LMResponse.successResponse(chatroomResponse)
     }
     
     /**

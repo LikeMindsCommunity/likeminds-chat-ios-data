@@ -132,8 +132,43 @@ class ConversationDBService {
     ) {
     }
     
-    func saveTemporaryConversation(request: SavePostedConversationRequest) {
+    func saveTemporaryConversation(request: SaveConversationRequest) {
+        guard let conversation = request.conversation, let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
+        let realm = RealmManager.realmInstance()
+        guard let chatroomRO = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: conversationRO.chatroomId),
+        let creatorRO = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: conversation.member?.sdkClientInfo?.uuid) else { return }
         
+        RealmManager.write(chatroomRO) { realm, object in
+            guard let object else { return }
+            //add the conversation to db
+            object.conversations.append(conversationRO)
+            //Make the chatroom followed, if it is not already followed
+            if (object.followStatus != true) {
+                object.followStatus = true
+            }
+            
+            //Save this conversation as the last conversation
+            if (conversationRO.createdEpoch > (chatroomRO.lastConversationRO?.createdEpoch
+                                               ?? 0)) {
+                let lastConversation = chatroomRO.conversations.last
+                let lastConversationRO =
+                ROConverter.convertLastConversation(realm: realm, conversation: conversation, creator: creatorRO, attachments: conversation.attachments, deletedByMember: nil)
+                
+                chatroomRO.lastConversationRO = lastConversationRO
+            }
+            if (conversationRO.createdEpoch > (chatroomRO.lastSeenConversation?.createdEpoch
+                                               ?? 0)
+            ) {
+                chatroomRO.lastSeenConversation = chatroomRO.conversations.last
+            }
+            //Update the chatroom timestamp for sorting of chatrooms
+            if (conversationRO.createdEpoch > (chatroomRO.updatedAt ?? 0)) {
+                chatroomRO.updatedAt = conversationRO.createdEpoch
+            }
+            //Update the total response count of this chatroom
+            chatroomRO.totalResponseCount = chatroomRO.totalResponseCount + 1
+            chatroomRO.totalAllResponseCount = chatroomRO.totalAllResponseCount + 1
+        }
     }
     
     func updateTemporaryConversation(conversationId: String, localSavedEpoch: Int) {
@@ -144,10 +179,19 @@ class ConversationDBService {
         return ChatDBUtil.shared.getConversation(realm: RealmManager.realmInstance(), conversationId: conversationId)
     }
     
-    func updateConversations(conversations: [Conversation]) {
+    func updateDeletedConversations(conversations: [Conversation]) {
         let conversationsROs = conversations.compactMap({ROConverter.convertConversation(conversation:$0)})
-        conversationsROs.forEach { ro in
-            RealmManager.insertOrUpdate(ro)
+        let realm = RealmManager.realmInstance()
+        conversations.forEach { conversation in
+            if let convId = conversation.id,
+                  let deletedBy = conversation.deletedBy,
+                  let ro = ChatDBUtil.shared.getConversation(realm: realm, conversationId: convId),
+                  let memberRo = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: deletedBy) {
+                RealmManager.update(ro) { object in
+                    object.deletedBy = deletedBy
+                    object.deletedByMember = memberRo
+                }
+            }
         }
     }
     

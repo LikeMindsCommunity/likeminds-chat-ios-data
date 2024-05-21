@@ -285,7 +285,7 @@ class ConversationClient: ServiceRequest {
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      * */
     func saveTemporaryConversation(saveConversationRequest: SaveConversationRequest) {
-        
+        ConversationDBService.shared.saveTemporaryConversation(request: saveConversationRequest)
     }
     
     /**
@@ -377,7 +377,7 @@ class ConversationClient: ServiceRequest {
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<DeleteConversationsResponse> else { return }
             if let conversations = data.data?.conversations {
-                ConversationDBService.shared.updateConversations(conversations: conversations)
+                ConversationDBService.shared.updateDeletedConversations(conversations: conversations)
             }
             response?(data)
         } failureCallback: { (moduleName, error) in

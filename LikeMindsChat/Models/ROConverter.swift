@@ -646,6 +646,57 @@ class ROConverter {
         return lastConversationRO
     }
     
+    static func convertLastConversation(
+        realm: Realm,
+        conversation: Conversation?,
+        creator: MemberRO?,
+        attachments: [Attachment]?,
+        deletedByMember: MemberRO?
+    ) -> LastConversationRO? {
+        guard let conversation,
+              let creator,
+              let chatroomId = conversation.chatroomId,
+              let communityId = conversation.communityId else { return nil }
+        
+        var createdEpoch = conversation.createdEpoch ?? 0
+        if !TimeUtil.isInMillis(createdEpoch) {
+            createdEpoch = createdEpoch * 1000
+        }
+        
+        //get existing conversation from db to update the existing values
+        let savedAnswer: ConversationRO?
+        if conversation.hasReactions == true || ConversationState.isPoll(stateValue: conversation.state.rawValue) || (conversation.attachmentCount ?? 0) > 0 || conversation.replyConversationId != nil {
+            savedAnswer = ChatDBUtil.shared.getConversation(realm: RealmManager.realmInstance(), conversationId: conversation.id)
+        } else {
+            savedAnswer = nil
+        }
+        
+        //get attachments as per saved and new conversation
+        let updatedAttachments = convertUpdatedAttachments(chatroomId: chatroomId, communityId: communityId, attachments: attachments ?? [], oldAttachments: savedAnswer?.attachments ?? List())
+        
+        //Clear embedded object list if already present else calling insertToRealmOrUpdate will duplicate it
+        //        savedAnswer?.attachments?.deleteAllFromRealm()
+        
+        let lastConversationRO = LastConversationRO()
+        lastConversationRO.id = conversation.id
+        lastConversationRO.answer = conversation.answer
+        lastConversationRO.state = conversation.state.rawValue
+        lastConversationRO.createdEpoch = createdEpoch
+        lastConversationRO.member = creator
+        lastConversationRO.createdAt = conversation.createdAt
+        lastConversationRO.attachments = updatedAttachments
+        lastConversationRO.attachmentCount = conversation.attachmentCount
+        lastConversationRO.date = conversation.date
+        lastConversationRO.deletedBy = conversation.deletedBy
+        lastConversationRO.deletedByMember = deletedByMember
+        lastConversationRO.attachmentsUploaded = conversation.attachmentUploaded
+        lastConversationRO.uploadWorkerUUID = savedAnswer?.uploadWorkerUUID
+        lastConversationRO.createdEpoch = createdEpoch
+        lastConversationRO.chatroomId = chatroomId
+        lastConversationRO.communityId = communityId
+        return lastConversationRO
+    }
+    
     /**
      * convert [_User_] to [UserRO]
      * @param user: Object of user to be converted
