@@ -393,7 +393,7 @@ class ROConverter {
         conversationRO.toShowResults = conversation.toShowResults
         conversationRO.pollAnswerText = conversation.pollAnswerText
         conversationRO.replyChatRoomId = conversation.replyChatroomId
-        conversationRO.isSent = conversation.isSent
+        conversationRO.conversationStatus = conversation.conversationStatus
         if let savedAnswer {
             realm.delete(savedAnswer)
         }
@@ -493,7 +493,7 @@ class ROConverter {
             conversationRO.toShowResults = conversation.toShowResults
             conversationRO.pollAnswerText = conversation.pollAnswerText
             conversationRO.replyChatRoomId = conversation.replyChatroomId
-            conversationRO.isSent = true
+            conversationRO.conversationStatus = .sent
             if let savedAnswer {
                 realm.delete(savedAnswer)
             }
@@ -610,7 +610,7 @@ class ROConverter {
         conversationRO.polls = pollsRO
         conversationRO.toShowResults = conversation.toShowResults
         conversationRO.pollAnswerText = conversation.pollAnswerText
-        conversationRO.isSent = true
+        conversationRO.conversationStatus = .sent
         if let savedAnswer {
             realm.delete(savedAnswer)
         }
@@ -672,7 +672,7 @@ class ROConverter {
         lastConversationRO.createdEpoch = createdEpoch
         lastConversationRO.chatroomId = chatroomId
         lastConversationRO.communityId = communityId
-        lastConversationRO.isSent = true
+        lastConversationRO.conversationStatus = .sent
         return lastConversationRO
     }
     
@@ -724,7 +724,7 @@ class ROConverter {
         lastConversationRO.createdEpoch = createdEpoch
         lastConversationRO.chatroomId = chatroomId
         lastConversationRO.communityId = communityId
-        lastConversationRO.isSent = conversation.isSent
+        lastConversationRO.conversationStatus = conversation.conversationStatus
         return lastConversationRO
     }
     

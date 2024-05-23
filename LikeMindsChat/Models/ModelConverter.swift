@@ -52,7 +52,7 @@ class ModelConverter {
             .hasFiles(_conversation_.hasFiles)
             .hasReactions(_conversation_.hasReactions)
             .lastUpdated(_conversation_.lastUpdated)
-            .isSent(true)
+            .conversationStatus(.sent)
             .build()
     }
     
@@ -95,7 +95,7 @@ class ModelConverter {
             .replyChatroomId(conversationRO.replyChatRoomId)
             .lastUpdated(conversationRO.lastUpdatedAt)
             .deletedByMember(convertMemberRO(conversationRO.deletedByMember))
-            .isSent(conversationRO.isSent)
+            .conversationStatus(conversationRO.conversationStatus)
             .build()
     }
     

@@ -50,7 +50,7 @@ public class Conversation: Decodable {
     public private(set) var lastUpdated: Int?
     public private(set) var deletedByMember: Member?
     public private(set) var replyConversation: Conversation?
-    public private(set) var isSent: Bool?
+    public private(set) var conversationStatus: ConversationStatus?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -93,7 +93,7 @@ public class Conversation: Decodable {
         case lastUpdated = "last_updated"
         case deletedByMember = "deleted_by_member"
         case replyConversation = "reply_conversation_model"
-        case isSent = "is_sent"
+        case conversationStatus = "conversation_status"
     }
     
     public required init(from decoder: Decoder) throws {
@@ -138,7 +138,6 @@ public class Conversation: Decodable {
         lastUpdated = try container.decodeIfPresent(Int.self, forKey: .lastUpdated)
         deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
         replyConversation = try container.decodeIfPresent(Conversation.self, forKey: .replyConversation)
-        isSent = try container.decodeIfPresent(Bool.self, forKey: .isSent)
     }
     
     private init(
@@ -182,7 +181,7 @@ public class Conversation: Decodable {
         hasReactions: Bool?,
         lastUpdated: Int?,
         deletedByMember: Member?,
-        isSent: Bool? = true
+        conversationStatus: ConversationStatus?
     ) {
         self.id = id
         self.chatroomId = chatroomId
@@ -224,7 +223,7 @@ public class Conversation: Decodable {
         self.hasReactions = hasReactions
         self.lastUpdated = lastUpdated
         self.deletedByMember = deletedByMember
-        self.isSent = isSent
+        self.conversationStatus = conversationStatus
     }
     
     public static func builder() -> Builder {
@@ -272,7 +271,7 @@ public class Conversation: Decodable {
         private var hasReactions: Bool? = false
         private var lastUpdated: Int? = nil
         private var deletedByMember: Member? = nil
-        private var isSent: Bool? = true
+        private var conversationStatus: ConversationStatus?
         
         public init() {}
         
@@ -476,8 +475,8 @@ public class Conversation: Decodable {
             return self
         }
         
-        public func isSent(_ isSent: Bool?) -> Builder {
-            self.isSent = isSent
+        public func conversationStatus(_ conversationStatus: ConversationStatus?) -> Builder {
+            self.conversationStatus = conversationStatus
             return self
         }
         
@@ -523,7 +522,7 @@ public class Conversation: Decodable {
                 hasReactions: hasReactions,
                 lastUpdated: lastUpdated,
                 deletedByMember: deletedByMember,
-                isSent: isSent
+                conversationStatus: conversationStatus
             )
         }
     }
@@ -570,7 +569,7 @@ public class Conversation: Decodable {
             .hasReactions(hasReactions)
             .lastUpdated(lastUpdated)
             .deletedByMember(deletedByMember)
-            .isSent(isSent)
+            .conversationStatus(conversationStatus)
     }
 }
 

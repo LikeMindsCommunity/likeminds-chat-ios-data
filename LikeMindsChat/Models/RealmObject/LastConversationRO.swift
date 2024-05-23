@@ -25,5 +25,5 @@ class LastConversationRO: Object {
     @Persisted var attachmentsUploaded: Bool?
     @Persisted var uploadWorkerUUID: String?
     @Persisted var deletedByMember: MemberRO?
-    @Persisted var isSent: Bool?
+    @Persisted var conversationStatus: ConversationStatus?
 }

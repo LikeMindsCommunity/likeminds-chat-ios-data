@@ -205,8 +205,8 @@ extension LMChatClient {
         
     }
     
-    public func updateConversation() {
-        
+    public func updateConversationUploadingStatus(withId conversationId: String, withStatus status: ConversationStatus) {
+        ConversationClient.shared.updateConversationUploadingStatus(withConversationId: conversationId, withStatus: status)
     }
     
     public func updateTemporaryConversation() {

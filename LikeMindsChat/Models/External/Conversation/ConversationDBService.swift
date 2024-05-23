@@ -100,6 +100,14 @@ class ConversationDBService {
         }
     }
     
+    func updateConversationUploadingStatus(conversationId: String, withStatus status: ConversationStatus) {
+        let realm = RealmManager.realmInstance()
+        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
+        RealmManager.update(conversationRO) { object in
+            object.conversationStatus = status
+        }
+    }
+    
     func savePostedConversation(savePostedConversationRequest: SavePostedConversationRequest) {
         let conversation = savePostedConversationRequest.conversation
         let realm = RealmManager.realmInstance()

@@ -296,6 +296,10 @@ class ConversationClient: ServiceRequest {
     func updateConversation(updateConversationRequest: UpdateConversationRequest) {
     }
     
+    func updateConversationUploadingStatus(withConversationId id: String, withStatus status: ConversationStatus) {
+        ConversationDBService.shared.updateConversationUploadingStatus(conversationId: id, withStatus: status)
+    }
+    
     /**
      * updates temporary conversation in local db
      * @param updateTemporaryConversationRequest - client request model to update temporary conversation

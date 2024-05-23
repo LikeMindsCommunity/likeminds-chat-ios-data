@@ -9,6 +9,12 @@
 import Foundation
 import RealmSwift
 
+public enum ConversationStatus: String, PersistableEnum {
+    case sending
+    case sent
+    case failed
+}
+
 class ConversationRO: Object {
     @Persisted(primaryKey: true) var id: String
     @Persisted var answer: String
@@ -46,5 +52,5 @@ class ConversationRO: Object {
     @Persisted var replyChatRoomId: String?
     @Persisted var lastUpdatedAt: Int?
     @Persisted var deletedByMember: MemberRO?
-    @Persisted var isSent: Bool?
+    @Persisted var conversationStatus: ConversationStatus?
 }
