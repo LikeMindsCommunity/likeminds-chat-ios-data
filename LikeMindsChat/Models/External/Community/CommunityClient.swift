@@ -43,6 +43,23 @@ class CommunityClient {
 //        
 //    }
     
+    func getCurrentMember() -> Member? {
+        guard let user = CommunityDBService.shared.getUser() else {
+            return nil
+        }
+        return Member.Builder()
+            .id(user.id ?? "")
+            .userUniqueId(user.userUniqueId ?? "")
+            .name(user.name ?? "")
+            .imageUrl(user.imageUrl ?? "")
+            .customTitle(user.customTitle)
+            .communityId("\(user.communityId ?? 0)")
+            .isGuest(user.isGuest ?? false)
+            .sdkClientInfo(ModelConverter.shared.convertSDKClientInfoRO(user.sdkClientInfoRO))
+            .uuid(user.uuid ?? "")
+            .build()
+    }
+    
     func getMember(request: GetMemberRequest) -> GetMemberResponse? {
         guard let memberRO = CommunityDBService.shared.getMember(uuid: request.uuid) else { return nil }
         let response = GetMemberResponse(member: ModelConverter.shared.convertMemberRO(memberRO))

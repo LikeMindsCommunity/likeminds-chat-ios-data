@@ -8,8 +8,8 @@
 import Foundation
 import RealmSwift
 
-class AttachmentRO: Object {
-    @Persisted(primaryKey: true) var id: String = ""
+class AttachmentRO: EmbeddedObject {
+    @Persisted var id: String = ""
     @Persisted var name: String?
     @Persisted var type: String?
     @Persisted var index: Int?

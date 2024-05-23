@@ -52,6 +52,7 @@ class ModelConverter {
             .hasFiles(_conversation_.hasFiles)
             .hasReactions(_conversation_.hasReactions)
             .lastUpdated(_conversation_.lastUpdated)
+            .isSent(true)
             .build()
     }
     
@@ -94,6 +95,7 @@ class ModelConverter {
             .replyChatroomId(conversationRO.replyChatRoomId)
             .lastUpdated(conversationRO.lastUpdatedAt)
             .deletedByMember(convertMemberRO(conversationRO.deletedByMember))
+            .isSent(conversationRO.isSent)
             .build()
     }
     
@@ -118,7 +120,7 @@ class ModelConverter {
     }
     
     // converts SDKClientInfoRO model to client model
-    private func convertSDKClientInfoRO(_ sdkClientInfoRO: SDKClientInfoRO?) -> SDKClientInfo? {
+    func convertSDKClientInfoRO(_ sdkClientInfoRO: SDKClientInfoRO?) -> SDKClientInfo? {
         guard let sdkClientInfoRO else { return nil}
         return SDKClientInfo(
             community: sdkClientInfoRO.community,

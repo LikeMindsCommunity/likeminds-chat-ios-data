@@ -31,8 +31,8 @@ class InitiateUserClient: ServiceRequest {
                 guard let user = result.data?.user else {
                     return
                 }
-                let lmUUID = user.uuid ?? ""
-                let lmMemberId = user.id ?? ""
+                let lmUUID = user.sdkClientInfo?.userUniqueID ?? ""
+                let lmMemberId = user.sdkClientInfo?.user ?? 0
                 let clientUUID = user.sdkClientInfo?.uuid ?? ""
                 let communityId = user.sdkClientInfo?.community ?? 0
                 

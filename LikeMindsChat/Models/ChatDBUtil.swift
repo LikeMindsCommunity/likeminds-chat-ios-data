@@ -144,7 +144,9 @@ class ChatDBUtil {
     
     func userROUpdate(_ user: User) {
         guard let userRO = ROConverter.convertUser(user: user) else { return }
-        RealmManager.insertOrUpdate(userRO)
+        RealmManager.write { realm, object in
+            realm.insertOrUpdate(userRO)
+        }
     }
     
     /**

@@ -385,6 +385,10 @@ class ConversationClient: ServiceRequest {
         }
     }
     
+    func deleteTempConversation(conversationId: String) {
+        ConversationDBService.shared.deletedTempConversations(conversationId: conversationId)
+    }
+    
     /**
      * Converts client request model to internal model and calls the api
      * @param putReactionRequest - client request model to put a reaction on a conversation

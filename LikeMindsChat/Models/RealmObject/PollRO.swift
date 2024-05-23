@@ -8,8 +8,8 @@
 import Foundation
 import RealmSwift
 
-class PollRO: Object {
-    @Persisted(primaryKey: true) var id: String = ""
+class PollRO: EmbeddedObject {
+    @Persisted var id: String = ""
     @Persisted var text: String = ""
     @Persisted var subText: String?
     @Persisted var isSelected: Bool?

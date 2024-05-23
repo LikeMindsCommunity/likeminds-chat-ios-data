@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class LinkRO: Object {
+class LinkRO: EmbeddedObject {
     @Persisted var chatroomId: String?
     @Persisted var communityId: String?
     @Persisted var title: String?

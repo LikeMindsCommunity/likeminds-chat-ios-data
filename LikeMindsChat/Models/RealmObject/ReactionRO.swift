@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class ReactionRO: Object {
+class ReactionRO: EmbeddedObject {
     @Persisted var member: MemberRO?
     @Persisted var reaction: String?
 }

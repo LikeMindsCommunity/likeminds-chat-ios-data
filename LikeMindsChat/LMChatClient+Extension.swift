@@ -118,6 +118,13 @@ extension LMChatClient {
         return LMResponse.successResponse(response)
     }
     
+    public func getCurrentMember() -> LMResponse<GetMemberResponse>? {
+        guard let member = CommunityClient.shared.getCurrentMember() else {
+            return LMResponse.failureResponse("failed to fetch member!")
+        }
+        return LMResponse.successResponse(GetMemberResponse(member: member))
+    }
+    
     public func getMemberState(response: LMClientResponse<GetMemberStateResponse>?) {
         CommunityClient.shared.getMemberState(response: response)
     }
@@ -229,6 +236,10 @@ extension LMChatClient {
         ConversationClient.shared.deleteConversations(request: request) { result in
             response?(result)
         }
+    }
+    
+    public func deleteTempConversations(conversationId: String) {
+        ConversationClient.shared.deleteTempConversation(conversationId: conversationId)
     }
     
     public func putReaction(request: PutReactionRequest, response: LMClientResponse<NoData>?) {

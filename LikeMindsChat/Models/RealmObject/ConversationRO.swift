@@ -46,4 +46,5 @@ class ConversationRO: Object {
     @Persisted var replyChatRoomId: String?
     @Persisted var lastUpdatedAt: Int?
     @Persisted var deletedByMember: MemberRO?
+    @Persisted var isSent: Bool?
 }

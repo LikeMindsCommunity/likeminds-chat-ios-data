@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class AttachmentMetaRO: Object {
+class AttachmentMetaRO: EmbeddedObject {
     @Persisted var numberOfPage: Int?
     @Persisted var size: Int?
     @Persisted var duration: Int?

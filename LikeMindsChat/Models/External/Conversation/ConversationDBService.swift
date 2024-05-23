@@ -95,24 +95,31 @@ class ConversationDBService {
     func updateConversation(conversation: _Conversation_) {
         let memberRO = ROConverter.convertMember(member: conversation.member, communityId: SDKPreferences.shared.getCommunityId() ?? conversation.communityId ?? "")
         guard let conversationRO = ROConverter.convertConversation(conversation: conversation, member: memberRO) else { return }
-        RealmManager.insertOrUpdate(conversationRO)
+        RealmManager.write { realm, object in
+            realm.insertOrUpdate(conversationRO)
+        }
     }
     
     func savePostedConversation(savePostedConversationRequest: SavePostedConversationRequest) {
         let conversation = savePostedConversationRequest.conversation
         let realm = RealmManager.realmInstance()
         realm.writeAsync {
-            guard let chatroomRO = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: conversation.id),
+            guard let chatroomRO = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: conversation.chatroomId),
                   let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
             if chatroomRO.conversations.isEmpty == true {
-                chatroomRO.conversations.realm?.add(conversationRO)
+                chatroomRO.conversations.append(conversationRO)
             } else {
-                if (!savePostedConversationRequest.isFromNotification) {
-                    chatroomRO.conversations.where({ query in
-                        query.id == (conversation.temporaryId ?? "")
-                    }).realm?.deleteAll()
-                    chatroomRO.conversations.realm?.add(conversationRO)
+                let tempConversationsRo = chatroomRO.conversations.where({ query in
+                    query.id == (conversation.temporaryId ?? "")
+                })
+                if let attachmentsRO = tempConversationsRo.first?.attachments {
+                    realm.delete(attachmentsRO)
                 }
+                if let linkRO = tempConversationsRo.first?.link {
+                    realm.delete(linkRO)
+                }
+                realm.delete(tempConversationsRo)
+                chatroomRO.conversations.append(conversationRO)
             }
             //Save this conversation as the last conversation
             if ((conversationRO.createdEpoch) > (chatroomRO.lastConversationRO?.createdEpoch
@@ -136,10 +143,13 @@ class ConversationDBService {
         guard let conversation = request.conversation, let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
         let realm = RealmManager.realmInstance()
         guard let chatroomRO = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: conversationRO.chatroomId),
-        let creatorRO = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: conversation.member?.sdkClientInfo?.uuid) else { return }
+              let creatorRO = ROConverter.convertMember(member: conversation.member, communityId: SDKPreferences.shared.getCommunityId() ?? "") else { return }
         
         RealmManager.write(chatroomRO) { realm, object in
             guard let object else { return }
+            if let tempConversation = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversation.id) {
+                realm.delete(tempConversation)
+            }
             //add the conversation to db
             object.conversations.append(conversationRO)
             //Make the chatroom followed, if it is not already followed
@@ -150,11 +160,11 @@ class ConversationDBService {
             //Save this conversation as the last conversation
             if (conversationRO.createdEpoch > (chatroomRO.lastConversationRO?.createdEpoch
                                                ?? 0)) {
-                let lastConversation = chatroomRO.conversations.last
                 let lastConversationRO =
                 ROConverter.convertLastConversation(realm: realm, conversation: conversation, creator: creatorRO, attachments: conversation.attachments, deletedByMember: nil)
-                
-                chatroomRO.lastConversationRO = lastConversationRO
+                RealmManager.update(chatroomRO) { object in
+                    chatroomRO.lastConversationRO = lastConversationRO
+                }
             }
             if (conversationRO.createdEpoch > (chatroomRO.lastSeenConversation?.createdEpoch
                                                ?? 0)
@@ -195,6 +205,12 @@ class ConversationDBService {
         }
     }
     
+    func deletedTempConversations(conversationId: String) {
+        let realm = RealmManager.realmInstance()
+        guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
+        RealmManager.delete(conversationRO)
+    }
+    
     func updateEditedConversation(conversation: Conversation) {
         let realm = RealmManager.realmInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversation.id) else { return }
@@ -231,7 +247,7 @@ class ConversationDBService {
         RealmManager.update(conversationRO) { object in
             guard let userUUID =  realm.objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
             let existingReactions = object.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
-            RealmManager.delete(existingReactions)
+            realm.delete(existingReactions)
         }
     }
     
