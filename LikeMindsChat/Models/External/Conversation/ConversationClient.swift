@@ -55,17 +55,23 @@ class ConversationClient: ServiceRequest {
         ConversationDBService.shared.savePostedConversation(savePostedConversationRequest: request)
     }
     
+    func removeObserverConversation(_
+        ob: ConversationChangeDelegate
+    ) {
+        observers.removeAll(where: {type(of: $0) != type(of: ob)})
+    }
+
     /**
      * runs the query for observing new conversations and returns the data in listener
      * @param observeConversationsRequest: [ObserveConversationsRequest] request for observing new conversation
      *
      * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
      */
-    public func observeConversations(
+    func observeConversations(
         request: ObserveConversationsRequest
     ) {
-        guard let communityId = SDKPreferences.shared.getCommunityId()else { return }
-        addObserver(request.listener)
+        guard let communityId = SDKPreferences.shared.getCommunityId() else { return }
+//        addObserver(request.listener)
         conversations = ConversationDBService.shared.getChatroomConversations(chatroomId: request.chatroomId)
         // Observe collection notifications. Keep a strong
         // reference to the notification token or the

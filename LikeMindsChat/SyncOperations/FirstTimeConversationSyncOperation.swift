@@ -7,6 +7,10 @@
 
 import Foundation
 
+public extension Notification.Name {
+    static let conversationSyncCompleted = Notification.Name("ConversationSyncCompleted")
+}
+
 class FirstTimeConversationSyncOperation: LMAsyncOperation {
     
     var chatroomId: String = ""
@@ -43,6 +47,7 @@ class FirstTimeConversationSyncOperation: LMAsyncOperation {
             } else if let chatrooms = response.data?.conversations, chatrooms.isEmpty {
                 SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: self.syncConversationsData)
                 SyncUtil.saveAppConfig(communityId: SDKPreferences.shared.getCommunityId() ?? "", isConversationSynced: true)
+                NotificationCenter.default.post(name: .conversationSyncCompleted, object: nil)
                 return
             } else {
                 guard let data = response.data else {

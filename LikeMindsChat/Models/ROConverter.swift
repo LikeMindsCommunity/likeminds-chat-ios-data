@@ -345,15 +345,15 @@ class ROConverter {
         
         
         //Clear embedded object list if already present else calling insertToRealmOrUpdate will duplicate it
-        if let savedAttachments = savedAnswer?.attachments {
-            realm.delete(savedAttachments)
-        }
-        if let savedReactions = savedAnswer?.reactions {
-            realm.delete(savedReactions)
-        }
-        if let savedPolls = savedAnswer?.polls {
-            realm.delete(savedPolls)
-        }
+//        if let savedAttachments = savedAnswer?.attachments {
+//            realm.delete(savedAttachments)
+//        }
+//        if let savedReactions = savedAnswer?.reactions {
+//            realm.delete(savedReactions)
+//        }
+//        if let savedPolls = savedAnswer?.polls {
+//            realm.delete(savedPolls)
+//        }
         
         var createdEpoch = conversation.createdEpoch ?? 0
         if !TimeUtil.isInMillis(createdEpoch) {
@@ -395,7 +395,9 @@ class ROConverter {
         conversationRO.replyChatRoomId = conversation.replyChatroomId
         conversationRO.conversationStatus = conversation.conversationStatus
         if let savedAnswer {
-            realm.delete(savedAnswer)
+            realm.beginAsyncWrite {
+                realm.delete(savedAnswer)
+            }
         }
         return conversationRO
     }
@@ -445,15 +447,15 @@ class ROConverter {
 
             
         //Clear embedded object list if already present else calling insertToRealmOrUpdate will duplicate it
-        if let savedAttachments = savedAnswer?.attachments {
-            realm.delete(savedAttachments)
-        }
-        if let savedReactions = savedAnswer?.reactions {
-            realm.delete(savedReactions)
-        }
-        if let savedPolls = savedAnswer?.polls {
-            realm.delete(savedPolls)
-        }
+//        if let savedAttachments = savedAnswer?.attachments {
+//            RealmManager.delete(savedAttachments)
+//        }
+//        if let savedReactions = savedAnswer?.reactions {
+//            realm.delete(savedReactions)
+//        }
+//        if let savedPolls = savedAnswer?.polls {
+//            realm.delete(savedPolls)
+//        }
             
         var createdEpoch = conversation.createdEpoch ?? 0
         if !TimeUtil.isInMillis(createdEpoch) {
@@ -495,7 +497,7 @@ class ROConverter {
             conversationRO.replyChatRoomId = conversation.replyChatroomId
             conversationRO.conversationStatus = .sent
             if let savedAnswer {
-                realm.delete(savedAnswer)
+                RealmManager.delete(savedAnswer)
             }
             return conversationRO
     }
@@ -556,15 +558,15 @@ class ROConverter {
         let linkRO = convertLink(chatroomId: chatroomId, communityId: communityId, link: conversation.ogTags)
 
         //Clear embedded object list if already present else calling insertToRealmOrUpdate will duplicate it
-        if let savedAttachments = savedAnswer?.attachments {
-            realm.delete(savedAttachments)
-        }
-        if let savedReactions = savedAnswer?.reactions {
-            realm.delete(savedReactions)
-        }
-        if let savedPolls = savedAnswer?.polls {
-            realm.delete(savedPolls)
-        }
+//        if let savedAttachments = savedAnswer?.attachments {
+//            RealmManager.delete(savedAttachments)
+//        }
+//        if let savedReactions = savedAnswer?.reactions {
+//            RealmManager.delete(savedReactions)
+//        }
+//        if let savedPolls = savedAnswer?.polls {
+//            RealmManager.delete(savedPolls)
+//        }
         
         let conversationRO = ConversationRO()
         conversationRO.id = conversation.id ?? ""

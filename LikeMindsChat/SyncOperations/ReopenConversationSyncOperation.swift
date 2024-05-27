@@ -42,6 +42,7 @@ class ReopenConversationSyncOperation: LMAsyncOperation {
                 // retry
             } else if let chatrooms = response.data?.conversations, chatrooms.isEmpty {
                 SyncUtil.saveConversationResponses(chatroomId: self.chatroomId, communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", dataList: self.syncConversationsData)
+                NotificationCenter.default.post(name: .conversationSyncCompleted, object: nil)
                 return
             } else {
                 guard let data = response.data else {

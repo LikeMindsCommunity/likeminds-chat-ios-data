@@ -274,8 +274,7 @@ class ModelConverter {
             .updatedAt(chatroomRO.updatedAt)
             .lastConversationId(chatroomRO.lastConversationId)
             .lastConversation(
-                convertConversationRO(chatroomRO.lastConversation)
-                ?? convertLastConversationRO(chatroomRO.lastConversationRO)
+                convertLastConversationRO(chatroomRO.lastConversationRO) ?? convertConversationRO(chatroomRO.lastConversation)
             )
             .lastSeenConversationId(chatroomRO.lastSeenConversationId)
             .lastSeenConversation(convertConversationRO(chatroomRO.lastSeenConversation))

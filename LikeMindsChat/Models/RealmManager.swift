@@ -19,15 +19,7 @@ extension Results {
 
 extension Realm {
     func insertOrUpdate(_ object: Object) {
-        self.add(object, update: .all)
-//        do {
-//            try self.write {
-//                
-//            }
-//        } catch let error {
-//            print("Error in insertOrUpdate: \(error)")
-//            return
-//        }
+        self.add(object, update: .modified)
     }
 }
 
@@ -175,7 +167,7 @@ extension RealmManager: RealmOperations {
     // MARK:- insert Or Update function
     static func insertOrUpdate(_ object: Object) {
         Self.write { (realmInstance, _) in
-            realmInstance.add(object, update: .all)
+            realmInstance.add(object, update: .modified)
         }
     }
 }

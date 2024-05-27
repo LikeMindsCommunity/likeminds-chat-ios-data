@@ -101,6 +101,18 @@ extension LMChatClient {
         ConversationClient.shared.observeConversations(request: request)
     }
     
+    public func addObserverConversation(
+        _ ob: ConversationChangeDelegate
+    ) {
+        ConversationClient.shared.addObserver(ob)
+    }
+    
+    public func removeObserverConversation(
+        _ ob: ConversationChangeDelegate
+    ) {
+        ConversationClient.shared.removeObserverConversation(ob)
+    }
+    
     
     public func getHomeFeed(request: GetHomeFeedRequest, response: LMClientResponse<GetHomeFeedResponse>?) {
         

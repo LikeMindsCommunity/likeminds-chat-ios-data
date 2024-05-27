@@ -289,7 +289,7 @@ class SyncUtil {
                     reactions: chatroomReactions
                 ) else { return }
                 chatroomRO.relationshipNeeded = true
-                chatroomRO.isConversationStored
+                chatroomRO.isConversationStored = true
                 realm.insertOrUpdate(chatroomRO)
                 
                 data.conversations?.forEach({ conversation in
@@ -352,7 +352,6 @@ class SyncUtil {
                         loggedInUUID: loggedInUUID,
                         deletedByMemberRO: deletedByMemberRO
                     ) else { return }
-                    
                     realm.insertOrUpdate(
                         conversationRO
                     )

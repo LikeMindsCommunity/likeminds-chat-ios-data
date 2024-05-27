@@ -198,7 +198,6 @@ class ConversationDBService {
     }
     
     func updateDeletedConversations(conversations: [Conversation]) {
-        let conversationsROs = conversations.compactMap({ROConverter.convertConversation(conversation:$0)})
         let realm = RealmManager.realmInstance()
         conversations.forEach { conversation in
             if let convId = conversation.id,
