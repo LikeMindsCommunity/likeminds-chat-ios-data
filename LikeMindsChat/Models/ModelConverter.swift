@@ -245,6 +245,8 @@ class ModelConverter {
             .externalSeen(chatroom.externalSeen)
             .participantsCount(chatroom.participantsCount)
             .isPinned(chatroom.isPinned)
+            .showFollowTelescope(chatroom.showFollowTelescope)
+            .showFollowAutoTag(chatroom.showFollowAutoTag)
             .build()
     }
     

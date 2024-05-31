@@ -21,12 +21,7 @@ class SyncOperationUtil {
     }
     
     static func startReopenSyncForHomeFeed(response: LMClientResponse<NoData>?) {
-        let reopenTimeSyncChatroomOperation = ReopenChatroomSyncOperation(chatroomTypes: chatroomTypes)
-        reopenTimeSyncChatroomOperation.completionBlock = {
-            response?(LMResponse.successResponse(NoData()))
-        }
-        let queue = OperationQueue()
-        queue.addOperation(reopenTimeSyncChatroomOperation)
+        ReopenChatroomSyncOperation.sharedInstance(chatroomTypes: chatroomTypes).resyncChatrooms()
     }
     
     static func startFirstTimeSyncConversations(chatroomId: String, response: LMClientResponse<NoData>?) {
