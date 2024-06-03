@@ -6,8 +6,8 @@ target 'LikeMindsChat' do
   use_frameworks!
 
   # Pods for LikeMindsChat
-  pod 'Alamofire'
-  pod 'RealmSwift', '~>10'
+  pod 'Alamofire', '~> 5.7.0'
+  pod 'RealmSwift', '~>10.40.0'
   pod 'FirebaseCore'
   pod 'FirebaseMessaging'
   pod 'FirebaseDatabase'
