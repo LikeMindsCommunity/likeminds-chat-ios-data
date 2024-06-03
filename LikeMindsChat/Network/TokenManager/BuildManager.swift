@@ -14,5 +14,5 @@ public enum BuildEnvironment {
 public class BuildManager {
     public static let environment: BuildEnvironment = .devtest
 //    static let environment: BuildEnvironment = .production
-    static let buildVersion = "9998"
+    static let buildVersion = "500"
 }
