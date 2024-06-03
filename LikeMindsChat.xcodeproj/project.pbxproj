@@ -76,6 +76,16 @@
 		F457D7A72B4B18FA00BCECDF /* SyncUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7A62B4B18FA00BCECDF /* SyncUtil.swift */; };
 		F457D7A92B4C2F8700BCECDF /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7A82B4C2F8700BCECDF /* RealmManager.swift */; };
 		F457D7AB2B4C845400BCECDF /* ROConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F457D7AA2B4C845400BCECDF /* ROConverter.swift */; };
+		F486C7F02C0C7B4A0063BF0B /* FireBaseFactoryClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7EC2C0C7B4A0063BF0B /* FireBaseFactoryClass.swift */; };
+		F486C7F12C0C7B4A0063BF0B /* FirebaseServiceConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7ED2C0C7B4A0063BF0B /* FirebaseServiceConfiguration.swift */; };
+		F486C7F22C0C7B4A0063BF0B /* ServiceApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7EF2C0C7B4A0063BF0B /* ServiceApiRequest.swift */; };
+		F486C7F42C0C7DA10063BF0B /* CommunityDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7F32C0C7DA10063BF0B /* CommunityDBService.swift */; };
+		F486C7F62C0C7DB10063BF0B /* ReportClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7F52C0C7DB10063BF0B /* ReportClient.swift */; };
+		F486C7F82C0C7DCD0063BF0B /* SearchClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7F72C0C7DCD0063BF0B /* SearchClient.swift */; };
+		F486C7FA2C0C7E120063BF0B /* ChatroomDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7F92C0C7E120063BF0B /* ChatroomDBService.swift */; };
+		F486C7FD2C0C7E4A0063BF0B /* MemberRight.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7FB2C0C7E4A0063BF0B /* MemberRight.swift */; };
+		F486C7FE2C0C7E4A0063BF0B /* GetMemberStateResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7FC2C0C7E4A0063BF0B /* GetMemberStateResponse.swift */; };
+		F486C8002C0C7E790063BF0B /* ConversationClientDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F486C7FF2C0C7E790063BF0B /* ConversationClientDelegate.swift */; };
 		F49682812B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F49682802B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift */; };
 		F4A859CF2A6A7B2000F494AC /* ConversationSyncRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859CE2A6A7B2000F494AC /* ConversationSyncRequest.swift */; };
 		F4A859D12A6A7B9E00F494AC /* GetConversationMetaRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4A859D02A6A7B9E00F494AC /* GetConversationMetaRequest.swift */; };
@@ -240,6 +250,16 @@
 		F457D7A62B4B18FA00BCECDF /* SyncUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncUtil.swift; sourceTree = "<group>"; };
 		F457D7A82B4C2F8700BCECDF /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		F457D7AA2B4C845400BCECDF /* ROConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ROConverter.swift; sourceTree = "<group>"; };
+		F486C7EC2C0C7B4A0063BF0B /* FireBaseFactoryClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireBaseFactoryClass.swift; sourceTree = "<group>"; };
+		F486C7ED2C0C7B4A0063BF0B /* FirebaseServiceConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirebaseServiceConfiguration.swift; sourceTree = "<group>"; };
+		F486C7EF2C0C7B4A0063BF0B /* ServiceApiRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceApiRequest.swift; sourceTree = "<group>"; };
+		F486C7F32C0C7DA10063BF0B /* CommunityDBService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommunityDBService.swift; sourceTree = "<group>"; };
+		F486C7F52C0C7DB10063BF0B /* ReportClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReportClient.swift; sourceTree = "<group>"; };
+		F486C7F72C0C7DCD0063BF0B /* SearchClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchClient.swift; sourceTree = "<group>"; };
+		F486C7F92C0C7E120063BF0B /* ChatroomDBService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatroomDBService.swift; sourceTree = "<group>"; };
+		F486C7FB2C0C7E4A0063BF0B /* MemberRight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MemberRight.swift; sourceTree = "<group>"; };
+		F486C7FC2C0C7E4A0063BF0B /* GetMemberStateResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetMemberStateResponse.swift; sourceTree = "<group>"; };
+		F486C7FF2C0C7E790063BF0B /* ConversationClientDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationClientDelegate.swift; sourceTree = "<group>"; };
 		F49682802B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFeedClientDelegate.swift; sourceTree = "<group>"; };
 		F4A859CE2A6A7B2000F494AC /* ConversationSyncRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationSyncRequest.swift; sourceTree = "<group>"; };
 		F4A859D02A6A7B9E00F494AC /* GetConversationMetaRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetConversationMetaRequest.swift; sourceTree = "<group>"; };
@@ -452,6 +472,8 @@
 		F420C07D2A5C0E2E008C48DE /* LMChatService */ = {
 			isa = PBXGroup;
 			children = (
+				F486C7EE2C0C7B4A0063BF0B /* FirebaseConfig */,
+				F486C7EF2C0C7B4A0063BF0B /* ServiceApiRequest.swift */,
 				F420C07E2A5C0E2E008C48DE /* ChatClientServiceRequest.swift */,
 				F42C1E932B32F5FC00720D5D /* LMChatClientDBService.swift */,
 				F420C07F2A5C0E2E008C48DE /* LMChatClientServiceRequest+Extension.swift */,
@@ -615,9 +637,19 @@
 			path = SyncModel;
 			sourceTree = "<group>";
 		};
+		F486C7EE2C0C7B4A0063BF0B /* FirebaseConfig */ = {
+			isa = PBXGroup;
+			children = (
+				F486C7EC2C0C7B4A0063BF0B /* FireBaseFactoryClass.swift */,
+				F486C7ED2C0C7B4A0063BF0B /* FirebaseServiceConfiguration.swift */,
+			);
+			path = FirebaseConfig;
+			sourceTree = "<group>";
+		};
 		F4BEB9932B4DBAC800D12B62 /* Chatroom */ = {
 			isa = PBXGroup;
 			children = (
+				F486C7F92C0C7E120063BF0B /* ChatroomDBService.swift */,
 				F4BEB9C02B544B2A00D12B62 /* Request */,
 				F4BEB9BD2B544AE300D12B62 /* Response */,
 				F4BEB9BB2B544A1300D12B62 /* ChatroomClient.swift */,
@@ -628,6 +660,7 @@
 		F4BEB9942B4DBAD000D12B62 /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
+				F486C7FF2C0C7E790063BF0B /* ConversationClientDelegate.swift */,
 				F4BEBA0D2B546AD000D12B62 /* Util */,
 				F4BEB9AE2B4FC63700D12B62 /* Response */,
 				F4BEB9A82B4FB45600D12B62 /* Request */,
@@ -640,6 +673,7 @@
 		F4BEB9952B4DBAE300D12B62 /* Community */ = {
 			isa = PBXGroup;
 			children = (
+				F486C7F32C0C7DA10063BF0B /* CommunityDBService.swift */,
 				F4BEBA292B546FE200D12B62 /* Request */,
 				F4BEBA282B546FD300D12B62 /* Response */,
 				F4BEBA202B546E7500D12B62 /* CommunityClient.swift */,
@@ -650,6 +684,7 @@
 		F4BEB9962B4DBAEA00D12B62 /* Moderation */ = {
 			isa = PBXGroup;
 			children = (
+				F486C7F52C0C7DB10063BF0B /* ReportClient.swift */,
 				F4C8F69F2B593B490012A1CF /* GetReportTagsRequest.swift */,
 				F4C8F6A12B593BA60012A1CF /* PostReportRequest.swift */,
 				F4C8F6A32B5A365B0012A1CF /* ReportTagResponse.swift */,
@@ -677,6 +712,7 @@
 		F4BEB9992B4DBB0D00D12B62 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				F486C7F72C0C7DCD0063BF0B /* SearchClient.swift */,
 				F4C8F69E2B593A240012A1CF /* Request */,
 				F4C8F6A92B5A37F40012A1CF /* Response */,
 			);
@@ -805,6 +841,8 @@
 		F4BEBA282B546FD300D12B62 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				F486C7FC2C0C7E4A0063BF0B /* GetMemberStateResponse.swift */,
+				F486C7FB2C0C7E4A0063BF0B /* MemberRight.swift */,
 				F4BEBA222B546EA000D12B62 /* CommunityData.swift */,
 				F4BEBA242B546F6F00D12B62 /* ContentDownloadSetting.swift */,
 				F4BEBA262B546FB000D12B62 /* GetContentDownloadSettingsResponse.swift */,
@@ -1006,6 +1044,7 @@
 				F4BEB9E42B54621E00D12B62 /* GetPollUsersRequest.swift in Sources */,
 				F4BEB9D42B54503500D12B62 /* UpdateLastSeenAndDraftRequest.swift in Sources */,
 				F457D7A52B49EB4500BCECDF /* DatabaseSyncOperation.swift in Sources */,
+				F486C7F42C0C7DA10063BF0B /* CommunityDBService.swift in Sources */,
 				F412239B2B467B8900CB1532 /* ReopenChatroomSyncOperation.swift in Sources */,
 				F4BEBA1B2B546D9400D12B62 /* GetConversationsResponse.swift in Sources */,
 				F42C1EA02B32F94500720D5D /* Attachment.swift in Sources */,
@@ -1016,6 +1055,7 @@
 				F4BEB9C42B544C6200D12B62 /* EditChatroomTitleRequest.swift in Sources */,
 				F4BEB9DE2B54547600D12B62 /* _LMResponse_.swift in Sources */,
 				F4BEB9A12B4E9F4E00D12B62 /* SyncPreferences.swift in Sources */,
+				F486C7F02C0C7B4A0063BF0B /* FireBaseFactoryClass.swift in Sources */,
 				F420C0A22A5C194C008C48DE /* RegisterDeviceResponse.swift in Sources */,
 				F41223992B467B5E00CB1532 /* FirstTimeConversationSyncOperation.swift in Sources */,
 				F420C0852A5C0E2E008C48DE /* LMChatClientServiceRequest.swift in Sources */,
@@ -1039,6 +1079,7 @@
 				F420C0B22A5E88DD008C48DE /* GetExploreFeedRequest.swift in Sources */,
 				F4BEBA172B546D3500D12B62 /* GetConversationResponse.swift in Sources */,
 				F4BEBA0F2B546BC300D12B62 /* ConversationTypeUtil.swift in Sources */,
+				F486C7F62C0C7DB10063BF0B /* ReportClient.swift in Sources */,
 				F4BEBA022B5468D800D12B62 /* ObserveConversationsRequest.swift in Sources */,
 				F4A859D12A6A7B9E00F494AC /* GetConversationMetaRequest.swift in Sources */,
 				F420C05D2A5C0472008C48DE /* LikeMindsChat.docc in Sources */,
@@ -1051,10 +1092,12 @@
 				F4BEB9FE2B5467D600D12B62 /* GetConversationsCountRequest.swift in Sources */,
 				F4B6CB122B60EBE800824D94 /* SyncOperationUtil.swift in Sources */,
 				F4BEBA2F2B54710200D12B62 /* GetMemberResponse.swift in Sources */,
+				F486C7F22C0C7B4A0063BF0B /* ServiceApiRequest.swift in Sources */,
 				F4C8F6A42B5A365B0012A1CF /* ReportTagResponse.swift in Sources */,
 				F412238F2B43F16F00CB1532 /* ReactionMeta.swift in Sources */,
 				F420C0742A5C06B7008C48DE /* RefreshAccessToken.swift in Sources */,
 				F412237C2B4336D000CB1532 /* SDKClientInfoRO.swift in Sources */,
+				F486C7F82C0C7DCD0063BF0B /* SearchClient.swift in Sources */,
 				F4BEB9E62B5462A000D12B62 /* PostPollConversationRequest.swift in Sources */,
 				F41223742B336F4000CB1532 /* ConversationState.swift in Sources */,
 				F4BEB9922B4D89F600D12B62 /* Cohort.swift in Sources */,
@@ -1084,13 +1127,18 @@
 				F41223882B433DD000CB1532 /* AppConfigRO.swift in Sources */,
 				F4BEBA1D2B546DDE00D12B62 /* LiveConversationResponse.swift in Sources */,
 				F412237A2B432F7A00CB1532 /* ChatroomSyncRequest.swift in Sources */,
+				F486C7FE2C0C7E4A0063BF0B /* GetMemberStateResponse.swift in Sources */,
 				F420C0772A5C06B7008C48DE /* Date+Extension.swift in Sources */,
 				F4BEBA252B546F6F00D12B62 /* ContentDownloadSetting.swift in Sources */,
 				F4C8F68D2B57DF4E0012A1CF /* DecodeUrlRequest.swift in Sources */,
+				F486C7FA2C0C7E120063BF0B /* ChatroomDBService.swift in Sources */,
 				F420C07C2A5C08B7008C48DE /* LMChatClient+Extension.swift in Sources */,
+				F486C8002C0C7E790063BF0B /* ConversationClientDelegate.swift in Sources */,
 				F420C0822A5C0E2E008C48DE /* ChatClientServiceRequest.swift in Sources */,
 				F4F864082B70B5D600F28048 /* UserRO.swift in Sources */,
 				F4BEB9BC2B544A1300D12B62 /* ChatroomClient.swift in Sources */,
+				F486C7FD2C0C7E4A0063BF0B /* MemberRight.swift in Sources */,
+				F486C7F12C0C7B4A0063BF0B /* FirebaseServiceConfiguration.swift in Sources */,
 				F4BEBA192B546D6000D12B62 /* GetConversationsCountResponse.swift in Sources */,
 				F420C0A02A5C194C008C48DE /* InitiateUserRequest.swift in Sources */,
 				F4A859D32A6A7C9200F494AC /* PostConversationRequest.swift in Sources */,
