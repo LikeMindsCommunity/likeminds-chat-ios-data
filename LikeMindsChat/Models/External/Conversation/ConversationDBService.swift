@@ -201,7 +201,7 @@ class ConversationDBService {
         let realm = RealmManager.realmInstance()
         conversations.forEach { conversation in
             if let convId = conversation.id,
-                  let deletedBy = conversation.deletedBy,
+               let deletedBy = (conversation.deletedBy ?? conversation.deletedByMember?.sdkClientInfo?.uuid),
                   let ro = ChatDBUtil.shared.getConversation(realm: realm, conversationId: convId),
                   let memberRo = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: deletedBy) {
                 RealmManager.update(ro) { object in

@@ -96,17 +96,14 @@ class HomeFeedClient {
             guard let self else { return }
             switch changes {
             case .initial(let collections):
-                print("ResutlRealmNotification Initiate !$!$!$: \(homeFeedChatrooms?.count) == \(collections.count)")
                 guard let chatrooms = homeFeedChatrooms?.list.compactMap({ ro in
                     return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
                 }) else { return }
                 observers.forEach { $0?.initial(Array(chatrooms))}
             case .update(let collections, let deletions, let insertions, let modifications):
-                print("ResutlRealmNotification update !$!$!$: \(homeFeedChatrooms?.count) == \(collections.count)")
                 guard (homeFeedChatrooms?.list.compactMap({ ro in
                     return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
                 })) != nil else {
-                    print("ResutlRealmNotification update return !$!$!$: \(homeFeedChatrooms?.count) == \(collections.count)")
                     guard let chatrooms = homeFeedChatrooms?.list.compactMap({ ro in
                         return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
                     }) else { return }

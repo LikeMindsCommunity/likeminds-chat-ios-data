@@ -534,7 +534,6 @@ class ConversationClient: ServiceRequest {
             do {
                 guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
                       let answerId = json["answer_id"] as? String else {return}
-                print("live conversation json: \(json)")
                 self?.loadConversation(withConversationId: answerId, chatroomId: chatRoomID)
             } catch let error {
                 print("json error parsing - \(#function) \(error)")
