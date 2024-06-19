@@ -23,6 +23,12 @@ class ServiceRequest {
         ]
     }
     
+    static func httpHeadersWithAPIVersion() -> HTTPHeaders {
+        var headers = httpHeaders()
+        headers["x-api-version"] = "1"
+        return headers
+    }
+    
     static func httpHeadersWithAcceptVersionV2() -> HTTPHeaders {
         var headers = httpHeaders()
         headers["x-accept-version"] = "v2"
@@ -43,7 +49,8 @@ class ServiceRequest {
                 "x-version-code": buildVersion,
                 "Cookie":"",
                 "x-sdk-source": "chat",
-                "Cookie":""]
+                "Cookie":"",
+                "x-api-version": "1"]
     }
     
     static func cancelRequests(withModuleName moduleName: String) {

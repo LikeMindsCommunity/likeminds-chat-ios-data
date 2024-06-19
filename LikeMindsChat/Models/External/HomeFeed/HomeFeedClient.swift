@@ -17,8 +17,11 @@ protocol BaseClientProtocol: AnyObject {
 class HomeFeedClient {
     
     private var chatroomResultnotificationToken: NotificationToken?
-    private var homeFeedChatrooms: Results<ChatroomRO>?
+    private var dmChatroomResultnotificationToken: NotificationToken?
+    private var homeFeedGroupChatrooms: Results<ChatroomRO>?
+    private var homeFeedDMChatrooms: Results<ChatroomRO>?
     private var observers: [HomeFeedClientObserver?] = []
+    private var dmObservers: [HomeFeedClientObserver?] = []
     private var firebaseRealTimeDBReference: DatabaseReference?
     
     static let shared = HomeFeedClient()
@@ -31,6 +34,15 @@ class HomeFeedClient {
     
     func removeObserver(_ ob: HomeFeedClientObserver) {
         observers.removeAll(where: {type(of: $0) == type(of: ob)})
+    }
+    
+    func addDMObserver(_ ob: HomeFeedClientObserver) {
+        guard dmObservers.first(where: {type(of: $0) == type(of: ob)}) == nil else { return }
+        dmObservers.append(ob)
+    }
+    
+    func removeDMObserver(_ ob: HomeFeedClientObserver) {
+        dmObservers.removeAll(where: {type(of: $0) == type(of: ob)})
     }
     
     func getConfig(withModuleName moduleName: String,response: LMClientResponse<ConfigResponse>?) {
@@ -78,33 +90,94 @@ class HomeFeedClient {
     func syncChatrooms() {
         let isFirstSync = ChatDBUtil.shared.isEmpty()
         if isFirstSync {
-            SyncOperationUtil.startFirstHomeFeedSync(response: nil)
+            SyncOperationUtil.startFirstHomeFeedSync(response: nil, chatroomTypes: [ChatroomType.normal.rawValue, ChatroomType.purpose.rawValue, ChatroomType.directMessage.rawValue])
         } else {
-            SyncOperationUtil.startReopenSyncForHomeFeed(response: nil)
+            SyncOperationUtil.startReopenSyncForHomeFeed(response: nil, chatroomTypes: [ChatroomType.normal.rawValue, ChatroomType.purpose.rawValue, ChatroomType.directMessage.rawValue])
+        }
+    }
+    
+    func syncDMChatrooms() {
+        let isFirstSync = ChatDBUtil.shared.isEmpty()
+        if isFirstSync {
+            SyncOperationUtil.startFirstHomeFeedSync(response: nil, chatroomTypes: [ChatroomType.directMessage.rawValue])
+        } else {
+            SyncOperationUtil.startReopenSyncForHomeFeed(response: nil, chatroomTypes: [ChatroomType.directMessage.rawValue])
+        }
+    }
+    
+    func syncLiveChatrooms() {
+        let isFirstSync = ChatDBUtil.shared.isEmpty()
+        if isFirstSync {
+            SyncOperationUtil.startFirstHomeFeedSync(response: nil, chatroomTypes: [ChatroomType.normal.rawValue, ChatroomType.purpose.rawValue, ChatroomType.directMessage.rawValue])
+        } else {
+            SyncOperationUtil.startReopenSyncForHomeFeed(response: nil, chatroomTypes: [ChatroomType.normal.rawValue, ChatroomType.purpose.rawValue, ChatroomType.directMessage.rawValue])
+        }
+    }
+    
+    func getDMChatrooms(withObserver observer: HomeFeedClientObserver) {
+        guard let communityId = SDKPreferences.shared.getCommunityId() else { return }
+        addDMObserver(observer)
+        homeFeedDMChatrooms = ChatDBUtil.shared.getDMChatrooms(realm: realmInstance, communityId: communityId)
+        
+        // Observe collection notifications. Keep a strong
+        // reference to the notification token or the
+        // observation will stop.
+        dmChatroomResultnotificationToken = homeFeedDMChatrooms?.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self else { return }
+            switch changes {
+            case .initial(let collections):
+                guard let chatrooms = homeFeedDMChatrooms?.list.compactMap({ ro in
+                    return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
+                }) else { return }
+                dmObservers.forEach { $0?.initial(Array(chatrooms))}
+            case .update(let collections, let deletions, let insertions, let modifications):
+                guard (homeFeedDMChatrooms?.list.compactMap({ ro in
+                    return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
+                })) != nil else {
+                    guard let chatrooms = homeFeedDMChatrooms?.list.compactMap({ ro in
+                        return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
+                    }) else { return }
+                    dmObservers.forEach { $0?.initial(Array(chatrooms))}
+                    return
+                }
+                dmObservers.forEach { $0?.onChange(removed: collections.compactMap({ModelConverter.shared.convertChatroomRO(chatroomRO: $0)}), inserted: self.getIndexedDMChatrooms(indexArray: insertions), updated: self.getIndexedDMChatrooms(indexArray: modifications))}
+                break
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+        }
+    }
+    
+    private func getIndexedDMChatrooms(indexArray: [Int]) -> [(Int, Chatroom)] {
+        return indexArray.compactMap {  index in
+            let chatroomRO = homeFeedDMChatrooms?[index]
+            let chatroom = ModelConverter.shared.convertChatroomRO(chatroomRO: chatroomRO)
+            return (index, chatroom) as? (Int, Chatroom)
         }
     }
     
     func getChatrooms(withObserver observer: HomeFeedClientObserver) {
         guard let communityId = SDKPreferences.shared.getCommunityId() else { return }
         addObserver(observer)
-        homeFeedChatrooms = ChatDBUtil.shared.getChatrooms(realm: realmInstance, communityId: communityId)
+        homeFeedGroupChatrooms = ChatDBUtil.shared.getChatrooms(realm: realmInstance, communityId: communityId)
         
         // Observe collection notifications. Keep a strong
         // reference to the notification token or the
         // observation will stop.
-        chatroomResultnotificationToken = homeFeedChatrooms?.observe { [weak self] (changes: RealmCollectionChange) in
+        chatroomResultnotificationToken = homeFeedGroupChatrooms?.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self else { return }
             switch changes {
             case .initial(let collections):
-                guard let chatrooms = homeFeedChatrooms?.list.compactMap({ ro in
+                guard let chatrooms = homeFeedGroupChatrooms?.list.compactMap({ ro in
                     return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
                 }) else { return }
                 observers.forEach { $0?.initial(Array(chatrooms))}
             case .update(let collections, let deletions, let insertions, let modifications):
-                guard (homeFeedChatrooms?.list.compactMap({ ro in
+                guard (homeFeedGroupChatrooms?.list.compactMap({ ro in
                     return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
                 })) != nil else {
-                    guard let chatrooms = homeFeedChatrooms?.list.compactMap({ ro in
+                    guard let chatrooms = homeFeedGroupChatrooms?.list.compactMap({ ro in
                         return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
                     }) else { return }
                     observers.forEach { $0?.initial(Array(chatrooms))}
@@ -121,7 +194,7 @@ class HomeFeedClient {
     
     private func getIndexedChatrooms(indexArray: [Int]) -> [(Int, Chatroom)] {
         return indexArray.compactMap {  index in
-            let chatroomRO = homeFeedChatrooms?[index]
+            let chatroomRO = homeFeedGroupChatrooms?[index]
             let chatroom = ModelConverter.shared.convertChatroomRO(chatroomRO: chatroomRO)
             return (index, chatroom) as? (Int, Chatroom)
         }
@@ -130,7 +203,7 @@ class HomeFeedClient {
     func observeLiveHomeFeed(forCommunity communityId: String) {
         firebaseRealTimeDBReference = FirebaseServiceConfiguration.getDatabaseReferenceForHomeFeed(communityId)
         firebaseRealTimeDBReference?.observe(.childChanged, with:{[weak self] snapshot in
-            self?.syncChatrooms()
+            self?.syncLiveChatrooms()
         })
     }
     

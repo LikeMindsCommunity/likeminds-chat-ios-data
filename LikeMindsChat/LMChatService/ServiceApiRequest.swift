@@ -45,6 +45,8 @@ struct ServiceAPIRequest {
         case explorFeed(_ request: GetExploreFeedRequest)
         case getContentDownloadSettings
         case getMemberState
+        case getAllMembers(_ request: GetAllMembersRequest)
+        case searchMembers(_ request: SearchMembersRequest)
         
         //MARK:- Conversation api
         case syncConversations(_ request: ConversationSyncRequest)
@@ -74,6 +76,15 @@ struct ServiceAPIRequest {
         case getReportTags(_ reqeust: GetReportTagsRequest)
         case postReport(_ request: PostReportRequest)
         
+        //MARK: DM Api
+        case checkDMTab
+        case checkDMStatus(_ request: CheckDMStatusRequest)
+        case checkDMLimit(_ request: CheckDMLimitRequest)
+        case createDMChatroom(_ request: CreateDMChatroomRequest)
+        case fetchDMFeeds(_ request: FetchDMFeedRequest)
+        case sendDMRequest(_ request: SendDMRequest)
+        case blockDMMember(_ request: BlockMemberRequest)
+        
         var apiURL: String {
             switch self {
             case .initiateChatClient:
@@ -96,7 +107,25 @@ struct ServiceAPIRequest {
                     urlRequest = urlRequest + "&pinned=\(isPinned)"
                 }
                 return urlRequest
-                //MARK:- Chatrooms api URL
+            //MARK: - DM api URL
+            case .checkDMTab:
+                return "home/dm/meta"
+            case .fetchDMFeeds(let request):
+                return "chatroom/dm?page=\(request.page)&page_size=\(request.pageSize)"
+            case .checkDMStatus(let request):
+                var url = "community/dm/status?req_from=\(request.requestFrom ?? "")"
+                if let uuid = request.uuid { url += "&uuid=\(uuid)" }
+                if let chatroomId = request.chatroomId { url += "&chatroom_id=\(chatroomId)" }
+                return url
+            case .checkDMLimit(let request):
+                return "chatroom/dm/limit?uuid=\(request.uuid ?? "")"
+            case .createDMChatroom:
+                return "chatroom/dm/create"
+            case .sendDMRequest:
+                return "chatroom/dm/request"
+            case .blockDMMember:
+                return "chatroom/dm/block"
+            //MARK: - Chatrooms api URL
             case .syncChatrooms(let request):
                 var urlRequest = "chatroom/sync?is_local_db=true&page=\(request.page)&page_size=\(request.pageSize)&min_timestamp=\(request.minTimestamp)&max_timestamp=\(request.maxTimestamp)"
                 
@@ -129,6 +158,12 @@ struct ServiceAPIRequest {
                 return "community/settings/content_download"
             case .getMemberState:
                 return "community/member/state"
+            case .getAllMembers(let request):
+                return "community/member?page=\(request.page)&page_size=\(request.pageSize)"
+            case .searchMembers(let request):
+                let searchType = request.searchType ?? ""
+                let search = request.search ?? ""
+                return "community/member/search?page=\(request.page)&page_size=\(request.pageSize)&search_type=\(searchType)&search=\(search)"
                 
                 //MARK:- Conversation api URL
             case .postConversation,
@@ -191,7 +226,7 @@ struct ServiceAPIRequest {
                 //MARK:- Report api
             case .getReportTags(let request):
                 return "community/report/tag?type=\(request.type)"
-            case .postReport(let request):
+            case .postReport:
                 return "community/report"
             }
         }
@@ -208,6 +243,9 @@ struct ServiceAPIRequest {
                     .postPollConversation,
                     .addPollOption,
                     .submitPoll,
+                    .createDMChatroom,
+                    .sendDMRequest,
+                    .blockDMMember,
                     .postReport:
                 return .post
             case .getConfig,
@@ -226,6 +264,12 @@ struct ServiceAPIRequest {
                     .searchConversation,
                     .getPollUsers,
                     .getMemberState,
+                    .getAllMembers,
+                    .searchMembers,
+                    .checkDMLimit,
+                    .checkDMStatus,
+                    .fetchDMFeeds,
+                    .checkDMTab,
                     .getReportTags:
                 return .get
             case .setChatroomTopic,
@@ -292,6 +336,12 @@ struct ServiceAPIRequest {
             case .postPollConversation(let request):
                 return request.requestParam()
             case .postReport(let request):
+                return request.requestParam()
+            case .blockDMMember(let request):
+                return request.requestParam()
+            case .createDMChatroom(let request):
+                return request.requestParam()
+            case .sendDMRequest(let request):
                 return request.requestParam()
                 
             default:

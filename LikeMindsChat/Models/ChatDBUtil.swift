@@ -66,9 +66,22 @@ class ChatDBUtil {
 //                query.communityId == communityId &&
                 query.deletedBy == nil &&
                 query.followStatus == true &&
-                query.state != ChatroomType.directMessage.rawValue &&
-                query.state != ChatroomType.event.rawValue &&
-                query.state != ChatroomType.publicEvent.rawValue
+                query.type != ChatroomType.directMessage.rawValue &&
+                query.type != ChatroomType.event.rawValue &&
+                query.type != ChatroomType.publicEvent.rawValue
+            }.sorted(byKeyPath: DbKey.UPDATED_AT, ascending: false)
+    }
+    
+    func getDMChatrooms(
+        realm: Realm,
+        communityId: String
+    ) -> Results<ChatroomRO> {
+        return realm.objects(ChatroomRO.self)
+            .where { query in
+                //                query.communityId == communityId &&
+                query.deletedBy == nil &&
+                query.followStatus == true &&
+                query.type == ChatroomType.directMessage.rawValue
             }.sorted(byKeyPath: DbKey.UPDATED_AT, ascending: false)
     }
     

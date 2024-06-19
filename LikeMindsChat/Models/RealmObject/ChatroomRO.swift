@@ -54,5 +54,13 @@ class ChatroomRO: Object {
     @Persisted var isConversationStored: Bool = false
     @Persisted var isDraft: Bool?
     @Persisted var lastConversationId: String?
-    
+    @Persisted var chatRequestState: Int?
+    @Persisted var isPrivateMember: Bool?
+    @Persisted var isPrivate: Bool?
+    @Persisted var chatRequestedById: String?
+    @Persisted var chatRequestedBy: MemberRO?
+    @Persisted var chatRequestCreatedAt: Int?
+    @Persisted var chatroomWithUser: MemberRO?
+    @Persisted var chatroomWithUserId: String?
+    @Persisted var shareLink: String?
 }

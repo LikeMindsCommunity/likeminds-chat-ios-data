@@ -8,10 +8,8 @@
 import Foundation
 
 class SyncOperationUtil {
-    
-    static let chatroomTypes = [0, 7]
-    
-    static func startFirstHomeFeedSync(response: LMClientResponse<NoData>?) {
+        
+    static func startFirstHomeFeedSync(response: LMClientResponse<NoData>?, chatroomTypes: [Int]) {
         let firstTimeSyncChatroomOperation = FirstTimeChatroomSyncOperation(chatroomTypes: chatroomTypes)
         firstTimeSyncChatroomOperation.completionBlock = {
             response?(LMResponse.successResponse(NoData()))
@@ -20,7 +18,7 @@ class SyncOperationUtil {
         queue.addOperation(firstTimeSyncChatroomOperation)
     }
     
-    static func startReopenSyncForHomeFeed(response: LMClientResponse<NoData>?) {
+    static func startReopenSyncForHomeFeed(response: LMClientResponse<NoData>?, chatroomTypes: [Int]) {
         ReopenChatroomSyncOperation.sharedInstance(chatroomTypes: chatroomTypes).resyncChatrooms()
     }
     

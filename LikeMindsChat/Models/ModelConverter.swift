@@ -247,6 +247,13 @@ class ModelConverter {
             .isPinned(chatroom.isPinned)
             .showFollowTelescope(chatroom.showFollowTelescope)
             .showFollowAutoTag(chatroom.showFollowAutoTag)
+            .chatWithUser(chatroom.chatWithUser)
+            .chatWithUserId(chatroom.chatWithUserId)
+            .chatRequestedById(chatroom.chatRequestedById)
+            .chatRequestState(chatroom.chatRequestState)
+            .isPrivateMember(chatroom.isPrivateMember)
+            .isPrivate(chatroom.isPrivate)
+            .chatRequestCreatedAt(chatroom.chatRequestCreatedAt)
             .build()
     }
     
@@ -298,6 +305,14 @@ class ModelConverter {
             .isConversationStored(chatroomRO.isConversationStored)
             .isDraft(chatroomRO.isDraft)
             .totalAllResponseCount(chatroomRO.totalAllResponseCount)
+            .chatWithUser(convertMemberRO(chatroomRO.chatroomWithUser))
+            .chatWithUserId(chatroomRO.chatroomWithUserId)
+            .chatRequestedById(chatroomRO.chatRequestedById)
+            .chatRequestedByUser(convertMemberRO(chatroomRO.chatRequestedBy))
+            .chatRequestState(chatroomRO.chatRequestState)
+            .isPrivateMember(chatroomRO.isPrivateMember)
+            .isPrivate(chatroomRO.isPrivate)
+            .chatRequestCreatedAt(chatroomRO.chatRequestCreatedAt)
             .build()
     }
     
@@ -332,7 +347,7 @@ class ModelConverter {
     }
     
     func convertCommunityRO(_ communityRO: CommunityRO) -> Community {
-        return Community(id: Int(communityRO.id), imageURL: communityRO.imageUrl, name: communityRO.name, membersCount: communityRO.membersCount, purpose: nil, subType: nil, type: nil, updatedAt: communityRO.updatedAt)
+        return Community(id: Int(communityRO.id), imageURL: communityRO.imageUrl, name: communityRO.name, membersCount: communityRO.membersCount, purpose: nil, subType: nil, type: nil, updatedAt: communityRO.updatedAt, autoApproval: nil, hideDMTab: nil, communitySettings: nil, communitySettingRights: nil)
     }
     
     // converts UserRO model to client model

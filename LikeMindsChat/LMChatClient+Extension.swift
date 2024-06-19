@@ -51,9 +51,17 @@ extension LMChatClient {
     public func syncChatrooms() {
         HomeFeedClient.shared.syncChatrooms()
     }
+    
+    public func syncDMChatrooms() {
+        HomeFeedClient.shared.syncDMChatrooms()
+    }
 
     public func getChatrooms(withObserver observer: HomeFeedClientObserver) {
         HomeFeedClient.shared.getChatrooms(withObserver: observer)
+    }
+    
+    public func getDMChatrooms(withObserver observer: HomeFeedClientObserver) {
+        HomeFeedClient.shared.getDMChatrooms(withObserver: observer)
     }
     
     public func getParticipants(request: GetParticipantsRequest, response: LMClientResponse<GetParticipantsResponse>?) {

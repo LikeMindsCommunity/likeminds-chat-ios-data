@@ -34,7 +34,7 @@ class ConversationClient: ServiceRequest {
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
-                                              headers: ServiceRequest.httpHeaders(),
+                                              headers: ServiceRequest.httpHeadersWithAPIVersion(),
                                               withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
                                               withResponseType: PostConversationResponse.self,
