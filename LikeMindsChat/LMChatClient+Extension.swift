@@ -300,6 +300,10 @@ extension LMChatClient {
         HomeFeedClient.shared.observeLiveHomeFeed(forCommunity: communityId)
     }
     
+    public func observeLiveDMFeed(withCommunityId communityId: String) {
+        DirectMessageClient.shared.observeLiveHomeFeed(forCommunity: communityId)
+    }
+    
     public func checkDMTab(_ response: LMClientResponse<CheckDMTabResponse>?) {
         DirectMessageClient.shared.checkDMTab(response)
     }

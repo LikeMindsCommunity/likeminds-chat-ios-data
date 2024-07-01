@@ -10,7 +10,7 @@ import RealmSwift
 class ModelConverter {
     static let shared = ModelConverter()
     // converts internal Conversation model to client model
-    private func convertConversation(
+    func convertConversation(
         _conversation_: _Conversation_
     ) -> Conversation {
         return Conversation.Builder()

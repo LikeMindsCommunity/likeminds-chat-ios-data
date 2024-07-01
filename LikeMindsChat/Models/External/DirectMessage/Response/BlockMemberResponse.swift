@@ -10,5 +10,9 @@ import Foundation
 
 
 public struct BlockMemberResponse: Decodable {
-//    let conversation: ConversationDataModel?
+    let chatroom: _Chatroom_?
+    
+    public var chatroomData: Chatroom? {
+        return ModelConverter.shared.convertChatroom(chatroom: chatroom)
+    }
 }

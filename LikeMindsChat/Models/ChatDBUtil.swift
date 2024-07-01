@@ -81,6 +81,7 @@ class ChatDBUtil {
                 //                query.communityId == communityId &&
                 query.deletedBy == nil &&
                 query.followStatus == true &&
+                query.chatRequestState != nil &&
                 query.type == ChatroomType.directMessage.rawValue
             }.sorted(byKeyPath: DbKey.UPDATED_AT, ascending: false)
     }

@@ -9,5 +9,5 @@
 import Foundation
 
 public struct SendDMResponse: Decodable {
-//    public let conversation: ConversationDataModel?
+    public let conversation: Conversation?
 }

@@ -92,7 +92,7 @@ class FirstTimeDMChatroomSyncOperation {
             .page(page)
             .pageSize(pageSize)
             .chatroomTypes(chatroomTypes)
-            .minTimestamp(minTimestamp)
+            .minTimestamp(0)
             .maxTimestamp(maxTimestamp)
             .build()
         
