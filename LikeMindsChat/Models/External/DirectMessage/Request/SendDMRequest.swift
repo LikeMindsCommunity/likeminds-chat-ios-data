@@ -8,11 +8,11 @@
 
 import Foundation
 
-class SendDMRequest: Encodable {
+public class SendDMRequest: Encodable {
     
     var chatRequestState: Int?
     var text: String?
-    var chatroomId: Int?
+    var chatroomId: String?
     
     /// Initiate method
     private init() {}
@@ -41,7 +41,7 @@ class SendDMRequest: Encodable {
         return self
     }
     
-    public func chatroomId(_ chatroomId: Int) -> SendDMRequest {
+    public func chatroomId(_ chatroomId: String) -> SendDMRequest {
         self.chatroomId = chatroomId
         return self
     }

@@ -20,7 +20,7 @@ public class Chatroom: Decodable {
     public private(set) var shareUrl: String?
     public private(set) var communityId: String?
     public private(set) var communityName: String?
-    public private(set) var type: Int?
+    public private(set) var type: ChatroomType?
     public private(set) var about: String?
     public private(set) var header: String?
     public private(set) var showFollowTelescope: Bool?
@@ -66,7 +66,7 @@ public class Chatroom: Decodable {
     public private(set) var isDraft: Bool?
     public private(set) var totalAllResponseCount: Int?
     public private(set) var chatRequestCreatedAt: Int?
-    public private(set) var chatRequestState: Int?
+    public private(set) var chatRequestState: ChatRequestState?
     public private(set) var chatRequestedById: String?
     public private(set) var chatRequestedByUser: Member?
     public private(set) var chatWithUserId: String?
@@ -135,7 +135,8 @@ public class Chatroom: Decodable {
         }
         
         public func type(_ type: Int?) -> Builder {
-            chatroom.type = type
+            guard let type else { return self }
+            chatroom.type = ChatroomType(rawValue: type)
             return self
         }
         
@@ -365,7 +366,8 @@ public class Chatroom: Decodable {
         }
         
         public func chatRequestState(_ chatRequestState: Int?) -> Builder {
-            chatroom.chatRequestState = chatRequestState
+            guard let state = chatRequestState else { return self }
+            chatroom.chatRequestState = ChatRequestState(rawValue: state)
             return self
         }
         
@@ -413,7 +415,7 @@ public class Chatroom: Decodable {
             .shareUrl(shareUrl)
             .communityId(communityId)
             .communityName(communityName)
-            .type(type)
+            .type(type?.rawValue)
             .about(about)
             .header(header)
             .showFollowTelescope(showFollowTelescope)
@@ -459,7 +461,7 @@ public class Chatroom: Decodable {
             .isDraft(isDraft)
             .totalAllResponseCount(totalAllResponseCount)
             .chatRequestCreatedAt(chatRequestCreatedAt)
-            .chatRequestState(chatRequestState)
+            .chatRequestState(chatRequestState?.rawValue)
             .chatWithUser(chatWithUser)
             .chatRequestedById(chatRequestedById)
             .chatRequestedByUser(chatRequestedByUser)

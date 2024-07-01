@@ -22,6 +22,14 @@ class SyncOperationUtil {
         ReopenChatroomSyncOperation.sharedInstance(chatroomTypes: chatroomTypes).resyncChatrooms()
     }
     
+    static func startFirstDMFeedSync(response: LMClientResponse<NoData>?, chatroomTypes: [Int]) {
+        FirstTimeDMChatroomSyncOperation.sharedInstance(chatroomTypes: chatroomTypes).resyncChatrooms()
+    }
+    
+    static func startReopenSyncForDMFeed(response: LMClientResponse<NoData>?, chatroomTypes: [Int]) {
+        ReopenDMChatroomSyncOperation.sharedInstance(chatroomTypes: chatroomTypes).resyncChatrooms()
+    }
+    
     static func startFirstTimeSyncConversations(chatroomId: String, response: LMClientResponse<NoData>?) {
         let firstTimeSyncConversationOperation = FirstTimeConversationSyncOperation(chatroomId: chatroomId)
         firstTimeSyncConversationOperation.completionBlock = {

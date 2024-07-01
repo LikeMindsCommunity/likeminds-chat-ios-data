@@ -159,13 +159,32 @@ struct ServiceAPIRequest {
             case .getMemberState:
                 return "community/member/state"
             case .getAllMembers(let request):
-                return "community/member?page=\(request.page)&page_size=\(request.pageSize)"
+                var requestURL = "community/member?page=\(request.page)&page_size=\(request.pageSize)"
+                if let memberState = request.memberState {
+                    requestURL.append("&member_state=\(memberState)")
+                }
+                if !request.filterMemberRoles.isEmpty {
+                    requestURL.append("&filter_member_roles=\(request.filterMemberRoles)")
+                }
+                if let excludeSelf = request.excludeSelfUser {
+                    requestURL.append("&exclude_self_user=\(excludeSelf)")
+                }
+                return requestURL
             case .searchMembers(let request):
+                var urlRequest = "community/member/search?page=\(request.page)&page_size=\(request.pageSize)"
                 let searchType = request.searchType ?? ""
                 let search = request.search ?? ""
-                return "community/member/search?page=\(request.page)&page_size=\(request.pageSize)&search_type=\(searchType)&search=\(search)"
+                urlRequest.append("&search=\(search)")
+                urlRequest.append("&search_type=\(searchType)")
+                if let memberState = request.memberState {
+                    urlRequest.append("&member_states=\(memberState)")
+                }
+                if let excludeSelf = request.excludeSelfUser {
+                    urlRequest.append("&exclude_self_user=\(excludeSelf)")
+                }
+                return urlRequest
                 
-                //MARK:- Conversation api URL
+            //MARK:- Conversation api URL
             case .postConversation,
                     .editConversation,
                     .deleteConversations,

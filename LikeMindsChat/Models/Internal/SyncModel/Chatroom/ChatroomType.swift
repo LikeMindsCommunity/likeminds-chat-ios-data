@@ -7,6 +7,13 @@
 
 import Foundation
 
+public enum ChatRequestState: Int, Codable, CaseIterableDefaultsLast {
+    case unknown = -1
+    case initiated = 0
+    case approved = 1
+    case rejected = 2
+}
+
 public enum ChatroomType: Int, Codable, CaseIterableDefaultsLast {
     case unknown = -1
     case normal = 0

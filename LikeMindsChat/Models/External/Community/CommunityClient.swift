@@ -80,7 +80,7 @@ class CommunityClient {
         }
     }
     
-    static func getAllMembers(_ request: GetAllMembersRequest, withModuleName moduleName: String, _ response: LMClientResponse<GetAllMembersResponse>?) {
+    func getAllMembers(request: GetAllMembersRequest, response: LMClientResponse<GetAllMembersResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.getAllMembers(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -97,7 +97,7 @@ class CommunityClient {
         }
     }
     
-    static func searchMembers(_ request: SearchMembersRequest, withModuleName moduleName: String, _ response: LMClientResponse<SearchMembersResponse>?) {
+    func searchMembers(request: SearchMembersRequest, response: LMClientResponse<SearchMembersResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.searchMembers(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,

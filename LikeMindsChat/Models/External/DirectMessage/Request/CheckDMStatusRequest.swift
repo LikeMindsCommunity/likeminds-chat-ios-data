@@ -19,7 +19,7 @@ public class CheckDMStatusRequest: Encodable {
     
     var requestFrom: String?
     var uuid: String?
-    var chatroomId: Int?
+    var chatroomId: String?
     
     /// Initiate method
     private init() {}
@@ -48,7 +48,7 @@ public class CheckDMStatusRequest: Encodable {
         return self
     }
     
-    public func chatroomId(_ chatroomId: Int) -> CheckDMStatusRequest {
+    public func chatroomId(_ chatroomId: String) -> CheckDMStatusRequest {
         self.chatroomId = chatroomId
         return self
     }

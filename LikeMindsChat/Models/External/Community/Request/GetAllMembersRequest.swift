@@ -12,7 +12,6 @@ public class GetAllMembersRequest: Encodable {
     public enum MemberTypes: CustomStringConvertible {
         case admin,
              member
-    
         public var description: String {
             switch self {
             case .admin:

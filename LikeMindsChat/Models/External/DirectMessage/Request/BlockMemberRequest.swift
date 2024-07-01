@@ -10,13 +10,13 @@ import Foundation
 
 public class BlockMemberRequest: Encodable {
     
-    enum Member: Int {
+    public enum BlockState: Int {
         case block = 0
         case unblock = 1
     }
     
     var status: Int?
-    var chatroomId: Int?
+    var chatroomId: String?
     
     /// Initiate method
     private init() {}
@@ -34,12 +34,12 @@ public class BlockMemberRequest: Encodable {
              chatroomId = "chatroom_id"
     }
     
-    public func status(_ status: MemberState) -> BlockMemberRequest {
+    public func status(_ status: BlockState) -> BlockMemberRequest {
         self.status = status.rawValue
         return self
     }
     
-    public func chatroomId(_ chatroomId: Int) -> BlockMemberRequest {
+    public func chatroomId(_ chatroomId: String) -> BlockMemberRequest {
         self.chatroomId = chatroomId
         return self
     }

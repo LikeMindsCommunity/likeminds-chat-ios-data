@@ -23,9 +23,14 @@ class ServiceRequest {
         ]
     }
     
-    static func httpHeadersWithAPIVersion() -> HTTPHeaders {
+    static func httpHeadersWithAPIVersion(extraHeaders: HTTPHeaders? = nil) -> HTTPHeaders {
         var headers = httpHeaders()
         headers["x-api-version"] = "1"
+        if let extraHeaders {
+            extraHeaders.forEach { header in
+                headers[header.name] = header.value
+            }
+        }
         return headers
     }
     

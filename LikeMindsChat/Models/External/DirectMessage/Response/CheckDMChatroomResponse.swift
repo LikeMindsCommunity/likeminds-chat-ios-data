@@ -9,5 +9,9 @@
 import Foundation
 
 public struct CheckDMChatroomResponse: Decodable {
-    public let chatroom: Chatroom?
+    let chatroom_: _Chatroom_?
+    
+    public var chatroom: Chatroom? {
+        return ModelConverter.shared.convertChatroom(chatroom: chatroom_)
+    }
 }

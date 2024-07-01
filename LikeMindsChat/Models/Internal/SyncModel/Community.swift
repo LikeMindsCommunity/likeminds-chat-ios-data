@@ -41,6 +41,20 @@ public struct Community: Decodable {
 }
 
 public struct CommunitySetting: Decodable {
+    
+    public enum SettingType: String {
+        case postApprovalNeeded = "post_approval_needed"
+        case enableDMWithoutConnectionRequest = "enable_dm_without_connection_request"
+        case directMessageSetting = "direct_messages_setting"
+        case introRoom = "intro_room"
+        case feed = "feed"
+        case directMessageWithGroupMessage = "direct_messages_with_group_messages"
+        case chatrooms = "chatrooms"
+        case createIntroRooms = "create_intro_rooms"
+        case secretGroupInvite = "secret_groups_invite"
+        case postGroups = "post_groups"
+    }
+    
     public let title: String?
     public let type: String?
     public let subTitle: String?

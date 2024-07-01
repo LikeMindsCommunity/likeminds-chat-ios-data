@@ -40,7 +40,7 @@ class ChatroomClient: ServiceRequest {
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
-                                              headers: ServiceRequest.httpHeadersWithAPIVersion(),
+                                              headers: ServiceRequest.httpHeadersWithAPIVersion(extraHeaders: ["x-accept-version": "v2"]),
                                               withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
                                               withResponseType: GetChatroomActionsResponse.self,

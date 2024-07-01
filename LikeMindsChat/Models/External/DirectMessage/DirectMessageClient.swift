@@ -6,23 +6,30 @@
 //
 
 import Foundation
-
-import Foundation
+import RealmSwift
+import FirebaseDatabase
 
 class DirectMessageClient {
  
-    static func fetchDMFeed(request: FetchDMFeedRequest, moduleName: String) {
-        let networkPath = ServiceAPIRequest.NetworkPath.fetchDMFeeds(request)
-        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        DataNetwork.shared.request(for: url,
-                                   withHTTPMethod: networkPath.httpMethod,
-                                   headers: ServiceRequest.httpHeaders(),
-                                   withEncoding: networkPath.encoding, withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? Data else {return}
-        } failureCallback: { (moduleName, error) in
-            
-        }
+    static let shared = DirectMessageClient()
+    let realmInstance = RealmManager.realmInstance()
+    private var firebaseRealTimeDBReference: DatabaseReference?
+    
+    private var feedDMChatrooms: Results<ChatroomRO>?
+    private var dmChatroomResultnotificationToken: NotificationToken?
+    private var dmObservers: [HomeFeedClientObserver?] = []
+    
+    private let moduleName = "DirectMessageClient"
+    
+    func addDMObserver(_ ob: HomeFeedClientObserver) {
+        guard dmObservers.first(where: {type(of: $0) == type(of: ob)}) == nil else { return }
+        dmObservers.append(ob)
     }
+    
+    func removeDMObserver(_ ob: HomeFeedClientObserver) {
+        dmObservers.removeAll(where: {type(of: $0) == type(of: ob)})
+    }
+
     /*
     static func showDirectMessage(communityId: Int, fromModule: String, memberId: Int?, moduleName: String) {
         let networkPath = ServiceAPIRequest.NetworkPath.showDirectMessage(communityId, fromScreen: fromModule, memberId: memberId)
@@ -51,8 +58,59 @@ class DirectMessageClient {
     
     */
     
+    func syncDMChatrooms() {
+        let isFirstSync = ChatDBUtil.shared.isEmpty()
+        if isFirstSync {
+            SyncOperationUtil.startFirstDMFeedSync(response: nil, chatroomTypes: [ChatroomType.directMessage.rawValue])
+        } else {
+            SyncOperationUtil.startReopenSyncForDMFeed(response: nil, chatroomTypes: [ChatroomType.directMessage.rawValue])
+        }
+    }
     
-    static func checkDMTab(moduleName: String, _ response: LMClientResponse<CheckDMTabResponse>?) {
+    func getChatrooms(withObserver observer: HomeFeedClientObserver) {
+        guard let communityId = SDKPreferences.shared.getCommunityId() else { return }
+        addDMObserver(observer)
+        feedDMChatrooms = ChatDBUtil.shared.getDMChatrooms(realm: realmInstance, communityId: communityId)
+        
+        // Observe collection notifications. Keep a strong
+        // reference to the notification token or the
+        // observation will stop.
+        dmChatroomResultnotificationToken = feedDMChatrooms?.observe { [weak self] (changes: RealmCollectionChange) in
+            guard let self else { return }
+            switch changes {
+            case .initial(let collections):
+                guard let chatrooms = feedDMChatrooms?.list.compactMap({ ro in
+                    return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
+                }) else { return }
+                dmObservers.forEach { $0?.initial(Array(chatrooms))}
+            case .update(let collections, let deletions, let insertions, let modifications):
+                guard (feedDMChatrooms?.list.compactMap({ ro in
+                    return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
+                })) != nil else {
+                    guard let chatrooms = feedDMChatrooms?.list.compactMap({ ro in
+                        return ModelConverter.shared.convertChatroomRO(chatroomRO:ro)
+                    }) else { return }
+                    dmObservers.forEach { $0?.initial(Array(chatrooms))}
+                    return
+                }
+                dmObservers.forEach { $0?.onChange(removed: collections.compactMap({ModelConverter.shared.convertChatroomRO(chatroomRO: $0)}), inserted: self.getIndexedDMChatrooms(indexArray: insertions), updated: self.getIndexedDMChatrooms(indexArray: modifications))}
+                break
+            case .error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+            }
+        }
+    }
+    
+    private func getIndexedDMChatrooms(indexArray: [Int]) -> [(Int, Chatroom)] {
+        return indexArray.compactMap {  index in
+            let chatroomRO = feedDMChatrooms?[index]
+            let chatroom = ModelConverter.shared.convertChatroomRO(chatroomRO: chatroomRO)
+            return (index, chatroom) as? (Int, Chatroom)
+        }
+    }
+    
+    func checkDMTab(_ response: LMClientResponse<CheckDMTabResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.checkDMTab
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -68,12 +126,8 @@ class DirectMessageClient {
             response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
-    
-    static func fetchDMFeeds(request: ChatroomSyncRequest, moduleName: String, _ response: LMClientResponse<Chatroom>?) {
-        
-    }
-    
-    static func checkDMStatus(request: CheckDMStatusRequest, moduleName: String, _ response: LMClientResponse<CheckDMStatusResponse>?) {
+
+    func checkDMStatus(request: CheckDMStatusRequest, response: LMClientResponse<CheckDMStatusResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.checkDMStatus(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -90,7 +144,7 @@ class DirectMessageClient {
         }
     }
     
-    static func checkDMLimit(request: CheckDMLimitRequest, moduleName: String, _ response: LMClientResponse<CheckDMLimitResponse>?) {
+    func checkDMLimit(request: CheckDMLimitRequest, response: LMClientResponse<CheckDMLimitResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.checkDMLimit(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -107,7 +161,7 @@ class DirectMessageClient {
         }
     }
     
-    static func createDMChatroom(request: CreateDMChatroomRequest, moduleName: String, _ response: LMClientResponse<CheckDMChatroomResponse>?) {
+    func createDMChatroom(request: CreateDMChatroomRequest, response: LMClientResponse<CheckDMChatroomResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.createDMChatroom(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -124,7 +178,7 @@ class DirectMessageClient {
         }
     }
     
-    static func sendDMRequest(request: SendDMRequest, moduleName: String, _ response: LMClientResponse<SendDMResponse>?) {
+    func sendDMRequest(request: SendDMRequest,  response: LMClientResponse<SendDMResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.sendDMRequest(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -141,7 +195,7 @@ class DirectMessageClient {
         }
     }
     
-    static func blockDMMember(request: BlockMemberRequest, moduleName: String, _ response: LMClientResponse<BlockMemberResponse>?) {
+    func blockDMMember(request: BlockMemberRequest, response: LMClientResponse<BlockMemberResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.blockDMMember(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
@@ -158,4 +212,19 @@ class DirectMessageClient {
         }
     }
     
+    func syncLiveChatrooms() {
+        let isFirstSync = ChatDBUtil.shared.isEmpty()
+        if isFirstSync {
+            SyncOperationUtil.startFirstDMFeedSync(response: nil, chatroomTypes: [ChatroomType.directMessage.rawValue])
+        } else {
+            SyncOperationUtil.startReopenSyncForDMFeed(response: nil, chatroomTypes: [ChatroomType.directMessage.rawValue])
+        }
+    }
+    
+    func observeLiveHomeFeed(forCommunity communityId: String) {
+        firebaseRealTimeDBReference = FirebaseServiceConfiguration.getDatabaseReferenceForHomeFeed(communityId)
+        firebaseRealTimeDBReference?.observe(.childChanged, with:{[weak self] snapshot in
+            self?.syncLiveChatrooms()
+        })
+    }
 }

@@ -26,6 +26,7 @@ class SyncPreferences: BasePreferences {
     
     static let shared = SyncPreferences()
     private let syncChatroomTimeStamp = "syncChatroomTimeStamp"
+    private let syncDMChatroomTimeStamp = "syncDMChatroomTimeStamp"
     private let syncConversationTimeStamp = "syncConversationTimeStamp"
     
     private override init() {}
@@ -36,6 +37,14 @@ class SyncPreferences: BasePreferences {
     
     func getTimestampForSyncChatroom() -> Int {
         return (getValue(forKey: syncChatroomTimeStamp) as? Int) ?? 0
+    }
+    
+    func setTimestampForSyncDMChatroom(time: Int) {
+        setValue(time, forKey: syncDMChatroomTimeStamp)
+    }
+    
+    func getTimestampForSyncDMChatroom() -> Int {
+        return (getValue(forKey: syncDMChatroomTimeStamp) as? Int) ?? 0
     }
     
     func setTimestampForSyncConversation(time: Int) {
