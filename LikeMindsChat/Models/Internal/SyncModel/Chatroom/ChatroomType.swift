@@ -12,6 +12,19 @@ public enum ChatRequestState: Int, Codable, CaseIterableDefaultsLast {
     case initiated = 0
     case approved = 1
     case rejected = 2
+    
+    public var stringValue: String {
+        switch self {
+        case .approved:
+            return "Approved"
+        case .initiated:
+            return "Initiated"
+        case .rejected:
+            return "Rejected"
+        default:
+            return ""
+        }
+    }
 }
 
 public enum ChatroomType: Int, Codable, CaseIterableDefaultsLast {
@@ -28,7 +41,7 @@ public enum ChatroomType: Int, Codable, CaseIterableDefaultsLast {
     case chatRoomDateSectionHeader = 101
     case newUnseenChatRoomTitle = 11
     
-    var value: String {
+    public var value: String {
         switch self {
         case .unknown:
             return "unknown"

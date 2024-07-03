@@ -6,3 +6,10 @@
 //
 
 import Foundation
+import RealmSwift
+
+class DirectMessageDBService {
+    
+    static let shared = DirectMessageDBService()
+
+}

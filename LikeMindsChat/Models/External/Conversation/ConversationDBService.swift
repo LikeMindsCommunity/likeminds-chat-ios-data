@@ -145,6 +145,7 @@ class ConversationDBService {
         realm: Realm,
         conversation: Conversation
     ) {
+        guard let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
     }
     
     func saveTemporaryConversation(request: SaveConversationRequest) {

@@ -61,6 +61,7 @@ public class SDKPreferences: BasePreferences {
     
     public static let shared = SDKPreferences()
     private let communityIDKey = "CommunityId_key"
+    private let communityNameKey = "Community_name_key"
     
     private override init() {}
     
@@ -72,6 +73,13 @@ public class SDKPreferences: BasePreferences {
         return getValue(forKey: communityIDKey) as? String
     }
     
+    func setCommunityName(communityName: String) {
+        setValue(communityName, forKey: communityNameKey)
+    }
+    
+    public func getCommunityName() -> String? {
+        return getValue(forKey: communityNameKey) as? String
+    }
 }
 
 public class UserPreferences: BasePreferences {

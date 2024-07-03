@@ -40,6 +40,7 @@ class InitiateUserClient: ServiceRequest {
                 UserPreferences.shared.setLMMemberId("\(lmMemberId)")
                 UserPreferences.shared.setClientUUID(clientUUID)
                 SDKPreferences.shared.setCommunityId(communityId: "\(communityId)")
+                SDKPreferences.shared.setCommunityName(communityName: result.data?.community?.name ?? "")
                 ChatDBUtil.shared.userROUpdate(user)
             }
             response?(result)
