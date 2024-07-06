@@ -163,6 +163,12 @@ class ChatDBUtil {
         }
     }
     
+    func clearData() {
+        RealmManager.write { realm, object in
+            realm.deleteAll()
+        }
+    }
+    
     /**
      * Make sure to pass this inside a write transaction and all the parameters have to be managed object
      *  @param chatroomRO: chatroom object

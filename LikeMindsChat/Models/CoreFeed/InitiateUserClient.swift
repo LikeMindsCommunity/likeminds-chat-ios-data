@@ -87,6 +87,10 @@ class InitiateUserClient: ServiceRequest {
                                     withResponseType: NoData.self,
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<NoData> else {return}
+            ChatDBUtil.shared.clearData()
+            SDKPreferences.shared.clearData()
+            UserPreferences.shared.clearData()
+            SyncPreferences.shared.clearData()
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))

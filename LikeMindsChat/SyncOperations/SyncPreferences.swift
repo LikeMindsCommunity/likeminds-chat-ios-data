@@ -55,6 +55,13 @@ class SyncPreferences: BasePreferences {
         return (getValue(forKey: syncChatroomTimeStamp) as? Int) ?? 0
     }
     
+    public func clearData() {
+        userDefault.removeObject(forKey: syncChatroomTimeStamp)
+        userDefault.removeObject(forKey: syncDMChatroomTimeStamp)
+        userDefault.removeObject(forKey: syncConversationTimeStamp)
+        userDefault.synchronize()
+    }
+    
 }
 
 public class SDKPreferences: BasePreferences {
@@ -79,6 +86,12 @@ public class SDKPreferences: BasePreferences {
     
     public func getCommunityName() -> String? {
         return getValue(forKey: communityNameKey) as? String
+    }
+    
+    public func clearData() {
+        userDefault.removeObject(forKey: communityIDKey)
+        userDefault.removeObject(forKey: communityNameKey)
+        userDefault.synchronize()
     }
 }
 
@@ -115,6 +128,12 @@ public class UserPreferences: BasePreferences {
         return getValue(forKey: lmUUID) as? String
     }
     
+    public func clearData() {
+        userDefault.removeObject(forKey: lmUUID)
+        userDefault.removeObject(forKey: lmMemberId)
+        userDefault.removeObject(forKey: clientUUID)
+        userDefault.synchronize()
+    }
 }
 
 

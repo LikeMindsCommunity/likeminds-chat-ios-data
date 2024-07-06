@@ -8,18 +8,37 @@
 import Foundation
 
 
-class FirstTimeChatroomSyncOperation: LMAsyncOperation {
-    
+class FirstTimeChatroomSyncOperation {
+
     private var page: Int = 1
+    private var pageSize: Int = 500
     private var maxTimestamp: Int = Int(Date().timeIntervalSince1970)
+    private var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncChatroom()
+    private var isSyncing: Bool = false
+    
     private var chatroomTypes: [Int]
-    private var pageSize = 500
+    private static let shared: FirstTimeChatroomSyncOperation = FirstTimeChatroomSyncOperation(chatroomTypes: [0, 7])
+    
+    static func sharedInstance(chatroomTypes: [Int] = [0, 7]) -> FirstTimeChatroomSyncOperation {
+        shared.page = 1
+        shared.chatroomTypes = chatroomTypes
+        shared.maxTimestamp = Int(Date().timeIntervalSince1970)
+        shared.minTimestamp = SyncPreferences.shared.getTimestampForSyncChatroom()
+        return shared
+    }
     
     init(chatroomTypes: [Int]) {
         self.chatroomTypes = chatroomTypes
     }
     
-    func syncChatrooms() {
+    func syncChatroomsData() {
+        if !isSyncing {
+            isSyncing = true
+            syncChatrooms()
+        }
+    }
+    
+    private func syncChatrooms() {
         let chatroomSyncRequest = ChatroomSyncRequest.builder()
             .page(page)
             .pageSize(pageSize)
@@ -34,14 +53,15 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
         SyncPreferences.shared.setTimestampForSyncChatroom(time: chatroomSyncRequest.maxTimestamp)
         ChatroomClient.syncChatroomsApi(request: chatroomSyncRequest, moduleName: "FirstTimeChatroomSync") { [weak self] response in
             if let _ = response.errorMessage {
+                self?.isSyncing = false
                 print("Retry first time chatroom sync")
-              // retry
+                // retry
             } else if let chatrooms = response.data?.chatrooms, chatrooms.isEmpty {
-              // No data but success
+                self?.isSyncing = false
                 return
             } else {
                 guard let data = response.data else {
-                    // retry flow
+                    self?.isSyncing = false
                     return
                 }
                 SyncUtil.saveChatroomResponse(communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", data: data)
@@ -51,19 +71,15 @@ class FirstTimeChatroomSyncOperation: LMAsyncOperation {
             }
         }
     }
-    
-    override func main() {
-        self.syncChatrooms()
-    }
 }
 
 class FirstTimeDMChatroomSyncOperation {
     
-    var page: Int = 1
-    var pageSize: Int = 500
-    var maxTimestamp: Int = Int(Date().timeIntervalSince1970)
-    var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncDMChatroom()
-    var isSyncing: Bool = false
+    private var page: Int = 1
+    private var pageSize: Int = 500
+    private var maxTimestamp: Int = Int(Date().timeIntervalSince1970)
+    private var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncDMChatroom()
+    private var isSyncing: Bool = false
     
     private var chatroomTypes: [Int]
     private static let shared: FirstTimeDMChatroomSyncOperation = FirstTimeDMChatroomSyncOperation(chatroomTypes: [10])
@@ -80,7 +96,7 @@ class FirstTimeDMChatroomSyncOperation {
         self.chatroomTypes = chatroomTypes
     }
     
-    func resyncChatrooms() {
+    func syncChatroomsData() {
         if !isSyncing {
             isSyncing = true
             syncChatrooms()
@@ -110,7 +126,7 @@ class FirstTimeDMChatroomSyncOperation {
                     self?.isSyncing = false
                     return
                 }
-                SyncUtil.saveChatroomResponse(communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: "", data: data)
+                SyncUtil.saveChatroomResponse(communityId: SDKPreferences.shared.getCommunityId() ?? "", loggedInUUID: UserPreferences.shared.getClientUUID() ?? "", data: data)
                 self?.page += 1
                 self?.syncChatrooms()
             }
