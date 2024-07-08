@@ -58,6 +58,15 @@ public struct _Chatroom_: Decodable {
     public let unreadConversationCount: Int?
     public let chatroomImageUrl: String?
     public let accessWithoutSubscription: Bool?
+    public let chatRequestCreatedAt: Int?
+    public let chatRequestState: Int?
+    public let chatRequestedById: String?
+    public let chatWithUserId: String?
+    public let isPrivate: Bool?
+    public let isPrivateMember: Bool?
+    public let dmMessage: Int?
+    public let shareLink: String?
+    public let chatWithUser: Member?
     
     enum CodingKeys: String, CodingKey {
         case member
@@ -109,6 +118,15 @@ public struct _Chatroom_: Decodable {
         case unreadConversationCount = "conversations_unread"
         case chatroomImageUrl = "chatroom_image_url"
         case accessWithoutSubscription = "access_without_subscription"
+        case chatRequestCreatedAt = "chat_request_created_at"
+        case chatRequestState = "chat_request_state"
+        case chatRequestedById = "chat_requested_by_id"
+        case chatWithUserId = "chatroom_with_user_id"
+        case chatWithUser = "chat_with_user"
+        case isPrivate = "is_private"
+        case isPrivateMember = "is_private_member"
+        case dmMessage = "dm_message"
+        case shareLink = "share_link"
     }
 }
 
@@ -165,6 +183,15 @@ public extension _Chatroom_ {
         unreadConversationCount = try container.decodeIfPresent(Int.self, forKey: .unreadConversationCount)
         chatroomImageUrl = try container.decodeIfPresent(String.self, forKey: .chatroomImageUrl)
         accessWithoutSubscription = try container.decodeIfPresent(Bool.self, forKey: .accessWithoutSubscription)
+        chatRequestCreatedAt = try container.decodeIfPresent(Int.self, forKey: .chatRequestCreatedAt)
+        chatRequestState = try container.decodeIfPresent(Int.self, forKey: .chatRequestState)
+        chatRequestedById = try container.decodeIntToStringIfPresent(forKey: .chatRequestedById)
+        chatWithUserId = try container.decodeIntToStringIfPresent(forKey: .chatWithUserId)
+        chatWithUser = try container.decodeIfPresent(Member.self, forKey: .chatWithUser)
+        isPrivate = try container.decodeIfPresent(Bool.self, forKey: .isPrivate)
+        isPrivateMember = try container.decodeIfPresent(Bool.self, forKey: .isPrivateMember)
+        dmMessage = try container.decodeIfPresent(Int.self, forKey: .dmMessage)
+        shareLink = try container.decodeIfPresent(String.self, forKey: .shareLink)
     }
 }
 

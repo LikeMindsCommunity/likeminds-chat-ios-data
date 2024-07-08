@@ -33,16 +33,7 @@ class CommunityClient {
             response?(LMResponse.failureResponse(error.localizedDescription))
         }
     }
-    
-    /**
-     * Observes the community stored in DB
-     * @throws IllegalArgumentException - when LMChatClient is not instantiated
-     * @return Flowable<Optional<Community>> - Flow of community
-     */
-//    func observeCommunity(community: Observable<Community>) {
-//        
-//    }
-    
+
     func getCurrentMember() -> Member? {
         guard let user = CommunityDBService.shared.getUser() else {
             return nil
@@ -83,6 +74,40 @@ class CommunityClient {
                                               withResponseType: GetMemberStateResponse.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<GetMemberStateResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(LMResponse.failureResponse(error.localizedDescription))
+        }
+    }
+    
+    func getAllMembers(request: GetAllMembersRequest, response: LMClientResponse<GetAllMembersResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.getAllMembers(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: GetAllMembersResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? LMResponse<GetAllMembersResponse> else {return}
+            response?(data)
+        } failureCallback: { (moduleName, error) in
+            response?(LMResponse.failureResponse(error.localizedDescription))
+        }
+    }
+    
+    func searchMembers(request: SearchMembersRequest, response: LMClientResponse<SearchMembersResponse>?) {
+        let networkPath = ServiceAPIRequest.NetworkPath.searchMembers(request)
+        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+        DataNetwork.shared.requestWithDecoded(for: url,
+                                              withHTTPMethod: networkPath.httpMethod,
+                                              headers: ServiceRequest.httpHeaders(),
+                                              withParameters: networkPath.parameters,
+                                              withEncoding: networkPath.encoding,
+                                              withResponseType: SearchMembersResponse.self,
+                                              withModuleName: moduleName) { (moduleName, responseData) in
+            guard let data = responseData as? LMResponse<SearchMembersResponse> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))

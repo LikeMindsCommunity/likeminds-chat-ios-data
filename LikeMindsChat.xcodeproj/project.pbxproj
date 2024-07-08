@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		15A6357F84E36F1EE62A55DE /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CB1681F539F4817AFE88CA6 /* Pods_LikeMindsChat.framework */; };
+		CA8698ADE415DA27AB440517 /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA39603295632C167581FD6 /* Pods_LikeMindsChat.framework */; };
 		F41223702B330FB500CB1532 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412236F2B330FB500CB1532 /* Member.swift */; };
 		F41223722B336E8D00CB1532 /* LinkOGTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223712B336E8D00CB1532 /* LinkOGTags.swift */; };
 		F41223742B336F4000CB1532 /* ConversationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223732B336F4000CB1532 /* ConversationState.swift */; };
@@ -41,10 +41,7 @@
 		F420C0782A5C06B7008C48DE /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C06F2A5C06B6008C48DE /* String+Extension.swift */; };
 		F420C07B2A5C08B7008C48DE /* LMChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0792A5C08B7008C48DE /* LMChatClient.swift */; };
 		F420C07C2A5C08B7008C48DE /* LMChatClient+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C07A2A5C08B7008C48DE /* LMChatClient+Extension.swift */; };
-		F420C0822A5C0E2E008C48DE /* ChatClientServiceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C07E2A5C0E2E008C48DE /* ChatClientServiceRequest.swift */; };
-		F420C0832A5C0E2E008C48DE /* LMChatClientServiceRequest+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C07F2A5C0E2E008C48DE /* LMChatClientServiceRequest+Extension.swift */; };
 		F420C0842A5C0E2E008C48DE /* ServiceConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0802A5C0E2E008C48DE /* ServiceConfiguration.swift */; };
-		F420C0852A5C0E2E008C48DE /* LMChatClientServiceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0812A5C0E2E008C48DE /* LMChatClientServiceRequest.swift */; };
 		F420C09C2A5C194C008C48DE /* LogoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C08F2A5C194C008C48DE /* LogoutRequest.swift */; };
 		F420C09D2A5C194C008C48DE /* InitiateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0912A5C194C008C48DE /* InitiateUserResponse.swift */; };
 		F420C09E2A5C194C008C48DE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0922A5C194C008C48DE /* User.swift */; };
@@ -64,7 +61,6 @@
 		F42C1E8F2B320B7400720D5D /* ChatroomRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E822B320B7400720D5D /* ChatroomRO.swift */; };
 		F42C1E902B320B7400720D5D /* ConversationRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E832B320B7400720D5D /* ConversationRO.swift */; };
 		F42C1E922B32C69D00720D5D /* Uploadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E912B32C69D00720D5D /* Uploadable.swift */; };
-		F42C1E942B32F5FD00720D5D /* LMChatClientDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E932B32F5FC00720D5D /* LMChatClientDBService.swift */; };
 		F42C1EA02B32F94500720D5D /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E992B32F94400720D5D /* Attachment.swift */; };
 		F42C1EA12B32F94500720D5D /* _Chatroom_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9A2B32F94400720D5D /* _Chatroom_.swift */; };
 		F42C1EA32B32F94500720D5D /* _SyncChatroomResponse_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F42C1E9C2B32F94400720D5D /* _SyncChatroomResponse_.swift */; };
@@ -171,6 +167,26 @@
 		F4C8F6A42B5A365B0012A1CF /* ReportTagResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A32B5A365B0012A1CF /* ReportTagResponse.swift */; };
 		F4C8F6A62B5A36FB0012A1CF /* SearchChatroomResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A52B5A36FB0012A1CF /* SearchChatroomResponse.swift */; };
 		F4C8F6A82B5A37C50012A1CF /* SearchConversationResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4C8F6A72B5A37C50012A1CF /* SearchConversationResponse.swift */; };
+		F4CB0C872C19769F00C89A57 /* BlockMemberRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C762C19769F00C89A57 /* BlockMemberRequest.swift */; };
+		F4CB0C882C19769F00C89A57 /* CheckDMLimitRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C772C19769F00C89A57 /* CheckDMLimitRequest.swift */; };
+		F4CB0C892C19769F00C89A57 /* CheckDMStatusRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C782C19769F00C89A57 /* CheckDMStatusRequest.swift */; };
+		F4CB0C8A2C19769F00C89A57 /* CreateDMChatroomRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C792C19769F00C89A57 /* CreateDMChatroomRequest.swift */; };
+		F4CB0C8B2C19769F00C89A57 /* FetchDMFeedRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C7A2C19769F00C89A57 /* FetchDMFeedRequest.swift */; };
+		F4CB0C8C2C19769F00C89A57 /* SendDMRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C7B2C19769F00C89A57 /* SendDMRequest.swift */; };
+		F4CB0C8D2C19769F00C89A57 /* BlockMemberResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C7D2C19769F00C89A57 /* BlockMemberResponse.swift */; };
+		F4CB0C8E2C19769F00C89A57 /* CheckDMChatroomResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C7E2C19769F00C89A57 /* CheckDMChatroomResponse.swift */; };
+		F4CB0C8F2C19769F00C89A57 /* CheckDMLimitResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C7F2C19769F00C89A57 /* CheckDMLimitResponse.swift */; };
+		F4CB0C902C19769F00C89A57 /* CheckDMStatusResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C802C19769F00C89A57 /* CheckDMStatusResponse.swift */; };
+		F4CB0C912C19769F00C89A57 /* CheckDMTabResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C812C19769F00C89A57 /* CheckDMTabResponse.swift */; };
+		F4CB0C922C19769F00C89A57 /* DirectMessageRespone.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C822C19769F00C89A57 /* DirectMessageRespone.swift */; };
+		F4CB0C932C19769F00C89A57 /* FetchDMFeedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C832C19769F00C89A57 /* FetchDMFeedResponse.swift */; };
+		F4CB0C942C19769F00C89A57 /* SendDMResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C842C19769F00C89A57 /* SendDMResponse.swift */; };
+		F4CB0C962C1978EF00C89A57 /* DirectMessageClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C952C1978EF00C89A57 /* DirectMessageClient.swift */; };
+		F4CB0C982C19790500C89A57 /* DirectMessageDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C972C19790500C89A57 /* DirectMessageDBService.swift */; };
+		F4CB0C9B2C1985F400C89A57 /* SearchMembersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C992C1985F400C89A57 /* SearchMembersRequest.swift */; };
+		F4CB0C9C2C1985F400C89A57 /* GetAllMembersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C9A2C1985F400C89A57 /* GetAllMembersRequest.swift */; };
+		F4CB0CA12C19860700C89A57 /* GetAllMembersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C9E2C19860700C89A57 /* GetAllMembersResponse.swift */; };
+		F4CB0CA22C19860700C89A57 /* SearchMembersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4CB0C9F2C19860700C89A57 /* SearchMembersResponse.swift */; };
 		F4F864082B70B5D600F28048 /* UserRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F864072B70B5D600F28048 /* UserRO.swift */; };
 		F4F8640A2B713C8E00F28048 /* RealmDatabaseObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */; };
 		F4F8640C2B716CD800F28048 /* ModelConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8640B2B716CD800F28048 /* ModelConverter.swift */; };
@@ -178,9 +194,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		02C4A7FB314C16F6C4CB27CA /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
-		2CB1681F539F4817AFE88CA6 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6FED4D087BDF337BDB8D47AA /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
+		3FA39603295632C167581FD6 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5AB0ECCB9233C935373FB0E3 /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
+		E464932DBD2AA3F43BD7E84B /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
 		F412236F2B330FB500CB1532 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F41223712B336E8D00CB1532 /* LinkOGTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOGTags.swift; sourceTree = "<group>"; };
 		F41223732B336F4000CB1532 /* ConversationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationState.swift; sourceTree = "<group>"; };
@@ -215,10 +231,7 @@
 		F420C06F2A5C06B6008C48DE /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		F420C0792A5C08B7008C48DE /* LMChatClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMChatClient.swift; sourceTree = "<group>"; };
 		F420C07A2A5C08B7008C48DE /* LMChatClient+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LMChatClient+Extension.swift"; sourceTree = "<group>"; };
-		F420C07E2A5C0E2E008C48DE /* ChatClientServiceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatClientServiceRequest.swift; sourceTree = "<group>"; };
-		F420C07F2A5C0E2E008C48DE /* LMChatClientServiceRequest+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LMChatClientServiceRequest+Extension.swift"; sourceTree = "<group>"; };
 		F420C0802A5C0E2E008C48DE /* ServiceConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConfiguration.swift; sourceTree = "<group>"; };
-		F420C0812A5C0E2E008C48DE /* LMChatClientServiceRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMChatClientServiceRequest.swift; sourceTree = "<group>"; };
 		F420C08F2A5C194C008C48DE /* LogoutRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutRequest.swift; sourceTree = "<group>"; };
 		F420C0912A5C194C008C48DE /* InitiateUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitiateUserResponse.swift; sourceTree = "<group>"; };
 		F420C0922A5C194C008C48DE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -238,7 +251,6 @@
 		F42C1E822B320B7400720D5D /* ChatroomRO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatroomRO.swift; sourceTree = "<group>"; };
 		F42C1E832B320B7400720D5D /* ConversationRO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationRO.swift; sourceTree = "<group>"; };
 		F42C1E912B32C69D00720D5D /* Uploadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Uploadable.swift; sourceTree = "<group>"; };
-		F42C1E932B32F5FC00720D5D /* LMChatClientDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMChatClientDBService.swift; sourceTree = "<group>"; };
 		F42C1E992B32F94400720D5D /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Attachment.swift; sourceTree = "<group>"; };
 		F42C1E9A2B32F94400720D5D /* _Chatroom_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _Chatroom_.swift; sourceTree = "<group>"; };
 		F42C1E9C2B32F94400720D5D /* _SyncChatroomResponse_.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = _SyncChatroomResponse_.swift; sourceTree = "<group>"; };
@@ -345,6 +357,26 @@
 		F4C8F6A32B5A365B0012A1CF /* ReportTagResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportTagResponse.swift; sourceTree = "<group>"; };
 		F4C8F6A52B5A36FB0012A1CF /* SearchChatroomResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchChatroomResponse.swift; sourceTree = "<group>"; };
 		F4C8F6A72B5A37C50012A1CF /* SearchConversationResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchConversationResponse.swift; sourceTree = "<group>"; };
+		F4CB0C762C19769F00C89A57 /* BlockMemberRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockMemberRequest.swift; sourceTree = "<group>"; };
+		F4CB0C772C19769F00C89A57 /* CheckDMLimitRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckDMLimitRequest.swift; sourceTree = "<group>"; };
+		F4CB0C782C19769F00C89A57 /* CheckDMStatusRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckDMStatusRequest.swift; sourceTree = "<group>"; };
+		F4CB0C792C19769F00C89A57 /* CreateDMChatroomRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateDMChatroomRequest.swift; sourceTree = "<group>"; };
+		F4CB0C7A2C19769F00C89A57 /* FetchDMFeedRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchDMFeedRequest.swift; sourceTree = "<group>"; };
+		F4CB0C7B2C19769F00C89A57 /* SendDMRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendDMRequest.swift; sourceTree = "<group>"; };
+		F4CB0C7D2C19769F00C89A57 /* BlockMemberResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockMemberResponse.swift; sourceTree = "<group>"; };
+		F4CB0C7E2C19769F00C89A57 /* CheckDMChatroomResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckDMChatroomResponse.swift; sourceTree = "<group>"; };
+		F4CB0C7F2C19769F00C89A57 /* CheckDMLimitResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckDMLimitResponse.swift; sourceTree = "<group>"; };
+		F4CB0C802C19769F00C89A57 /* CheckDMStatusResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckDMStatusResponse.swift; sourceTree = "<group>"; };
+		F4CB0C812C19769F00C89A57 /* CheckDMTabResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckDMTabResponse.swift; sourceTree = "<group>"; };
+		F4CB0C822C19769F00C89A57 /* DirectMessageRespone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectMessageRespone.swift; sourceTree = "<group>"; };
+		F4CB0C832C19769F00C89A57 /* FetchDMFeedResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FetchDMFeedResponse.swift; sourceTree = "<group>"; };
+		F4CB0C842C19769F00C89A57 /* SendDMResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendDMResponse.swift; sourceTree = "<group>"; };
+		F4CB0C952C1978EF00C89A57 /* DirectMessageClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMessageClient.swift; sourceTree = "<group>"; };
+		F4CB0C972C19790500C89A57 /* DirectMessageDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectMessageDBService.swift; sourceTree = "<group>"; };
+		F4CB0C992C1985F400C89A57 /* SearchMembersRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMembersRequest.swift; sourceTree = "<group>"; };
+		F4CB0C9A2C1985F400C89A57 /* GetAllMembersRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAllMembersRequest.swift; sourceTree = "<group>"; };
+		F4CB0C9E2C19860700C89A57 /* GetAllMembersResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAllMembersResponse.swift; sourceTree = "<group>"; };
+		F4CB0C9F2C19860700C89A57 /* SearchMembersResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMembersResponse.swift; sourceTree = "<group>"; };
 		F4F864072B70B5D600F28048 /* UserRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRO.swift; sourceTree = "<group>"; };
 		F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmDatabaseObserver.swift; sourceTree = "<group>"; };
 		F4F8640B2B716CD800F28048 /* ModelConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelConverter.swift; sourceTree = "<group>"; };
@@ -356,17 +388,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				15A6357F84E36F1EE62A55DE /* Pods_LikeMindsChat.framework in Frameworks */,
+				CA8698ADE415DA27AB440517 /* Pods_LikeMindsChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CADED77363861A51E2F101BD /* Frameworks */ = {
+		0AB269AECBB25ADB1E6BF735 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2CB1681F539F4817AFE88CA6 /* Pods_LikeMindsChat.framework */,
+				3FA39603295632C167581FD6 /* Pods_LikeMindsChat.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -374,8 +406,8 @@
 		ECB336449B72AA80651CCD60 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				02C4A7FB314C16F6C4CB27CA /* Pods-LikeMindsChat.debug.xcconfig */,
-				6FED4D087BDF337BDB8D47AA /* Pods-LikeMindsChat.release.xcconfig */,
+				E464932DBD2AA3F43BD7E84B /* Pods-LikeMindsChat.debug.xcconfig */,
+				5AB0ECCB9233C935373FB0E3 /* Pods-LikeMindsChat.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -410,7 +442,7 @@
 				F420C05A2A5C0472008C48DE /* LikeMindsChat */,
 				F420C0592A5C0472008C48DE /* Products */,
 				ECB336449B72AA80651CCD60 /* Pods */,
-				CADED77363861A51E2F101BD /* Frameworks */,
+				0AB269AECBB25ADB1E6BF735 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -474,11 +506,7 @@
 			children = (
 				F486C7EE2C0C7B4A0063BF0B /* FirebaseConfig */,
 				F486C7EF2C0C7B4A0063BF0B /* ServiceApiRequest.swift */,
-				F420C07E2A5C0E2E008C48DE /* ChatClientServiceRequest.swift */,
-				F42C1E932B32F5FC00720D5D /* LMChatClientDBService.swift */,
-				F420C07F2A5C0E2E008C48DE /* LMChatClientServiceRequest+Extension.swift */,
 				F420C0802A5C0E2E008C48DE /* ServiceConfiguration.swift */,
-				F420C0812A5C0E2E008C48DE /* LMChatClientServiceRequest.swift */,
 			);
 			path = LMChatService;
 			sourceTree = "<group>";
@@ -580,6 +608,7 @@
 		F42C1E742B320B7400720D5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				F4CB0C862C19769F00C89A57 /* DirectMessage */,
 				F420C0B02A5E88B2008C48DE /* ExplorerFeed */,
 				F420C0AB2A5E7965008C48DE /* HomeFeed */,
 				F420C0A42A5D780F008C48DE /* Base */,
@@ -841,6 +870,8 @@
 		F4BEBA282B546FD300D12B62 /* Response */ = {
 			isa = PBXGroup;
 			children = (
+				F4CB0C9E2C19860700C89A57 /* GetAllMembersResponse.swift */,
+				F4CB0C9F2C19860700C89A57 /* SearchMembersResponse.swift */,
 				F486C7FC2C0C7E4A0063BF0B /* GetMemberStateResponse.swift */,
 				F486C7FB2C0C7E4A0063BF0B /* MemberRight.swift */,
 				F4BEBA222B546EA000D12B62 /* CommunityData.swift */,
@@ -854,6 +885,8 @@
 		F4BEBA292B546FE200D12B62 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				F4CB0C9A2C1985F400C89A57 /* GetAllMembersRequest.swift */,
+				F4CB0C992C1985F400C89A57 /* SearchMembersRequest.swift */,
 				F4BEBA2C2B54705200D12B62 /* GetMemberRequest.swift */,
 			);
 			path = Request;
@@ -924,6 +957,45 @@
 			path = Response;
 			sourceTree = "<group>";
 		};
+		F4CB0C7C2C19769F00C89A57 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB0C762C19769F00C89A57 /* BlockMemberRequest.swift */,
+				F4CB0C772C19769F00C89A57 /* CheckDMLimitRequest.swift */,
+				F4CB0C782C19769F00C89A57 /* CheckDMStatusRequest.swift */,
+				F4CB0C792C19769F00C89A57 /* CreateDMChatroomRequest.swift */,
+				F4CB0C7A2C19769F00C89A57 /* FetchDMFeedRequest.swift */,
+				F4CB0C7B2C19769F00C89A57 /* SendDMRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		F4CB0C852C19769F00C89A57 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB0C7D2C19769F00C89A57 /* BlockMemberResponse.swift */,
+				F4CB0C7E2C19769F00C89A57 /* CheckDMChatroomResponse.swift */,
+				F4CB0C7F2C19769F00C89A57 /* CheckDMLimitResponse.swift */,
+				F4CB0C802C19769F00C89A57 /* CheckDMStatusResponse.swift */,
+				F4CB0C812C19769F00C89A57 /* CheckDMTabResponse.swift */,
+				F4CB0C822C19769F00C89A57 /* DirectMessageRespone.swift */,
+				F4CB0C832C19769F00C89A57 /* FetchDMFeedResponse.swift */,
+				F4CB0C842C19769F00C89A57 /* SendDMResponse.swift */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		F4CB0C862C19769F00C89A57 /* DirectMessage */ = {
+			isa = PBXGroup;
+			children = (
+				F4CB0C7C2C19769F00C89A57 /* Request */,
+				F4CB0C852C19769F00C89A57 /* Response */,
+				F4CB0C952C1978EF00C89A57 /* DirectMessageClient.swift */,
+				F4CB0C972C19790500C89A57 /* DirectMessageDBService.swift */,
+			);
+			path = DirectMessage;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -942,7 +1014,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F420C0612A5C0472008C48DE /* Build configuration list for PBXNativeTarget "LikeMindsChat" */;
 			buildPhases = (
-				11CE5F9D2ACC4183F0C45B82 /* [CP] Check Pods Manifest.lock */,
+				5ACDD66080D23D9211F72F7C /* [CP] Check Pods Manifest.lock */,
 				F420C0532A5C0472008C48DE /* Headers */,
 				F420C0542A5C0472008C48DE /* Sources */,
 				F420C0552A5C0472008C48DE /* Frameworks */,
@@ -1000,7 +1072,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		11CE5F9D2ACC4183F0C45B82 /* [CP] Check Pods Manifest.lock */ = {
+		5ACDD66080D23D9211F72F7C /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1030,12 +1102,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F412238D2B43EFB000CB1532 /* _SyncConversationResponse_.swift in Sources */,
+				F4CB0C942C19769F00C89A57 /* SendDMResponse.swift in Sources */,
 				F420C0712A5C06B7008C48DE /* DataNetwork.swift in Sources */,
 				F420C0B62A5E8944008C48DE /* GetExploreFeedResponse.swift in Sources */,
 				F412237E2B4339B500CB1532 /* ReactionRO.swift in Sources */,
 				F42C1E902B320B7400720D5D /* ConversationRO.swift in Sources */,
 				F457D7A32B49EA8100BCECDF /* DBKey.swift in Sources */,
 				F4BEB9F82B54670C00D12B62 /* DeleteReactionRequest.swift in Sources */,
+				F4CB0C8E2C19769F00C89A57 /* CheckDMChatroomResponse.swift in Sources */,
 				F4B6CB102B60EA0200824D94 /* HomeFeedClient.swift in Sources */,
 				F4C8F68A2B57B74E0012A1CF /* InitiateUserClient.swift in Sources */,
 				F42C1E862B320B7400720D5D /* Chatroom.swift in Sources */,
@@ -1056,11 +1130,14 @@
 				F4BEB9DE2B54547600D12B62 /* _LMResponse_.swift in Sources */,
 				F4BEB9A12B4E9F4E00D12B62 /* SyncPreferences.swift in Sources */,
 				F486C7F02C0C7B4A0063BF0B /* FireBaseFactoryClass.swift in Sources */,
+				F4CB0C882C19769F00C89A57 /* CheckDMLimitRequest.swift in Sources */,
 				F420C0A22A5C194C008C48DE /* RegisterDeviceResponse.swift in Sources */,
 				F41223992B467B5E00CB1532 /* FirstTimeConversationSyncOperation.swift in Sources */,
-				F420C0852A5C0E2E008C48DE /* LMChatClientServiceRequest.swift in Sources */,
+				F4CB0C872C19769F00C89A57 /* BlockMemberRequest.swift in Sources */,
 				F420C09D2A5C194C008C48DE /* InitiateUserResponse.swift in Sources */,
 				F4BEB98C2B4D1BAD00D12B62 /* MemberAction.swift in Sources */,
+				F4CB0C892C19769F00C89A57 /* CheckDMStatusRequest.swift in Sources */,
+				F4CB0CA12C19860700C89A57 /* GetAllMembersResponse.swift in Sources */,
 				F4BEB9D02B544F4100D12B62 /* SetChatroomTopicRequest.swift in Sources */,
 				F4F8640A2B713C8E00F28048 /* RealmDatabaseObserver.swift in Sources */,
 				F4BEBA1F2B546E3400D12B62 /* PutMultimediaResponse.swift in Sources */,
@@ -1069,11 +1146,14 @@
 				F4BEB9F02B54642900D12B62 /* PostPollConversationResponse.swift in Sources */,
 				F420C09C2A5C194C008C48DE /* LogoutRequest.swift in Sources */,
 				F420C0AF2A5E887B008C48DE /* GetHomeFeedResponse.swift in Sources */,
+				F4CB0C8A2C19769F00C89A57 /* CreateDMChatroomRequest.swift in Sources */,
+				F4CB0C8F2C19769F00C89A57 /* CheckDMLimitResponse.swift in Sources */,
+				F4CB0C9B2C1985F400C89A57 /* SearchMembersRequest.swift in Sources */,
 				F420C0732A5C06B7008C48DE /* LMLogger.swift in Sources */,
 				F42C1E922B32C69D00720D5D /* Uploadable.swift in Sources */,
 				F4BEBA042B54692D00D12B62 /* PutMultimediaRequest.swift in Sources */,
 				F4BEB98E2B4D7D6A00D12B62 /* Reaction.swift in Sources */,
-				F420C0832A5C0E2E008C48DE /* LMChatClientServiceRequest+Extension.swift in Sources */,
+				F4CB0C912C19769F00C89A57 /* CheckDMTabResponse.swift in Sources */,
 				F42C1EA12B32F94500720D5D /* _Chatroom_.swift in Sources */,
 				F42C1E8F2B320B7400720D5D /* ChatroomRO.swift in Sources */,
 				F420C0B22A5E88DD008C48DE /* GetExploreFeedRequest.swift in Sources */,
@@ -1086,6 +1166,7 @@
 				F412238A2B433E4A00CB1532 /* LastConversationRO.swift in Sources */,
 				F4C8F6962B57F0B10012A1CF /* ConfigResponse.swift in Sources */,
 				F4F8640C2B716CD800F28048 /* ModelConverter.swift in Sources */,
+				F4CB0C8B2C19769F00C89A57 /* FetchDMFeedRequest.swift in Sources */,
 				F4BEBA002B54688300D12B62 /* GetConversationsRequest.swift in Sources */,
 				F420C07B2A5C08B7008C48DE /* LMChatClient.swift in Sources */,
 				F42C1E8E2B320B7400720D5D /* CommunityRO.swift in Sources */,
@@ -1098,6 +1179,7 @@
 				F420C0742A5C06B7008C48DE /* RefreshAccessToken.swift in Sources */,
 				F412237C2B4336D000CB1532 /* SDKClientInfoRO.swift in Sources */,
 				F486C7F82C0C7DCD0063BF0B /* SearchClient.swift in Sources */,
+				F4CB0C8C2C19769F00C89A57 /* SendDMRequest.swift in Sources */,
 				F4BEB9E62B5462A000D12B62 /* PostPollConversationRequest.swift in Sources */,
 				F41223742B336F4000CB1532 /* ConversationState.swift in Sources */,
 				F4BEB9922B4D89F600D12B62 /* Cohort.swift in Sources */,
@@ -1108,8 +1190,10 @@
 				F4BEB9EA2B54637400D12B62 /* SubmitPollRequest.swift in Sources */,
 				F41223972B467ACC00CB1532 /* FirstTimeChatroomSyncOperation.swift in Sources */,
 				F41223802B433A0A00CB1532 /* LinkRO.swift in Sources */,
+				F4CB0CA22C19860700C89A57 /* SearchMembersResponse.swift in Sources */,
 				F457D7AB2B4C845400BCECDF /* ROConverter.swift in Sources */,
 				F4BEBA0A2B546A2D00D12B62 /* UpdateConversationRequest.swift in Sources */,
+				F4CB0C932C19769F00C89A57 /* FetchDMFeedResponse.swift in Sources */,
 				F420C0722A5C06B7008C48DE /* Reachability.swift in Sources */,
 				F41223702B330FB500CB1532 /* Member.swift in Sources */,
 				F420C0702A5C06B7008C48DE /* ServiceRequest.swift in Sources */,
@@ -1132,9 +1216,9 @@
 				F4BEBA252B546F6F00D12B62 /* ContentDownloadSetting.swift in Sources */,
 				F4C8F68D2B57DF4E0012A1CF /* DecodeUrlRequest.swift in Sources */,
 				F486C7FA2C0C7E120063BF0B /* ChatroomDBService.swift in Sources */,
+				F4CB0C982C19790500C89A57 /* DirectMessageDBService.swift in Sources */,
 				F420C07C2A5C08B7008C48DE /* LMChatClient+Extension.swift in Sources */,
 				F486C8002C0C7E790063BF0B /* ConversationClientDelegate.swift in Sources */,
-				F420C0822A5C0E2E008C48DE /* ChatClientServiceRequest.swift in Sources */,
 				F4F864082B70B5D600F28048 /* UserRO.swift in Sources */,
 				F4BEB9BC2B544A1300D12B62 /* ChatroomClient.swift in Sources */,
 				F486C7FD2C0C7E4A0063BF0B /* MemberRight.swift in Sources */,
@@ -1157,24 +1241,26 @@
 				F4BEB9902B4D831B00D12B62 /* AttachmentMeta.swift in Sources */,
 				F41223952B46782A00CB1532 /* LMAsyncOperation.swift in Sources */,
 				F4BEB9CA2B544E4300D12B62 /* GetParticipantsRequest.swift in Sources */,
+				F4CB0C962C1978EF00C89A57 /* DirectMessageClient.swift in Sources */,
 				F41223762B33701B00CB1532 /* ChatroomType.swift in Sources */,
 				F4BEB9DA2B54532B00D12B62 /* GetParticipantsResponse.swift in Sources */,
 				F4BEBA2D2B54705200D12B62 /* GetMemberRequest.swift in Sources */,
 				F4BEBA082B5469A700D12B62 /* SaveConversationRequest.swift in Sources */,
 				F4BEB9CC2B544EA300D12B62 /* LeaveSecretChatroomRequest.swift in Sources */,
 				F4C8F6A82B5A37C50012A1CF /* SearchConversationResponse.swift in Sources */,
+				F4CB0C922C19769F00C89A57 /* DirectMessageRespone.swift in Sources */,
 				F4BEB9E82B54632000D12B62 /* Poll.swift in Sources */,
 				F42C1E842B320B7400720D5D /* Conversation.swift in Sources */,
 				F4BEB9C82B544D3E00D12B62 /* GetChatroomActionsRequest.swift in Sources */,
 				F4C8F68F2B57DF670012A1CF /* GetTaggingListRequest.swift in Sources */,
 				F457D7A12B49E8B300BCECDF /* ChatDBUtil.swift in Sources */,
+				F4CB0C9C2C1985F400C89A57 /* GetAllMembersRequest.swift in Sources */,
 				F4BEB9FC2B54679200D12B62 /* GetConversationRequest.swift in Sources */,
 				F4C8F6A62B5A36FB0012A1CF /* SearchChatroomResponse.swift in Sources */,
 				F4BEBA132B546CD000D12B62 /* DeleteConversationsResponse.swift in Sources */,
 				F4A859CF2A6A7B2000F494AC /* ConversationSyncRequest.swift in Sources */,
 				F457D7A72B4B18FA00BCECDF /* SyncUtil.swift in Sources */,
 				F41223822B433A8D00CB1532 /* AttachmentRO.swift in Sources */,
-				F42C1E942B32F5FD00720D5D /* LMChatClientDBService.swift in Sources */,
 				F4BEBA062B54696900D12B62 /* PutReactionRequest.swift in Sources */,
 				F4C8F69B2B5938230012A1CF /* SearchChatroomRequest.swift in Sources */,
 				F4BEB9AD2B4FC49100D12B62 /* ConversationClient.swift in Sources */,
@@ -1182,12 +1268,14 @@
 				F42C1EA62B32F94500720D5D /* Community.swift in Sources */,
 				F42C1E8D2B320B7400720D5D /* MemberRO.swift in Sources */,
 				F4BEBA152B546CFC00D12B62 /* EditConversationResponse.swift in Sources */,
+				F4CB0C8D2C19769F00C89A57 /* BlockMemberResponse.swift in Sources */,
 				F420C0B42A5E8922008C48DE /* GetExploreTabCountResponse.swift in Sources */,
 				F420C0A12A5C194C008C48DE /* RegisterDeviceRequest.swift in Sources */,
 				F4C8F69D2B5939AB0012A1CF /* SearchConversationRequest.swift in Sources */,
 				F420C09E2A5C194C008C48DE /* User.swift in Sources */,
 				F4F8640E2B72086200F28048 /* ConversationDBService.swift in Sources */,
 				F4BEB9EC2B5463B900D12B62 /* AddPollOptionResponse.swift in Sources */,
+				F4CB0C902C19769F00C89A57 /* CheckDMStatusResponse.swift in Sources */,
 				F4BEBA332B54714A00D12B62 /* ExplorerFeedClient.swift in Sources */,
 				F4BEB9E22B5460CD00D12B62 /* AddPollOptionRequest.swift in Sources */,
 				F4BEB98A2B4D1AD700D12B62 /* Question.swift in Sources */,
@@ -1205,6 +1293,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1268,6 +1357,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -1323,7 +1413,7 @@
 		};
 		F420C0622A5C0472008C48DE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 02C4A7FB314C16F6C4CB27CA /* Pods-LikeMindsChat.debug.xcconfig */;
+			baseConfigurationReference = E464932DBD2AA3F43BD7E84B /* Pods-LikeMindsChat.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1353,7 +1443,7 @@
 		};
 		F420C0632A5C0472008C48DE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6FED4D087BDF337BDB8D47AA /* Pods-LikeMindsChat.release.xcconfig */;
+			baseConfigurationReference = 5AB0ECCB9233C935373FB0E3 /* Pods-LikeMindsChat.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

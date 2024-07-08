@@ -12,7 +12,7 @@ public enum BuildEnvironment {
     case devtest
 }
 public class BuildManager {
-    // public static let environment: BuildEnvironment = .devtest
-   static let environment: BuildEnvironment = .production
+     public static let environment: BuildEnvironment = .devtest
+//    static let environment: BuildEnvironment = .production
     static let buildVersion = "500"
 }
