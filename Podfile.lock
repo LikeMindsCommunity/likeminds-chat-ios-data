@@ -1,5 +1,5 @@
 PODS:
-  - Alamofire (5.7.1)
+  - Alamofire (5.9.1)
   - FirebaseAppCheckInterop (10.27.0)
   - FirebaseCore (10.27.0):
     - FirebaseCoreInternal (~> 10.0)
@@ -64,18 +64,18 @@ PODS:
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
   - PromisesObjC (2.4.0)
-  - Realm (10.40.2):
-    - Realm/Headers (= 10.40.2)
-  - Realm/Headers (10.40.2)
-  - RealmSwift (10.40.2):
-    - Realm (= 10.40.2)
+  - Realm (10.50.1):
+    - Realm/Headers (= 10.50.1)
+  - Realm/Headers (10.50.1)
+  - RealmSwift (10.50.1):
+    - Realm (= 10.50.1)
 
 DEPENDENCIES:
-  - Alamofire (~> 5.7.0)
+  - Alamofire (~> 5.7)
   - FirebaseCore
   - FirebaseDatabase
   - FirebaseMessaging
-  - RealmSwift (~> 10.40.0)
+  - RealmSwift (~> 10.40)
 
 SPEC REPOS:
   trunk:
@@ -96,7 +96,7 @@ SPEC REPOS:
     - RealmSwift
 
 SPEC CHECKSUMS:
-  Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
+  Alamofire: f36a35757af4587d8e4f4bfa223ad10be2422b8c
   FirebaseAppCheckInterop: 0dd062c9926a76332ca5711dbed6f1a9ac540b54
   FirebaseCore: a2b95ae4ce7c83ceecfbbbe3b6f1cddc7415a808
   FirebaseCoreInternal: 4b297a2d56063dbea2c1d0d04222d44a8d058862
@@ -109,9 +109,9 @@ SPEC CHECKSUMS:
   leveldb-library: e8eadf9008a61f9e1dde3978c086d2b6d9b9dc28
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
-  Realm: 731e86d9388287b18e36b0beb2493fc4845ce8a2
-  RealmSwift: c2a1059ba52e1e08467b1253b1d4ab354ef3177b
+  Realm: 36bc9fe2681d7cf234aa487e7990821c772206a2
+  RealmSwift: 84a370d3d4f191d327a9f8ade1f064a274f79847
 
-PODFILE CHECKSUM: 190e6998ec623661929ecd52eb89784260d3d9da
+PODFILE CHECKSUM: 4d5c737a476618dcede28c6d230d19afc202afed
 
 COCOAPODS: 1.13.0

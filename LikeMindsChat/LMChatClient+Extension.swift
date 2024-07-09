@@ -56,6 +56,14 @@ extension LMChatClient {
         HomeFeedClient.shared.getChatrooms(withObserver: observer)
     }
     
+    public func syncDMChatrooms() {
+        DirectMessageClient.shared.syncDMChatrooms()
+    }
+    
+    public func getDMChatrooms(withObserver observer: HomeFeedClientObserver) {
+        DirectMessageClient.shared.getChatrooms(withObserver: observer)
+    }
+    
     public func getParticipants(request: GetParticipantsRequest, response: LMClientResponse<GetParticipantsResponse>?) {
         ChatroomClient.shared.getParticipants(request: request) { result in
             response?(result)
@@ -284,11 +292,47 @@ extension LMChatClient {
         ConversationClient.shared.savePostedConversation(request: request)
     }
     
-    public func observeLiveConversation(withChatroomId chatroomId: String) {
+    public func observeLiveConversation(withChatroomId chatroomId: String?) {
         ConversationClient.shared.observeChatRoomLatestConversations(forChatRoomID: chatroomId)
     }
     
     public func observeLiveHomeFeed(withCommunityId communityId: String) {
         HomeFeedClient.shared.observeLiveHomeFeed(forCommunity: communityId)
+    }
+    
+    public func observeLiveDMFeed(withCommunityId communityId: String) {
+        DirectMessageClient.shared.observeLiveHomeFeed(forCommunity: communityId)
+    }
+    
+    public func checkDMTab(_ response: LMClientResponse<CheckDMTabResponse>?) {
+        DirectMessageClient.shared.checkDMTab(response)
+    }
+    
+    public func checkDMStatus(request: CheckDMStatusRequest, _ response: LMClientResponse<CheckDMStatusResponse>?) {
+        DirectMessageClient.shared.checkDMStatus(request: request, response: response)
+    }
+    
+    public func checkDMLimit(request: CheckDMLimitRequest, response: LMClientResponse<CheckDMLimitResponse>?) {
+        DirectMessageClient.shared.checkDMLimit(request: request, response: response)
+    }
+    
+    public func createDMChatroom(request: CreateDMChatroomRequest, response: LMClientResponse<CheckDMChatroomResponse>?) {
+        DirectMessageClient.shared.createDMChatroom(request: request, response: response)
+    }
+    
+    public func sendDMRequest(request: SendDMRequest,  response: LMClientResponse<SendDMResponse>?) {
+        DirectMessageClient.shared.sendDMRequest(request: request, response: response)
+    }
+    
+    public func blockDMMember(request: BlockMemberRequest, response: LMClientResponse<BlockMemberResponse>?) {
+        DirectMessageClient.shared.blockDMMember(request: request, response: response)
+    }
+    
+    public func getAllMembers(request: GetAllMembersRequest, response: LMClientResponse<GetAllMembersResponse>?) {
+        CommunityClient.shared.getAllMembers(request: request, response: response)
+    }
+    
+    public func searchMembers(request: SearchMembersRequest, response: LMClientResponse<SearchMembersResponse>?) {
+        CommunityClient.shared.searchMembers(request: request, response: response)
     }
 }

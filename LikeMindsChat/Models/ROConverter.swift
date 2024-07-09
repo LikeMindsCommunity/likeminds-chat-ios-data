@@ -61,7 +61,9 @@ class ROConverter {
     static func convertChatroom(fromChatroomJsonModel chatroom: _Chatroom_,
                                 chatroomCreatorRO: MemberRO,
                                 lastConversationRO: LastConversationRO? = nil,
-                                reactions: [ReactionMeta] = []) -> ChatroomRO? {
+                                reactions: [ReactionMeta] = [],
+                                chatRequestByRO: MemberRO?,
+                                chatroomWithUserRO: MemberRO?) -> ChatroomRO? {
        guard let chatroomId = chatroom.id,
              let communityId = chatroom.communityId else { return nil }
         
@@ -120,6 +122,15 @@ class ROConverter {
         chatroomRO.topicId = chatroom.topicId ?? savedChatroom?.topicId
         chatroomRO.topic = savedChatroom?.topic
         chatroomRO.isConversationStored = savedChatroom?.isConversationStored ?? false
+        chatroomRO.chatRequestState = chatroom.chatRequestState
+        chatroomRO.isPrivateMember = chatroom.isPrivateMember
+        chatroomRO.isPrivate = chatroom.isPrivate
+        chatroomRO.chatRequestedById = chatroom.chatRequestedById
+        chatroomRO.chatRequestedBy = chatRequestByRO
+        chatroomRO.chatRequestCreatedAt = chatroom.chatRequestCreatedAt
+        chatroomRO.chatroomWithUserId = chatroom.chatWithUserId
+        chatroomRO.chatroomWithUser = chatroomWithUserRO
+        chatroomRO.shareLink = chatroom.shareLink
         return chatroomRO
     }
     

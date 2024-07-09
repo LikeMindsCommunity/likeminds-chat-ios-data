@@ -40,6 +40,7 @@ class InitiateUserClient: ServiceRequest {
                 UserPreferences.shared.setLMMemberId("\(lmMemberId)")
                 UserPreferences.shared.setClientUUID(clientUUID)
                 SDKPreferences.shared.setCommunityId(communityId: "\(communityId)")
+                SDKPreferences.shared.setCommunityName(communityName: result.data?.community?.name ?? "")
                 ChatDBUtil.shared.userROUpdate(user)
             }
             response?(result)
@@ -86,6 +87,10 @@ class InitiateUserClient: ServiceRequest {
                                     withResponseType: NoData.self,
                                    withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<NoData> else {return}
+            ChatDBUtil.shared.clearData()
+            SDKPreferences.shared.clearData()
+            UserPreferences.shared.clearData()
+            SyncPreferences.shared.clearData()
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))

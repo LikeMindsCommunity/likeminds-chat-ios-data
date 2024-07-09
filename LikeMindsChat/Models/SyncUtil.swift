@@ -77,11 +77,25 @@ class SyncUtil {
                 //chatroom creator
                 let creatorId = "\(chatroom.userId ?? "")"
                 var chatroomCreatorRO: MemberRO?
+                var chatroomRequestedUser: MemberRO?
+                var chatWithUser: MemberRO?
                 if let creator = data.userMeta?[creatorId],
                    let chatroomCreatorRo = ROConverter.convertMember(member: creator, communityId: communityId){
                     chatroomCreatorRO = chatroomCreatorRo
                     realm.insertOrUpdate(chatroomCreatorRo)
                 } else { return }
+                if let requsetedById = chatroom.chatRequestedById,
+                   let member = data.userMeta?[requsetedById],
+                   let chatRequestedUser = ROConverter.convertMember(member: member, communityId: communityId) {
+                    chatroomRequestedUser = chatRequestedUser
+                    realm.insertOrUpdate(chatRequestedUser)
+                }
+                if let chatWithUserId = chatroom.chatWithUserId,
+                   let member = data.userMeta?[chatWithUserId],
+                   let chatWithUserRO = ROConverter.convertMember(member: member, communityId: communityId) {
+                    chatWithUser = chatWithUserRO
+                    realm.insertOrUpdate(chatWithUserRO)
+                }
                 //isConversation Deleted
                 let lastConversationId = chatroom.lastConversationId ?? ""
                 if let lastConversation = data.conversationMeta?[lastConversationId] {
@@ -238,7 +252,9 @@ class SyncUtil {
                         let chatroomRO = ROConverter.convertChatroom(
                         fromChatroomJsonModel: chatroom,
                         chatroomCreatorRO: chatroomCreatorRO,
-                        lastConversationRO: lastConversationRO
+                        lastConversationRO: lastConversationRO,
+                        chatRequestByRO: chatroomRequestedUser,
+                        chatroomWithUserRO: chatWithUser
                     ) else { return }
                     chatroomRO.relationshipNeeded = true
                     realm.insertOrUpdate(chatroomRO)
@@ -270,6 +286,21 @@ class SyncUtil {
                 ROConverter.convertMember(member: chatroomCreator, communityId: communityId) else { return }
                 realm.insertOrUpdate(chatroomCreatorRO)
                 
+                var chatroomRequestedUser: MemberRO?
+                var chatWithUser: MemberRO?
+                if let requsetedById = chatroom.chatRequestedById,
+                   let member = data.userMeta?[requsetedById],
+                   let chatRequestedUser = ROConverter.convertMember(member: member, communityId: communityId) {
+                    chatroomRequestedUser = chatRequestedUser
+                    realm.insertOrUpdate(chatRequestedUser)
+                }
+                if let chatWithUserId = chatroom.chatWithUserId,
+                   let member = data.userMeta?[chatWithUserId],
+                   let chatWithUserRO = ROConverter.convertMember(member: member, communityId: communityId) {
+                    chatWithUser = chatWithUserRO
+                    realm.insertOrUpdate(chatWithUserRO)
+                }
+                
                 //reactions
                 var chatroomReactions: [ReactionMeta] = []
                 if (chatroom.hasReactions == true) {
@@ -286,7 +317,9 @@ class SyncUtil {
                 guard let chatroomRO = ROConverter.convertChatroom(
                     fromChatroomJsonModel: chatroom,
                     chatroomCreatorRO: chatroomCreatorRO,
-                    reactions: chatroomReactions
+                    reactions: chatroomReactions,
+                    chatRequestByRO: chatroomRequestedUser,
+                    chatroomWithUserRO: chatWithUser
                 ) else { return }
                 chatroomRO.relationshipNeeded = true
                 chatroomRO.isConversationStored = true

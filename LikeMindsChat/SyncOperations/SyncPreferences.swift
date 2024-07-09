@@ -26,6 +26,7 @@ class SyncPreferences: BasePreferences {
     
     static let shared = SyncPreferences()
     private let syncChatroomTimeStamp = "syncChatroomTimeStamp"
+    private let syncDMChatroomTimeStamp = "syncDMChatroomTimeStamp"
     private let syncConversationTimeStamp = "syncConversationTimeStamp"
     
     private override init() {}
@@ -38,6 +39,14 @@ class SyncPreferences: BasePreferences {
         return (getValue(forKey: syncChatroomTimeStamp) as? Int) ?? 0
     }
     
+    func setTimestampForSyncDMChatroom(time: Int) {
+        setValue(time, forKey: syncDMChatroomTimeStamp)
+    }
+    
+    func getTimestampForSyncDMChatroom() -> Int {
+        return (getValue(forKey: syncDMChatroomTimeStamp) as? Int) ?? 0
+    }
+    
     func setTimestampForSyncConversation(time: Int) {
         setValue(time, forKey: syncConversationTimeStamp)
     }
@@ -46,12 +55,20 @@ class SyncPreferences: BasePreferences {
         return (getValue(forKey: syncChatroomTimeStamp) as? Int) ?? 0
     }
     
+    public func clearData() {
+        userDefault.removeObject(forKey: syncChatroomTimeStamp)
+        userDefault.removeObject(forKey: syncDMChatroomTimeStamp)
+        userDefault.removeObject(forKey: syncConversationTimeStamp)
+        userDefault.synchronize()
+    }
+    
 }
 
 public class SDKPreferences: BasePreferences {
     
     public static let shared = SDKPreferences()
     private let communityIDKey = "CommunityId_key"
+    private let communityNameKey = "Community_name_key"
     
     private override init() {}
     
@@ -63,6 +80,19 @@ public class SDKPreferences: BasePreferences {
         return getValue(forKey: communityIDKey) as? String
     }
     
+    func setCommunityName(communityName: String) {
+        setValue(communityName, forKey: communityNameKey)
+    }
+    
+    public func getCommunityName() -> String? {
+        return getValue(forKey: communityNameKey) as? String
+    }
+    
+    public func clearData() {
+        userDefault.removeObject(forKey: communityIDKey)
+        userDefault.removeObject(forKey: communityNameKey)
+        userDefault.synchronize()
+    }
 }
 
 public class UserPreferences: BasePreferences {
@@ -98,6 +128,12 @@ public class UserPreferences: BasePreferences {
         return getValue(forKey: lmUUID) as? String
     }
     
+    public func clearData() {
+        userDefault.removeObject(forKey: lmUUID)
+        userDefault.removeObject(forKey: lmMemberId)
+        userDefault.removeObject(forKey: clientUUID)
+        userDefault.synchronize()
+    }
 }
 
 

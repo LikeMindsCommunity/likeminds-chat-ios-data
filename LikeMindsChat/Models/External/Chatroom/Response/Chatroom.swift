@@ -20,7 +20,7 @@ public class Chatroom: Decodable {
     public private(set) var shareUrl: String?
     public private(set) var communityId: String?
     public private(set) var communityName: String?
-    public private(set) var type: Int?
+    public private(set) var type: ChatroomType?
     public private(set) var about: String?
     public private(set) var header: String?
     public private(set) var showFollowTelescope: Bool?
@@ -65,6 +65,14 @@ public class Chatroom: Decodable {
     public private(set) var isConversationStored: Bool = false
     public private(set) var isDraft: Bool?
     public private(set) var totalAllResponseCount: Int?
+    public private(set) var chatRequestCreatedAt: Int?
+    public private(set) var chatRequestState: ChatRequestState?
+    public private(set) var chatRequestedById: String?
+    public private(set) var chatRequestedByUser: Member?
+    public private(set) var chatWithUserId: String?
+    public private(set) var isPrivate: Bool?
+    public private(set) var isPrivateMember: Bool?
+    public private(set) var chatWithUser: Member?
     
     public static func builder() -> Builder { Builder() }
     
@@ -127,7 +135,8 @@ public class Chatroom: Decodable {
         }
         
         public func type(_ type: Int?) -> Builder {
-            chatroom.type = type
+            guard let type else { return self }
+            chatroom.type = ChatroomType(rawValue: type)
             return self
         }
         
@@ -351,6 +360,44 @@ public class Chatroom: Decodable {
             return self
         }
         
+        public func chatRequestCreatedAt(_ chatRequestCreatedAt: Int?) -> Builder {
+            chatroom.chatRequestCreatedAt = chatRequestCreatedAt
+            return self
+        }
+        
+        public func chatRequestState(_ chatRequestState: Int?) -> Builder {
+            guard let state = chatRequestState else { return self }
+            chatroom.chatRequestState = ChatRequestState(rawValue: state)
+            return self
+        }
+        
+        public func chatRequestedById(_ chatRequestedById: String?) -> Builder {
+            chatroom.chatRequestedById = chatRequestedById
+            return self
+        }
+        
+        public func chatRequestedByUser(_ chatRequestedByUser: Member?) -> Builder {
+            chatroom.chatRequestedByUser = chatRequestedByUser
+            return self
+        }
+        
+        public func chatWithUserId(_ chatWithUserId: String?) -> Builder {
+            chatroom.chatWithUserId = chatWithUserId
+            return self
+        }
+        public func isPrivate(_ isPrivate: Bool?) -> Builder {
+            chatroom.isPrivate = isPrivate
+            return self
+        }
+        public func isPrivateMember(_ isPrivateMember: Bool?) -> Builder {
+            chatroom.isPrivateMember = isPrivateMember
+            return self
+        }
+        public func chatWithUser(_ chatWithUser: Member?) -> Builder {
+            chatroom.chatWithUser = chatWithUser
+            return self
+        }
+        
         public func build() -> Chatroom {
             return chatroom
         }
@@ -368,7 +415,7 @@ public class Chatroom: Decodable {
             .shareUrl(shareUrl)
             .communityId(communityId)
             .communityName(communityName)
-            .type(type)
+            .type(type?.rawValue)
             .about(about)
             .header(header)
             .showFollowTelescope(showFollowTelescope)
@@ -413,5 +460,13 @@ public class Chatroom: Decodable {
             .isConversationStored(isConversationStored)
             .isDraft(isDraft)
             .totalAllResponseCount(totalAllResponseCount)
+            .chatRequestCreatedAt(chatRequestCreatedAt)
+            .chatRequestState(chatRequestState?.rawValue)
+            .chatWithUser(chatWithUser)
+            .chatRequestedById(chatRequestedById)
+            .chatRequestedByUser(chatRequestedByUser)
+            .isPrivate(isPrivate)
+            .isPrivateMember(isPrivateMember)
+            .chatWithUserId(chatWithUserId)
     }
 }
