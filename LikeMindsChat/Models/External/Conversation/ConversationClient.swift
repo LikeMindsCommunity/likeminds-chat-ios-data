@@ -527,7 +527,11 @@ class ConversationClient: ServiceRequest {
         }
     }
     
-    func observeChatRoomLatestConversations(forChatRoomID chatRoomID: String) {
+    func observeChatRoomLatestConversations(forChatRoomID chatRoomID: String?) {
+        guard let chatRoomID else {
+            firebaseRealTimeDBReference?.removeAllObservers()
+            return
+        }
         firebaseRealTimeDBReference = FirebaseServiceConfiguration.getDatabaseReferenceForConversation(chatRoomID)
         FireBaseFactoryClass.shared.getDataForQuery(firebaseRealTimeDBReference) {[weak self] entity in
             guard let data = entity else { return }
