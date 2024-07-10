@@ -12,7 +12,6 @@ public class InitiateUserRequest: Encodable {
     var uuid: String? //unique id of user
     var userName: String? //user name
     var apiKey: String?
-    var deviceId: String?
     
     /// Initiate method
     private init() {}
@@ -41,11 +40,6 @@ public class InitiateUserRequest: Encodable {
         return self
     }
     
-    public func deviceId(_ deviceId: String) -> InitiateUserRequest {
-        self.deviceId = deviceId
-        return self
-    }
-    
     public func build() -> InitiateUserRequest {
         return self
     }
@@ -55,6 +49,5 @@ public class InitiateUserRequest: Encodable {
         case isGuest = "is_guest"
         case uuid
         case apiKey = "api_key"
-        case deviceId = "device_id"
     }
 }

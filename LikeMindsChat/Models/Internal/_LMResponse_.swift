@@ -18,7 +18,8 @@ public struct LMResponse<T: Decodable>: Decodable {
         case success, data
         case errorMessage = "error_message"
     }
-    private init(_ success: Bool, errorMessage: String) {
+    
+    private init(_ success: Bool, errorMessage: String?) {
         self.success = success
         self.errorMessage = errorMessage
         self.data = nil

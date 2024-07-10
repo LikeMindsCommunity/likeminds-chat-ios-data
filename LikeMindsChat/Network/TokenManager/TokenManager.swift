@@ -8,100 +8,99 @@
 import Foundation
 import Alamofire
 
-/**
- * A protocol to handle login requried action
- *
- */
-public protocol LMCallback: AnyObject {
-    /// This method is called when the user is not logged in or guest
-    /// It is called when the user tries to perform an action that requires login
-    /// The user should be redirected to your appropriate login screen
-    func login()
-}
-
-/// Default implementation of delegate
-public extension LMCallback {
-    func login() {}
-}
 
 final public class TokenManager {
     /// Singleton object property
     public private(set) static var shared = TokenManager()
-    /// Token manager callback
-    private weak var lmCallback: LMCallback?
+    
     /// Refresh token completion block
-    fileprivate var refreshTokenBlock: (() -> Void)?
+    private var refreshTokenBlock: [((String?) -> Void)?] = []
     private var isRefreshingToken: Bool = false
-    var accessToken: String?
-    var refreshToken: String?
+    private var isRefreshingAccessToken: Bool = false
+    
+    
+    private(set) var accessToken: String?
+    private (set) var refreshToken: String?
     /// Restrict to create another object of this singleton class
-    private init(){}
-
-    public func lmCallback(_ lmCallback: LMCallback) -> TokenManager {
-        Self.shared.lmCallback = lmCallback
-        return Self.shared
+    private init(){
+        
     }
-
-    /// Refresh access token api call
-    func refreshInterceptor(_ completion: @escaping ()->Void ) {
+    
+    func onRefreshTokenExpired() {
         if isRefreshingToken { return }
+        
+        isRefreshingToken = true
+        clearToken()
+        
+        LMChatClient.lMChatSDKCallback?.onRefreshTokenExpired { [weak self] tokens in
+            defer{
+                self?.isRefreshingAccessToken = false
+                self?.isRefreshingToken = false
+                self?.refreshTokenBlock.removeAll()
+            }
+            guard let tokens else {
+                return
+            }
+            
+            self?.updateToken(tokens.accessToken, tokens.refreshToken)
+            
+            self?.refreshTokenBlock.forEach { com in
+                com?(tokens.accessToken)
+            }
+        }
+    }
+    
+    func refreshAccessToken(_ completion: @escaping (String?)->Void) {
+        refreshTokenBlock.append(completion)
+        
+        if isRefreshingAccessToken { return }
+        
+        isRefreshingAccessToken = true
+        
         guard let refreshToken = self.refreshToken else {
-            lmCallback?.login()
+            isRefreshingAccessToken = false
+            isRefreshingToken = false
             return
         }
-        self.refreshTokenBlock = completion
-        self.isRefreshingToken = true
-        self.refreshAccessToken(refreshToken: refreshToken, withModuleName: "Token-Manager") { [weak self] response in
-            guard let initiateResponse = response.data, response.errorMessage == nil else {
-                self?.clearToken()
-                self?.isRefreshingToken = false
-                self?.lmCallback?.login()
+        
+        let refreshAccessTokenRequest: RefreshAccessTokenRequest = RefreshAccessTokenRequest.builder().refreshToken(refreshToken: refreshToken).build()
+        
+        LMChatClient.shared.refreshAccessToken(request: refreshAccessTokenRequest) { [weak self] response in
+            defer{
+                self?.isRefreshingAccessToken = false
+                self?.refreshTokenBlock.removeAll()
+            }
+            
+            guard response.success,
+                  let accessToken = response.data?.accessToken,
+                  let refreshToken = response.data?.refreshToken else {
+                self?.isRefreshingAccessToken = false
                 return
             }
-            self?.updateToken(initiateResponse.accessToken, initiateResponse.refreshToken)
-            self?.isRefreshingToken = false
-            completion()
-        }
-    }
-    
-    func commonInterceptor(_ key: String = "", value: String = "") -> HTTPHeaders {
-        let accessToken = TokenManager.shared.accessToken ?? ""
-        let buildVersion = BuildManager.buildVersion
-        return [
-            "x-platform-code": "ios",
-            "x-version-code": buildVersion,
-            "Cookie":"",
-            "x-sdk-source": "feed",
-            "Authorization": "Bearer " + accessToken
-        ]
-    }
-    
-    private func refreshAccessToken(refreshToken: String, withModuleName moduleName: String, _ response: LMClientResponse<InitiateUserResponse>?) {
-        let networkPath = ServiceAPIRequest.NetworkPath.refreshServiceToken(rtm: "")
-        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        DataNetwork.shared.requestWithDecoded(for: url,
-                                              withHTTPMethod: networkPath.httpMethod,
-                                              headers: ServiceRequest.httpSdkHeaders(headerKey: "Authorization", value: refreshToken),
-                                              withParameters: networkPath.parameters,
-                                              withEncoding: networkPath.encoding,
-                                              withResponseType: InitiateUserResponse.self,
-                                              withModuleName: moduleName) { (moduleName, responseData) in
-            guard let result = responseData as? LMResponse<InitiateUserResponse> else {
-                return
+            
+            self?.updateToken(accessToken, refreshToken)
+            
+            self?.refreshTokenBlock.forEach { com in
+                com?(accessToken)
             }
-            response?(result)
-        } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            
+            LMChatClient.lMChatSDKCallback?.onAccessTokenExpiredAndRefreshed(accessToken: accessToken, refreshToken: refreshToken)
         }
     }
     
     func updateToken(_ accessToken: String?, _ refreshToken: String?) {
-        self.refreshToken = refreshToken
+        LMChatTokenManager.refreshToken = refreshToken
+        LMChatTokenManager.accessToken = accessToken
+        
         self.accessToken = accessToken
+        self.refreshToken = refreshToken
     }
     
     func clearToken() {
-        self.refreshToken = nil
-        self.accessToken = nil
+        LMChatTokenManager.refreshToken = nil
+        LMChatTokenManager.accessToken = nil
+        
+        accessToken = nil
+        refreshToken = nil
     }
 }
