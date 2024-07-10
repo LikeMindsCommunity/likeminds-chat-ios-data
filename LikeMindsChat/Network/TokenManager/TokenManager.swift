@@ -63,7 +63,7 @@ final public class TokenManager {
             return
         }
         
-        let refreshAccessTokenRequest: RefreshAccessTokenRequest = RefreshAccessTokenRequest.builder().refreshToken(refreshToken: refreshToken).build()
+        let refreshAccessTokenRequest: RefreshAccessTokenRequest = RefreshAccessTokenRequest.builder().refreshToken(refreshToken).build()
         
         LMChatClient.shared.refreshAccessToken(request: refreshAccessTokenRequest) { [weak self] response in
             defer{

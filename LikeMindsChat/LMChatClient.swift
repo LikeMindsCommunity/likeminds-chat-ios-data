@@ -79,7 +79,7 @@ public class LMChatClient {
     ///
     /// - Returns: An LMResponse containing the API key if successful, or an error message if the API key is not found.
     public func getAPIKey() -> LMResponse<String> {
-        guard let apiKey = UserPreferences.shared.getApiKey(),
+        guard let apiKey = SDKPreferences.shared.getApiKey(),
               !apiKey.isEmpty else { return .failureResponse("API Key not found") }
         
         return .successResponse(apiKey)

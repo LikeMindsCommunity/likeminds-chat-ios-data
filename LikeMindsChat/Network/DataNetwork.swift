@@ -114,11 +114,11 @@ internal final class DataNetwork {
         downloadResourceParams?.append(RequestParam(successCallback: successCallback, failureCallback: failureCallback, request: request, moduleName: moduleName))
         
         request.responseData { (response) in
-            print("\n===Request Start===\n")
-            print("Module: \(moduleName)")
-            print(request.cURLDescription())
-            print("Response status: \(response.response?.statusCode ?? 0)")
-            print("\n===Request End===\n")
+            lmLog("\n===Request Start===\n")
+            lmLog("Module: \(moduleName)")
+            lmLog(request.cURLDescription())
+            lmLog("Response status: \(response.response?.statusCode ?? 0)")
+            lmLog("\n===Request End===\n")
             
             guard let responseData = response.data else {
                 lmLog("failureCallback - \(response)")
@@ -183,11 +183,11 @@ internal final class DataNetwork {
         downloadResourceParams?.append(RequestParam(successCallback: successCallback, failureCallback: failureCallback, request: request, moduleName: moduleName))
         
         request.responseData { (response) in
-            print("\n===Request Start===\n")
-            print("Module: \(moduleName)")
-            print(request.cURLDescription())
-            print("Response status: \(response.response?.statusCode ?? 0)")
-            print("\n===Request End===\n")
+            lmLog("\n===Request Start===\n")
+            lmLog("Module: \(moduleName)")
+            lmLog(request.cURLDescription())
+            lmLog("Response status: \(response.response?.statusCode ?? 0)")
+            lmLog("\n===Request End===\n")
             
             guard let responseData = response.data else {
                 lmLog("failureCallback - \(response)")
@@ -222,7 +222,7 @@ internal final class DataNetwork {
                             withHTTPMethod: httpMethod,
                             headers: newHeaders,
                             withParameters: parameters,
-                            withEncoding: encoding, 
+                            withEncoding: encoding,
                             withResponseType: objectType,
                             withModuleName: moduleName,
                             successCallback: successCallback,
@@ -250,8 +250,8 @@ internal final class DataNetwork {
 }
 
 func lmLog(_ items: Any...) {
-    //    if AppManager.environment == .devtest {
-    print(items)
-    //    LMLogger.info(items)
-    //    }
+    if BuildManager.environment == .devtest {
+        print(items)
+        //    LMLogger.info(items)
+    }
 }

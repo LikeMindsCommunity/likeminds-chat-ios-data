@@ -11,11 +11,10 @@ class InitiateUserClient: ServiceRequest {
     static func initiateChatService(_ request: InitiateUserRequest, withModuleName moduleName: String, _ response: LMClientResponse<InitiateUserResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.initiateChatClient(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        var parameters = networkPath.parameters ?? [:]
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
                                               headers: ServiceRequest.httpSdkHeaders(value: request.apiKey ?? ""),
-                                              withParameters: parameters,
+                                              withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
                                               withResponseType: InitiateUserResponse.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
@@ -36,7 +35,7 @@ class InitiateUserClient: ServiceRequest {
                 let communityId = user.sdkClientInfo?.community ?? 0
                 let apiKey = request.apiKey ?? ""
                 
-                UserPreferences.shared.setApiKey(apiKey)
+                SDKPreferences.shared.setApiKey(apiKey)
                 UserPreferences.shared.setLMUUID(lmUUID)
                 UserPreferences.shared.setLMMemberId("\(lmMemberId)")
                 UserPreferences.shared.setClientUUID(clientUUID)
@@ -119,14 +118,11 @@ class InitiateUserClient: ServiceRequest {
             return
         }
         
-        // Prepare request parameters
-        var parameters = networkPath.parameters ?? [:]
-        
         // Send the network request
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
                                               headers: ServiceRequest.httpSdkHeaders(headerKey: "Authorization", value: request.refreshToken),
-                                              withParameters: parameters,
+                                              withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
                                               withResponseType: RefreshAccessTokenResponse.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
@@ -170,7 +166,7 @@ class InitiateUserClient: ServiceRequest {
             response?(LMResponse.failureResponse("refresh token expired or not found!"))
             return
         }
-        let request = request.refreshToken(refreshToken)
+        let request = request.toBuilder().refreshToken(refreshToken).build()
         let networkPath = ServiceAPIRequest.NetworkPath.logout(request)
         var headers = ServiceRequest.httpHeaders()
         headers["x-device-id"] = request.deviceId ?? ""

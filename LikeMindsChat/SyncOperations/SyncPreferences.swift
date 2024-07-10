@@ -52,8 +52,13 @@ public class SDKPreferences: BasePreferences {
     
     public static let shared = SDKPreferences()
     private let communityIDKey = "CommunityId_key"
+    private let lmApiKey = "lm_api_key"
     
     private override init() {}
+    
+    func setApiKey(_ apiKey: String){
+        setValue(apiKey, forKey: lmApiKey)
+    }
     
     func setCommunityId(communityId: String) {
         setValue(communityId, forKey: communityIDKey)
@@ -61,6 +66,10 @@ public class SDKPreferences: BasePreferences {
     
     public func getCommunityId() -> String? {
         return getValue(forKey: communityIDKey) as? String
+    }
+    
+    public func getApiKey() -> String? {
+        return getValue(forKey: lmApiKey) as? String
     }
     
 }
@@ -71,7 +80,6 @@ public class UserPreferences: BasePreferences {
     private let lmUUID = "lm_uuid_key"
     private let lmMemberId = "lm_memberid_key"
     private let clientUUID = "client_uuid_key"
-    private let lmApiKey = "lm_api_key"
     
     private override init() {}
     
@@ -87,10 +95,6 @@ public class UserPreferences: BasePreferences {
         setValue(clientUUid, forKey: clientUUID)
     }
     
-    func setApiKey(_ apiKey: String){
-        setValue(apiKey, forKey: lmApiKey)
-    }
-    
     public func getLMMemberId() -> String? {
         return getValue(forKey: lmMemberId) as? String
     }
@@ -101,10 +105,6 @@ public class UserPreferences: BasePreferences {
     
     public func getLMUUID() -> String? {
         return getValue(forKey: lmUUID) as? String
-    }
-    
-    public func getApiKey() -> String? {
-        return getValue(forKey: lmApiKey) as? String
     }
     
 }
