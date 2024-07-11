@@ -1,5 +1,15 @@
+# 1 - Pod Install
+pod deintegrate
+rm -rf Podfile.lock
+pod install
 
-# 1
+# 2 - Cleaning the workspace
+xcodebuild clean -workspace LikeMindsChat.xcworkspace -scheme LikeMindsChat
+
+# 3 - Building the workspace
+xcodebuild build -workspace LikeMindsChat.xcworkspace -scheme LikeMindsChat
+
+# 4 - Archiving the workspace for Device
 xcodebuild archive \
 -workspace LikeMindsChat.xcworkspace \
 -scheme LikeMindsChat \
@@ -9,7 +19,7 @@ xcodebuild archive \
 BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
 SKIP_INSTALL=NO \
 
-# 2
+# 5 - Archiving the workspace for Simulators
 xcodebuild archive \
 -workspace LikeMindsChat.xcworkspace \
 -scheme LikeMindsChat \
@@ -19,7 +29,7 @@ xcodebuild archive \
 BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
 SKIP_INSTALL=NO \
 
-# 3
+# 6 - Creating `.xcframework` 
 xcodebuild \
 -create-xcframework \
 -framework LMChatFramework/archives/ios_devices.xcarchive/Products/Library/Frameworks/LikeMindsChat.framework \

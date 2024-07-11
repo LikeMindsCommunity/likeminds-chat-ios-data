@@ -83,7 +83,8 @@ struct FirebaseServiceConfiguration {
         FirebaseApp.configure(name: appName, options: secondaryOptions)
     }
 
-    static func getDatabaseReferenceForConversation(_ chatRoomID: String) -> DatabaseReference? {
+    static func getDatabaseReferenceForConversation(_ chatRoomID: String?) -> DatabaseReference? {
+        guard let chatRoomID else { return nil }
         let ref = FirebaseServiceConfiguration.firebaseDatabase
             .reference()
             .child("collabcards")

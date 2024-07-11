@@ -34,7 +34,7 @@ class ConversationClient: ServiceRequest {
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
-                                              headers: ServiceRequest.httpHeaders(),
+                                              headers: ServiceRequest.httpHeadersWithAPIVersion(),
                                               withParameters: networkPath.parameters,
                                               withEncoding: networkPath.encoding,
                                               withResponseType: PostConversationResponse.self,
@@ -527,14 +527,17 @@ class ConversationClient: ServiceRequest {
         }
     }
     
-    func observeChatRoomLatestConversations(forChatRoomID chatRoomID: String) {
+    func observeChatRoomLatestConversations(forChatRoomID chatRoomID: String?) {
+        guard let chatRoomID else {
+            firebaseRealTimeDBReference?.removeAllObservers()
+            return
+        }
         firebaseRealTimeDBReference = FirebaseServiceConfiguration.getDatabaseReferenceForConversation(chatRoomID)
         FireBaseFactoryClass.shared.getDataForQuery(firebaseRealTimeDBReference) {[weak self] entity in
             guard let data = entity else { return }
             do {
                 guard let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any],
                       let answerId = json["answer_id"] as? String else {return}
-                print("live conversation json: \(json)")
                 self?.loadConversation(withConversationId: answerId, chatroomId: chatRoomID)
             } catch let error {
                 print("json error parsing - \(#function) \(error)")
