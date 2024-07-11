@@ -8,32 +8,53 @@
 import Foundation
 
 public class RegisterDeviceRequest: Encodable {
-    var deviceId: String? //unique device id
-    var token: String? // firebase device token
+    private(set) var deviceId: String?
+    private(set) var token: String?
     
-    /// Initiate method
-    private init() {}
-    
-    public static func builder() -> RegisterDeviceRequest {
-        return RegisterDeviceRequest()
+    private init(builder: Builder) {
+        self.deviceId = builder.deviceId
+        self.token = builder.token
     }
     
-    public func build() -> RegisterDeviceRequest {
-        return self
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public class Builder {
+        var deviceId: String?
+        var token: String?
+        
+        public init() {}
+        
+        public func deviceId(_ deviceId: String?) -> Builder {
+            self.deviceId = deviceId
+            return self
+        }
+        
+        public func token(_ token: String?) -> Builder {
+            self.token = token
+            return self
+        }
+        
+        public func build() -> RegisterDeviceRequest {
+            return RegisterDeviceRequest(builder: self)
+        }
+    }
+    
+    public func toBuilder() -> Builder {
+        var builder = Builder()
+        if let deviceId = self.deviceId {
+            builder = builder.deviceId(deviceId)
+        }
+        if let token = self.token {
+            builder = builder.token(token)
+        }
+        return builder
     }
     
     enum CodingKeys: String, CodingKey {
         case token
         case deviceId = "device_id"
     }
-    
-    public func deviceId(_ deviceId: String) -> RegisterDeviceRequest {
-        self.deviceId = deviceId
-        return self
-    }
-    
-    public func token(_ token: String) -> RegisterDeviceRequest {
-        self.token = token
-        return self
-    }
 }
+

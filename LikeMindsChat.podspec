@@ -1,5 +1,5 @@
 Pod::Spec.new do |spec|
-  spec.name         = "LikeMindsChat"
+  spec.name         = "LikeMindsChatData"
   spec.summary      = "Data Layer for LikeMindsChat"
   spec.homepage     = 'https://likeminds.community/'
   spec.version      = "1.1.0"

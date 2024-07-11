@@ -19,7 +19,7 @@ public class BasePreferences {
     func getValue(forKey key: String) -> Any? {
         userDefault.value(forKey: key)
     }
-
+    
 }
 
 class SyncPreferences: BasePreferences {
@@ -68,9 +68,14 @@ public class SDKPreferences: BasePreferences {
     
     public static let shared = SDKPreferences()
     private let communityIDKey = "CommunityId_key"
+    private let lmApiKey = "lm_api_key"
     private let communityNameKey = "Community_name_key"
     
     private override init() {}
+    
+    func setApiKey(_ apiKey: String){
+        setValue(apiKey, forKey: lmApiKey)
+    }
     
     func setCommunityId(communityId: String) {
         setValue(communityId, forKey: communityIDKey)
@@ -78,6 +83,10 @@ public class SDKPreferences: BasePreferences {
     
     public func getCommunityId() -> String? {
         return getValue(forKey: communityIDKey) as? String
+    }
+    
+    public func getApiKey() -> String? {
+        return getValue(forKey: lmApiKey) as? String
     }
     
     func setCommunityName(communityName: String) {

@@ -23,6 +23,7 @@ struct ServiceAPIRequest {
     enum NetworkPath {
         //MARK:- SDK APIs
         case initiateChatClient(_ request: InitiateUserRequest)
+        case validateUser(_ request: ValidateUserRequest)
         case refreshServiceToken(rtm: String)
         case pushToken(_ request: RegisterDeviceRequest)
         case logout(_ request: LogoutRequest)
@@ -87,7 +88,7 @@ struct ServiceAPIRequest {
         
         var apiURL: String {
             switch self {
-            case .initiateChatClient:
+            case .initiateChatClient, .validateUser:
                 return "sdk/initiate"
             case .refreshServiceToken:
                 return "user/refresh"
@@ -267,7 +268,8 @@ struct ServiceAPIRequest {
                     .blockDMMember,
                     .postReport:
                 return .post
-            case .getConfig,
+            case .validateUser,
+                    .getConfig,
                     .syncChatrooms,
                     .syncConversations,
                     .sdkOnboarding,
