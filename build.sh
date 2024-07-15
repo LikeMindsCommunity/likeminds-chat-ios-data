@@ -34,4 +34,4 @@ xcodebuild \
 -create-xcframework \
 -framework LMChatFramework/archives/ios_devices.xcarchive/Products/Library/Frameworks/LikeMindsChat.framework \
 -framework LMChatFramework/archives/ios_simulators.xcarchive/Products/Library/Frameworks/LikeMindsChat.framework \
--output LMChatFramework/LikeMindsChat.xcframework
+-output LMChatFramework/LikeMindsChatData.xcframework

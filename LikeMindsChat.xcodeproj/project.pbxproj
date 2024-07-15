@@ -7,7 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA8698ADE415DA27AB440517 /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3FA39603295632C167581FD6 /* Pods_LikeMindsChat.framework */; };
+		91AF34832C457CC6005BAA96 /* ValidateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */; };
+		91AF34842C457CC6005BAA96 /* ValidateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */; };
+		91AF34852C457CC6005BAA96 /* RefreshAccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF34802C457CC6005BAA96 /* RefreshAccessTokenRequest.swift */; };
+		91AF34862C457CC6005BAA96 /* RefreshAccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF34812C457CC6005BAA96 /* RefreshAccessTokenResponse.swift */; };
+		91AF34882C457DD4005BAA96 /* LMChatTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF34872C457DD4005BAA96 /* LMChatTokenManager.swift */; };
+		91AF348B2C457DEE005BAA96 /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF34892C457DEE005BAA96 /* UserDetails.swift */; };
+		91AF348C2C457DEE005BAA96 /* UserDefaultsBacked.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF348A2C457DEE005BAA96 /* UserDefaultsBacked.swift */; };
 		F41223702B330FB500CB1532 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412236F2B330FB500CB1532 /* Member.swift */; };
 		F41223722B336E8D00CB1532 /* LinkOGTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223712B336E8D00CB1532 /* LinkOGTags.swift */; };
 		F41223742B336F4000CB1532 /* ConversationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223732B336F4000CB1532 /* ConversationState.swift */; };
@@ -112,7 +118,6 @@
 		F4BEB9D82B54520E00D12B62 /* GetChatroomActionsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9D72B54520E00D12B62 /* GetChatroomActionsResponse.swift */; };
 		F4BEB9DA2B54532B00D12B62 /* GetParticipantsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9D92B54532B00D12B62 /* GetParticipantsResponse.swift */; };
 		F4BEB9DC2B54537C00D12B62 /* ShareChatroomUrlResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9DB2B54537C00D12B62 /* ShareChatroomUrlResponse.swift */; };
-		F4BEB9DE2B54547600D12B62 /* _LMResponse_.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9DD2B54547600D12B62 /* _LMResponse_.swift */; };
 		F4BEB9E22B5460CD00D12B62 /* AddPollOptionRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9E12B5460CD00D12B62 /* AddPollOptionRequest.swift */; };
 		F4BEB9E42B54621E00D12B62 /* GetPollUsersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9E32B54621E00D12B62 /* GetPollUsersRequest.swift */; };
 		F4BEB9E62B5462A000D12B62 /* PostPollConversationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BEB9E52B5462A000D12B62 /* PostPollConversationRequest.swift */; };
@@ -191,12 +196,20 @@
 		F4F8640A2B713C8E00F28048 /* RealmDatabaseObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */; };
 		F4F8640C2B716CD800F28048 /* ModelConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8640B2B716CD800F28048 /* ModelConverter.swift */; };
 		F4F8640E2B72086200F28048 /* ConversationDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8640D2B72086200F28048 /* ConversationDBService.swift */; };
+		F96CA845783A19F8B2DB6D59 /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21453C876B3F8F7E204FC7C5 /* Pods_LikeMindsChat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3FA39603295632C167581FD6 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5AB0ECCB9233C935373FB0E3 /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
-		E464932DBD2AA3F43BD7E84B /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
+		21453C876B3F8F7E204FC7C5 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7ED63A66F4D0C8CDDCBD5778 /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
+		91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserRequest.swift; sourceTree = "<group>"; };
+		91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserResponse.swift; sourceTree = "<group>"; };
+		91AF34802C457CC6005BAA96 /* RefreshAccessTokenRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshAccessTokenRequest.swift; sourceTree = "<group>"; };
+		91AF34812C457CC6005BAA96 /* RefreshAccessTokenResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshAccessTokenResponse.swift; sourceTree = "<group>"; };
+		91AF34872C457DD4005BAA96 /* LMChatTokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMChatTokenManager.swift; sourceTree = "<group>"; };
+		91AF34892C457DEE005BAA96 /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
+		91AF348A2C457DEE005BAA96 /* UserDefaultsBacked.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBacked.swift; sourceTree = "<group>"; };
+		EE07ADAA9537E7155277FD7E /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
 		F412236F2B330FB500CB1532 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F41223712B336E8D00CB1532 /* LinkOGTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOGTags.swift; sourceTree = "<group>"; };
 		F41223732B336F4000CB1532 /* ConversationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationState.swift; sourceTree = "<group>"; };
@@ -302,7 +315,6 @@
 		F4BEB9D72B54520E00D12B62 /* GetChatroomActionsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChatroomActionsResponse.swift; sourceTree = "<group>"; };
 		F4BEB9D92B54532B00D12B62 /* GetParticipantsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetParticipantsResponse.swift; sourceTree = "<group>"; };
 		F4BEB9DB2B54537C00D12B62 /* ShareChatroomUrlResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareChatroomUrlResponse.swift; sourceTree = "<group>"; };
-		F4BEB9DD2B54547600D12B62 /* _LMResponse_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _LMResponse_.swift; sourceTree = "<group>"; };
 		F4BEB9E12B5460CD00D12B62 /* AddPollOptionRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPollOptionRequest.swift; sourceTree = "<group>"; };
 		F4BEB9E32B54621E00D12B62 /* GetPollUsersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPollUsersRequest.swift; sourceTree = "<group>"; };
 		F4BEB9E52B5462A000D12B62 /* PostPollConversationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPollConversationRequest.swift; sourceTree = "<group>"; };
@@ -388,17 +400,43 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA8698ADE415DA27AB440517 /* Pods_LikeMindsChat.framework in Frameworks */,
+				F96CA845783A19F8B2DB6D59 /* Pods_LikeMindsChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0AB269AECBB25ADB1E6BF735 /* Frameworks */ = {
+		91AF347E2C457CC6005BAA96 /* ValidateUser */ = {
 			isa = PBXGroup;
 			children = (
-				3FA39603295632C167581FD6 /* Pods_LikeMindsChat.framework */,
+				91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */,
+				91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */,
+			);
+			path = ValidateUser;
+			sourceTree = "<group>";
+		};
+		91AF347F2C457CC6005BAA96 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		91AF34822C457CC6005BAA96 /* RefreshUser */ = {
+			isa = PBXGroup;
+			children = (
+				91AF347F2C457CC6005BAA96 /* New Group */,
+				91AF34802C457CC6005BAA96 /* RefreshAccessTokenRequest.swift */,
+				91AF34812C457CC6005BAA96 /* RefreshAccessTokenResponse.swift */,
+			);
+			path = RefreshUser;
+			sourceTree = "<group>";
+		};
+		C25440E9759781CA2A84B8C0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				21453C876B3F8F7E204FC7C5 /* Pods_LikeMindsChat.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -406,8 +444,8 @@
 		ECB336449B72AA80651CCD60 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				E464932DBD2AA3F43BD7E84B /* Pods-LikeMindsChat.debug.xcconfig */,
-				5AB0ECCB9233C935373FB0E3 /* Pods-LikeMindsChat.release.xcconfig */,
+				EE07ADAA9537E7155277FD7E /* Pods-LikeMindsChat.debug.xcconfig */,
+				7ED63A66F4D0C8CDDCBD5778 /* Pods-LikeMindsChat.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -416,7 +454,6 @@
 			isa = PBXGroup;
 			children = (
 				F42C1E982B32F94400720D5D /* SyncModel */,
-				F4BEB9DD2B54547600D12B62 /* _LMResponse_.swift */,
 				F4B6CB112B60EBE800824D94 /* SyncOperationUtil.swift */,
 			);
 			path = Internal;
@@ -442,7 +479,7 @@
 				F420C05A2A5C0472008C48DE /* LikeMindsChat */,
 				F420C0592A5C0472008C48DE /* Products */,
 				ECB336449B72AA80651CCD60 /* Pods */,
-				0AB269AECBB25ADB1E6BF735 /* Frameworks */,
+				C25440E9759781CA2A84B8C0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -485,6 +522,9 @@
 		F420C0692A5C06B6008C48DE /* TokenManager */ = {
 			isa = PBXGroup;
 			children = (
+				91AF348A2C457DEE005BAA96 /* UserDefaultsBacked.swift */,
+				91AF34892C457DEE005BAA96 /* UserDetails.swift */,
+				91AF34872C457DD4005BAA96 /* LMChatTokenManager.swift */,
 				F420C06A2A5C06B6008C48DE /* RefreshAccessToken.swift */,
 				F420C06B2A5C06B6008C48DE /* BuildManager.swift */,
 				F420C06C2A5C06B6008C48DE /* TokenManager.swift */,
@@ -533,6 +573,8 @@
 		F420C0872A5C194C008C48DE /* CoreFeed */ = {
 			isa = PBXGroup;
 			children = (
+				91AF34822C457CC6005BAA96 /* RefreshUser */,
+				91AF347E2C457CC6005BAA96 /* ValidateUser */,
 				F420C08E2A5C194C008C48DE /* Logout */,
 				F420C0902A5C194C008C48DE /* InitiateUser */,
 				F420C0952A5C194C008C48DE /* RegisterDevice */,
@@ -1014,7 +1056,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F420C0612A5C0472008C48DE /* Build configuration list for PBXNativeTarget "LikeMindsChat" */;
 			buildPhases = (
-				5ACDD66080D23D9211F72F7C /* [CP] Check Pods Manifest.lock */,
+				67E11FDBA984E192041EB47D /* [CP] Check Pods Manifest.lock */,
 				F420C0532A5C0472008C48DE /* Headers */,
 				F420C0542A5C0472008C48DE /* Sources */,
 				F420C0552A5C0472008C48DE /* Frameworks */,
@@ -1072,7 +1114,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		5ACDD66080D23D9211F72F7C /* [CP] Check Pods Manifest.lock */ = {
+		67E11FDBA984E192041EB47D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1125,9 +1167,9 @@
 				F49682812B7AAEF4005B8AB6 /* HomeFeedClientDelegate.swift in Sources */,
 				F4BEB9BF2B544B0800D12B62 /* GetChatroomResponse.swift in Sources */,
 				F4BEB9C62B544CE000D12B62 /* FollowChatroomRequest.swift in Sources */,
+				91AF348C2C457DEE005BAA96 /* UserDefaultsBacked.swift in Sources */,
 				F4BEBA272B546FB000D12B62 /* GetContentDownloadSettingsResponse.swift in Sources */,
 				F4BEB9C42B544C6200D12B62 /* EditChatroomTitleRequest.swift in Sources */,
-				F4BEB9DE2B54547600D12B62 /* _LMResponse_.swift in Sources */,
 				F4BEB9A12B4E9F4E00D12B62 /* SyncPreferences.swift in Sources */,
 				F486C7F02C0C7B4A0063BF0B /* FireBaseFactoryClass.swift in Sources */,
 				F4CB0C882C19769F00C89A57 /* CheckDMLimitRequest.swift in Sources */,
@@ -1138,6 +1180,7 @@
 				F4BEB98C2B4D1BAD00D12B62 /* MemberAction.swift in Sources */,
 				F4CB0C892C19769F00C89A57 /* CheckDMStatusRequest.swift in Sources */,
 				F4CB0CA12C19860700C89A57 /* GetAllMembersResponse.swift in Sources */,
+				91AF34882C457DD4005BAA96 /* LMChatTokenManager.swift in Sources */,
 				F4BEB9D02B544F4100D12B62 /* SetChatroomTopicRequest.swift in Sources */,
 				F4F8640A2B713C8E00F28048 /* RealmDatabaseObserver.swift in Sources */,
 				F4BEBA1F2B546E3400D12B62 /* PutMultimediaResponse.swift in Sources */,
@@ -1184,6 +1227,7 @@
 				F41223742B336F4000CB1532 /* ConversationState.swift in Sources */,
 				F4BEB9922B4D89F600D12B62 /* Cohort.swift in Sources */,
 				F4C8F6942B57E47E0012A1CF /* GetTaggingListResponse.swift in Sources */,
+				91AF348B2C457DEE005BAA96 /* UserDetails.swift in Sources */,
 				F4BEB9C22B544B4F00D12B62 /* GetChatroomRequest.swift in Sources */,
 				F420C0752A5C06B7008C48DE /* BuildManager.swift in Sources */,
 				F41223842B433B0E00CB1532 /* AttachmentMetaRO.swift in Sources */,
@@ -1195,6 +1239,7 @@
 				F4BEBA0A2B546A2D00D12B62 /* UpdateConversationRequest.swift in Sources */,
 				F4CB0C932C19769F00C89A57 /* FetchDMFeedResponse.swift in Sources */,
 				F420C0722A5C06B7008C48DE /* Reachability.swift in Sources */,
+				91AF34852C457CC6005BAA96 /* RefreshAccessTokenRequest.swift in Sources */,
 				F41223702B330FB500CB1532 /* Member.swift in Sources */,
 				F420C0702A5C06B7008C48DE /* ServiceRequest.swift in Sources */,
 				F4BEBA232B546EA000D12B62 /* CommunityData.swift in Sources */,
@@ -1208,6 +1253,7 @@
 				F4BEB9DC2B54537C00D12B62 /* ShareChatroomUrlResponse.swift in Sources */,
 				F4BEB9F22B54645F00D12B62 /* PollClient.swift in Sources */,
 				F4C8F6A22B593BA60012A1CF /* PostReportRequest.swift in Sources */,
+				91AF34832C457CC6005BAA96 /* ValidateUserRequest.swift in Sources */,
 				F41223882B433DD000CB1532 /* AppConfigRO.swift in Sources */,
 				F4BEBA1D2B546DDE00D12B62 /* LiveConversationResponse.swift in Sources */,
 				F412237A2B432F7A00CB1532 /* ChatroomSyncRequest.swift in Sources */,
@@ -1243,6 +1289,7 @@
 				F4BEB9CA2B544E4300D12B62 /* GetParticipantsRequest.swift in Sources */,
 				F4CB0C962C1978EF00C89A57 /* DirectMessageClient.swift in Sources */,
 				F41223762B33701B00CB1532 /* ChatroomType.swift in Sources */,
+				91AF34842C457CC6005BAA96 /* ValidateUserResponse.swift in Sources */,
 				F4BEB9DA2B54532B00D12B62 /* GetParticipantsResponse.swift in Sources */,
 				F4BEBA2D2B54705200D12B62 /* GetMemberRequest.swift in Sources */,
 				F4BEBA082B5469A700D12B62 /* SaveConversationRequest.swift in Sources */,
@@ -1269,6 +1316,7 @@
 				F42C1E8D2B320B7400720D5D /* MemberRO.swift in Sources */,
 				F4BEBA152B546CFC00D12B62 /* EditConversationResponse.swift in Sources */,
 				F4CB0C8D2C19769F00C89A57 /* BlockMemberResponse.swift in Sources */,
+				91AF34862C457CC6005BAA96 /* RefreshAccessTokenResponse.swift in Sources */,
 				F420C0B42A5E8922008C48DE /* GetExploreTabCountResponse.swift in Sources */,
 				F420C0A12A5C194C008C48DE /* RegisterDeviceRequest.swift in Sources */,
 				F4C8F69D2B5939AB0012A1CF /* SearchConversationRequest.swift in Sources */,
@@ -1413,7 +1461,7 @@
 		};
 		F420C0622A5C0472008C48DE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E464932DBD2AA3F43BD7E84B /* Pods-LikeMindsChat.debug.xcconfig */;
+			baseConfigurationReference = EE07ADAA9537E7155277FD7E /* Pods-LikeMindsChat.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1443,7 +1491,7 @@
 		};
 		F420C0632A5C0472008C48DE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5AB0ECCB9233C935373FB0E3 /* Pods-LikeMindsChat.release.xcconfig */;
+			baseConfigurationReference = 7ED63A66F4D0C8CDDCBD5778 /* Pods-LikeMindsChat.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

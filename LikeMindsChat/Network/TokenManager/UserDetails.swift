@@ -8,9 +8,9 @@
 import Foundation
 
 struct UserDetails {
-    @UserDefaultsBacked(key: "lmFeedUserDetails")
+    @UserDefaultsBacked(key: "lmChatUserDetails")
     static var userDetails: User?
     
-    @UserDefaultsBacked(key: "lmFeedAPIKey")
+    @UserDefaultsBacked(key: "lmChatAPIKey")
     static var apiKey: String?
 }
