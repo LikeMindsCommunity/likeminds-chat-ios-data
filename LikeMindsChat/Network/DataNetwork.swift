@@ -114,13 +114,11 @@ internal final class DataNetwork {
         downloadResourceParams?.append(RequestParam(successCallback: successCallback, failureCallback: failureCallback, request: request, moduleName: moduleName))
         
         request.responseData { (response) in
-            print("\n===Request Start===\n")
-            print("Module: \(moduleName)")
-            print(request.cURLDescription())
-            print("Response status: \(response.response?.statusCode ?? 0)")
-            print("\n===Params Request===\n")
-            print("Param: \(parameters)")
-            print("\n===Request End===\n")
+            lmLog("\n===Request Start===\n")
+            lmLog("Module: \(moduleName)")
+            lmLog(request.cURLDescription())
+            lmLog("Response status: \(response.response?.statusCode ?? 0)")
+            lmLog("\n===Request End===\n")
             
             guard let responseData = response.data else {
                 lmLog("failureCallback - \(response)")
@@ -139,12 +137,30 @@ internal final class DataNetwork {
             }
             let jsondataString = responseData.jsonString()
             if let httpResponse = response.response,
-               httpResponse.statusCode == 401,
-               jsondataString.range(of: "Invalid LTM!") != nil
-            {
-                lmLog("response - \(String(describing: jsondataString))")
-                TokenManager.shared.refreshInterceptor {}
-                failureCallback(moduleName, .tokenExpire)
+               httpResponse.statusCode == 401 {
+                
+                if url.absoluteString.contains("user/refresh") {
+                    /// Refresh Token has expired, trigger flow to get tokens from Core/Example Layer
+                    TokenManager.shared.onRefreshTokenExpired()
+                } else {
+                    /// Access Token has expired, use refresh token to get new access token
+                    TokenManager.shared.refreshAccessToken { [weak self] newAccessToken in
+                        var newHeaders = headers
+                        newHeaders["Authorization"] = "Bearer \(newAccessToken ?? "")"
+                        
+                        self?.request(
+                            for: url,
+                            withHTTPMethod: httpMethod,
+                            headers: newHeaders,
+                            withParameters: parameters,
+                            withEncoding: encoding,
+                            withModuleName: moduleName,
+                            successCallback: successCallback,
+                            failureCallback: failureCallback
+                        )
+                    }
+                }
+                
                 return
             }
             lmLog("response - \(String(describing: jsondataString))")
@@ -167,13 +183,11 @@ internal final class DataNetwork {
         downloadResourceParams?.append(RequestParam(successCallback: successCallback, failureCallback: failureCallback, request: request, moduleName: moduleName))
         
         request.responseData { (response) in
-            print("\n===Request Start===\n")
-            print("Module: \(moduleName)")
-            print(request.cURLDescription())
-            print("Response status: \(response.response?.statusCode ?? 0)")
-            print("\n===Params Request===\n")
-            print("Param: \(parameters)")
-            print("\n===Request End===\n")
+            lmLog("\n===Request Start===\n")
+            lmLog("Module: \(moduleName)")
+            lmLog(request.cURLDescription())
+            lmLog("Response status: \(response.response?.statusCode ?? 0)")
+            lmLog("\n===Request End===\n")
             
             guard let responseData = response.data else {
                 lmLog("failureCallback - \(response)")
@@ -192,16 +206,32 @@ internal final class DataNetwork {
             }
             
             if let httpResponse = response.response,
-               httpResponse.statusCode == 401
-            {
-                let jsondataString = responseData.jsonString()
-                if jsondataString.range(of: "Invalid LTM!") != nil {
-                    lmLog("response - \(String(describing: jsondataString))")
-                    TokenManager.shared.refreshInterceptor {}
-                    failureCallback(moduleName, .tokenExpire)
-                    return
+               httpResponse.statusCode == 401 {
+                
+                if url.absoluteString.contains("user/refresh") {
+                    /// Refresh Token has expired, trigger flow to get tokens from Core/Example Layer
+                    TokenManager.shared.onRefreshTokenExpired()
+                } else {
+                    /// Access Token has expired, use refresh token to get new access token
+                    TokenManager.shared.refreshAccessToken { [weak self] newAccessToken in
+                        var newHeaders = headers
+                        newHeaders["Authorization"] = "Bearer \(newAccessToken ?? "")"
+                        
+                        self?.requestWithDecoded(
+                            for: url,
+                            withHTTPMethod: httpMethod,
+                            headers: newHeaders,
+                            withParameters: parameters,
+                            withEncoding: encoding,
+                            withResponseType: objectType,
+                            withModuleName: moduleName,
+                            successCallback: successCallback,
+                            failureCallback: failureCallback
+                        )
+                    }
                 }
-                failureCallback(moduleName, .noResponse)
+                
+                return
             }
             do {
                 let lmResponse  = try JSONDecoder().decode(LMResponse<T>.self, from: responseData)
@@ -220,8 +250,8 @@ internal final class DataNetwork {
 }
 
 func lmLog(_ items: Any...) {
-//    if AppManager.environment == .devtest {
+    if BuildManager.environment == .devtest {
         print(items)
-//    LMLogger.info(items)
-//    }
+        //    LMLogger.info(items)
+    }
 }

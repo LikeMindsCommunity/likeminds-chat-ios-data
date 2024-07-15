@@ -13,9 +13,42 @@ import UIKit
 extension LMChatClient {
     
     func initialize() {}
-
+    
+    /// Initiates the chat service for a user by sending a request to the server.
+    ///
+    /// - Parameters:
+    ///   - request: An InitiateUserRequest object containing the necessary information to initiate the chat service
+    ///   - moduleName: A string identifying the module making the request (for logging/tracking)
+    ///   - response: An optional closure to handle the server response
     public func initiateUser(request: InitiateUserRequest, response: LMClientResponse<InitiateUserResponse>?) {
         InitiateUserClient.initiateChatService(request, withModuleName: moduleName) { result in
+            response?(result)
+        }
+    }
+    
+    /// Validates a user's access token and refreshes user information.
+    ///
+    /// - Parameters:
+    ///   - request: A ValidateUserRequest object containing the access and refresh tokens
+    ///   - moduleName: A string identifying the module making the request (for logging/tracking)
+    ///   - response: An optional closure to handle the server response
+    public func validateUser(request: ValidateUserRequest, response: LMClientResponse<ValidateUserResponse>?){
+        InitiateUserClient.validateUser(request: request, withModuleName: moduleName){ result in
+            response?(result)
+        }
+    }
+    
+    /// Refreshes the user's access token using the provided refresh token.
+    ///
+    /// This function sends a request to the server to obtain a new access token using the current refresh token.
+    /// It's typically called when the current access token has expired.
+    ///
+    /// - Parameters:
+    ///   - request: A RefreshAccessTokenRequest object containing the refresh token
+    ///   - moduleName: A string identifying the module making the request (for logging/tracking)
+    ///   - response: An optional closure to handle the server response
+    public func refreshAccessToken(request: RefreshAccessTokenRequest, response: LMClientResponse<RefreshAccessTokenResponse>?){
+        InitiateUserClient.refreshAccessToken(request: request, withModuleName: moduleName){ result in
             response?(result)
         }
     }
