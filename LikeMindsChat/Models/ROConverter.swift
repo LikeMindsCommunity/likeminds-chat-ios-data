@@ -233,7 +233,7 @@ class ROConverter {
     ) -> List<PollRO> {
         
         let pollsData = (polls ?? []).compactMap { poll in
-            convertPoll(realm: realm, communityId: communityId, poll: poll, uuid: nil)
+            convertPoll(realm: realm, communityId: communityId, poll: poll, uuid: poll.member?.sdkClientInfo?.uuid)
         }
         let pollsList = List<PollRO>()
         pollsList.append(objectsIn: pollsData)
@@ -255,7 +255,7 @@ class ROConverter {
         poll: Poll?,
         uuid: String?
     ) -> PollRO? {
-        guard let poll, communityId == nil else { return nil }
+        guard let poll else { return nil }
         let pollRO = PollRO()
         pollRO.id = poll.id ?? ""
         pollRO.text = poll.text ?? ""
@@ -263,7 +263,7 @@ class ROConverter {
         pollRO.isSelected = poll.isSelected
         pollRO.percentage = poll.percentage
         pollRO.noVotes = poll.noVotes
-//        pollRO.member = ChatDBUtil.getMember(realm, communityId, uuid)
+        pollRO.member = ChatDBUtil.shared.getMember(realm: realm, communityId: communityId, uuid: uuid)
         return pollRO
     }
     
@@ -564,7 +564,7 @@ class ROConverter {
         let updatedAttachments = convertUpdatedAttachments(chatroomId: chatroomId, communityId: communityId, attachments: attachments ?? [], oldAttachments: savedAnswer?.attachments ?? List())
         
         let reactionsRO = Self.convertReactionsMeta(realm: realm, communityId: communityId, reactions: reactions)
-        let pollsRO = convertPolls(realm: realm, polls: conversation.polls, communityId: communityId)
+        let pollsRO = convertPolls(realm: realm, polls: polls ?? conversation.polls, communityId: communityId)
         
         let linkRO = convertLink(chatroomId: chatroomId, communityId: communityId, link: conversation.ogTags)
 

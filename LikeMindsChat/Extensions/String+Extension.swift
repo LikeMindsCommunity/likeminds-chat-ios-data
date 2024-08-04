@@ -1,6 +1,6 @@
 //
 //  String+Extension.swift
-//  LikeMindsFeed
+//  LikeMindsChat
 //
 //  Created by Pushpendra Singh on 31/05/23.
 //

@@ -1,6 +1,6 @@
 //
 //  LMChatClient+Extension.swift
-//  LMFeed
+//  LMChat
 //
 //  Created by Pushpendra Singh on 24/02/23.
 //
@@ -210,20 +210,20 @@ extension LMChatClient {
         ChatroomClient.shared.setChatroomTopic(request: request, response: response)
     }
     
-    public func addPollOption() {
-        
+    public func addPollOption(request: AddPollOptionRequest, response: LMClientResponse<AddPollOptionResponse>?) {
+        PollClient.shared.addPollOption(request: request, response: response)
     }
     
-    public func submitPoll() {
-        
+    public func submitPoll(request: SubmitPollRequest, response: LMClientResponse<NoData>?) {
+        PollClient.shared.submitPoll(request: request, response: response)
     }
   
-    public func getPollUsers() {
-        
+    public func getPollUsers(request: GetPollUsersRequest, response: LMClientResponse<GetPollUsersResponse>?) {
+        PollClient.shared.getPollUsers(request: request, response: response)
     }
     
-    public func postPollConversation() {
-        
+    public func postPollConversation(request: PostPollConversationRequest, response: LMClientResponse<PostPollConversationResponse>?) {
+        PollClient.shared.postPollConversation(request: request, response: response)
     }
     
     public func decodeUrl(request: DecodeUrlRequest, response: LMClientResponse<DecodeUrlResponse>?) {

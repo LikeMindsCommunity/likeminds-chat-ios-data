@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GetPollUsersRequest: Encodable {
+public class GetPollUsersRequest: Encodable {
     private let pollId: String
     private let conversationId: String
     
@@ -21,26 +21,26 @@ class GetPollUsersRequest: Encodable {
         case pollId = "poll_id"
     }
     
-    class Builder {
+    public class Builder {
         private var pollId: String = ""
         private var conversationId: String = ""
         
-        func pollId(_ pollId: String) -> Builder {
+        public func pollId(_ pollId: String) -> Builder {
             self.pollId = pollId
             return self
         }
         
-        func conversationId(_ conversationId: String) -> Builder {
+        public func conversationId(_ conversationId: String) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func build() -> GetPollUsersRequest {
+        public func build() -> GetPollUsersRequest {
             return GetPollUsersRequest(pollId: pollId, conversationId: conversationId)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .pollId(pollId)
             .conversationId(conversationId)

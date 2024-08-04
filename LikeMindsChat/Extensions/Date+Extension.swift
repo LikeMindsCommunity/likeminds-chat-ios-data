@@ -1,6 +1,6 @@
 //
 //  Date+Extension.swift
-//  LMFeed
+//  LMChat
 //
 //  Created by Pushpendra Singh on 23/02/23.
 //

@@ -7,7 +7,8 @@
 
 import Foundation
 
-class SubmitPollRequest: Encodable {
+public class SubmitPollRequest: Encodable {
+    
     let conversationId: String
     let chatroomId: String
     let polls: [Poll]
@@ -18,32 +19,36 @@ class SubmitPollRequest: Encodable {
         self.polls = polls
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public class Builder {
         private var conversationId: String = ""
         private var chatroomId: String = ""
         private var polls: [Poll] = []
         
-        func conversationId(_ conversationId: String) -> Builder {
+        public func conversationId(_ conversationId: String) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func polls(_ polls: [Poll]) -> Builder {
+        public func polls(_ polls: [Poll]) -> Builder {
             self.polls = polls
             return self
         }
         
-        func build() -> SubmitPollRequest {
+        public func build() -> SubmitPollRequest {
             return SubmitPollRequest(conversationId: conversationId, chatroomId: chatroomId, polls: polls)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .conversationId(conversationId)
             .chatroomId(chatroomId)

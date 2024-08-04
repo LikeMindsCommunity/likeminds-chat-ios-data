@@ -156,13 +156,12 @@ class SyncUtil {
                         var topicConversationPolls: [Poll] = []
                         if ConversationState.isPoll(stateValue: topic.state) {
                             let list = data.conversationPollMeta?[topicId] ?? []
-                            // TODO: member object assignment
-//                            list.compactMap { poll in
-//                                    let userId = poll.userId
-//                                    let user = data.userMeta?[userId]
-//                                    poll.toBuilder().member(user).build()
-//                                }
-                            topicConversationPolls = list
+                            topicConversationPolls = list.map({ poll in
+                                let tmpPoll = poll.toBuilder()
+                                    .member(ModelConverter.shared.convertUser(data.userMeta?[poll.userId ?? ""]))
+                                    .build()
+                                return tmpPoll
+                            })
                         }
                         
                         //topic attachments
@@ -213,13 +212,12 @@ class SyncUtil {
                         if (ConversationState.isPoll(stateValue: lastSeenConversation.state)) {
                             let list =
                             data.conversationPollMeta?[lastSeenConversationId] ?? []
-                            // TODO: member object assignment
-//                            list.compactMap { poll in
-//                                    let userId = poll.userId
-//                                    let user = data.userMeta?[userId]
-//                                    poll.toBuilder().member(user).build()
-//                                }
-                            lastSeenConversationPolls = list
+                            lastSeenConversationPolls = list.map({ poll in
+                                let tmpPoll = poll.toBuilder()
+                                    .member(ModelConverter.shared.convertUser(data.userMeta?[poll.userId ?? ""]))
+                                    .build()
+                                return tmpPoll
+                            })
                         }
                         
                         //last seen attachments
@@ -356,14 +354,12 @@ class SyncUtil {
                     var conversationPolls: [Poll] = []
                     if (ConversationState.isPoll(stateValue: conversation.state)) {
                         let list = data.conversationPollMeta?[id] ?? []
-                        // TODO: conversation poll users
-//                        list.sortedBy { it.id }
-//                            .map { poll ->
-//                                val userId = poll.userId
-//                                val user = data.userMeta[userId]
-//                                poll.toBuilder().member(user).build()
-//                            }
-                        conversationPolls = list
+                        conversationPolls = list.map({ poll in
+                            let tmpPoll = poll.toBuilder()
+                                .member(ModelConverter.shared.convertUser(data.userMeta?[poll.userId ?? ""]))
+                                .build()
+                            return tmpPoll
+                        })
                     }
                     
                     //attachment

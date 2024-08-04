@@ -7,18 +7,18 @@
 
 import Foundation
 
-class PostPollConversationRequest: Encodable {
-    let chatroomId: String
-    let text: String
-    let repliedConversationId: String?
-    let polls: [Poll]
-    let pollType: Int
-    let multipleSelectState: Int?
-    let multipleSelectNo: Int?
-    let isAnonymous: Bool
-    let allowAddOption: Bool
-    let expiryTime: Int64
-    let temporaryId: String?
+public class PostPollConversationRequest: Encodable {
+    public private(set) var chatroomId: String
+    public private(set) var text: String
+    public private(set) var repliedConversationId: String?
+    public private(set) var polls: [Poll]
+    public private(set) var pollType: Int
+    public private(set) var multipleSelectState: Int?
+    public private(set) var multipleSelectNo: Int?
+    public private(set) var isAnonymous: Bool
+    public private(set) var allowAddOption: Bool
+    public private(set) var expiryTime: Int
+    public private(set) var temporaryId: String?
     
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"
@@ -34,7 +34,7 @@ class PostPollConversationRequest: Encodable {
         case isAnonymous = "is_anonymous"
     }
     
-    private init(chatroomId: String, text: String, repliedConversationId: String?, polls: [Poll], pollType: Int, multipleSelectState: Int?, multipleSelectNo: Int?, isAnonymous: Bool, allowAddOption: Bool, expiryTime: Int64, temporaryId: String?) {
+    private init(chatroomId: String, text: String, repliedConversationId: String?, polls: [Poll], pollType: Int, multipleSelectState: Int?, multipleSelectNo: Int?, isAnonymous: Bool, allowAddOption: Bool, expiryTime: Int, temporaryId: String?) {
         self.chatroomId = chatroomId
         self.text = text
         self.repliedConversationId = repliedConversationId
@@ -48,7 +48,11 @@ class PostPollConversationRequest: Encodable {
         self.temporaryId = temporaryId
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public class Builder {
         private var chatroomId: String = ""
         private var text: String = ""
         private var repliedConversationId: String? = nil
@@ -58,65 +62,65 @@ class PostPollConversationRequest: Encodable {
         private var multipleSelectNo: Int? = nil
         private var isAnonymous: Bool = false
         private var allowAddOption: Bool = false
-        private var expiryTime: Int64 = -1
+        private var expiryTime: Int = -1
         private var temporaryId: String? = nil
         
-        func chatroomId(_ chatroomId: String) -> Builder {
+        public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func text(_ text: String) -> Builder {
+        public func text(_ text: String) -> Builder {
             self.text = text
             return self
         }
         
-        func repliedConversationId(_ repliedConversationId: String?) -> Builder {
+        public func repliedConversationId(_ repliedConversationId: String?) -> Builder {
             self.repliedConversationId = repliedConversationId
             return self
         }
         
-        func polls(_ polls: [Poll]) -> Builder {
+        public func polls(_ polls: [Poll]) -> Builder {
             self.polls = polls
             return self
         }
         
-        func pollType(_ pollType: Int) -> Builder {
+        public func pollType(_ pollType: Int) -> Builder {
             self.pollType = pollType
             return self
         }
         
-        func multipleSelectState(_ multipleSelectState: Int?) -> Builder {
+        public func multipleSelectState(_ multipleSelectState: Int?) -> Builder {
             self.multipleSelectState = multipleSelectState
             return self
         }
         
-        func multipleSelectNo(_ multipleSelectNo: Int?) -> Builder {
+        public func multipleSelectNo(_ multipleSelectNo: Int?) -> Builder {
             self.multipleSelectNo = multipleSelectNo
             return self
         }
         
-        func isAnonymous(_ isAnonymous: Bool) -> Builder {
+        public func isAnonymous(_ isAnonymous: Bool) -> Builder {
             self.isAnonymous = isAnonymous
             return self
         }
         
-        func allowAddOption(_ allowAddOption: Bool) -> Builder {
+        public func allowAddOption(_ allowAddOption: Bool) -> Builder {
             self.allowAddOption = allowAddOption
             return self
         }
         
-        func expiryTime(_ expiryTime: Int64) -> Builder {
+        public func expiryTime(_ expiryTime: Int) -> Builder {
             self.expiryTime = expiryTime
             return self
         }
         
-        func temporaryId(_ temporaryId: String?) -> Builder {
+        public func temporaryId(_ temporaryId: String?) -> Builder {
             self.temporaryId = temporaryId
             return self
         }
         
-        func build() -> PostPollConversationRequest {
+        public func build() -> PostPollConversationRequest {
             return PostPollConversationRequest(
                 chatroomId: chatroomId,
                 text: text,
@@ -133,7 +137,7 @@ class PostPollConversationRequest: Encodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .chatroomId(chatroomId)
             .text(text)

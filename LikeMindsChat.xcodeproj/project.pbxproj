@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19A34D2EB6D253D47259DBC7 /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52C4459B2C8413D8E52A4FA5 /* Pods_LikeMindsChat.framework */; };
 		91AF34832C457CC6005BAA96 /* ValidateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */; };
 		91AF34842C457CC6005BAA96 /* ValidateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */; };
 		91AF34852C457CC6005BAA96 /* RefreshAccessTokenRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF34802C457CC6005BAA96 /* RefreshAccessTokenRequest.swift */; };
@@ -196,12 +197,12 @@
 		F4F8640A2B713C8E00F28048 /* RealmDatabaseObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F864092B713C8E00F28048 /* RealmDatabaseObserver.swift */; };
 		F4F8640C2B716CD800F28048 /* ModelConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8640B2B716CD800F28048 /* ModelConverter.swift */; };
 		F4F8640E2B72086200F28048 /* ConversationDBService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F8640D2B72086200F28048 /* ConversationDBService.swift */; };
-		F96CA845783A19F8B2DB6D59 /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 21453C876B3F8F7E204FC7C5 /* Pods_LikeMindsChat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		21453C876B3F8F7E204FC7C5 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7ED63A66F4D0C8CDDCBD5778 /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
+		0D866C2033709DE34FBE300C /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
+		52C4459B2C8413D8E52A4FA5 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		673B332291961D332C2315C8 /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
 		91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserRequest.swift; sourceTree = "<group>"; };
 		91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserResponse.swift; sourceTree = "<group>"; };
 		91AF34802C457CC6005BAA96 /* RefreshAccessTokenRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RefreshAccessTokenRequest.swift; sourceTree = "<group>"; };
@@ -209,7 +210,6 @@
 		91AF34872C457DD4005BAA96 /* LMChatTokenManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMChatTokenManager.swift; sourceTree = "<group>"; };
 		91AF34892C457DEE005BAA96 /* UserDetails.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
 		91AF348A2C457DEE005BAA96 /* UserDefaultsBacked.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDefaultsBacked.swift; sourceTree = "<group>"; };
-		EE07ADAA9537E7155277FD7E /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
 		F412236F2B330FB500CB1532 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F41223712B336E8D00CB1532 /* LinkOGTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOGTags.swift; sourceTree = "<group>"; };
 		F41223732B336F4000CB1532 /* ConversationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationState.swift; sourceTree = "<group>"; };
@@ -400,13 +400,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F96CA845783A19F8B2DB6D59 /* Pods_LikeMindsChat.framework in Frameworks */,
+				19A34D2EB6D253D47259DBC7 /* Pods_LikeMindsChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		42D0051C9D15020443F11A37 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				52C4459B2C8413D8E52A4FA5 /* Pods_LikeMindsChat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		91AF347E2C457CC6005BAA96 /* ValidateUser */ = {
 			isa = PBXGroup;
 			children = (
@@ -433,19 +441,11 @@
 			path = RefreshUser;
 			sourceTree = "<group>";
 		};
-		C25440E9759781CA2A84B8C0 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				21453C876B3F8F7E204FC7C5 /* Pods_LikeMindsChat.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		ECB336449B72AA80651CCD60 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				EE07ADAA9537E7155277FD7E /* Pods-LikeMindsChat.debug.xcconfig */,
-				7ED63A66F4D0C8CDDCBD5778 /* Pods-LikeMindsChat.release.xcconfig */,
+				0D866C2033709DE34FBE300C /* Pods-LikeMindsChat.debug.xcconfig */,
+				673B332291961D332C2315C8 /* Pods-LikeMindsChat.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -479,7 +479,7 @@
 				F420C05A2A5C0472008C48DE /* LikeMindsChat */,
 				F420C0592A5C0472008C48DE /* Products */,
 				ECB336449B72AA80651CCD60 /* Pods */,
-				C25440E9759781CA2A84B8C0 /* Frameworks */,
+				42D0051C9D15020443F11A37 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1056,7 +1056,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F420C0612A5C0472008C48DE /* Build configuration list for PBXNativeTarget "LikeMindsChat" */;
 			buildPhases = (
-				67E11FDBA984E192041EB47D /* [CP] Check Pods Manifest.lock */,
+				537C827C4F0266989CE8D350 /* [CP] Check Pods Manifest.lock */,
 				F420C0532A5C0472008C48DE /* Headers */,
 				F420C0542A5C0472008C48DE /* Sources */,
 				F420C0552A5C0472008C48DE /* Frameworks */,
@@ -1114,7 +1114,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		67E11FDBA984E192041EB47D /* [CP] Check Pods Manifest.lock */ = {
+		537C827C4F0266989CE8D350 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1461,7 +1461,7 @@
 		};
 		F420C0622A5C0472008C48DE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE07ADAA9537E7155277FD7E /* Pods-LikeMindsChat.debug.xcconfig */;
+			baseConfigurationReference = 0D866C2033709DE34FBE300C /* Pods-LikeMindsChat.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -1491,7 +1491,7 @@
 		};
 		F420C0632A5C0472008C48DE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7ED63A66F4D0C8CDDCBD5778 /* Pods-LikeMindsChat.release.xcconfig */;
+			baseConfigurationReference = 673B332291961D332C2315C8 /* Pods-LikeMindsChat.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

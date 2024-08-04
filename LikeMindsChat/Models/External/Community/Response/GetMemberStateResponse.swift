@@ -1,6 +1,6 @@
 //
 //  MemberStateResponse.swift
-//  LMFeed
+//  LMChat
 //
 //  Created by Pushpendra Singh on 26/02/23.
 //

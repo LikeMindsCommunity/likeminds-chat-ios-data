@@ -13,7 +13,7 @@ class PollRO: EmbeddedObject {
     @Persisted var text: String = ""
     @Persisted var subText: String?
     @Persisted var isSelected: Bool?
-    @Persisted var percentage: Int?
+    @Persisted var percentage: Double?
     @Persisted var noVotes: Int?
     @Persisted var member: MemberRO?
 }

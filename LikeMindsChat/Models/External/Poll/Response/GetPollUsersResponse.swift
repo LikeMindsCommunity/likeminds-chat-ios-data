@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct GetPollUsersResponse: Decodable {
-    var members: [Member]
+public struct GetPollUsersResponse: Decodable {
+    public var members: [Member]
 }
