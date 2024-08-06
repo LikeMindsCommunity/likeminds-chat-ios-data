@@ -19,10 +19,11 @@ public class PostPollConversationRequest: Encodable {
     public private(set) var allowAddOption: Bool
     public private(set) var expiryTime: Int
     public private(set) var temporaryId: String?
+    public private(set) var state: Int
     
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"
-        case text
+        case text, state
         case temporaryId = "temporary_id"
         case repliedConversationId = "replied_conversation_id"
         case multipleSelectNo = "multiple_select_no"
@@ -34,7 +35,7 @@ public class PostPollConversationRequest: Encodable {
         case isAnonymous = "is_anonymous"
     }
     
-    private init(chatroomId: String, text: String, repliedConversationId: String?, polls: [Poll], pollType: Int, multipleSelectState: Int?, multipleSelectNo: Int?, isAnonymous: Bool, allowAddOption: Bool, expiryTime: Int, temporaryId: String?) {
+    private init(chatroomId: String, text: String, repliedConversationId: String?, polls: [Poll], pollType: Int, multipleSelectState: Int?, multipleSelectNo: Int?, isAnonymous: Bool, allowAddOption: Bool, expiryTime: Int, temporaryId: String?, state: Int) {
         self.chatroomId = chatroomId
         self.text = text
         self.repliedConversationId = repliedConversationId
@@ -46,6 +47,7 @@ public class PostPollConversationRequest: Encodable {
         self.allowAddOption = allowAddOption
         self.expiryTime = expiryTime
         self.temporaryId = temporaryId
+        self.state = state
     }
     
     public static func builder() -> Builder {
@@ -64,6 +66,7 @@ public class PostPollConversationRequest: Encodable {
         private var allowAddOption: Bool = false
         private var expiryTime: Int = -1
         private var temporaryId: String? = nil
+        private var state: Int = 10
         
         public func chatroomId(_ chatroomId: String) -> Builder {
             self.chatroomId = chatroomId
@@ -120,6 +123,11 @@ public class PostPollConversationRequest: Encodable {
             return self
         }
         
+        public func state(_ state: ConversationState) -> Builder {
+            self.state = state.rawValue
+            return self
+        }
+        
         public func build() -> PostPollConversationRequest {
             return PostPollConversationRequest(
                 chatroomId: chatroomId,
@@ -132,7 +140,8 @@ public class PostPollConversationRequest: Encodable {
                 isAnonymous: isAnonymous,
                 allowAddOption: allowAddOption,
                 expiryTime: expiryTime,
-                temporaryId: temporaryId
+                temporaryId: temporaryId,
+                state: state
             )
         }
     }
@@ -150,5 +159,6 @@ public class PostPollConversationRequest: Encodable {
             .allowAddOption(allowAddOption)
             .expiryTime(expiryTime)
             .temporaryId(temporaryId)
+            .state(.microPoll)
     }
 }

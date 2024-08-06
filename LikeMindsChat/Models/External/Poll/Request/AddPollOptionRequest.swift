@@ -8,8 +8,8 @@
 import Foundation
 
 public class AddPollOptionRequest: Encodable {
-    private let conversationId: String
-    private let poll: Poll
+    let conversationId: String
+    let poll: Poll
     
     private init(conversationId: String, poll: Poll) {
         self.conversationId = conversationId

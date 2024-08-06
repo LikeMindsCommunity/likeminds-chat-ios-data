@@ -13,6 +13,12 @@ public class SubmitPollRequest: Encodable {
     let chatroomId: String
     let polls: [Poll]
     
+    enum CodingKeys: String, CodingKey {
+        case chatroomId = "chatroom_id"
+        case conversationId = "conversation_id"
+        case polls
+    }
+    
     private init(conversationId: String, chatroomId: String, polls: [Poll]) {
         self.conversationId = conversationId
         self.chatroomId = chatroomId

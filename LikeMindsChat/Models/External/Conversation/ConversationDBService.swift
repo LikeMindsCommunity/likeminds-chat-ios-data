@@ -123,6 +123,9 @@ class ConversationDBService {
                 if let attachmentsRO = tempConversationsRo.first?.attachments {
                     realm.delete(attachmentsRO)
                 }
+                if let pollsRO = tempConversationsRo.first?.polls {
+                    realm.delete(pollsRO)
+                }
                 if let linkRO = tempConversationsRo.first?.link {
                     realm.delete(linkRO)
                 }

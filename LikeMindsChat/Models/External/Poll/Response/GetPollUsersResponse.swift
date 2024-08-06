@@ -8,5 +8,5 @@
 import Foundation
 
 public struct GetPollUsersResponse: Decodable {
-    public var members: [Member]
+    public var members: [Member]?
 }

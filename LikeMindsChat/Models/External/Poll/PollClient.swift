@@ -13,9 +13,7 @@ class PollClient {
     static let shared = PollClient()
     
     /**
-     * Converts client request model to internal model and calls the api
      * @param postPollConversationRequest - client request model to post a poll conversation
-     * @throws IllegalArgumentException - when LMChatClient is not instantiated
      * @return PostPollConversationResponse - PostPollConversationResponse model for postPollConversationRequest
      */
     func postPollConversation(request: PostPollConversationRequest, response: LMClientResponse<PostPollConversationResponse>?) {
@@ -36,9 +34,7 @@ class PollClient {
     }
     
     /**
-     * Converts client request model to internal model and calls the api
      * @param addPollOptionRequest - client request model to add poll option
-     * @throws IllegalArgumentException - when LMChatClient is not instantiated
      * @return AddPollOptionResponse - AddPollOptionResponse model for addPollOptionRequest
      */
     func addPollOption(request: AddPollOptionRequest, response: LMClientResponse<AddPollOptionResponse>?) {
@@ -53,6 +49,7 @@ class PollClient {
                                               withResponseType: AddPollOptionResponse.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<AddPollOptionResponse> else {return}
+            PollDBService.shared.updateNewPollOption(poll: data.data?.poll, conversationId: request.conversationId)
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
@@ -60,11 +57,8 @@ class PollClient {
     }
     
     /**
-     * Converts client request model to internal model and calls the api
-     * @param context - context required to start reopen sync
      * @param submitPollRequest - client request model to submit polls selected
-     * @throws IllegalArgumentException - when LMChatClient is not instantiated
-     * @return LMResponse<Nothing> - Base LM response
+     * @return LMResponse<NoData> - Base LM response
      */
     func submitPoll(request: SubmitPollRequest, response: LMClientResponse<NoData>?) {
         
@@ -78,6 +72,9 @@ class PollClient {
                                               withResponseType: NoData.self,
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<NoData> else {return}
+            if data.success {
+                ConversationClient.shared.loadConversation(withConversationId: request.conversationId, chatroomId: request.chatroomId)
+            }
             response?(data)
         } failureCallback: { (moduleName, error) in
             response?(LMResponse.failureResponse(error.localizedDescription))
@@ -85,9 +82,7 @@ class PollClient {
     }
     
     /**
-     * Converts client request model to internal model and calls the api
      * @param getPollUsersRequest - client request model to get users who have voted on that particular poll option
-     * @throws IllegalArgumentException - when LMChatClient is not instantiated
      * @return GetPollUsersResponse - GetPollUsersResponse model for getPollUsersRequest
      */
     func getPollUsers(request: GetPollUsersRequest, response: LMClientResponse<GetPollUsersResponse>?) {
