@@ -52,7 +52,7 @@ class SyncPreferences: BasePreferences {
     }
     
     func getTimestampForSyncConversation() -> Int {
-        return (getValue(forKey: syncChatroomTimeStamp) as? Int) ?? 0
+        return (getValue(forKey: syncConversationTimeStamp) as? Int) ?? 0
     }
     
     public func clearData() {

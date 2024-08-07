@@ -139,8 +139,6 @@ class ConversationClient: ServiceRequest {
             .minTimestamp(0)
             .maxTimestamp(Int(maxTimestamp))
             .build()
-        
-        SyncPreferences.shared.setTimestampForSyncConversation(time: conversationSyncRequest.maxTimestamp ?? 0)
         Self.syncConversationsApi(request: conversationSyncRequest, moduleName: "ConversationClient") { response in
             
             if let _ = response.errorMessage {

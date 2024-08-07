@@ -12,7 +12,7 @@ class ReopenConversationSyncOperation: LMAsyncOperation {
     var chatroomId: String = ""
     
     var maxTimestamp: Int = Int(Date().millisecondsSince1970)
-    var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncChatroom()
+    var minTimestamp: Int = SyncPreferences.shared.getTimestampForSyncConversation()
     var page: Int = 1
     var syncConversationsData: [_SyncConversationResponse_] = []
     

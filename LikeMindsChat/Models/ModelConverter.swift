@@ -204,7 +204,7 @@ class ModelConverter {
             .percentage(pollRO.percentage)
             .subText(pollRO.subText)
             .noVotes(pollRO.noVotes)
-        //            .member(convertMemberRO(memberRO: pollRO.member))
+            .member(convertUser(convertMemberRO(pollRO.member)))
             .build()
     }
     
@@ -363,6 +363,21 @@ class ModelConverter {
         user.updatedAt = userRO.updatedAt
         user.userUniqueID = userRO.userUniqueId
         user.uuid = userRO.uuid
+        return user
+    }
+    
+    func convertUser(_ member: Member?) -> User? {
+        guard let member else { return nil }
+        var user = User(id: member.id, imageUrl: member.imageUrl)
+        user.isGuest = member.isGuest
+        user.name = member.name
+        user.state = member.state
+        user.sdkClientInfo = member.sdkClientInfo
+        user.isDeleted = member.isDeleted
+        user.customTitle = member.customTitle
+        user.updatedAt = member.updatedAt
+        user.userUniqueID = member.userUniqueId
+        user.uuid = member.uuid
         return user
     }
     

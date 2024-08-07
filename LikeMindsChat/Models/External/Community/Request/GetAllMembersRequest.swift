@@ -1,6 +1,6 @@
 //
 //  GetAllMembersRequest.swift
-//  LikeMindsFeed
+//  LikeMindsChat
 //
 //  Created by Pushpendra Singh on 01/09/23.
 //

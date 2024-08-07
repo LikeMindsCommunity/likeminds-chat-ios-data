@@ -33,7 +33,10 @@ public struct User: Codable {
         case uuid
     }
     
-    init(id: String?, imageUrl: String?) {}
+    init(id: String?, imageUrl: String?) {
+        self.id = id
+        self.imageUrl = imageUrl
+    }
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)

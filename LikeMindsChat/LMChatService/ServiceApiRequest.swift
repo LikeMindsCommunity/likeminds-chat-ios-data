@@ -219,7 +219,7 @@ struct ServiceAPIRequest {
             case .submitPoll:
                 return "conversation/poll/submit"
             case .getPollUsers(let request):
-                return "conversation/poll/users"
+                return "conversation/poll/users?conversation_id=\(request.conversationId)&poll_id=\(request.pollOptionId)"
             case .searchChatroom(let request):
                 var urlComponents = URLComponents()
                 urlComponents.path = "chatroom/search"
