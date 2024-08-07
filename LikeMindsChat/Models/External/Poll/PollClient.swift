@@ -73,6 +73,7 @@ class PollClient {
                                               withModuleName: moduleName) { (moduleName, responseData) in
             guard let data = responseData as? LMResponse<NoData> else {return}
             if data.success {
+                PollDBService.shared.updateConversationSubmitPolls(conversationId: request.conversationId, polls: request.polls)
                 ConversationClient.shared.loadConversation(withConversationId: request.conversationId, chatroomId: request.chatroomId)
             }
             response?(data)

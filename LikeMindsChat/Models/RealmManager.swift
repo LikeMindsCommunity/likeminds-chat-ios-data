@@ -33,12 +33,13 @@ class RealmManager {
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
         config.schemaVersion = 4
-        print("realm db path: \(config.fileURL)")
+        #if DEBUG
+        print("realm db path: \(String(describing: config.fileURL))")
+        #endif
+        config.migrationBlock = { (migration, oldSchemaVersion) in
+            //TODO: /// Migration block. Useful when you upgrade the schema version.
+        }
         return config
-        return Realm.Configuration(schemaVersion: 2, migrationBlock: { (migration, oldSchemaVersion) in
-          //TODO:   /// Migration block. Useful when you upgrade the schema version.
-            
-        })
     }
     
     static func realmInstance() -> Realm {

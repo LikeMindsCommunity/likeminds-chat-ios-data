@@ -10,10 +10,10 @@ import Foundation
 public class Poll: Codable {
     public let id: String?
     public let text: String?
-    public let isSelected: Bool?
-    public let percentage: Double?
+    public var isSelected: Bool?
+    public var percentage: Double?
     public let subText: String?
-    public let noVotes: Int?
+    public var noVotes: Int?
     public let member: User?
     public let userId: String?
     public let conversationId: String?
