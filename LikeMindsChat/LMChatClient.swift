@@ -1,6 +1,6 @@
 //
-//  LMFeedClient.swift
-//  LMFeed
+//  LMChatClient.swift
+//  LMChat
 //
 //  Created by Pushpendra Singh on 16/02/23.
 //

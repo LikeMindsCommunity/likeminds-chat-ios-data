@@ -10,36 +10,37 @@ import Foundation
 public class Poll: Codable {
     public let id: String?
     public let text: String?
-    public let isSelected: Bool?
-    public let percentage: Int?
+    public var isSelected: Bool?
+    public var percentage: Double?
     public let subText: String?
-    public let noVotes: Int?
-//    public let member: Member?
+    public var noVotes: Int?
+    public let member: User?
     public let userId: String?
     public let conversationId: String?
     
-    private init(id: String?, text: String?, isSelected: Bool?, percentage: Int?, subText: String?, noVotes: Int?, member: Member?, userId: String?, conversationId: String?) {
+    private init(id: String?, text: String?, isSelected: Bool?, percentage: Double?, subText: String?, noVotes: Int?, member: User?, userId: String?, conversationId: String?) {
         self.id = id
         self.text = text
         self.isSelected = isSelected
         self.percentage = percentage
         self.subText = subText
         self.noVotes = noVotes
-//        self.member = member
+        self.member = member
         self.userId = userId
         self.conversationId = conversationId
     }
     
-    public required init(from decoder: Decoder) throws {
+    required public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
         id = try container.decodeIntToStringIfPresent(forKey: .id)
         text = try container.decodeIfPresent(String.self, forKey: .text)
         isSelected = try container.decodeIfPresent(Bool.self, forKey: .isSelected)
-        percentage = try container.decodeIfPresent(Int.self, forKey: .percentage)
+        percentage = try container.decodeIfPresent(Double.self, forKey: .percentage)
         subText = try container.decodeIfPresent(String.self, forKey: .subText)
         noVotes = try container.decodeIfPresent(Int.self, forKey: .noVotes)
         userId = try container.decodeIntToStringIfPresent(forKey: .userId)
+        member = try container.decodeIfPresent(User.self, forKey: .member)
         conversationId = try container.decodeIntToStringIfPresent(forKey: .conversationId)
     }
     
@@ -50,68 +51,72 @@ public class Poll: Codable {
         case percentage
         case subText = "sub_text"
         case noVotes = "no_votes"
-//        case member
+        case member
         case userId = "user_id"
         case conversationId = "conversation_id"
     }
     
-    class Builder {
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public class Builder {
         private var id: String?
         private var text: String?
         private var isSelected: Bool? = nil
-        private var percentage: Int? = nil
+        private var percentage: Double? = nil
         private var subText: String? = nil
         private var noVotes: Int? = nil
-        private var member: Member? = nil
+        private var member: User? = nil
         private var userId: String? = nil
         private var conversationId: String?
         
-        func id(_ id: String?) -> Builder {
+        public func id(_ id: String?) -> Builder {
             self.id = id
             return self
         }
         
-        func text(_ text: String?) -> Builder {
+        public func text(_ text: String?) -> Builder {
             self.text = text
             return self
         }
         
-        func isSelected(_ isSelected: Bool?) -> Builder {
+        public func isSelected(_ isSelected: Bool?) -> Builder {
             self.isSelected = isSelected
             return self
         }
         
-        func percentage(_ percentage: Int?) -> Builder {
+        public func percentage(_ percentage: Double?) -> Builder {
             self.percentage = percentage
             return self
         }
         
-        func subText(_ subText: String?) -> Builder {
+        public func subText(_ subText: String?) -> Builder {
             self.subText = subText
             return self
         }
         
-        func noVotes(_ noVotes: Int?) -> Builder {
+        public func noVotes(_ noVotes: Int?) -> Builder {
             self.noVotes = noVotes
             return self
         }
         
-        func member(_ member: Member?) -> Builder {
+        public func member(_ member: User?) -> Builder {
             self.member = member
             return self
         }
         
-        func userId(_ userId: String?) -> Builder {
+        public func userId(_ userId: String?) -> Builder {
             self.userId = userId
             return self
         }
         
-        func conversationId(_ conversationId: String?) -> Builder {
+        public func conversationId(_ conversationId: String?) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func build() -> Poll {
+        public func build() -> Poll {
             return Poll(
                 id: id,
                 text: text,
@@ -126,7 +131,7 @@ public class Poll: Codable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .id(id)
             .text(text)
@@ -134,9 +139,8 @@ public class Poll: Codable {
             .percentage(percentage)
             .subText(subText)
             .noVotes(noVotes)
-//            .member(member)
+            .member(member)
             .userId(userId)
             .conversationId(conversationId)
     }
 }
-

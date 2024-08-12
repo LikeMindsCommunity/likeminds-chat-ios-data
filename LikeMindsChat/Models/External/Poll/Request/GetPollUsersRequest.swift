@@ -7,42 +7,47 @@
 
 import Foundation
 
-class GetPollUsersRequest: Encodable {
-    private let pollId: String
-    private let conversationId: String
+public class GetPollUsersRequest: Encodable {
     
-    private init(pollId: String, conversationId: String) {
-        self.pollId = pollId
+    let pollOptionId: String
+    let conversationId: String
+    
+    private init(pollOptionId: String, conversationId: String) {
+        self.pollOptionId = pollOptionId
         self.conversationId = conversationId
     }
     
     enum CodingKeys: String, CodingKey {
         case conversationId = "conversation_id"
-        case pollId = "poll_id"
+        case pollOptionId = "option_id"
     }
     
-    class Builder {
-        private var pollId: String = ""
+    public static func builder() -> Builder {
+        return Builder()
+    }
+    
+    public class Builder {
+        private var pollOptionId: String = ""
         private var conversationId: String = ""
         
-        func pollId(_ pollId: String) -> Builder {
-            self.pollId = pollId
+        public func pollOptionId(_ pollOptionId: String) -> Builder {
+            self.pollOptionId = pollOptionId
             return self
         }
         
-        func conversationId(_ conversationId: String) -> Builder {
+        public func conversationId(_ conversationId: String) -> Builder {
             self.conversationId = conversationId
             return self
         }
         
-        func build() -> GetPollUsersRequest {
-            return GetPollUsersRequest(pollId: pollId, conversationId: conversationId)
+        public func build() -> GetPollUsersRequest {
+            return GetPollUsersRequest(pollOptionId: pollOptionId, conversationId: conversationId)
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
-            .pollId(pollId)
+            .pollOptionId(pollOptionId)
             .conversationId(conversationId)
     }
 }

@@ -165,7 +165,7 @@ struct ServiceAPIRequest {
                     requestURL.append("&member_state=\(memberState)")
                 }
                 if !request.filterMemberRoles.isEmpty {
-                    requestURL.append("&filter_member_roles=\(request.filterMemberRoles)")
+                    requestURL.append("&filter_member_roles=[\(request.filterMemberRoles.joined(separator: ","))]")
                 }
                 if let excludeSelf = request.excludeSelfUser {
                     requestURL.append("&exclude_self_user=\(excludeSelf)")
@@ -219,7 +219,7 @@ struct ServiceAPIRequest {
             case .submitPoll:
                 return "conversation/poll/submit"
             case .getPollUsers(let request):
-                return "conversation/poll/users"
+                return "conversation/poll/users?conversation_id=\(request.conversationId)&poll_id=\(request.pollOptionId)"
             case .searchChatroom(let request):
                 var urlComponents = URLComponents()
                 urlComponents.path = "chatroom/search"
