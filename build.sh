@@ -23,7 +23,7 @@ SKIP_INSTALL=NO \
 xcodebuild archive \
 -workspace LikeMindsChat.xcworkspace \
 -scheme LikeMindsChat \
--configuration Debug \
+-configuration Release \
 -sdk iphonesimulator \
 -archivePath LMChatFramework/archives/ios_simulators.xcarchive \
 BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
