@@ -67,9 +67,9 @@ class SyncPreferences: BasePreferences {
 public class SDKPreferences: BasePreferences {
     
     public static let shared = SDKPreferences()
-    private let communityIDKey = "CommunityId_key"
-    private let lmApiKey = "lm_api_key"
-    private let communityNameKey = "Community_name_key"
+    private let communityIDKey = "lm_chat_communityId_key"
+    private let lmApiKey = "lm_chat_api_key"
+    private let communityNameKey = "lm_chat_community_name_key"
     
     private override init() {}
     
@@ -107,9 +107,9 @@ public class SDKPreferences: BasePreferences {
 public class UserPreferences: BasePreferences {
     
     public static let shared = UserPreferences()
-    private let lmUUID = "lm_uuid_key"
-    private let lmMemberId = "lm_memberid_key"
-    private let clientUUID = "client_uuid_key"
+    private let lmUUID = "lm_chat_uuid_key"
+    private let lmMemberId = "lm_chat_memberid_key"
+    private let clientUUID = "lm_chat_client_uuid_key"
     
     private override init() {}
     
