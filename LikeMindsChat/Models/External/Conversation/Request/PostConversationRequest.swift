@@ -10,7 +10,7 @@ import Foundation
 public class PostConversationRequest: Encodable {
     public private(set) var chatroomId: String
     public private(set) var text: String
-    public private(set) var isFromNotification: Bool
+    public private(set) var isFromNotification: Bool?
     public private(set) var shareLink: String?
     public private(set) var ogTags: LinkOGTags?
     public private(set) var repliedConversationId: String?
@@ -30,7 +30,7 @@ public class PostConversationRequest: Encodable {
         case isFromNotification = "is_from_notification"
     }
     
-    private init(chatroomId: String, text: String, isFromNotification: Bool, shareLink: String?, ogTags: LinkOGTags?, repliedConversationId: String?, attachmentCount: Int?, temporaryId: String?, repliedChatroomId: String?) {
+    private init(chatroomId: String, text: String, isFromNotification: Bool?, shareLink: String?, ogTags: LinkOGTags?, repliedConversationId: String?, attachmentCount: Int?, temporaryId: String?, repliedChatroomId: String?) {
         self.chatroomId = chatroomId
         self.text = text
         self.isFromNotification = isFromNotification
@@ -45,7 +45,7 @@ public class PostConversationRequest: Encodable {
     public class Builder {
         private var chatroomId: String = ""
         private var text: String = ""
-        private var isFromNotification: Bool = false
+        private var isFromNotification: Bool? = nil
         private var shareLink: String? = nil
         private var ogTags: LinkOGTags? = nil
         private var repliedConversationId: String? = nil
@@ -65,7 +65,7 @@ public class PostConversationRequest: Encodable {
             return self
         }
         
-        public func isFromNotification(_ isFromNotification: Bool) -> Builder {
+        public func isFromNotification(_ isFromNotification: Bool?) -> Builder {
             self.isFromNotification = isFromNotification
             return self
         }
