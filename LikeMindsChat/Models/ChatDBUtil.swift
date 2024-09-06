@@ -130,11 +130,12 @@ class ChatDBUtil {
      */
     func getCommunityConversations(
         realm: Realm,
-        communityId: String
+        communityId: String,
+        filterConversations: [Int] = []
     ) -> Results<ConversationRO> {
         let conversations = realm.objects(ConversationRO.self)
         return conversations.where { query in
-            query.communityId == communityId
+            query.communityId == communityId && !query.state.in(filterConversations)
         }
     }
     
@@ -148,11 +149,12 @@ class ChatDBUtil {
      */
     func getChatroomConversations(
         realm: Realm,
-        chatroomId: String
+        chatroomId: String,
+        filterConversations: [Int] = []
     ) -> Results<ConversationRO> {
         return realm.objects(ConversationRO.self)
             .where { query in
-                query.chatroomId == chatroomId 
+                query.chatroomId == chatroomId && !query.state.in(filterConversations)
             }
     }
     
