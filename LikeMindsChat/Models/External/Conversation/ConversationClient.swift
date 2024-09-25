@@ -72,7 +72,7 @@ class ConversationClient: ServiceRequest {
     ) {
         guard let communityId = SDKPreferences.shared.getCommunityId() else { return }
 //        addObserver(request.listener)
-        conversations = ConversationDBService.shared.getChatroomConversations(chatroomId: request.chatroomId)
+        conversations = ConversationDBService.shared.getChatroomConversations(chatroomId: request.chatroomId, filterConversations: LMChatClient.shared.excludeConversationStates)
         // Observe collection notifications. Keep a strong
         // reference to the notification token or the
         // observation will stop.
@@ -202,7 +202,7 @@ class ConversationClient: ServiceRequest {
         chatroomId: String,
         limit: Int,
         belowConversation: Conversation?) -> LMResponse<GetConversationsResponse>? {
-            guard let topConversations =  ConversationDBService.shared.getBelowConversations(chatroomId: chatroomId, limit: limit, timestmap: belowConversation?.createdEpoch ?? 0)?.compactMap({ ro in
+            guard let topConversations =  ConversationDBService.shared.getBelowConversations(chatroomId: chatroomId, limit: limit, timestmap: belowConversation?.createdEpoch ?? 0, filterConversations: LMChatClient.shared.excludeConversationStates)?.compactMap({ ro in
                 ModelConverter.shared.convertConversationRO(ro)
             }) else {
                 return LMResponse.failureResponse("Unable to fetch below conversations!")
@@ -216,7 +216,7 @@ class ConversationClient: ServiceRequest {
         chatroomId: String,
         limit: Int,
         conversation: Conversation?) -> LMResponse<GetConversationsResponse>? {
-            guard let topConversations =  ConversationDBService.shared.getAboveConversations(chatroomId: chatroomId, limit: limit, timestmap: conversation?.createdEpoch ?? 0)?.compactMap({ ro in
+            guard let topConversations =  ConversationDBService.shared.getAboveConversations(chatroomId: chatroomId, limit: limit, timestmap: conversation?.createdEpoch ?? 0, filterConversations: LMChatClient.shared.excludeConversationStates)?.compactMap({ ro in
                 ModelConverter.shared.convertConversationRO(ro)
             }) else {
                 return LMResponse.failureResponse("Unable to fetch above conversations!")
@@ -229,7 +229,7 @@ class ConversationClient: ServiceRequest {
     private func getTopConversations(
         chatroomId: String,
         limit: Int) -> LMResponse<GetConversationsResponse>? {
-            guard let topConversations =  ConversationDBService.shared.getTopConversations(chatroomId: chatroomId, limit: limit)?.compactMap({ ro in
+            guard let topConversations =  ConversationDBService.shared.getTopConversations(chatroomId: chatroomId, limit: limit, filterConversations: LMChatClient.shared.excludeConversationStates)?.compactMap({ ro in
                 ModelConverter.shared.convertConversationRO(ro)
             }) else {
                 return LMResponse.failureResponse("Unable to fetch top conversations!")
@@ -242,7 +242,7 @@ class ConversationClient: ServiceRequest {
     private func getBottomConversations(
         chatroomId: String,
         limit: Int) -> LMResponse<GetConversationsResponse>? {
-            guard let topConversations =  ConversationDBService.shared.getBottomConversations(chatroomId: chatroomId, limit: limit)?.compactMap({ ro in
+            guard let topConversations =  ConversationDBService.shared.getBottomConversations(chatroomId: chatroomId, limit: limit, filterConversations: LMChatClient.shared.excludeConversationStates)?.compactMap({ ro in
                 ModelConverter.shared.convertConversationRO(ro)
             }) else {
                return LMResponse.failureResponse("Unable to fetch Bottom conversations!")
@@ -541,5 +541,11 @@ class ConversationClient: ServiceRequest {
                 print("json error parsing - \(#function) \(error)")
             }
         }
+    }
+    
+    func getMember(_ uuid: String) -> Member? {
+        guard let memberRO = ConversationDBService.shared.getMemberBy(uuid),
+              let member = ModelConverter.shared.convertMemberRO(memberRO) else { return nil }
+        return member
     }
 }

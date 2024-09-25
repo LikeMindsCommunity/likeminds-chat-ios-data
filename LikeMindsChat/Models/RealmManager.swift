@@ -33,9 +33,6 @@ class RealmManager {
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
         config.schemaVersion = 4
-        #if DEBUG
-        print("realm db path: \(String(describing: config.fileURL))")
-        #endif
         config.migrationBlock = { (migration, oldSchemaVersion) in
             //TODO: /// Migration block. Useful when you upgrade the schema version.
         }

@@ -15,11 +15,12 @@ class ConversationDBService {
     func getAboveConversations(
         chatroomId: String,
         limit: Int,
-        timestmap: Int) -> Slice<Results<ConversationRO>>? {
+        timestmap: Int,
+        filterConversations: [Int] = []) -> Slice<Results<ConversationRO>>? {
             let realm = RealmManager.realmInstance()
             let conversations = realm.objects(ConversationRO.self)
             return conversations.where { query in
-                query.chatroomId == chatroomId && query.createdEpoch < timestmap
+                query.chatroomId == chatroomId && !query.state.in(filterConversations) && query.createdEpoch < timestmap
             }
             .sorted(byKeyPath: DbKey.CREATED_EPOCH, ascending: true)
             .suffix(limit)
@@ -28,11 +29,12 @@ class ConversationDBService {
     func getBelowConversations(
         chatroomId: String,
         limit: Int,
-        timestmap: Int) -> Slice<Results<ConversationRO>>? {
+        timestmap: Int,
+        filterConversations: [Int] = []) -> Slice<Results<ConversationRO>>? {
             let realm = RealmManager.realmInstance()
             let conversations = realm.objects(ConversationRO.self)
             return conversations.where { query in
-                query.chatroomId == chatroomId && query.createdEpoch > timestmap
+                query.chatroomId == chatroomId && !query.state.in(filterConversations) && query.createdEpoch > timestmap
             }
             .sorted(byKeyPath: DbKey.CREATED_EPOCH, ascending: true)
             .prefix(limit)
@@ -40,11 +42,12 @@ class ConversationDBService {
     
     func getTopConversations(
         chatroomId: String,
-        limit: Int) -> Slice<Results<ConversationRO>>? {
+        limit: Int,
+        filterConversations: [Int] = []) -> Slice<Results<ConversationRO>>? {
             let realm = RealmManager.realmInstance()
             let conversations = realm.objects(ConversationRO.self)
             return conversations.where { query in
-                query.chatroomId == chatroomId
+                query.chatroomId == chatroomId && !query.state.in(filterConversations)
             }
             .sorted(byKeyPath: DbKey.CREATED_EPOCH, ascending: true)
             .prefix(limit)
@@ -52,20 +55,21 @@ class ConversationDBService {
     
     func getBottomConversations(
         chatroomId: String,
-        limit: Int) -> Slice<Results<ConversationRO>>? {
+        limit: Int,
+        filterConversations: [Int] = []) -> Slice<Results<ConversationRO>>? {
             let realm = RealmManager.realmInstance()
             let conversations = realm.objects(ConversationRO.self)
             return conversations.where { query in
-                query.chatroomId == chatroomId
+                query.chatroomId == chatroomId && !query.state.in(filterConversations)
             }
             .sorted(byKeyPath: DbKey.CREATED_EPOCH, ascending: true)
             .suffix(limit)
         }
     
     
-    func getChatroomConversations(chatroomId: String) -> Results<ConversationRO>? {
+    func getChatroomConversations(chatroomId: String, filterConversations: [Int] = []) -> Results<ConversationRO>? {
         let realm = RealmManager.realmInstance()
-        let conversations = ChatDBUtil.shared.getChatroomConversations(realm: realm, chatroomId: chatroomId)
+        let conversations = ChatDBUtil.shared.getChatroomConversations(realm: realm, chatroomId: chatroomId, filterConversations: filterConversations)
         return conversations
     }
     
@@ -262,4 +266,10 @@ class ConversationDBService {
         }
     }
     
+    func getMemberBy(_ uuid: String) -> MemberRO? {
+        let realm = RealmManager.realmInstance()
+        guard let memberRO = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: uuid)
+        else { return nil }
+        return memberRO
+    }
 }

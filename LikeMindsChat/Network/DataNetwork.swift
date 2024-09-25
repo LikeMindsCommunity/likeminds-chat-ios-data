@@ -238,7 +238,7 @@ internal final class DataNetwork {
                 lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
                 successCallback(moduleName, lmResponse)
             } catch let error {
-                lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
+                lmLog("response - \(String(describing: NSString(data: responseData, encoding: String.Encoding.utf8.rawValue)))")
                 lmLog("-----------Error---------------")
                 lmLog("error in parsing---> \(error)")
                 lmLog("-----------End error---------------")

@@ -34,6 +34,9 @@ public class LMChatClient {
     /// Callback for handling SDK-related events.
     static weak private(set) var lMChatSDKCallback: LMChatSDKCallback?
     
+    /// Property to filter conversation states.
+    private(set) var excludeConversationStates: [Int] = []
+    
     /// Private initializer to enforce singleton pattern.
     private init() {
         FirebaseServiceConfiguration.setupFirebaseAppService()
@@ -90,5 +93,9 @@ public class LMChatClient {
     /// - Returns: A User object if available, or nil if no user details are found.
     public func getUserDetails() -> User? {
         UserDetails.userDetails
+    }
+    
+    public func excludeConversationStates(_ states: [ConversationState]) {
+        self.excludeConversationStates = states.compactMap({$0.rawValue})
     }
 }
