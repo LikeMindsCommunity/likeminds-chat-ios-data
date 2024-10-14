@@ -21,14 +21,14 @@ public struct GetMemberStateResponse: Codable {
     public let memberRights: [MemberRight]?
     public let state: Int?
     public let toolState: Int?
+    public let roles: [UserRole]
     
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case editRequired = "edit_required"
-        case member
+        case member, state, roles
         case memberRights = "member_rights"
         case managerRights = "manager_rights"
-        case state
         case toolState = "tool_state"
     }
 }

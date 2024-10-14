@@ -21,4 +21,4 @@ class UserRO: Object {
     @Persisted var isGuest: Bool?
     @Persisted var uuid: String?
     @Persisted var sdkClientInfoRO: SDKClientInfoRO?
-}
+    @Persisted var roles: List<String> = List()

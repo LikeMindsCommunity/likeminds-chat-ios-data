@@ -56,7 +56,6 @@ struct ServiceAPIRequest {
         case deleteConversations(_ request: DeleteConversationsRequest)
         case putReaction(_ request: PutReactionRequest)
         case deleteReaction(_ request: DeleteReactionRequest)
-        case putMultimedia(_ request: PutMultimediaRequest)
         
         //MARK:- Helper api
         case decodeUrl(_ request: DecodeUrlRequest )
@@ -201,8 +200,6 @@ struct ServiceAPIRequest {
             case .putReaction,
                     .deleteReaction:
                 return "conversation/reaction"
-            case .putMultimedia:
-                return "helper/media/upload"
                 
                 //MARK:- Helper api URL
             case .decodeUrl(let request):
@@ -258,7 +255,6 @@ struct ServiceAPIRequest {
                     .pushToken,
                     .logout,
                     .markReadChatroom,
-                    .putMultimedia,
                     .postConversation,
                     .postPollConversation,
                     .addPollOption,
@@ -347,8 +343,6 @@ struct ServiceAPIRequest {
             case .putReaction(let request):
                 return request.requestParam()
             case .deleteReaction(let request):
-                return request.requestParam()
-            case .putMultimedia(let request):
                 return request.requestParam()
             case .addPollOption(let request):
                 return request.requestParam()
