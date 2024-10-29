@@ -33,7 +33,7 @@ public struct Member: Decodable {
     public private(set) var updatedAt: Int?
     public private(set) var sdkClientInfo: SDKClientInfo?
     public private(set) var uuid: String?
-    public private(set) var roles: [String]
+    public private(set) var roles: [UserRole]?
     
     enum CodingKeys: String, CodingKey {
         case id, name, roles
@@ -87,7 +87,7 @@ public struct Member: Decodable {
         updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
         sdkClientInfo = try container.decodeIfPresent(SDKClientInfo.self, forKey: .sdkClientInfo)
         uuid = try container.decodeIfPresent(String.self, forKey: .uuid)
-        roles = try container.decodeIfPresent([String].self, forKey: .roles)
+        roles = try container.decodeIfPresent([UserRole].self, forKey: .roles)
     }
     
     

@@ -32,7 +32,7 @@ public class PostConversationRequest: Encodable {
         case isFromNotification = "is_from_notification"
     }
     
-    private init(chatroomId: String, text: String, isFromNotification: Bool?, shareLink: String?, ogTags: LinkOGTags?, repliedConversationId: String?, temporaryId: String?, repliedChatroomId: String?, triggerBot: Bool?, attachments: Attachment?) {
+    private init(chatroomId: String, text: String, isFromNotification: Bool?, shareLink: String?, ogTags: LinkOGTags?, repliedConversationId: String?, temporaryId: String?, repliedChatroomId: String?, triggerBot: Bool?, attachments: [Attachment]?) {
         self.chatroomId = chatroomId
         self.text = text
         self.isFromNotification = isFromNotification
@@ -40,7 +40,7 @@ public class PostConversationRequest: Encodable {
         self.ogTags = ogTags
         self.repliedConversationId = repliedConversationId
         self.triggerBot = triggerBot
-        self.attachments = attachments
+        self.attachments = attachments ?? []
         self.temporaryId = temporaryId
         self.repliedChatroomId = repliedChatroomId
     }
@@ -55,7 +55,7 @@ public class PostConversationRequest: Encodable {
         private var temporaryId: String? = nil
         private var repliedChatroomId: String? = nil
         private var triggerBot: Bool? = nil
-        private var attachments: Attachment? = nil
+        private var attachments: [Attachment]? = nil
         
         public init() {}
         
@@ -119,8 +119,8 @@ public class PostConversationRequest: Encodable {
                 repliedConversationId: repliedConversationId,
                 temporaryId: temporaryId,
                 repliedChatroomId: repliedChatroomId,
-                attachments: attachments,
-                triggerBot: triggerBot
+                triggerBot: triggerBot,
+                attachments: attachments
             )
         }
     }

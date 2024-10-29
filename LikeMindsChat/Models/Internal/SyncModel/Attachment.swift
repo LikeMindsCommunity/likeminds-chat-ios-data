@@ -8,10 +8,10 @@
 
 import Foundation
 
-public struct Attachment: Decodable {
+public struct Attachment: Codable {
     public let id: String?
     public let name: String?
-    public let url: String?
+    public var url: String?
     public let type: String?
     public let index: Int?
     public let width: Int?
@@ -28,7 +28,7 @@ public struct Attachment: Decodable {
     enum CodingKeys: String, CodingKey {
         case id
         case name
-        case url = "file_url"
+        case url = "url"
         case type
         case index
         case width
@@ -43,11 +43,30 @@ public struct Attachment: Decodable {
         case updatedAt = "updated_at"
     }
     
+    enum AlternateKeys: String, CodingKey {
+        case fileUrl = "file_url"
+        case imageUrl = "image_url"
+        case videoUrl = "video_url"
+        
+    }
+    
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
+        let alternativeContainer = try decoder.container(keyedBy: AlternateKeys.self)
+        
         id = try container.decodeIntToStringIfPresent(forKey: .id)
         name = try container.decodeIfPresent(String.self, forKey: .name)
         url = try container.decodeIfPresent(String.self, forKey: .url)
+        if url == nil {
+            url = try alternativeContainer.decodeIfPresent(String.self, forKey: .fileUrl)
+        }
+        if url == nil {
+            url = try alternativeContainer.decodeIfPresent(String.self, forKey: .imageUrl)
+        }
+        
+        if url == nil {
+            url = try alternativeContainer.decodeIfPresent(String.self, forKey: .videoUrl)
+        }
         type = try container.decodeIfPresent(String.self, forKey: .type)
         index = try container.decodeIfPresent(Int.self, forKey: .index)
         width = try container.decodeIfPresent(Int.self, forKey: .width)
@@ -79,6 +98,26 @@ public struct Attachment: Decodable {
         self.createdAt = createdAt
         self.updatedAt = updatedAt
     }
+    
+    // Custom encoder
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(id, forKey: .id)
+            try container.encodeIfPresent(name, forKey: .name)
+            try container.encodeIfPresent(url, forKey: .url)
+            try container.encodeIfPresent(type, forKey: .type)
+            try container.encodeIfPresent(index, forKey: .index)
+            try container.encodeIfPresent(width, forKey: .width)
+            try container.encodeIfPresent(height, forKey: .height)
+            try container.encodeIfPresent(awsFolderPath, forKey: .awsFolderPath)
+            try container.encodeIfPresent(localFilePath, forKey: .localFilePath)
+            try container.encodeIfPresent(thumbnailUrl, forKey: .thumbnailUrl)
+            try container.encodeIfPresent(thumbnailAWSFolderPath, forKey: .thumbnailAWSFolderPath)
+            try container.encodeIfPresent(thumbnailLocalFilePath, forKey: .thumbnailLocalFilePath)
+            try container.encodeIfPresent(meta, forKey: .meta)
+            try container.encodeIfPresent(createdAt, forKey: .createdAt)
+            try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
+        }
     
     public static func builder() -> Builder {
         return Builder()

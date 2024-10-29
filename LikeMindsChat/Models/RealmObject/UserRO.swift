@@ -22,3 +22,4 @@ class UserRO: Object {
     @Persisted var uuid: String?
     @Persisted var sdkClientInfoRO: SDKClientInfoRO?
     @Persisted var roles: List<String> = List()
+}
