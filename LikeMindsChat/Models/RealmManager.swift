@@ -34,13 +34,15 @@ class RealmManager {
         config.fileURL!.appendPathExtension("realm")
         config.schemaVersion = 5
         config.migrationBlock = { (migration, oldSchemaVersion) in
+            var oldVersion = oldSchemaVersion
             // TODO: /// Migration block. Useful when you upgrade the schema version.
-            if(oldSchemaVersion <= 4){
+            if(oldVersion <= 4){
                 migration.enumerateObjects(ofType: ""){ old, new in
                     if old?["roles"] == nil {
                         new?["roles"] = nil
                     }
                 }
+                oldVersion += 1
             }
         }
         return config
