@@ -21,7 +21,7 @@ public struct GetMemberStateResponse: Codable {
     public let memberRights: [MemberRight]?
     public let state: Int?
     public let toolState: Int?
-    public let roles: [UserRole]
+    public let roles: [UserRole]?
     
     enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
