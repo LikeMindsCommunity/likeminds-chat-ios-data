@@ -19,7 +19,7 @@ public class Conversation: Decodable {
     public private(set) var state: ConversationState
     public private(set) var attachments: [Attachment]?
     public private(set) var lastSeen: Bool?
-    public private(set) var ogTags: LinkOGTags?
+    public private(set) var ogTags: LinkOGTags? 
     public private(set) var date: String?
     public private(set) var isEdited: Bool?
     public private(set) var memberId: String?

@@ -17,9 +17,10 @@ public struct User: Codable {
     public var customTitle: String?
     public var state, updatedAt: Int?
     public var sdkClientInfo: SDKClientInfo?
+    public var roles: [UserRole]?
     
     enum CodingKeys: String, CodingKey {
-        case id, name
+        case id, name, roles, uuid
         case imageUrl = "image_url"
         case organisationName = "organisation_name"
         case userUniqueID = "user_unique_id"
@@ -30,7 +31,6 @@ public struct User: Codable {
         case state
         case updatedAt = "updated_at"
         case sdkClientInfo = "sdk_client_info"
-        case uuid
     }
     
     init(id: String?, imageUrl: String?) {
@@ -53,6 +53,7 @@ public struct User: Codable {
         self.updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
         self.sdkClientInfo = try container.decode(SDKClientInfo.self, forKey: .sdkClientInfo)
         self.uuid = try container.decodeIfPresent(String.self, forKey: .uuid)
+        self.roles = try container.decodeIfPresent([UserRole].self, forKey: .roles)
     }
     // Using UUID for user unique id
     public var clientUUID: String? {

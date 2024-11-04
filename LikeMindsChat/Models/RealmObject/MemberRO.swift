@@ -24,4 +24,5 @@ class MemberRO: Object {
     @Persisted var userUniqueId: String?
     @Persisted var uuid: String?
     @Persisted var sdkClientInfoRO: SDKClientInfoRO?
+    @Persisted var roles: List<String> = List()
 }

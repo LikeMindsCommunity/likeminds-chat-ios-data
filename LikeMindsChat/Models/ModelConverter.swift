@@ -102,6 +102,8 @@ class ModelConverter {
     // converts MemberRO model to client model
     func convertMemberRO(_ memberRO: MemberRO?) -> Member? {
         guard let memberRO else { return nil}
+        let roles: [UserRole] = memberRO.roles.compactMap { UserRole.from($0) }
+
         return Member.Builder()
             .id(memberRO.id ?? "")
             .userUniqueId(memberRO.userUniqueId ?? "")
@@ -116,6 +118,7 @@ class ModelConverter {
             .isGuest(memberRO.isGuest ?? false)
             .sdkClientInfo(convertSDKClientInfoRO(memberRO.sdkClientInfoRO))
             .uuid(memberRO.uuid ?? "")
+            .roles(roles)
             .build()
     }
     
@@ -363,6 +366,8 @@ class ModelConverter {
         user.updatedAt = userRO.updatedAt
         user.userUniqueID = userRO.userUniqueId
         user.uuid = userRO.uuid
+        let roles: [UserRole] = userRO.roles.compactMap { UserRole.from($0) }
+        user.roles = roles
         return user
     }
     
@@ -378,7 +383,8 @@ class ModelConverter {
         user.updatedAt = member.updatedAt
         user.userUniqueID = member.userUniqueId
         user.uuid = member.uuid
+        user.roles = member.roles
+        user.roles = member.roles
         return user
-    }
-    
+    }    
 }

@@ -32,9 +32,18 @@ class RealmManager {
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
-        config.schemaVersion = 4
+        config.schemaVersion = 5
         config.migrationBlock = { (migration, oldSchemaVersion) in
-            //TODO: /// Migration block. Useful when you upgrade the schema version.
+            var oldVersion = oldSchemaVersion
+            // TODO: /// Migration block. Useful when you upgrade the schema version.
+            if(oldVersion <= 4){
+                migration.enumerateObjects(ofType: ""){ old, new in
+                    if old?["roles"] == nil {
+                        new?["roles"] = nil
+                    }
+                }
+                oldVersion += 1
+            }
         }
         return config
     }
