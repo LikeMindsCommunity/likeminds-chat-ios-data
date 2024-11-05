@@ -1,13 +1,15 @@
 # 1 - Pod Install
-pod deintegrate
-rm -rf Podfile.lock
-pod install
+# 1
+run_pre_build_script() {
+    ./setup.sh
 
-# 2 - Cleaning the workspace
-xcodebuild clean -workspace LikeMindsChat.xcworkspace -scheme LikeMindsChat
+    if [ $? -ne 0 ]; then
+        echo "Pre-build script failed. Exiting."
+        exit 1
+    fi
+}
 
-# 3 - Building the workspace
-xcodebuild build -workspace LikeMindsChat.xcworkspace -scheme LikeMindsChat
+run_pre_build_script
 
 # 4 - Archiving the workspace for Device
 xcodebuild archive \
@@ -23,7 +25,7 @@ SKIP_INSTALL=NO \
 xcodebuild archive \
 -workspace LikeMindsChat.xcworkspace \
 -scheme LikeMindsChat \
--configuration Release \
+-configuration Debug \
 -sdk iphonesimulator \
 -archivePath LMChatFramework/archives/ios_simulators.xcarchive \
 BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
