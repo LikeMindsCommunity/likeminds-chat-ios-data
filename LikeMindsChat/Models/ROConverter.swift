@@ -35,6 +35,12 @@ class ROConverter {
         memberRO.customClickText = member.customClickText
         memberRO.uid = uid
         
+        let rolesAsStrings = member.roles?.compactMap { $0.rawValue } ?? []
+        
+        let rolesAsList = List<String>()
+        rolesAsList.append(objectsIn: rolesAsStrings)
+        memberRO.roles = rolesAsList
+        
         //if customTitle == "Member" then save null else member.customTitle()
         if (member.customTitle?.lowercased() == "member") {
             memberRO.customTitle = nil
@@ -761,6 +767,13 @@ class ROConverter {
         userRO.isDeleted = user.isDeleted
         userRO.customTitle = user.customTitle
         userRO.communityId = user.sdkClientInfo?.community
+        
+        let rolesAsStrings = user.roles?.compactMap { $0.rawValue } ?? []
+        
+        let rolesAsList = List<String>()
+        rolesAsList.append(objectsIn: rolesAsStrings)
+        
+        userRO.roles = rolesAsList
         return userRO
     }
 
@@ -788,6 +801,7 @@ class ROConverter {
         memberRO.isGuest = userRO.isGuest
         memberRO.sdkClientInfoRO = userRO.sdkClientInfoRO
         memberRO.communityId = communityId
+        memberRO.roles = userRO.roles
         return memberRO
     }
 

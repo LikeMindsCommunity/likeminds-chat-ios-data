@@ -468,29 +468,6 @@ class ConversationClient: ServiceRequest {
         }
     }
     
-    /**
-     * Converts client request model to internal model and calls the api
-     * @param putMultimediaRequest - client request model to upload a conversation attachment
-     * @throws IllegalArgumentException - when LMChatClient is not instantiated or required properties not provided
-     * @return LMResponse<PutMultimediaResponse> - Base LM response[PutMultimediaResponse]
-     */
-    func putMultimedia(request: PutMultimediaRequest, response: LMClientResponse<PutMultimediaResponse>?) {
-        let networkPath = ServiceAPIRequest.NetworkPath.putMultimedia(request)
-        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
-        DataNetwork.shared.requestWithDecoded(for: url,
-                                              withHTTPMethod: networkPath.httpMethod,
-                                              headers: ServiceRequest.httpHeaders(),
-                                              withParameters: networkPath.parameters,
-                                              withEncoding: networkPath.encoding,
-                                              withResponseType: PutMultimediaResponse.self,
-                                              withModuleName: moduleName) { (moduleName, responseData) in
-            guard let data = responseData as? LMResponse<PutMultimediaResponse> else {return}
-            response?(data)
-        } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
-        }
-    }
-    
     static func syncConversationsApi(request: ConversationSyncRequest, moduleName: String, _ response: LMClientResponse<_SyncConversationResponse_>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.syncConversations(request)
         guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}

@@ -33,9 +33,10 @@ public struct Member: Decodable {
     public private(set) var updatedAt: Int?
     public private(set) var sdkClientInfo: SDKClientInfo?
     public private(set) var uuid: String?
+    public private(set) var roles: [UserRole]?
     
     enum CodingKeys: String, CodingKey {
-        case id, name
+        case id, name, roles
         case imageUrl = "image_url"
         case userUniqueId = "user_unique_id"
         case isGuest = "is_guest"
@@ -86,6 +87,7 @@ public struct Member: Decodable {
         updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
         sdkClientInfo = try container.decodeIfPresent(SDKClientInfo.self, forKey: .sdkClientInfo)
         uuid = try container.decodeIfPresent(String.self, forKey: .uuid)
+        roles = try container.decodeIfPresent([UserRole].self, forKey: .roles)
     }
     
     
@@ -116,6 +118,7 @@ public struct Member: Decodable {
         private var updatedAt: Int?
         private var sdkClientInfo: SDKClientInfo?
         private var uuid: String = ""
+        private var roles: [UserRole] = []
         
         @discardableResult
         func id(_ id: String) -> Builder {
@@ -228,6 +231,11 @@ public struct Member: Decodable {
             return self
         }
         
+        func roles(_ roles: [UserRole]) -> Builder{
+            self.roles = roles
+            return self
+        }
+        
         func build() -> Member {
             var member = Member()
             member.id = self.id
@@ -252,6 +260,7 @@ public struct Member: Decodable {
             member.updatedAt = self.updatedAt
             member.sdkClientInfo = self.sdkClientInfo
             member.uuid = self.uuid
+            member.roles = self.roles
             return member
         }
     }
@@ -280,6 +289,7 @@ public struct Member: Decodable {
             .updatedAt(updatedAt)
             .sdkClientInfo(sdkClientInfo)
             .uuid(uuid ?? "")
+            .roles(roles ?? [])
     }
     
     public func communityManager() -> String? {

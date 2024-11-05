@@ -309,10 +309,6 @@ extension LMChatClient {
         
     }
     
-    public func putMultimedia(request: PutMultimediaRequest, response: LMClientResponse<PutMultimediaResponse>?) {
-        ConversationClient.shared.putMultimedia(request: request, response: response)
-    }
-    
     public func updateLastSeenAndDraft() {
         
     }
