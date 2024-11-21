@@ -275,6 +275,14 @@ extension LMChatClient {
     
     public func postConversation(request: PostConversationRequest, response: LMClientResponse<PostConversationResponse>?) {
         ConversationClient.shared.postConversation(request: request) { result in
+            if result.success {
+                if let widgetId = result.data?.conversation?.widgetId {
+                   var conversationBuider = result.data?.conversation?.toBuilder()
+                    var widget = result.data?.widgets?[widgetId]
+                    conversationBuider = conversationBuider?.widget(widget)
+                    result.data?.conversation = conversationBuider?.build()
+                }
+            }
             response?(result)
         }
     }

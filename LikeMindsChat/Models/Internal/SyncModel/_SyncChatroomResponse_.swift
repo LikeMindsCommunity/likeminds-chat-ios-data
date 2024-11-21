@@ -16,6 +16,7 @@ struct _SyncChatroomResponse_: Decodable {
     let conversationPollMeta: [String: [Poll]]?
     let conversationMeta: [String: _Conversation_]?
     let userMeta: [String: Member]?
+    let widgets: [String: LMWidget]?
     
     enum CodingKeys: String, CodingKey {
         case chatrooms = "chatrooms_data",
@@ -24,6 +25,7 @@ struct _SyncChatroomResponse_: Decodable {
              conversationPollMeta = "conv_polls_meta",
              conversationMeta = "conversation_meta",
              cardAttachmentMeta = "card_attachments_meta",
-             userMeta = "user_meta"
+             userMeta = "user_meta",
+             widgets
     }
 }

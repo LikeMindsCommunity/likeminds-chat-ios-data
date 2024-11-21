@@ -104,3 +104,33 @@ public struct AnyDecodable: Decodable {
         }
     }
 }
+
+public struct AnyEncodable: Encodable {
+    let value: Any
+
+    public init(_ value: Any) {
+        self.value = value
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+
+        if let intValue = value as? Int {
+            try container.encode(intValue)
+        } else if let doubleValue = value as? Double {
+            try container.encode(doubleValue)
+        } else if let stringValue = value as? String {
+            try container.encode(stringValue)
+        } else if let boolValue = value as? Bool {
+            try container.encode(boolValue)
+        } else if let dictionaryValue = value as? [String: Any] {
+            let encodableDictionary = dictionaryValue.mapValues { AnyEncodable($0) }
+            try container.encode(encodableDictionary)
+        } else if let arrayValue = value as? [Any] {
+            let encodableArray = arrayValue.map { AnyEncodable($0) }
+            try container.encode(encodableArray)
+        } else {
+            throw EncodingError.invalidValue(value, EncodingError.Context(codingPath: container.codingPath, debugDescription: "Unsupported type"))
+        }
+    }
+}

@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+
 class ModelConverter {
     static let shared = ModelConverter()
     // converts internal Conversation model to client model
@@ -53,12 +54,20 @@ class ModelConverter {
             .hasReactions(_conversation_.hasReactions)
             .lastUpdated(_conversation_.lastUpdated)
             .conversationStatus(.sent)
+            .widget(_conversation_.widget)
+            .widgetId(_conversation_.widgetId)
             .build()
     }
-    
+
     // converts ConversationRO model to client model
-    func convertConversationRO(_ conversationRO: ConversationRO?) -> Conversation? {
+    func convertConversationRO(_ conversationRO: ConversationRO?)
+        -> Conversation?
+    {
         guard let conversationRO else { return nil }
+        var widget: LMWidget?
+        if let widgetRO = conversationRO.widget {
+           widget = convertWidgetROToWidget(widgetRO)
+        }
         return Conversation.Builder()
             .id(conversationRO.id)
             .chatroomId(conversationRO.chatroomId)
@@ -74,7 +83,9 @@ class ModelConverter {
             .isEdited(conversationRO.isEdited)
             .lastSeen(conversationRO.lastSeen)
             .replyConversationId(conversationRO.replyConversationId)
-            .replyConversation(convertConversationRO(conversationRO.replyConversation))
+            .replyConversation(
+                convertConversationRO(conversationRO.replyConversation)
+            )
             .deletedBy(conversationRO.deletedBy)
             .attachmentCount(conversationRO.attachmentCount)
             .attachmentUploaded(conversationRO.attachmentsUploaded)
@@ -96,12 +107,14 @@ class ModelConverter {
             .lastUpdated(conversationRO.lastUpdatedAt)
             .deletedByMember(convertMemberRO(conversationRO.deletedByMember))
             .conversationStatus(conversationRO.conversationStatus)
+            .widget(widget)
+            .widgetId(conversationRO.widgetId)
             .build()
     }
-    
+
     // converts MemberRO model to client model
     func convertMemberRO(_ memberRO: MemberRO?) -> Member? {
-        guard let memberRO else { return nil}
+        guard let memberRO else { return nil }
         let roles: [UserRole] = memberRO.roles.compactMap { UserRole.from($0) }
 
         return Member.Builder()
@@ -121,10 +134,12 @@ class ModelConverter {
             .roles(roles)
             .build()
     }
-    
+
     // converts SDKClientInfoRO model to client model
-    func convertSDKClientInfoRO(_ sdkClientInfoRO: SDKClientInfoRO?) -> SDKClientInfo? {
-        guard let sdkClientInfoRO else { return nil}
+    func convertSDKClientInfoRO(_ sdkClientInfoRO: SDKClientInfoRO?)
+        -> SDKClientInfo?
+    {
+        guard let sdkClientInfoRO else { return nil }
         return SDKClientInfo(
             community: sdkClientInfoRO.community,
             user: Int(sdkClientInfoRO.user ?? "0"),
@@ -132,15 +147,18 @@ class ModelConverter {
             uuid: sdkClientInfoRO.uuid
         )
     }
-    
-    private func convertAttachmentsRO(_ attachmentsRO: List<AttachmentRO>?) -> [Attachment]? {
+
+    private func convertAttachmentsRO(_ attachmentsRO: List<AttachmentRO>?)
+        -> [Attachment]?
+    {
         guard let attachmentsRO = attachmentsRO else { return nil }
         return attachmentsRO.map { attachmentRO in
             convertAttachmentRO(attachmentRO)
         }
     }
-    
-    private func convertAttachmentRO(_ attachmentRO: AttachmentRO) -> Attachment {
+
+    private func convertAttachmentRO(_ attachmentRO: AttachmentRO) -> Attachment
+    {
         return Attachment.Builder()
             .id(attachmentRO.id)
             .name(attachmentRO.name)
@@ -159,8 +177,10 @@ class ModelConverter {
             .updatedAt(attachmentRO.updatedAt)
             .build()
     }
-    
-    private func convertAttachmentMetaRO(_ attachmentMetaRO: AttachmentMetaRO?) -> AttachmentMeta? {
+
+    private func convertAttachmentMetaRO(_ attachmentMetaRO: AttachmentMetaRO?)
+        -> AttachmentMeta?
+    {
         guard let attachmentMetaRO = attachmentMetaRO else { return nil }
         return AttachmentMeta.Builder()
             .numberOfPage(attachmentMetaRO.numberOfPage)
@@ -168,7 +188,7 @@ class ModelConverter {
             .size(attachmentMetaRO.size)
             .build()
     }
-    
+
     private func convertLinkRO(_ linkRO: LinkRO?) -> LinkOGTags? {
         guard let linkRO = linkRO else { return nil }
         return LinkOGTags.Builder()
@@ -178,27 +198,29 @@ class ModelConverter {
             .image(linkRO.image)
             .build()
     }
-    
-    private func convertReactionsRO(_ reactionsRO: List<ReactionRO>?) -> [Reaction]? {
+
+    private func convertReactionsRO(_ reactionsRO: List<ReactionRO>?)
+        -> [Reaction]?
+    {
         guard let reactionsRO = reactionsRO else { return nil }
         return reactionsRO.map { reactionRO in
             convertReactionRO(reactionRO)
         }
     }
-    
+
     private func convertReactionRO(_ reactionRO: ReactionRO) -> Reaction {
         return Reaction.Builder()
             .reaction(reactionRO.reaction ?? "")
             .member(convertMemberRO(reactionRO.member))
             .build()
     }
-    
+
     private func convertPollsRO(_ pollsRO: List<PollRO>) -> [Poll] {
         return pollsRO.map { pollRO in
             convertPollRO(pollRO)
         }
     }
-    
+
     private func convertPollRO(_ pollRO: PollRO) -> Poll {
         return Poll.Builder()
             .id(pollRO.id)
@@ -210,7 +232,7 @@ class ModelConverter {
             .member(convertUser(convertMemberRO(pollRO.member)))
             .build()
     }
-    
+
     // converts internal Chatroom model to client model
     func convertChatroom(chatroom: _Chatroom_?) -> Chatroom? {
         guard let chatroom else { return nil }
@@ -259,7 +281,7 @@ class ModelConverter {
             .chatRequestCreatedAt(chatroom.chatRequestCreatedAt)
             .build()
     }
-    
+
     // converts ChatroomRO model to client model
     func convertChatroomRO(chatroomRO: ChatroomRO?) -> Chatroom? {
         guard let chatroomRO else { return nil }
@@ -286,15 +308,20 @@ class ModelConverter {
             .updatedAt(chatroomRO.updatedAt)
             .lastConversationId(chatroomRO.lastConversationId)
             .lastConversation(
-                convertLastConversationRO(chatroomRO.lastConversationRO) ?? convertConversationRO(chatroomRO.lastConversation)
+                convertLastConversationRO(chatroomRO.lastConversationRO)
+                    ?? convertConversationRO(chatroomRO.lastConversation)
             )
             .lastSeenConversationId(chatroomRO.lastSeenConversationId)
-            .lastSeenConversation(convertConversationRO(chatroomRO.lastSeenConversation))
+            .lastSeenConversation(
+                convertConversationRO(chatroomRO.lastSeenConversation)
+            )
             .dateEpoch(chatroomRO.dateEpoch)
             .unseenCount(chatroomRO.unseenCount)
             .draftConversation(chatroomRO.draftConversation)
             .isSecret(chatroomRO.isSecret)
-            .secretChatroomParticipants(chatroomRO.secretChatRoomParticipants.compactMap({$0}))
+            .secretChatroomParticipants(
+                chatroomRO.secretChatRoomParticipants.compactMap({ $0 })
+            )
             .secretChatroomLeft(chatroomRO.secretChatRoomLeft)
             .topicId(chatroomRO.topicId)
             .topic(convertConversationRO(chatroomRO.topic))
@@ -318,9 +345,11 @@ class ModelConverter {
             .chatRequestCreatedAt(chatroomRO.chatRequestCreatedAt)
             .build()
     }
-    
+
     // converts LastConversationRO model to client model
-    private func convertLastConversationRO(_ lastConversationRO: LastConversationRO?) -> Conversation? {
+    private func convertLastConversationRO(
+        _ lastConversationRO: LastConversationRO?
+    ) -> Conversation? {
         guard let lastConversationRO else { return nil }
         return Conversation.Builder()
             .id(lastConversationRO.id)
@@ -338,21 +367,30 @@ class ModelConverter {
             .chatroomId(lastConversationRO.chatroomId)
             .communityId(lastConversationRO.communityId)
             .ogTags(convertLinkRO(lastConversationRO.link))
-            .deletedByMember(convertMemberRO(lastConversationRO.deletedByMember))
+            .deletedByMember(
+                convertMemberRO(lastConversationRO.deletedByMember)
+            )
             .build()
     }
-    
+
     // converts list of ConversationRO model to client model
-    private func convertConversationsRO(_ conversationsRO: List<ConversationRO>?) -> [Conversation]? {
+    private func convertConversationsRO(
+        _ conversationsRO: List<ConversationRO>?
+    ) -> [Conversation]? {
         return (conversationsRO ?? List()).compactMap { conversation in
             convertConversationRO(conversation)
         }
     }
-    
+
     func convertCommunityRO(_ communityRO: CommunityRO) -> Community {
-        return Community(id: Int(communityRO.id), imageURL: communityRO.imageUrl, name: communityRO.name, membersCount: communityRO.membersCount, purpose: nil, subType: nil, type: nil, updatedAt: communityRO.updatedAt, autoApproval: nil, hideDMTab: nil, communitySettings: nil, communitySettingRights: nil)
+        return Community(
+            id: Int(communityRO.id), imageURL: communityRO.imageUrl,
+            name: communityRO.name, membersCount: communityRO.membersCount,
+            purpose: nil, subType: nil, type: nil,
+            updatedAt: communityRO.updatedAt, autoApproval: nil, hideDMTab: nil,
+            communitySettings: nil, communitySettingRights: nil)
     }
-    
+
     // converts UserRO model to client model
     func convertUserRO(_ userRO: UserRO?) -> User? {
         guard let userRO else { return nil }
@@ -370,7 +408,7 @@ class ModelConverter {
         user.roles = roles
         return user
     }
-    
+
     func convertUser(_ member: Member?) -> User? {
         guard let member else { return nil }
         var user = User(id: member.id, imageUrl: member.imageUrl)
@@ -386,5 +424,52 @@ class ModelConverter {
         user.roles = member.roles
         user.roles = member.roles
         return user
-    }    
+    }
+
+    func convertWidgetROToWidget(_ widgetRO: WidgetRO) -> LMWidget? {
+        guard let metadataData = widgetRO.metadata,
+            let metadataDict = try? JSONSerialization.jsonObject(
+                with: metadataData) as? [String: Any]
+        else {
+            return nil
+        }
+        var lmMeta: LMMeta?
+
+        if let lmMetaRO = widgetRO._lm_meta {
+            lmMeta = convertLMMetaROToLMMeta(lmMetaRO)
+        }
+
+        return LMWidget(
+            id: widgetRO.id,
+            parentEntityID: widgetRO.parentEntityId,
+            parentEntityType: widgetRO.parentEntityType,
+            metadata: metadataDict,
+            createdAt: Double(widgetRO.createdAt),
+            updatedAt: Double(widgetRO.updatedAt),
+            lmMeta: lmMeta
+        )
+    }
+
+    func convertLMMetaROToLMMeta(_ lmMetaRO: LMMetaRO) -> LMMeta {
+        let options: [PollOption] = lmMetaRO.options.map { optionRO in
+            PollOption(
+                id: optionRO.id,
+                text: optionRO.text,
+                isSelected: optionRO.isSelected,
+                percentage: optionRO.percentage,
+                uuid: optionRO.uuid,
+                voteCount: optionRO.voteCount
+            )
+        }.compactMap({ pollOption in
+            pollOption
+        })
+
+        return LMMeta(
+            options: options,
+            pollAnswerText: lmMetaRO.pollAnswerText,
+            isShowResult: lmMetaRO.isShowResult,
+            voteCount: lmMetaRO.voteCount
+        )
+    }
+
 }

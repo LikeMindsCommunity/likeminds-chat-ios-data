@@ -51,12 +51,14 @@ public class Conversation: Decodable {
     public private(set) var deletedByMember: Member?
     public private(set) var replyConversation: Conversation?
     public private(set) var conversationStatus: ConversationStatus?
+    public private(set) var widgetId: String
+    public private(set) var widget: LMWidget?
     
     enum CodingKeys: String, CodingKey {
         case id
         case chatroomId = "chatroom_id"
         case communityId = "community_id"
-        case member
+        case member, widget
         case answer
         case createdAt = "created_at"
         case state
@@ -94,6 +96,7 @@ public class Conversation: Decodable {
         case deletedByMember = "deleted_by_member"
         case replyConversation = "reply_conversation_model"
         case conversationStatus = "conversation_status"
+        case widgetId = "widget_id"
     }
     
     public required init(from decoder: Decoder) throws {
@@ -138,6 +141,8 @@ public class Conversation: Decodable {
         lastUpdated = try container.decodeIfPresent(Int.self, forKey: .lastUpdated)
         deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
         replyConversation = try container.decodeIfPresent(Conversation.self, forKey: .replyConversation)
+        widgetId = try container.decodeIfPresent(String.self, forKey: .widgetId) ?? ""
+        widget = try container.decodeIfPresent(LMWidget.self, forKey: .widget)
     }
     
     private init(
@@ -181,7 +186,9 @@ public class Conversation: Decodable {
         hasReactions: Bool?,
         lastUpdated: Int?,
         deletedByMember: Member?,
-        conversationStatus: ConversationStatus?
+        conversationStatus: ConversationStatus?,
+        widgetId: String?,
+        widget: LMWidget?
     ) {
         self.id = id
         self.chatroomId = chatroomId
@@ -224,6 +231,8 @@ public class Conversation: Decodable {
         self.lastUpdated = lastUpdated
         self.deletedByMember = deletedByMember
         self.conversationStatus = conversationStatus
+        self.widgetId = widgetId ?? ""
+        self.widget = widget
     }
     
     public static func builder() -> Builder {
@@ -272,6 +281,8 @@ public class Conversation: Decodable {
         private var lastUpdated: Int? = nil
         private var deletedByMember: Member? = nil
         private var conversationStatus: ConversationStatus?
+        private var widgetId: String = ""
+        private var widget: LMWidget?
         
         public init() {}
         
@@ -480,6 +491,16 @@ public class Conversation: Decodable {
             return self
         }
         
+        public func widgetId(_ widgetId: String?) -> Builder {
+            self.widgetId = widgetId ?? ""
+            return self
+        }
+        
+        public func widget(_ widget: LMWidget?) -> Builder {
+            self.widget = widget
+            return self
+        }
+        
         public func build() -> Conversation {
             return Conversation(
                 id: id,
@@ -522,7 +543,9 @@ public class Conversation: Decodable {
                 hasReactions: hasReactions,
                 lastUpdated: lastUpdated,
                 deletedByMember: deletedByMember,
-                conversationStatus: conversationStatus
+                conversationStatus: conversationStatus,
+                widgetId: widgetId,
+                widget: widget
             )
         }
     }
@@ -570,6 +593,8 @@ public class Conversation: Decodable {
             .lastUpdated(lastUpdated)
             .deletedByMember(deletedByMember)
             .conversationStatus(conversationStatus)
+            .widgetId(widgetId)
+            .widget(widget)
     }
 }
 

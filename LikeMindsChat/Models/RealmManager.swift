@@ -24,7 +24,7 @@ extension Realm {
 }
 
 class RealmManager {
-    
+
     // MARK:- functions
     static private func realmConfig() -> Realm.Configuration {
         let username = "LMChatDB"
@@ -32,22 +32,51 @@ class RealmManager {
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
-        config.schemaVersion = 5
+        config.schemaVersion = 6
         config.migrationBlock = { (migration, oldSchemaVersion) in
             var oldVersion = oldSchemaVersion
-            // TODO: /// Migration block. Useful when you upgrade the schema version.
-            if(oldVersion <= 4){
-                migration.enumerateObjects(ofType: ""){ old, new in
+            if oldVersion == 1 {
+                // No Migration is required
+                oldVersion += 1
+            }
+            if oldVersion == 2 {
+                // No Migration is required
+                oldVersion += 1
+            }
+            if oldVersion == 3 {
+                // No Migration is required
+                oldVersion += 1
+            }
+            if oldVersion == 4 {
+                migration.enumerateObjects(ofType: MemberRO.className()) {
+                    old, new in
+                    if old?["roles"] == nil {
+                        new?["roles"] = nil
+                    }
+                }
+
+                migration.enumerateObjects(ofType: UserRO.className()) {
+                    old, new in
                     if old?["roles"] == nil {
                         new?["roles"] = nil
                     }
                 }
                 oldVersion += 1
             }
+            if oldVersion == 5 {
+                migration.enumerateObjects(ofType: ConversationRO.className()) {
+                    oldObject, newObject in
+                    // Add default value for `widgetId`
+                    newObject?["widgetId"] = nil  // Or provide a default value if necessary
+                    newObject?["widget"] = nil
+                }
+                oldVersion += 1
+            }
+            
         }
         return config
     }
-    
+
     static func realmInstance() -> Realm {
         do {
             let newRealm = try Realm(configuration: realmConfig())
@@ -61,33 +90,40 @@ class RealmManager {
 
 private protocol RealmOperations {
     /// write operation
-    static func write<T: Object>(_ object: T?, block: @escaping ((Realm, T?) -> Void))
+    static func write<T: Object>(
+        _ object: T?, block: @escaping ((Realm, T?) -> Void))
     ///
     /// adds a single object to Realm
     static func add(_ object: Object)
     /// adds a list of objects to Realm
     static func add<S: Sequence>(_ objects: S) where S.Iterator.Element: Object
-    
+
     /// gets objects from Realm that satisfy the given predicate
-    static func get<R: Object>(fromEntity entity : R.Type, withPredicate predicate: NSPredicate?,
-                               sortedByKey sortKey: String?, inAscending isAscending: Bool) -> Results<R>
-    
+    static func get<R: Object>(
+        fromEntity entity: R.Type, withPredicate predicate: NSPredicate?,
+        sortedByKey sortKey: String?, inAscending isAscending: Bool
+    ) -> Results<R>
+
     /// deletes a single object from Realm
     static func delete(_ object: Object)
-    
+
     /// deletes a list of object from Realm
-    static func delete<S: Sequence>(_ objects: S) where S.Iterator.Element: Object
-    
+    static func delete<S: Sequence>(_ objects: S)
+    where S.Iterator.Element: Object
+
     /// deletes an Entity from Realm based  on the given predicate
-    static func delete(fromEntity entity: Object.Type, withPredicate predicate: NSPredicate?)
-    
+    static func delete(
+        fromEntity entity: Object.Type, withPredicate predicate: NSPredicate?)
+
     /// updates and overwrites a Realm object
     static func update<T: Object>(_ object: T, block: @escaping ((T) -> Void))
 }
 
 extension RealmManager: RealmOperations {
     /// Writes to Realm
-    static func write<T: Object>(_ object: T? = nil, block: @escaping ((Realm, T?) -> Void)) {
+    static func write<T: Object>(
+        _ object: T? = nil, block: @escaping ((Realm, T?) -> Void)
+    ) {
         DispatchQueue(label: "realm").sync {
             autoreleasepool {
                 let currentRealm = realmInstance()
@@ -105,7 +141,7 @@ extension RealmManager: RealmOperations {
             }
         }
     }
-    
+
     // MARK:- ADD functions
     /// adds an object to Realm
     static func add(_ object: Object) {
@@ -113,28 +149,32 @@ extension RealmManager: RealmOperations {
             realmInstance.add(object, update: .all)
         }
     }
-    
+
     /// adds a list of objects to Realm
-    static func add<S: Sequence>(_ objects: S) where S.Iterator.Element: Object {
+    static func add<S: Sequence>(_ objects: S)
+    where S.Iterator.Element: Object {
         Self.write { (realmInstance, _) in
             realmInstance.add(objects, update: .all)
         }
     }
-    
-    
+
     // MARK:- GET function
-    static func get<R: Object>(fromEntity entity : R.Type, withPredicate predicate: NSPredicate? = nil, sortedByKey sortKey: String? = nil, inAscending isAscending: Bool = true) -> Results<R> {
+    static func get<R: Object>(
+        fromEntity entity: R.Type, withPredicate predicate: NSPredicate? = nil,
+        sortedByKey sortKey: String? = nil, inAscending isAscending: Bool = true
+    ) -> Results<R> {
         var objects = realmInstance().objects(entity)
         if predicate != nil {
             objects = objects.filter(predicate!)
         }
         if sortKey != nil {
-            objects = objects.sorted(byKeyPath: sortKey!, ascending: isAscending)
+            objects = objects.sorted(
+                byKeyPath: sortKey!, ascending: isAscending)
         }
-        
+
         return objects
     }
-    
+
     // MARK:- DELETE functions
     static func delete(_ object: Object) {
         Self.write(object) { (realmInstance, newObject) in
@@ -144,25 +184,29 @@ extension RealmManager: RealmOperations {
             realmInstance.delete(newObject)
         }
     }
-    
+
     /// deletes a list of elements from Realm
-    static func delete<S: Sequence>(_ objects: S) where S.Iterator.Element: Object {
+    static func delete<S: Sequence>(_ objects: S)
+    where S.Iterator.Element: Object {
         Self.write { (realmInstance, _) in
             realmInstance.delete(objects)
         }
     }
-    
+
     /// deletes an Entity from Realm, a predicate can be given
-    static func delete(fromEntity entity: Object.Type, withPredicate predicate: NSPredicate? = nil) {
+    static func delete(
+        fromEntity entity: Object.Type,
+        withPredicate predicate: NSPredicate? = nil
+    ) {
         Self.delete(Self.get(fromEntity: entity, withPredicate: predicate))
     }
-    
+
     // MARK:- UPDATE function
     static func update<T: Object>(_ object: T, block: @escaping ((T) -> Void)) {
         guard !object.isInvalidated else {
             return
         }
-        
+
         Self.write(object) { (_, newObject) in
             guard let newObject = newObject, !newObject.isInvalidated else {
                 return
@@ -170,7 +214,7 @@ extension RealmManager: RealmOperations {
             block(newObject)
         }
     }
-    
+
     // MARK:- insert Or Update function
     static func insertOrUpdate(_ object: Object) {
         Self.write { (realmInstance, _) in

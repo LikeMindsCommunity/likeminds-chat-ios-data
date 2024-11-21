@@ -23,6 +23,19 @@ public struct PollOption: Decodable {
         case uuid
         case voteCount = "vote_count"
     }
+    
+    public func toDictionary() -> [String: Any] {
+           var dict: [String: Any] = [:]
+           
+           dict["_id"] = id
+           dict["text"] = text
+           dict["is_selected"] = isSelected
+           dict["percentage"] = percentage
+           dict["uuid"] = uuid
+           dict["vote_count"] = voteCount
+           
+           return dict
+       }
 }
 
 public extension PollOption {
