@@ -1,5 +1,5 @@
 //
-//  LMWidget.swift
+//  Widget.swift
 //  LikeMindsChat
 //
 //  Created by Pushpendra Singh on 24/07/24.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-public struct LMWidget: Decodable {
+public struct Widget: Decodable {
     public let id: String?
     public let parentEntityID: String?
     public let parentEntityType: String?
     public let metadata: [String: Any]?
     public let createdAt: Double?
     public let updatedAt: Double?
-    public let lmMeta: LMMeta?
+    public let lmMeta: [String: Any]?
     
     enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -27,7 +27,7 @@ public struct LMWidget: Decodable {
     }
 }
 
-public extension LMWidget {
+public extension Widget {
     init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
@@ -75,9 +75,10 @@ public extension LMWidget {
         }
         
         do {
-            lmMeta = try container.decodeIfPresent(LMMeta.self, forKey: .lmMeta)
+            let decodedlmMeta = try container.decodeIfPresent([String: AnyDecodable].self, forKey: .lmMeta)
+            lmMeta = decodedlmMeta?.mapValues { $0.value }
         } catch {
-            print("Error decoding lmMeta: \(error)")
+            print("Error decoding metadata: \(error)")
             lmMeta = nil
         }
     }

@@ -10,7 +10,7 @@ import Foundation
 public class PostConversationResponse: Decodable {
     public var conversation: Conversation?
     public var id: String?
-    public var widgets: [String : LMWidget]?
+    public var widgets: [String : Widget]?
     
     enum CodingKeys: String, CodingKey {
         case id, conversation, widgets
@@ -20,6 +20,6 @@ public class PostConversationResponse: Decodable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decodeIntToStringIfPresent(forKey: .id)
         conversation = try container.decodeIfPresent(Conversation.self, forKey: .conversation)
-        widgets = try container.decodeIfPresent([String: LMWidget].self, forKey: .widgets)
+        widgets = try container.decodeIfPresent([String: Widget].self, forKey: .widgets)
     }
 }

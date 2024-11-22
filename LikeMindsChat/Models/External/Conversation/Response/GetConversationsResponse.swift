@@ -10,5 +10,5 @@ import Foundation
 public struct GetConversationsResponse: Decodable {
     public var conversations: [Conversation]?
     public var count: Int?
-    public var widgets: [String: LMWidget]?
+    public var widgets: [String: Widget]?
 }

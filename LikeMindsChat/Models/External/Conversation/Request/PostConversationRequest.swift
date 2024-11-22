@@ -7,20 +7,32 @@
 
 import Foundation
 
+/// Represents the request model for posting a conversation.
+///
+/// This model contains all the necessary data to create and post a conversation to the server,
+/// including metadata, attachments, and associated chatroom details.
 public class PostConversationRequest: Codable {
+    /// The unique identifier for the chatroom where the conversation is being posted.
     public private(set) var chatroomId: String
+    /// The text content of the conversation.
     public private(set) var text: String
     public private(set) var isFromNotification: Bool?
     public private(set) var shareLink: String?
     public private(set) var ogTags: LinkOGTags?
+    /// The ID of the conversation to which this conversation is a reply.
     public private(set) var repliedConversationId: String?
+    /// Indicates whether a bot should be triggered upon posting this conversation.
     public private(set) var triggerBot: Bool?
+    /// A list of attachments included in the conversation (e.g., images, files).
     public private(set) var attachments: [Attachment]?
+    /// Additional metadata related to the conversation.
     public private(set) var metadata: [String: Any]?
-
+    /// A temporary identifier for the conversation
     public private(set) var temporaryId: String?
+    /// The chatroom ID of the conversation being replied to, if applicable.
     public private(set) var repliedChatroomId: String?
 
+    /// Coding keys used to map properties to server-compatible keys.
     enum CodingKeys: String, CodingKey {
         case chatroomId = "chatroom_id"
         case ogTags = "og_tags"
@@ -33,6 +45,10 @@ public class PostConversationRequest: Codable {
         case isFromNotification = "is_from_notification"
     }
 
+    /// Decodes the request from a JSON object.
+    ///
+    /// - Parameter decoder: The `Decoder` instance used to decode the object.
+    /// - Throws: Throws an error if decoding fails.
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
@@ -124,6 +140,10 @@ public class PostConversationRequest: Codable {
         }
     }
 
+    /// Encodes the request to a JSON object.
+    ///
+    /// - Parameter encoder: The `Encoder` instance used to encode the object.
+    /// - Throws: Throws an error if encoding fails.
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
@@ -201,10 +221,17 @@ public class PostConversationRequest: Codable {
     }
 
     private init(
-        chatroomId: String, text: String, isFromNotification: Bool?,
-        shareLink: String?, ogTags: LinkOGTags?, repliedConversationId: String?,
-        temporaryId: String?, repliedChatroomId: String?, triggerBot: Bool?,
-        attachments: [Attachment]?, metadata: [String: Any]?
+        chatroomId: String,
+        text: String,
+        isFromNotification: Bool?,
+        shareLink: String?,
+        ogTags: LinkOGTags?,
+        repliedConversationId: String?,
+        temporaryId: String?,
+        repliedChatroomId: String?,
+        triggerBot: Bool?,
+        attachments: [Attachment]?,
+        metadata: [String: Any]?
     ) {
         self.chatroomId = chatroomId
         self.text = text
@@ -219,6 +246,7 @@ public class PostConversationRequest: Codable {
         self.metadata = metadata
     }
 
+    /// A builder class for constructing `PostConversationRequest` instances.
     public class Builder {
         private var chatroomId: String = ""
         private var text: String = ""

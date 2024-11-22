@@ -51,7 +51,7 @@ struct _Conversation_: Decodable {
     let lastUpdated: Int?
     let deletedByMember: Member?
     let widgetId: String?
-    var widget: LMWidget?
+    var widget: Widget?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -141,6 +141,6 @@ extension _Conversation_ {
         lastUpdated = try container.decodeIfPresent(Int.self, forKey: .lastUpdated)
         deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
         widgetId = try container.decodeIfPresent(String.self, forKey: .widgetId) ?? ""
-        widget = try container.decodeIfPresent(LMWidget.self, forKey: .widget)
+        widget = try container.decodeIfPresent(Widget.self, forKey: .widget)
     }
 }

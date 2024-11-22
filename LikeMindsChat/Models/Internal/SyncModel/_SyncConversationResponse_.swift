@@ -16,7 +16,7 @@ struct _SyncConversationResponse_: Decodable {
     let userMeta: [String: Member]?
     let chatroomReactionsMeta: [String: [ReactionMeta]]?
     let conversationReactionsMeta: [String: [ReactionMeta]]?
-    let widgets: [String: LMWidget]?
+    let widgets: [String: Widget]?
     
     enum CodingKeys: String, CodingKey {
         case chatRoomMeta = "chatroom_meta",

@@ -64,7 +64,7 @@ class ModelConverter {
         -> Conversation?
     {
         guard let conversationRO else { return nil }
-        var widget: LMWidget?
+        var widget: Widget?
         if let widgetRO = conversationRO.widget {
            widget = convertWidgetROToWidget(widgetRO)
         }
@@ -351,6 +351,10 @@ class ModelConverter {
         _ lastConversationRO: LastConversationRO?
     ) -> Conversation? {
         guard let lastConversationRO else { return nil }
+        var widget: Widget?
+        if let widgetRO = lastConversationRO.widget {
+            widget = convertWidgetROToWidget(widgetRO)
+        }
         return Conversation.Builder()
             .id(lastConversationRO.id)
             .member(convertMemberRO(lastConversationRO.member))
@@ -370,6 +374,8 @@ class ModelConverter {
             .deletedByMember(
                 convertMemberRO(lastConversationRO.deletedByMember)
             )
+            .widget(widget)
+            .widgetId(lastConversationRO.widgetId)
             .build()
     }
 
@@ -426,50 +432,29 @@ class ModelConverter {
         return user
     }
 
-    func convertWidgetROToWidget(_ widgetRO: WidgetRO) -> LMWidget? {
+    func convertWidgetROToWidget(_ widgetRO: WidgetRO) -> Widget? {
         guard let metadataData = widgetRO.metadata,
             let metadataDict = try? JSONSerialization.jsonObject(
                 with: metadataData) as? [String: Any]
         else {
             return nil
         }
-        var lmMeta: LMMeta?
-
-        if let lmMetaRO = widgetRO._lm_meta {
-            lmMeta = convertLMMetaROToLMMeta(lmMetaRO)
+        
+        guard let lmMetaRO = widgetRO._lm_meta,
+            let lmMetaDict = try? JSONSerialization.jsonObject(
+                with: lmMetaRO) as? [String: Any]
+        else {
+            return nil
         }
 
-        return LMWidget(
+        return Widget(
             id: widgetRO.id,
             parentEntityID: widgetRO.parentEntityId,
             parentEntityType: widgetRO.parentEntityType,
             metadata: metadataDict,
             createdAt: Double(widgetRO.createdAt),
             updatedAt: Double(widgetRO.updatedAt),
-            lmMeta: lmMeta
+            lmMeta: lmMetaDict
         )
     }
-
-    func convertLMMetaROToLMMeta(_ lmMetaRO: LMMetaRO) -> LMMeta {
-        let options: [PollOption] = lmMetaRO.options.map { optionRO in
-            PollOption(
-                id: optionRO.id,
-                text: optionRO.text,
-                isSelected: optionRO.isSelected,
-                percentage: optionRO.percentage,
-                uuid: optionRO.uuid,
-                voteCount: optionRO.voteCount
-            )
-        }.compactMap({ pollOption in
-            pollOption
-        })
-
-        return LMMeta(
-            options: options,
-            pollAnswerText: lmMetaRO.pollAnswerText,
-            isShowResult: lmMetaRO.isShowResult,
-            voteCount: lmMetaRO.voteCount
-        )
-    }
-
 }

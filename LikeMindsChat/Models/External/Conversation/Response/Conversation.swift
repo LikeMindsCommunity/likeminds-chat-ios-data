@@ -52,7 +52,7 @@ public class Conversation: Decodable {
     public private(set) var replyConversation: Conversation?
     public private(set) var conversationStatus: ConversationStatus?
     public private(set) var widgetId: String
-    public private(set) var widget: LMWidget?
+    public private(set) var widget: Widget?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -142,7 +142,7 @@ public class Conversation: Decodable {
         deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
         replyConversation = try container.decodeIfPresent(Conversation.self, forKey: .replyConversation)
         widgetId = try container.decodeIfPresent(String.self, forKey: .widgetId) ?? ""
-        widget = try container.decodeIfPresent(LMWidget.self, forKey: .widget)
+        widget = try container.decodeIfPresent(Widget.self, forKey: .widget)
     }
     
     private init(
@@ -188,7 +188,7 @@ public class Conversation: Decodable {
         deletedByMember: Member?,
         conversationStatus: ConversationStatus?,
         widgetId: String?,
-        widget: LMWidget?
+        widget: Widget?
     ) {
         self.id = id
         self.chatroomId = chatroomId
@@ -282,7 +282,7 @@ public class Conversation: Decodable {
         private var deletedByMember: Member? = nil
         private var conversationStatus: ConversationStatus?
         private var widgetId: String = ""
-        private var widget: LMWidget?
+        private var widget: Widget?
         
         public init() {}
         
@@ -496,7 +496,7 @@ public class Conversation: Decodable {
             return self
         }
         
-        public func widget(_ widget: LMWidget?) -> Builder {
+        public func widget(_ widget: Widget?) -> Builder {
             self.widget = widget
             return self
         }

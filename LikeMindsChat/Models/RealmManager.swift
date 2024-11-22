@@ -70,6 +70,12 @@ class RealmManager {
                     newObject?["widgetId"] = nil  // Or provide a default value if necessary
                     newObject?["widget"] = nil
                 }
+                migration.enumerateObjects(ofType: LastConversationRO.className()) {
+                    oldObject, newObject in
+                    // Add default value for `widgetId`
+                    newObject?["widgetId"] = nil  // Or provide a default value if necessary
+                    newObject?["widget"] = nil
+                }
                 oldVersion += 1
             }
             
