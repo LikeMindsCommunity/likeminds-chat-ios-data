@@ -359,7 +359,7 @@ class ROConverter {
         reactionList.append(objectsIn: reactionsData)
         return reactionList
     }
-    
+
     /**
      * Converts a single `Reaction` object into a `ReactionRO` object for Realm storage.
      * - Parameters:
@@ -522,10 +522,10 @@ class ROConverter {
                 realm.delete(savedAnswer)
             }
         }
+        conversationRO.widgetId = conversation.widgetId
         if conversation.widget != nil {
-            var widgetRO = convertWidgetToWidgetRO(conversation.widget!)
+            let widgetRO = convertWidgetToWidgetRO(conversation.widget!)
             conversationRO.widget = widgetRO
-            conversationRO.widgetId = conversation.widgetId
         }
         return conversationRO
     }
@@ -542,16 +542,24 @@ class ROConverter {
         widgetRO.parentEntityId = widget.parentEntityID ?? ""
         widgetRO.parentEntityType = widget.parentEntityType ?? ""
 
-        if let metadata = widget.metadata,
-            let jsonData = try? JSONSerialization.data(withJSONObject: metadata)
-        {
-            widgetRO.metadata = jsonData
+        if let metadata = widget.metadata {
+            do {
+                let jsonData = try JSONSerialization.data(
+                    withJSONObject: metadata)
+                widgetRO.metadata = jsonData
+            } catch {
+                print("Error serializing metadata: \(error)")
+            }
         }
-        
-        if let lmMeta = widget.lmMeta,
-            let jsonData = try? JSONSerialization.data(withJSONObject: lmMeta)
-        {
-            widgetRO._lm_meta = jsonData
+
+        if let lmMeta = widget.lmMeta {
+            do {
+                let jsonData = try JSONSerialization.data(
+                    withJSONObject: lmMeta)
+                widgetRO._lm_meta = jsonData
+            } catch {
+                print("Error serializing lmMeta: \(error)")
+            }
         }
 
         widgetRO.createdAt = Int64(widget.createdAt ?? 0)
@@ -666,10 +674,11 @@ class ROConverter {
         if let savedAnswer {
             RealmManager.delete(savedAnswer)
         }
+        conversationRO.widgetId = conversation.widgetId
         if conversation.widget != nil {
-            var widgetRO = convertWidgetToWidgetRO(conversation.widget!)
+            let widgetRO = convertWidgetToWidgetRO(conversation.widget!)
             conversationRO.widget = widgetRO
-            conversationRO.widgetId = conversation.widgetId
+
         }
         return conversationRO
     }
@@ -799,12 +808,12 @@ class ROConverter {
             realm.delete(savedAnswer)
         }
         if conversation.widgetId != nil && !conversation.widgetId!.isEmpty {
+            conversationRO.widgetId = conversation.widgetId
             guard let widget = widgets?[conversation.widgetId!] else {
                 return conversationRO
             }
-            var widgetRO = convertWidgetToWidgetRO(widget)
+            let widgetRO = convertWidgetToWidgetRO(widget)
             conversationRO.widget = widgetRO
-            conversationRO.widgetId = conversation.widgetId
         }
         return conversationRO
     }

@@ -66,7 +66,7 @@ class ModelConverter {
         guard let conversationRO else { return nil }
         var widget: Widget?
         if let widgetRO = conversationRO.widget {
-           widget = convertWidgetROToWidget(widgetRO)
+            widget = convertWidgetROToWidget(widgetRO)
         }
         return Conversation.Builder()
             .id(conversationRO.id)
@@ -433,17 +433,30 @@ class ModelConverter {
     }
 
     func convertWidgetROToWidget(_ widgetRO: WidgetRO) -> Widget? {
-        guard let metadataData = widgetRO.metadata,
-            let metadataDict = try? JSONSerialization.jsonObject(
-                with: metadataData) as? [String: Any]
-        else {
+        var metadataDict: [String: Any]?
+        var lmMetaDict: [String: Any]?
+
+        // Deserialize metadata
+        do {
+            if let metadataData = widgetRO.metadata {
+                metadataDict =
+                    try JSONSerialization.jsonObject(with: metadataData)
+                    as? [String: Any]
+            }
+        } catch {
+            print("Error deserializing metadata: \(error)")
             return nil
         }
-        
-        guard let lmMetaRO = widgetRO._lm_meta,
-            let lmMetaDict = try? JSONSerialization.jsonObject(
-                with: lmMetaRO) as? [String: Any]
-        else {
+
+        // Deserialize lmMeta
+        do {
+            if let lmMetaRO = widgetRO._lm_meta {
+                lmMetaDict =
+                    try JSONSerialization.jsonObject(with: lmMetaRO)
+                    as? [String: Any]
+            }
+        } catch {
+            print("Error deserializing lmMeta: \(error)")
             return nil
         }
 
