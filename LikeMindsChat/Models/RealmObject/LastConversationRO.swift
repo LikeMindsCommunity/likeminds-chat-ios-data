@@ -26,4 +26,6 @@ class LastConversationRO: Object {
     @Persisted var uploadWorkerUUID: String?
     @Persisted var deletedByMember: MemberRO?
     @Persisted var conversationStatus: ConversationStatus?
+    @Persisted var widget: WidgetRO?
+    @Persisted var widgetId: String?
 }

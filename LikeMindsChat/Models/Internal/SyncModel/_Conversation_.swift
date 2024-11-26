@@ -50,12 +50,15 @@ struct _Conversation_: Decodable {
     let hasReactions: Bool?
     let lastUpdated: Int?
     let deletedByMember: Member?
+    let widgetId: String?
+    var widget: Widget?
 
     enum CodingKeys: String, CodingKey {
         case id
         case chatroomId = "card_id"
         case communityId = "community_id"
-        case member
+        case member, widget
+        case widgetId = "widget_id"
         case answer
         case createdAt = "created_at"
         case state
@@ -137,5 +140,7 @@ extension _Conversation_ {
         hasReactions = try container.decodeIfPresent(Bool.self, forKey: .hasReactions)
         lastUpdated = try container.decodeIfPresent(Int.self, forKey: .lastUpdated)
         deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
+        widgetId = try container.decodeIfPresent(String.self, forKey: .widgetId) ?? ""
+        widget = try container.decodeIfPresent(Widget.self, forKey: .widget)
     }
 }
