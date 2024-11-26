@@ -32,7 +32,7 @@ class RealmManager {
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
-        config.schemaVersion = 7
+        config.schemaVersion = 6
         config.migrationBlock = { (migration, oldSchemaVersion) in
             var oldVersion = oldSchemaVersion
             if oldVersion == 1 {
@@ -79,25 +79,15 @@ class RealmManager {
                     newObject?["widget"] = nil
                 }
                 oldVersion += 1
-            }
-            
-            if oldVersion == 6 {
-                // Migrate LastConversationRO to add `widgetId` and `widget`
-                    migration.enumerateObjects(ofType: LastConversationRO.className()) { _, newObject in
-                        // Set default value for `widgetId`
-                        newObject?["widgetId"] = nil // Default to nil or a specific value if needed
-                        
-                        // Set default value for `widget`
-                        newObject?["widget"] = nil // Default to nil or a specific value if needed
-                    }
 
-                    // Migrate WidgetRO to handle `_lm_meta` type change
-                    migration.enumerateObjects(ofType: WidgetRO.className()) { oldObject, newObject in
-                        newObject?["_lm_meta"] = nil
-                    }
+                // Migrate WidgetRO to handle `_lm_meta` type change
+                migration.enumerateObjects(ofType: WidgetRO.className()) {
+                    oldObject, newObject in
+                    newObject?["_lm_meta"] = nil
+                }
 
-                    // Increment schema version after migration
-                    oldVersion += 1
+                // Increment schema version after migration
+                oldVersion += 1
             }
 
         }
