@@ -1,15 +1,6 @@
-# 1 - Pod Install
-# 1
-run_pre_build_script() {
-    ./setup.sh
+pod deintegrate
 
-    if [ $? -ne 0 ]; then
-        echo "Pre-build script failed. Exiting."
-        exit 1
-    fi
-}
-
-run_pre_build_script
+pod install
 
 # 4 - Archiving the workspace for Device
 xcodebuild archive \

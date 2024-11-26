@@ -53,4 +53,6 @@ class ConversationRO: Object {
     @Persisted var lastUpdatedAt: Int?
     @Persisted var deletedByMember: MemberRO?
     @Persisted var conversationStatus: ConversationStatus?
+    @Persisted var widgetId: String?
+    @Persisted var widget: WidgetRO?
 }

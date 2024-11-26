@@ -177,6 +177,7 @@ class SyncUtil {
                             creator: topicCreatorRO,
                             polls: topicConversationPolls,
                             attachments: topicConversationAttachments,
+                            widgets: data.widgets,
                             reactions: nil,
                             loggedInUUID: loggedInUUID,
                             deletedByMemberRO: topicConversationDeletedByMemberRO
@@ -233,6 +234,7 @@ class SyncUtil {
                             creator: lastSeenConversationCreatorRO,
                             polls: lastSeenConversationPolls,
                             attachments: lastSeenConversationAttachments,
+                            widgets: data.widgets,
                             reactions: nil,
                             loggedInUUID: loggedInUUID,
                             deletedByMemberRO: lastSeenConversationDeletedByMemberRO
@@ -377,6 +379,7 @@ class SyncUtil {
                         creator: creatorRO,
                         polls: conversationPolls,
                         attachments: conversationAttachment,
+                        widgets: data.widgets,
                         reactions: reactions,
                         loggedInUUID: loggedInUUID,
                         deletedByMemberRO: deletedByMemberRO

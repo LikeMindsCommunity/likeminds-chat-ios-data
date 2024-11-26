@@ -273,8 +273,34 @@ extension LMChatClient {
         return LMResponse.successResponse(GetConversationResponse(conversation: conversation))
     }
     
+    /// Posts a new conversation to the server and processes the response.
+    ///
+    /// This method sends a conversation request to the server and processes the response upon success.
+    ///
+    /// - Parameters:
+    ///   - request: A `PostConversationRequest` object containing the conversation details to be posted.
+    ///   - response: An optional closure of type `LMClientResponse<PostConversationResponse>` to handle the server's response.
     public func postConversation(request: PostConversationRequest, response: LMClientResponse<PostConversationResponse>?) {
+        // Call the ConversationClient to post the conversation.
         ConversationClient.shared.postConversation(request: request) { result in
+            // Check if the result indicates success.
+            if result.success {
+                // If the result contains a widget ID, process it.
+                if let widgetId = result.data?.conversation?.widgetId {
+                    // Create a builder for the conversation to modify its attributes.
+                    var conversationBuilder = result.data?.conversation?.toBuilder()
+                    
+                    // Retrieve the widget from the response data using the widget ID.
+                    let widget = result.data?.widgets?[widgetId]
+                    
+                    // Assign the widget to the conversation builder.
+                    conversationBuilder = conversationBuilder?.widget(widget)
+                    
+                    // Build the updated conversation object and assign it back to the result.
+                    result.data?.conversation = conversationBuilder?.build()
+                }
+            }
+            // Pass the result to the response closure.
             response?(result)
         }
     }
