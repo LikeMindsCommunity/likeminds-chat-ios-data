@@ -16,7 +16,7 @@ class ChatDBUtil {
      * Check whether local db is empty or not
      */
     func isEmpty() -> Bool {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let query = realm.objects(AppConfigRO.self).first else { return true }
         return !query.isConversationsSynced && !query.isChatroomsSynced && !query.isCommunitiesSynced
     }
@@ -160,13 +160,13 @@ class ChatDBUtil {
     
     func userROUpdate(_ user: User) {
         guard let userRO = ROConverter.convertUser(user: user) else { return }
-        RealmManager.write { realm, object in
+        LMDBManager.write { realm, object in
             realm.insertOrUpdate(userRO)
         }
     }
     
     func clearData() {
-        RealmManager.write { realm, object in
+        LMDBManager.write { realm, object in
             realm.deleteAll()
         }
     }
@@ -309,7 +309,7 @@ class ChatDBUtil {
         chatroomId: String,
         isConversationStored: Bool
     ) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         realm.writeAsync {
             let chatroomRO = self.getChatroom(realm: realm, chatroomId: chatroomId)
             chatroomRO?.isConversationStored = isConversationStored

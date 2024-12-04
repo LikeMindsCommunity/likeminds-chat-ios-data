@@ -117,9 +117,9 @@ class ROConverter {
         else { return nil }
 
         let savedChatroom = ChatDBUtil.shared.getChatroom(
-            realm: RealmManager.realmInstance(), chatroomId: chatroomId)
+            realm: LMDBManager.lmDBInstance(), chatroomId: chatroomId)
         let reactionsRO = Self.convertReactionsMeta(
-            realm: RealmManager.realmInstance(), communityId: communityId,
+            realm: LMDBManager.lmDBInstance(), communityId: communityId,
             reactions: reactions)
 
         let chatroomRO = ChatroomRO()
@@ -423,7 +423,7 @@ class ROConverter {
         /**
          * Conversation is invalid without chatroomId, conversationId, Member object
          */
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversation,
             let chatroomId = conversation.chatroomId,
             let communityId = conversation.communityId
@@ -583,7 +583,7 @@ class ROConverter {
         /**
          * Conversation is invalid without chatroomId, conversationId, Member object
          */
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversation,
             let chatroomId = conversation.chatroomId,
             let communityId = conversation.communityId,
@@ -672,7 +672,7 @@ class ROConverter {
         conversationRO.replyChatRoomId = conversation.replyChatroomId
         conversationRO.conversationStatus = .sent
         if let savedAnswer {
-            RealmManager.delete(savedAnswer)
+            LMDBManager.delete(savedAnswer)
         }
         conversationRO.widgetId = conversation.widgetId
         if conversation.widget != nil {
@@ -851,7 +851,7 @@ class ROConverter {
             || conversation.replyConversationId != nil
         {
             savedAnswer = ChatDBUtil.shared.getConversation(
-                realm: RealmManager.realmInstance(),
+                realm: LMDBManager.lmDBInstance(),
                 conversationId: conversation.id)
         } else {
             savedAnswer = nil
@@ -929,7 +929,7 @@ class ROConverter {
             || conversation.replyConversationId != nil
         {
             savedAnswer = ChatDBUtil.shared.getConversation(
-                realm: RealmManager.realmInstance(),
+                realm: LMDBManager.lmDBInstance(),
                 conversationId: conversation.id)
         } else {
             savedAnswer = nil
@@ -1043,7 +1043,7 @@ class ROConverter {
         guard let communityId, let reactions else { return List() }
         let metaReactions = reactions.compactMap({ reactionMeta in
             return convertReactionMeta(
-                realm: RealmManager.realmInstance(), reaction: reactionMeta,
+                realm: LMDBManager.lmDBInstance(), reaction: reactionMeta,
                 communityId: communityId)
         })
         let list = List<ReactionRO>()

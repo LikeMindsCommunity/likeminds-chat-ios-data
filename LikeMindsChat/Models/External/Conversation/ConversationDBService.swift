@@ -17,7 +17,7 @@ class ConversationDBService {
         limit: Int,
         timestmap: Int,
         filterConversations: [Int] = []) -> Slice<Results<ConversationRO>>? {
-            let realm = RealmManager.realmInstance()
+            let realm = LMDBManager.lmDBInstance()
             let conversations = realm.objects(ConversationRO.self)
             return conversations.where { query in
                 query.chatroomId == chatroomId && !query.state.in(filterConversations) && query.createdEpoch < timestmap
@@ -31,7 +31,7 @@ class ConversationDBService {
         limit: Int,
         timestmap: Int,
         filterConversations: [Int] = []) -> Slice<Results<ConversationRO>>? {
-            let realm = RealmManager.realmInstance()
+            let realm = LMDBManager.lmDBInstance()
             let conversations = realm.objects(ConversationRO.self)
             return conversations.where { query in
                 query.chatroomId == chatroomId && !query.state.in(filterConversations) && query.createdEpoch > timestmap
@@ -44,7 +44,7 @@ class ConversationDBService {
         chatroomId: String,
         limit: Int,
         filterConversations: [Int] = []) -> Slice<Results<ConversationRO>>? {
-            let realm = RealmManager.realmInstance()
+            let realm = LMDBManager.lmDBInstance()
             let conversations = realm.objects(ConversationRO.self)
             return conversations.where { query in
                 query.chatroomId == chatroomId && !query.state.in(filterConversations)
@@ -57,7 +57,7 @@ class ConversationDBService {
         chatroomId: String,
         limit: Int,
         filterConversations: [Int] = []) -> Slice<Results<ConversationRO>>? {
-            let realm = RealmManager.realmInstance()
+            let realm = LMDBManager.lmDBInstance()
             let conversations = realm.objects(ConversationRO.self)
             return conversations.where { query in
                 query.chatroomId == chatroomId && !query.state.in(filterConversations)
@@ -68,18 +68,18 @@ class ConversationDBService {
     
     
     func getChatroomConversations(chatroomId: String, filterConversations: [Int] = []) -> Results<ConversationRO>? {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         let conversations = ChatDBUtil.shared.getChatroomConversations(realm: realm, chatroomId: chatroomId, filterConversations: filterConversations)
         return conversations
     }
     
     func deleteConversationPermanently(conversationId: String, chatroomId: String) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let chatroom = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: chatroomId) else { return }
         
         guard let conversation = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
         
-        RealmManager.delete(conversation)
+        LMDBManager.delete(conversation)
         chatroom.totalResponseCount = chatroom.totalResponseCount - 1
         chatroom.totalAllResponseCount = chatroom.totalAllResponseCount - 1
         
@@ -99,22 +99,22 @@ class ConversationDBService {
     func updateConversation(conversation: _Conversation_) {
         let memberRO = ROConverter.convertMember(member: conversation.member, communityId: SDKPreferences.shared.getCommunityId() ?? conversation.communityId ?? "")
         guard let conversationRO = ROConverter.convertConversation(conversation: conversation, member: memberRO) else { return }
-        RealmManager.write { realm, object in
+        LMDBManager.write { realm, object in
             realm.insertOrUpdate(conversationRO)
         }
     }
     
     func updateConversationUploadingStatus(conversationId: String, withStatus status: ConversationStatus) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
-        RealmManager.update(conversationRO) { object in
+        LMDBManager.update(conversationRO) { object in
             object.conversationStatus = status
         }
     }
     
     func savePostedConversation(savePostedConversationRequest: SavePostedConversationRequest) {
         let conversation = savePostedConversationRequest.conversation
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         realm.writeAsync {
             guard let chatroomRO = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: conversation.chatroomId),
                   let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
@@ -157,11 +157,11 @@ class ConversationDBService {
     
     func saveTemporaryConversation(request: SaveConversationRequest) {
         guard let conversation = request.conversation, let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let chatroomRO = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: conversationRO.chatroomId),
               let creatorRO = ROConverter.convertMember(member: conversation.member, communityId: SDKPreferences.shared.getCommunityId() ?? "") else { return }
         
-        RealmManager.write(chatroomRO) { realm, object in
+        LMDBManager.write(chatroomRO) { realm, object in
             guard let object else { return }
             if let tempConversation = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversation.id) {
                 realm.delete(tempConversation)
@@ -178,7 +178,7 @@ class ConversationDBService {
                                                ?? 0)) {
                 let lastConversationRO =
                 ROConverter.convertLastConversation(realm: realm, conversation: conversation, creator: creatorRO, attachments: conversation.attachments, deletedByMember: nil)
-                RealmManager.update(chatroomRO) { object in
+                LMDBManager.update(chatroomRO) { object in
                     chatroomRO.lastConversationRO = lastConversationRO
                 }
             }
@@ -202,17 +202,17 @@ class ConversationDBService {
     }
     
     func getConversation(conversationId: String) -> ConversationRO? {
-        return ChatDBUtil.shared.getConversation(realm: RealmManager.realmInstance(), conversationId: conversationId)
+        return ChatDBUtil.shared.getConversation(realm: LMDBManager.lmDBInstance(), conversationId: conversationId)
     }
     
     func updateDeletedConversations(conversations: [Conversation]) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         conversations.forEach { conversation in
             if let convId = conversation.id,
                let deletedBy = (conversation.deletedBy ?? conversation.deletedByMember?.sdkClientInfo?.uuid),
                   let ro = ChatDBUtil.shared.getConversation(realm: realm, conversationId: convId),
                   let memberRo = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: deletedBy) {
-                RealmManager.update(ro) { object in
+                LMDBManager.update(ro) { object in
                     object.deletedBy = deletedBy
                     object.deletedByMember = memberRo
                 }
@@ -221,15 +221,15 @@ class ConversationDBService {
     }
     
     func deletedTempConversations(conversationId: String) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
-        RealmManager.delete(conversationRO)
+        LMDBManager.delete(conversationRO)
     }
     
     func updateEditedConversation(conversation: Conversation) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversation.id) else { return }
-        RealmManager.update(conversationRO) { object in
+        LMDBManager.update(conversationRO) { object in
             object.answer = conversation.answer
             object.isEdited = true
             object.link = ROConverter.convertLink(chatroomId: conversation.chatroomId ?? "", communityId: conversation.communityId ?? "", link: conversation.ogTags)
@@ -237,9 +237,9 @@ class ConversationDBService {
     }
     
     func updateConversationReaction(reaction: String, conversationId: String) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
-        RealmManager.update(conversationRO) { object in
+        LMDBManager.update(conversationRO) { object in
             guard let userUUID =  realm.objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
             let existingReactions = object.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
             realm.delete(existingReactions)
@@ -256,10 +256,10 @@ class ConversationDBService {
     }
     
     func deleteReaction(conversationId: String) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
         
-        RealmManager.update(conversationRO) { object in
+        LMDBManager.update(conversationRO) { object in
             guard let userUUID =  realm.objects(UserRO.self).first?.sdkClientInfoRO?.uuid else { return }
             let existingReactions = object.reactions.filter({$0.member?.sdkClientInfoRO?.uuid == userUUID})
             realm.delete(existingReactions)
@@ -267,7 +267,7 @@ class ConversationDBService {
     }
     
     func getMemberBy(_ uuid: String) -> MemberRO? {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let memberRO = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: uuid)
         else { return nil }
         return memberRO

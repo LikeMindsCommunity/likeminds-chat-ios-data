@@ -6,20 +6,22 @@ pod install
 xcodebuild archive \
 -workspace LikeMindsChat.xcworkspace \
 -scheme LikeMindsChat \
--configuration Release \
+-destination "generic/platform=iOS" \
 -sdk iphoneos \
 -archivePath LMChatFramework/archives/ios_devices.xcarchive \
 BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+ONLY_ACTIVE_ARCH=NO \
 SKIP_INSTALL=NO \
 
 # 5 - Archiving the workspace for Simulators
 xcodebuild archive \
 -workspace LikeMindsChat.xcworkspace \
 -scheme LikeMindsChat \
--configuration Debug \
+-destination "generic/platform=iOS Simulator" \
 -sdk iphonesimulator \
 -archivePath LMChatFramework/archives/ios_simulators.xcarchive \
 BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
+ONLY_ACTIVE_ARCH=NO \
 SKIP_INSTALL=NO \
 
 # 6 - Creating `.xcframework` 

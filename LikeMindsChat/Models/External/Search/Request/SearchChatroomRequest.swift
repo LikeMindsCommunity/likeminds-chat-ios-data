@@ -33,27 +33,27 @@ public class SearchChatroomRequest: Encodable {
             request = SearchChatroomRequest()
         }
         
-        public func setSearch(_ search: String) -> Builder {
+        public func search(_ search: String) -> Builder {
             request.search = search
             return self
         }
         
-        public func setFollowStatus(_ followStatus: Bool) -> Builder {
+        public func followStatus(_ followStatus: Bool) -> Builder {
             request.followStatus = followStatus
             return self
         }
         
-        public func setPage(_ page: Int) -> Builder {
+        public func page(_ page: Int) -> Builder {
             request.page = page
             return self
         }
         
-        public func setPageSize(_ pageSize: Int) -> Builder {
+        public func pageSize(_ pageSize: Int) -> Builder {
             request.pageSize = pageSize
             return self
         }
         
-        public func setSearchType(_ searchType: String) -> Builder {
+        public func searchType(_ searchType: String) -> Builder {
             request.searchType = searchType
             return self
         }
@@ -65,10 +65,10 @@ public class SearchChatroomRequest: Encodable {
     
     public func toBuilder() -> Builder {
         return Builder()
-            .setSearch(search)
-            .setFollowStatus(followStatus)
-            .setPage(page)
-            .setPageSize(pageSize)
-            .setSearchType(searchType)
+            .search(search)
+            .followStatus(followStatus)
+            .page(page)
+            .pageSize(pageSize)
+            .searchType(searchType)
     }
 }

@@ -13,7 +13,7 @@ class PollDBService {
     static let shared = PollDBService()
     
     func updateNewPollOption(poll: Poll?, conversationId: String) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId),
         let pollOptionRO = ROConverter.convertPoll(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), poll: poll, uuid: poll?.member?.sdkClientInfo?.uuid) else { return }
         realm.writeAsync {
@@ -22,7 +22,7 @@ class PollDBService {
     }
     
     func updateConversationSubmitPolls(conversationId: String, polls: [Poll]) {
-        let realm = RealmManager.realmInstance()
+        let realm = LMDBManager.lmDBInstance()
         guard let conversationRO = ChatDBUtil.shared.getConversation(realm: realm, conversationId: conversationId) else { return }
         realm.writeAsync {
             conversationRO.polls.forEach { pollRo in
