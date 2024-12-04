@@ -30,7 +30,7 @@ class SyncUtil {
     //Stores App config data to DB
     static func saveAppConfig(communityId: String, isChatroomSynced: Bool? = nil, isConversationSynced: Bool? = nil) {
         if communityId.isEmpty { return }
-        RealmManager.write { realm, object in
+        LMDBManager.write { realm, object in
             let appConfig = ChatDBUtil.shared.getAppConfig(realm: realm)
             if let appConfig {
                 let list = List<String>()
@@ -65,7 +65,7 @@ class SyncUtil {
                               data: _SyncChatroomResponse_
     ) {
         let chatrooms = data.chatrooms
-        RealmManager.write { realm, object in
+        LMDBManager.write { realm, object in
             let community = data.communityMeta?[communityId]
             if let communityRO = ROConverter.convertCommunity(community) {
                 communityRO.relationshipNeeded = true
@@ -269,7 +269,7 @@ class SyncUtil {
                                    loggedInUUID: String,
                                    dataList: [_SyncConversationResponse_]
     ) {
-        RealmManager.write { realm, object in
+        LMDBManager.write { realm, object in
             
             dataList.forEach { data in
                 //fetch community

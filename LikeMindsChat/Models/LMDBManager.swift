@@ -1,5 +1,5 @@
 //
-//  RealmManager.swift
+//  LMDBManager.swift
 //  LikeMindsChat
 //
 //  Created by Pushpendra Singh on 08/01/24.
@@ -23,10 +23,10 @@ extension Realm {
     }
 }
 
-class RealmManager {
+class LMDBManager {
 
     // MARK:- functions
-    static private func realmConfig() -> Realm.Configuration {
+    static private func dbConfig() -> Realm.Configuration {
         let username = "LMChatDB"
         var config = Realm.Configuration.defaultConfiguration
         config.fileURL!.deleteLastPathComponent()
@@ -94,9 +94,9 @@ class RealmManager {
         return config
     }
 
-    static func realmInstance() -> Realm {
+    static func lmDBInstance() -> Realm {
         do {
-            let newRealm = try Realm(configuration: realmConfig())
+            let newRealm = try Realm(configuration: dbConfig())
             return newRealm
         } catch {
             print(error)
@@ -136,14 +136,14 @@ private protocol RealmOperations {
     static func update<T: Object>(_ object: T, block: @escaping ((T) -> Void))
 }
 
-extension RealmManager: RealmOperations {
+extension LMDBManager: RealmOperations {
     /// Writes to Realm
     static func write<T: Object>(
         _ object: T? = nil, block: @escaping ((Realm, T?) -> Void)
     ) {
         DispatchQueue(label: "realm").sync {
             autoreleasepool {
-                let currentRealm = realmInstance()
+                let currentRealm = lmDBInstance()
                 if currentRealm.isInWriteTransaction {
                     return
                 } else {
@@ -180,7 +180,7 @@ extension RealmManager: RealmOperations {
         fromEntity entity: R.Type, withPredicate predicate: NSPredicate? = nil,
         sortedByKey sortKey: String? = nil, inAscending isAscending: Bool = true
     ) -> Results<R> {
-        var objects = realmInstance().objects(entity)
+        var objects = lmDBInstance().objects(entity)
         if predicate != nil {
             objects = objects.filter(predicate!)
         }

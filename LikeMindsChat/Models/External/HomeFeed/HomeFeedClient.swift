@@ -22,7 +22,7 @@ class HomeFeedClient {
     private var firebaseRealTimeDBReference: DatabaseReference?
     
     static let shared = HomeFeedClient()
-    let realmInstance = RealmManager.realmInstance()
+    let realmInstance = LMDBManager.lmDBInstance()
     
     func addObserver(_ ob: HomeFeedClientObserver) {
         guard observers.first(where: {type(of: $0) == type(of: ob)}) == nil else { return }
