@@ -12,7 +12,7 @@ import FirebaseDatabase
 class DirectMessageClient {
  
     static let shared = DirectMessageClient()
-    let realmInstance = RealmManager.realmInstance()
+    let realmInstance = LMDBManager.lmDBInstance()
     private var firebaseRealTimeDBReference: DatabaseReference?
     
     private var feedDMChatrooms: Results<ChatroomRO>?
