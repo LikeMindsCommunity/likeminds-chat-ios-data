@@ -34,36 +34,21 @@ class LMDBManager {
         config.fileURL!.appendPathExtension("realm")
         config.schemaVersion = 6
         config.migrationBlock = { (migration, oldSchemaVersion) in
-            var oldVersion = oldSchemaVersion
-            if oldVersion == 1 {
-                // No Migration is required
-                oldVersion += 1
-            }
-            if oldVersion == 2 {
-                // No Migration is required
-                oldVersion += 1
-            }
-            if oldVersion == 3 {
-                // No Migration is required
-                oldVersion += 1
-            }
-            if oldVersion == 4 {
+            let oldVersion = oldSchemaVersion
+
+            if oldVersion <= 4 {
                 migration.enumerateObjects(ofType: MemberRO.className()) {
                     old, new in
-                    if old?["roles"] == nil {
-                        new?["roles"] = nil
-                    }
+                    new?["roles"] = List<String>()
+
                 }
 
                 migration.enumerateObjects(ofType: UserRO.className()) {
                     old, new in
-                    if old?["roles"] == nil {
-                        new?["roles"] = nil
-                    }
+                    new?["roles"] = List<String>()
                 }
-                oldVersion += 1
             }
-            if oldVersion == 5 {
+            if oldVersion <= 5 {
                 migration.enumerateObjects(ofType: ConversationRO.className()) {
                     oldObject, newObject in
                     // Add default value for `widgetId`
@@ -78,16 +63,12 @@ class LMDBManager {
                     newObject?["widgetId"] = nil  // Or provide a default value if necessary
                     newObject?["widget"] = nil
                 }
-                oldVersion += 1
 
                 // Migrate WidgetRO to handle `_lm_meta` type change
                 migration.enumerateObjects(ofType: WidgetRO.className()) {
                     oldObject, newObject in
                     newObject?["_lm_meta"] = nil
                 }
-
-                // Increment schema version after migration
-                oldVersion += 1
             }
 
         }
