@@ -17,6 +17,7 @@ public class SearchConversationRequest: Encodable {
 
     /// The search query string used to find conversations.
     let search: String
+    let chatroomId: String?
 
     /// The follow status filter for the search.
     /// - `true`: Search for conversations followed by the user.
@@ -37,14 +38,20 @@ public class SearchConversationRequest: Encodable {
     ///
     /// - Parameters:
     ///   - search: The search query string.
+    ///   - chatroomId: The id of the chatroom
     ///   - followStatus: The follow status filter.
     ///   - page: The page number for paginated results.
     ///   - pageSize: The number of results per page.
-    private init(search: String, followStatus: Bool, page: Int, pageSize: Int) {
+    ///
+    private init(
+        search: String, chatroomId: String?, followStatus: Bool, page: Int,
+        pageSize: Int
+    ) {
         self.search = search
         self.followStatus = followStatus
         self.page = page
         self.pageSize = pageSize
+        self.chatroomId = chatroomId
     }
 
     // MARK: - Coding Keys
@@ -52,6 +59,7 @@ public class SearchConversationRequest: Encodable {
     /// Maps the properties to their respective keys in the JSON request body.
     private enum CodingKeys: String, CodingKey {
         case search
+        case chatroomId = "chatroom_id"
         case followStatus = "follow_status"
         case page
         case pageSize = "page_size"
@@ -74,6 +82,8 @@ public class SearchConversationRequest: Encodable {
         /// The search query string to configure in the request.
         private var search: String = ""
 
+        private var chatroomId: String?
+
         /// The follow status filter to configure in the request.
         private var followStatus: Bool = false
 
@@ -91,6 +101,11 @@ public class SearchConversationRequest: Encodable {
         /// - Returns: The current builder instance.
         public func search(_ search: String) -> Builder {
             self.search = search
+            return self
+        }
+
+        public func chatroomId(_ chatroomId: String?) -> Builder {
+            self.chatroomId = chatroomId
             return self
         }
 
@@ -127,6 +142,7 @@ public class SearchConversationRequest: Encodable {
         public func build() -> SearchConversationRequest {
             return SearchConversationRequest(
                 search: search,
+                chatroomId: chatroomId,
                 followStatus: followStatus,
                 page: page,
                 pageSize: pageSize
@@ -142,6 +158,7 @@ public class SearchConversationRequest: Encodable {
     public func toBuilder() -> Builder {
         return Builder()
             .search(search)
+            .chatroomId(chatroomId)
             .followStatus(followStatus)
             .page(page)
             .pageSize(pageSize)
