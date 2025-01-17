@@ -41,6 +41,8 @@ struct ServiceAPIRequest {
         case setChatroomTopic(_ request: SetChatroomTopicRequest)
         case getParticipants(_ request: GetParticipantsRequest)
         case editChatroomTitle(_ request: EditChatroomTitleRequest)
+        case getChannelInvites(_ request: GetChannelInvitesRequest)
+        case updateChannelInvite(_ request: UpdateChannelInviteRequest)
         
         //MARK:- Community api
         case explorFeed(_ request: GetExploreFeedRequest)
@@ -245,6 +247,12 @@ struct ServiceAPIRequest {
                 return "community/report/tag?type=\(request.type)"
             case .postReport:
                 return "community/report"
+                
+            // MARK: Secret Chatroom Invite
+            case .getChannelInvites(let request):
+                return "channel/invites?channel_type=\(request.channelType)&page=\(request.page)&page_size=\(request.pageSize)"
+            case .updateChannelInvite(let request):
+                return "channel/invite?channel_id=\(request.channelId)&invite_status=\(request.inviteStatus.rawValue)"
             }
         }
         
@@ -287,14 +295,16 @@ struct ServiceAPIRequest {
                     .checkDMStatus,
                     .fetchDMFeeds,
                     .checkDMTab,
-                    .getReportTags:
+                    .getReportTags,
+                    .getChannelInvites:
                 return .get
             case .setChatroomTopic,
                     .muteChatroom,
                     .followChatroom,
                     .editChatroomTitle,
                     .putReaction,
-                    .editConversation:
+                    .editConversation,
+                    .updateChannelInvite:
                 return .put
             case .leaveSecretChatroom,
                     .deleteReaction,
@@ -358,7 +368,10 @@ struct ServiceAPIRequest {
                 return request.requestParam()
             case .sendDMRequest(let request):
                 return request.requestParam()
-                
+            case .getChannelInvites(let request):
+                return request.requestParam()
+            case .updateChannelInvite(let request):
+                return request.requestParam()
             default:
                 return nil
             }
