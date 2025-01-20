@@ -67,6 +67,7 @@ PODS:
   - Realm/Headers (10.54.1)
   - RealmSwift (10.54.1):
     - Realm (= 10.54.1)
+  - SwiftLint (0.58.1)
 
 DEPENDENCIES:
   - Alamofire (~> 5.7.1)
@@ -74,6 +75,7 @@ DEPENDENCIES:
   - FirebaseDatabase
   - FirebaseMessaging
   - RealmSwift (~> 10.40)
+  - SwiftLint
 
 SPEC REPOS:
   trunk:
@@ -92,6 +94,7 @@ SPEC REPOS:
     - PromisesObjC
     - Realm
     - RealmSwift
+    - SwiftLint
 
 SPEC CHECKSUMS:
   Alamofire: 0123a34370cb170936ae79a8df46cc62b2edeb88
@@ -109,7 +112,8 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   Realm: 7c70fc7ae6ebfb635b29bc05ac1a6c5eeeb3c572
   RealmSwift: 12797d5849c90f37eafad8f44b4dadb8e558a806
+  SwiftLint: 6c8820d22c8f74baadd5684e00bb7356c34610a1
 
-PODFILE CHECKSUM: 32bf890ea8e28567409bf43d22918563ec26213d
+PODFILE CHECKSUM: 3ec831a5767df9a4823100b83e76ebf65ceb0967
 
 COCOAPODS: 1.16.2

@@ -1,0 +1,55 @@
+
+included:
+  - ./LikeMindsChat
+
+disabled_rules:
+  - line_length
+  - trailing_whitespace
+  - switch_case_alignment
+  - type_name
+
+opt_in_rules:
+  - empty_count
+  - identifier_name
+  - unused_closure_parameter
+  - statement_position
+  - colon
+  - unused_optional_binding
+  - unneeded_override
+  - opening_brace
+
+# Customize rule configuration
+line_length:
+  warning: 120
+  error: 140̊
+
+# Configure force_try rule
+force_try:
+  warning: true
+  error: true
+  
+identifier_name:
+  allowed_symbols: ["_"]
+  min_length: 2
+  max_length: 40
+  
+rules:
+  - comma
+  
+comma:
+  severity: error
+unused_closure_parameter:
+  severity: error
+statement_position:
+  severity: error
+colon:
+  severity: error
+unused_optional_binding:
+  severity: error
+unneeded_override:
+  severity: error
+opening_brace:
+  severity: error
+function_body_length:
+  warning: 150
+  error: 200

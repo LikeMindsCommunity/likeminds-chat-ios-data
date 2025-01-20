@@ -36,6 +36,7 @@
 		91D372282D3A6E8E003176BB /* GetChannelInvitesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D372272D3A6E8E003176BB /* GetChannelInvitesRequest.swift */; };
 		91D3722A2D3A6EE0003176BB /* GetChannelInvitesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D372292D3A6EE0003176BB /* GetChannelInvitesResponse.swift */; };
 		91D3722C2D3A7670003176BB /* UpdateChannelInviteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D3722B2D3A7670003176BB /* UpdateChannelInviteRequest.swift */; };
+		91D3722E2D3AB6F6003176BB /* swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 91D3722D2D3AB6F6003176BB /* swiftlint.yml */; };
 		F41223702B330FB500CB1532 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412236F2B330FB500CB1532 /* Member.swift */; };
 		F41223722B336E8D00CB1532 /* LinkOGTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223712B336E8D00CB1532 /* LinkOGTags.swift */; };
 		F41223742B336F4000CB1532 /* ConversationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223732B336F4000CB1532 /* ConversationState.swift */; };
@@ -237,6 +238,7 @@
 		91D372272D3A6E8E003176BB /* GetChannelInvitesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChannelInvitesRequest.swift; sourceTree = "<group>"; };
 		91D372292D3A6EE0003176BB /* GetChannelInvitesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChannelInvitesResponse.swift; sourceTree = "<group>"; };
 		91D3722B2D3A7670003176BB /* UpdateChannelInviteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChannelInviteRequest.swift; sourceTree = "<group>"; };
+		91D3722D2D3AB6F6003176BB /* swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = swiftlint.yml; sourceTree = "<group>"; };
 		F412236F2B330FB500CB1532 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F41223712B336E8D00CB1532 /* LinkOGTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOGTags.swift; sourceTree = "<group>"; };
 		F41223732B336F4000CB1532 /* ConversationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationState.swift; sourceTree = "<group>"; };
@@ -509,6 +511,7 @@
 		F420C04E2A5C0472008C48DE = {
 			isa = PBXGroup;
 			children = (
+				91D3722D2D3AB6F6003176BB /* swiftlint.yml */,
 				F420C05A2A5C0472008C48DE /* LikeMindsChat */,
 				F420C0592A5C0472008C48DE /* Products */,
 				ECB336449B72AA80651CCD60 /* Pods */,
@@ -1060,6 +1063,7 @@
 			buildPhases = (
 				B9107F0C09BF45EB1DC2CC71 /* [CP] Check Pods Manifest.lock */,
 				F420C0532A5C0472008C48DE /* Headers */,
+				91D3722F2D3ABA65003176BB /* SwiftLint */,
 				F420C0542A5C0472008C48DE /* Sources */,
 				F420C0552A5C0472008C48DE /* Frameworks */,
 				F420C0562A5C0472008C48DE /* Resources */,
@@ -1110,12 +1114,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91D3722E2D3AB6F6003176BB /* swiftlint.yml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		91D3722F2D3ABA65003176BB /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nif [ -f \"${PODS_ROOT}/SwiftLint/swiftlint\" ]; then\n    \"${PODS_ROOT}/SwiftLint/swiftlint\"\nelse\n    echo \"warning: SwiftLint not found in Pods. Please make sure it's installed.\"\nfi\n";
+		};
 		B9107F0C09BF45EB1DC2CC71 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
