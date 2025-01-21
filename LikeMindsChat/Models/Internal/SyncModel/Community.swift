@@ -51,7 +51,7 @@ public struct CommunitySetting: Decodable {
         case directMessageWithGroupMessage = "direct_messages_with_group_messages"
         case chatrooms = "chatrooms"
         case createIntroRooms = "create_intro_rooms"
-        case secretGroupInvite = "secret_groups_invite"
+        case secretGroupInvite = "secret_chatrooms_invite"
         case postGroups = "post_groups"
     }
     
