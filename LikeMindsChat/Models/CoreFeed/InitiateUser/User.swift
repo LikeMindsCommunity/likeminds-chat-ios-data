@@ -18,7 +18,7 @@ public struct User: Codable {
     public var state, updatedAt: Int?
     public var sdkClientInfo: SDKClientInfo?
     public var roles: [UserRole]?
-    
+
     enum CodingKeys: String, CodingKey {
         case id, name, roles, uuid
         case imageUrl = "image_url"
@@ -32,31 +32,41 @@ public struct User: Codable {
         case updatedAt = "updated_at"
         case sdkClientInfo = "sdk_client_info"
     }
-    
-    init(id: String?, imageUrl: String?) {
+
+    public init(id: String?, imageUrl: String?) {
         self.id = id
         self.imageUrl = imageUrl
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.id = try container.decodeIntToStringIfPresent(forKey: .id)
         self.name = try container.decodeIfPresent(String.self, forKey: .name)
-        self.imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
-        self.organisationName = try container.decodeIfPresent(String.self, forKey: .organisationName)
-        self.userUniqueID = try container.decodeIfPresent(String.self, forKey: .userUniqueID)
+        self.imageUrl = try container.decodeIfPresent(
+            String.self, forKey: .imageUrl)
+        self.organisationName = try container.decodeIfPresent(
+            String.self, forKey: .organisationName)
+        self.userUniqueID = try container.decodeIfPresent(
+            String.self, forKey: .userUniqueID)
         self.isGuest = try container.decode(Bool.self, forKey: .isGuest)
-        self.isDeleted = try container.decodeIfPresent(Bool.self, forKey: .isDeleted)
-        self.isOwner = try container.decodeIfPresent(Bool.self, forKey: .isOwner)
-        self.customTitle = try container.decodeIfPresent(String.self, forKey: .customTitle)
+        self.isDeleted = try container.decodeIfPresent(
+            Bool.self, forKey: .isDeleted)
+        self.isOwner = try container.decodeIfPresent(
+            Bool.self, forKey: .isOwner)
+        self.customTitle = try container.decodeIfPresent(
+            String.self, forKey: .customTitle)
         self.state = try container.decodeIfPresent(Int.self, forKey: .state)
-        self.updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
-        self.sdkClientInfo = try container.decode(SDKClientInfo.self, forKey: .sdkClientInfo)
+        self.updatedAt = try container.decodeIfPresent(
+            Int.self, forKey: .updatedAt)
+        self.sdkClientInfo = try container.decode(
+            SDKClientInfo.self, forKey: .sdkClientInfo)
         self.uuid = try container.decodeIfPresent(String.self, forKey: .uuid)
-        self.roles = try container.decodeIfPresent([UserRole].self, forKey: .roles)
+        self.roles = try container.decodeIfPresent(
+            [UserRole].self, forKey: .roles)
     }
     // Using UUID for user unique id
     public var clientUUID: String? {
         return self.sdkClientInfo?.uuid
     }
+
 }

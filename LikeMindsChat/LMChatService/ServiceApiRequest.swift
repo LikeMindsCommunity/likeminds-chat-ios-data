@@ -368,8 +368,6 @@ struct ServiceAPIRequest {
                 return request.requestParam()
             case .sendDMRequest(let request):
                 return request.requestParam()
-            case .getChannelInvites(let request):
-                return request.requestParam()
             case .updateChannelInvite(let request):
                 return request.requestParam()
             default:

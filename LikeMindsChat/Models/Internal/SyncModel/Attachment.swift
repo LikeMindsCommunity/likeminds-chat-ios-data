@@ -156,6 +156,8 @@ public struct Attachment: Codable {
         private var createdAt: Int? = nil
         private var updatedAt: Int? = nil
 
+        public init() {}
+
         public func id(_ id: String?) -> Builder {
             self.id = id
             return self

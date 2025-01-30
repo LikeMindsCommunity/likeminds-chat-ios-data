@@ -8,7 +8,7 @@
 import Foundation
 
 public struct Question: Decodable {
-    
+
     public let id: Int?
     public let questionTitle: String?
     public let state: Int?
@@ -25,7 +25,7 @@ public struct Question: Decodable {
     public let canAddOtherOptions: Bool?
     public let questionChangeState: Int?
     public let isAnswerEditable: Bool?
-    
+
     enum CodingKeys: String, CodingKey {
         case id
         case questionTitle = "question_title"
@@ -44,24 +44,67 @@ public struct Question: Decodable {
         case questionChangeState = "question_change_state"
         case isAnswerEditable = "is_answer_editable"
     }
-    
+
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decodeIfPresent(Int.self, forKey: .id)
-        questionTitle = try container.decode(String.self, forKey: .questionTitle)
+        questionTitle = try container.decode(
+            String.self, forKey: .questionTitle)
         state = try container.decodeIfPresent(Int.self, forKey: .state)
         value = try container.decodeIfPresent(String.self, forKey: .value)
         optional = try container.decodeIfPresent(Bool.self, forKey: .optional)
         helpText = try container.decodeIfPresent(String.self, forKey: .helpText)
         field = try container.decodeIfPresent(Bool.self, forKey: .field)
-        isCompulsory = try container.decodeIfPresent(Bool.self, forKey: .isCompulsory)
+        isCompulsory = try container.decodeIfPresent(
+            Bool.self, forKey: .isCompulsory)
         isHidden = try container.decodeIfPresent(Bool.self, forKey: .isHidden)
-        communityId = try container.decodeIntToStringIfPresent(forKey: .communityId)
+        communityId = try container.decodeIntToStringIfPresent(
+            forKey: .communityId)
         memberId = try container.decodeIntToStringIfPresent(forKey: .memberId)
-        directoryFields = try container.decodeIfPresent(Bool.self, forKey: .directoryFields)
+        directoryFields = try container.decodeIfPresent(
+            Bool.self, forKey: .directoryFields)
         imageUrl = try container.decodeIfPresent(String.self, forKey: .imageUrl)
-        canAddOtherOptions = try container.decodeIfPresent(Bool.self, forKey: .canAddOtherOptions)
-        questionChangeState = try container.decodeIfPresent(Int.self, forKey: .questionChangeState)
-        isAnswerEditable = try container.decodeIfPresent(Bool.self, forKey: .isAnswerEditable)
+        canAddOtherOptions = try container.decodeIfPresent(
+            Bool.self, forKey: .canAddOtherOptions)
+        questionChangeState = try container.decodeIfPresent(
+            Int.self, forKey: .questionChangeState)
+        isAnswerEditable = try container.decodeIfPresent(
+            Bool.self, forKey: .isAnswerEditable)
+    }
+
+    public init(
+        id: Int?,
+        questionTitle: String?,
+        state: Int?,
+        value: String?,
+        optional: Bool?,
+        helpText: String?,
+        field: Bool?,
+        isCompulsory: Bool?,
+        isHidden: Bool?,
+        communityId: String?,
+        memberId: String?,
+        directoryFields: Bool?,
+        imageUrl: String?,
+        canAddOtherOptions: Bool?,
+        questionChangeState: Int?,
+        isAnswerEditable: Bool?
+    ) {
+        self.id = id
+        self.questionTitle = questionTitle
+        self.state = state
+        self.value = value
+        self.optional = optional
+        self.helpText = helpText
+        self.field = field
+        self.isCompulsory = isCompulsory
+        self.isHidden = isHidden
+        self.communityId = communityId
+        self.memberId = memberId
+        self.directoryFields = directoryFields
+        self.imageUrl = imageUrl
+        self.canAddOtherOptions = canAddOtherOptions
+        self.questionChangeState = questionChangeState
+        self.isAnswerEditable = isAnswerEditable
     }
 }

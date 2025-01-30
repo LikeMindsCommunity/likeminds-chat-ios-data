@@ -48,6 +48,7 @@ public class Reaction: Decodable {
         public func build() -> Reaction {
             return Reaction(member: member, reaction: reaction)
         }
+        
     }
     
     public func toBuilder() -> Builder {

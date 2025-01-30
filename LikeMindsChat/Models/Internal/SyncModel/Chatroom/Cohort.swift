@@ -19,6 +19,13 @@ public struct Cohort: Decodable {
         case name
         case members
     }
+    
+    public init(id: Int?, totalMembers: Int?, name: String?, members: [Member]?) {
+        self.id = id
+        self.totalMembers = totalMembers
+        self.name = name
+        self.members = members
+    }
 }
 
 extension Cohort {

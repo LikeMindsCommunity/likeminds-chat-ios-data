@@ -95,7 +95,8 @@ public struct Member: Decodable {
     var clientUUID: String? {
         return self.sdkClientInfo?.uuid ?? ""
     }
-    class Builder {
+    
+    public class Builder {
         private var id: String = ""
         private var userUniqueId: String = ""
         private var name: String = ""
@@ -120,123 +121,125 @@ public struct Member: Decodable {
         private var uuid: String = ""
         private var roles: [UserRole] = []
         
-        @discardableResult
-        func id(_ id: String) -> Builder {
+        public init() {}
+        
+        
+        public func id(_ id: String) -> Builder {
             self.id = id
             return self
         }
         
-        func userUniqueId(_ userUniqueId: String) -> Builder {
+        public func userUniqueId(_ userUniqueId: String) -> Builder {
             self.userUniqueId = userUniqueId
             return self
         }
         
-        func name(_ name: String) -> Builder {
+        public func name(_ name: String) -> Builder {
             self.name = name
             return self
         }
         
-        func imageUrl(_ imageUrl: String) -> Builder {
+        public func imageUrl(_ imageUrl: String) -> Builder {
             self.imageUrl = imageUrl
             return self
         }
         
-        func questionAnswers(_ questionAnswers: [Question]?) -> Builder {
+        public func questionAnswers(_ questionAnswers: [Question]?) -> Builder {
             self.questionAnswers = questionAnswers
             return self
         }
         
-        func state(_ state: Int?) -> Builder {
+        public func state(_ state: Int?) -> Builder {
             self.state = state
             return self
         }
         
-        func isGuest(_ isGuest: Bool) -> Builder {
+        public func isGuest(_ isGuest: Bool) -> Builder {
             self.isGuest = isGuest
             return self
         }
         
-        func customIntroText(_ customIntroText: String?) -> Builder {
+        public func customIntroText(_ customIntroText: String?) -> Builder {
             self.customIntroText = customIntroText
             return self
         }
         
-        func customClickText(_ customClickText: String?) -> Builder {
+        public func customClickText(_ customClickText: String?) -> Builder {
             self.customClickText = customClickText
             return self
         }
         
-        func memberSince(_ memberSince: String?) -> Builder {
+        public func memberSince(_ memberSince: String?) -> Builder {
             self.memberSince = memberSince
             return self
         }
         
-        func communityName(_ communityName: String?) -> Builder {
+        public func communityName(_ communityName: String?) -> Builder {
             self.communityName = communityName
             return self
         }
         
-        func isOwner(_ isOwner: Bool) -> Builder {
+        public func isOwner(_ isOwner: Bool) -> Builder {
             self.isOwner = isOwner
             return self
         }
         
-        func customTitle(_ customTitle: String?) -> Builder {
+        public func customTitle(_ customTitle: String?) -> Builder {
             self.customTitle = customTitle
             return self
         }
         
-        func menu(_ menu: [MemberAction]?) -> Builder {
+        public func menu(_ menu: [MemberAction]?) -> Builder {
             self.menu = menu
             return self
         }
         
-        func communityId(_ communityId: String?) -> Builder {
+        public func communityId(_ communityId: String?) -> Builder {
             self.communityId = communityId
             return self
         }
         
-        func chatroomId(_ chatroomId: String?) -> Builder {
+        public func chatroomId(_ chatroomId: String?) -> Builder {
             self.chatroomId = chatroomId
             return self
         }
         
-        func route(_ route: String?) -> Builder {
+        public func route(_ route: String?) -> Builder {
             self.route = route
             return self
         }
         
-        func attendingStatus(_ attendingStatus: Bool?) -> Builder {
+        public func attendingStatus(_ attendingStatus: Bool?) -> Builder {
             self.attendingStatus = attendingStatus
             return self
         }
         
-        func hasProfileImage(_ hasProfileImage: Bool?) -> Builder {
+        public func hasProfileImage(_ hasProfileImage: Bool?) -> Builder {
             self.hasProfileImage = hasProfileImage
             return self
         }
         
-        func updatedAt(_ updatedAt: Int?) -> Builder {
+        public func updatedAt(_ updatedAt: Int?) -> Builder {
             self.updatedAt = updatedAt
             return self
         }
         
-        func sdkClientInfo(_ sdkClientInfo: SDKClientInfo?) -> Builder {
+        public func sdkClientInfo(_ sdkClientInfo: SDKClientInfo?) -> Builder {
             self.sdkClientInfo = sdkClientInfo
             return self
         }
         
-        func uuid(_ uuid: String) -> Builder {
+        public func uuid(_ uuid: String) -> Builder {
             self.uuid = uuid
             return self
         }
         
-        func roles(_ roles: [UserRole]) -> Builder{
+        public func roles(_ roles: [UserRole]) -> Builder{
             self.roles = roles
             return self
         }
         
-        func build() -> Member {
+        public func build() -> Member {
             var member = Member()
             member.id = self.id
             member.userUniqueId = self.userUniqueId
@@ -265,7 +268,7 @@ public struct Member: Decodable {
         }
     }
     
-    func toBuilder() -> Builder {
+    public func toBuilder() -> Builder {
         return Builder()
             .id(id ?? "")
             .userUniqueId(userUniqueId ?? "")
