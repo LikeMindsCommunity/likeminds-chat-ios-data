@@ -26,7 +26,7 @@ struct ServiceAPIRequest {
         case validateUser(_ request: ValidateUserRequest)
         case refreshServiceToken(rtm: String)
         case pushToken(_ request: RegisterDeviceRequest)
-        case logout(_ request: LogoutRequest)
+        case logout(_ request: LogoutUserRequest)
         case getConfig
         case sdkOnboarding
         case explorTabCount

@@ -62,7 +62,7 @@
 		F420C07B2A5C08B7008C48DE /* LMChatClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0792A5C08B7008C48DE /* LMChatClient.swift */; };
 		F420C07C2A5C08B7008C48DE /* LMChatClient+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C07A2A5C08B7008C48DE /* LMChatClient+Extension.swift */; };
 		F420C0842A5C0E2E008C48DE /* ServiceConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0802A5C0E2E008C48DE /* ServiceConfiguration.swift */; };
-		F420C09C2A5C194C008C48DE /* LogoutRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C08F2A5C194C008C48DE /* LogoutRequest.swift */; };
+		F420C09C2A5C194C008C48DE /* LogoutUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C08F2A5C194C008C48DE /* LogoutUserRequest.swift */; };
 		F420C09D2A5C194C008C48DE /* InitiateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0912A5C194C008C48DE /* InitiateUserResponse.swift */; };
 		F420C09E2A5C194C008C48DE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0922A5C194C008C48DE /* User.swift */; };
 		F420C0A02A5C194C008C48DE /* InitiateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = F420C0942A5C194C008C48DE /* InitiateUserRequest.swift */; };
@@ -264,7 +264,7 @@
 		F420C0792A5C08B7008C48DE /* LMChatClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LMChatClient.swift; sourceTree = "<group>"; };
 		F420C07A2A5C08B7008C48DE /* LMChatClient+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "LMChatClient+Extension.swift"; sourceTree = "<group>"; };
 		F420C0802A5C0E2E008C48DE /* ServiceConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceConfiguration.swift; sourceTree = "<group>"; };
-		F420C08F2A5C194C008C48DE /* LogoutRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutRequest.swift; sourceTree = "<group>"; };
+		F420C08F2A5C194C008C48DE /* LogoutUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoutUserRequest.swift; sourceTree = "<group>"; };
 		F420C0912A5C194C008C48DE /* InitiateUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitiateUserResponse.swift; sourceTree = "<group>"; };
 		F420C0922A5C194C008C48DE /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F420C0942A5C194C008C48DE /* InitiateUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InitiateUserRequest.swift; sourceTree = "<group>"; };
@@ -619,7 +619,7 @@
 		F420C08E2A5C194C008C48DE /* Logout */ = {
 			isa = PBXGroup;
 			children = (
-				F420C08F2A5C194C008C48DE /* LogoutRequest.swift */,
+				F420C08F2A5C194C008C48DE /* LogoutUserRequest.swift */,
 			);
 			path = Logout;
 			sourceTree = "<group>";
@@ -1188,7 +1188,7 @@
 				F4BEB9FA2B54675500D12B62 /* EditConversationRequest.swift in Sources */,
 				F4BEBA212B546E7500D12B62 /* CommunityClient.swift in Sources */,
 				F4BEB9F02B54642900D12B62 /* PostPollConversationResponse.swift in Sources */,
-				F420C09C2A5C194C008C48DE /* LogoutRequest.swift in Sources */,
+				F420C09C2A5C194C008C48DE /* LogoutUserRequest.swift in Sources */,
 				91C1D14F2D0070CE00F2A97C /* LMDBManager.swift in Sources */,
 				91C1D1502D0070CE00F2A97C /* LMDatabaseObserver.swift in Sources */,
 				F420C0AF2A5E887B008C48DE /* GetHomeFeedResponse.swift in Sources */,

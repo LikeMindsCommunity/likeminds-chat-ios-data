@@ -105,12 +105,12 @@ extension LMChatClient {
     /// Logs the user out of the LikeMinds platform by invalidating their session and removing device information.
     ///
     /// - Parameters:
-    ///   - request: A `LogoutRequest` object containing the refresh token and device ID to log out the user.
+    ///   - request: A `LogoutUserRequest` object containing the refresh token and device ID to log out the user.
     ///   - response: An optional callback to handle the response of type `LMClientResponse<NoData>`.
     ///
     /// - Example:
     /// ```swift
-    /// let request = LogoutRequest.builder()
+    /// let request = LogoutUserRequest.builder()
     ///     .refreshToken("example-refresh-token")
     ///     .deviceId("12345-ABCDE")
     ///     .build()
@@ -124,11 +124,11 @@ extension LMChatClient {
     ///     }
     /// }
     /// ```
-    public func logout(
-        request: LogoutRequest,
+    public func logoutUser(
+        request: LogoutUserRequest,
         response: LMClientResponse<NoData>?
     ) {
-        InitiateUserClient.logout(request: request, withModuleName: moduleName)
+        InitiateUserClient.logoutUser(request: request, withModuleName: moduleName)
         { result in
             response?(result)
         }
