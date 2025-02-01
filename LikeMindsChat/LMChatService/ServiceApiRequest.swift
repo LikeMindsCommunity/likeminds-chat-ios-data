@@ -236,8 +236,9 @@ struct ServiceAPIRequest {
                 let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
                 let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
                 let searchQueryItem = URLQueryItem(name: "search", value: request.search)
+                let chatroomQueryItem = URLQueryItem(name: "chatroom_id", value: request.chatroomId)
                 
-                urlComponents.queryItems = [followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem]
+                urlComponents.queryItems = [chatroomQueryItem, followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem]
                 
                 return (urlComponents.url?.absoluteString ?? "")
                 //MARK:- Report api
