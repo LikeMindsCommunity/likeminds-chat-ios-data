@@ -17,6 +17,8 @@ public class SearchConversationRequest: Encodable {
 
     /// The search query string used to find conversations.
     let search: String
+    
+    /// The id of the chatroom to be search in
     let chatroomId: String?
 
     /// The follow status filter for the search.
@@ -104,6 +106,10 @@ public class SearchConversationRequest: Encodable {
             return self
         }
 
+        /// Sets the chatroom id.
+        ///
+        /// - Parameter chatroomId: The id of the chatroom.
+        /// - Returns: The current builder instance.
         public func chatroomId(_ chatroomId: String?) -> Builder {
             self.chatroomId = chatroomId
             return self
