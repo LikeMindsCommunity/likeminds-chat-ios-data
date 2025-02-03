@@ -213,27 +213,57 @@ class InitiateUserClient: ServiceRequest {
         }
     }
 
+    // MARK: Logout User
+    /**
+     Logs out the current user by clearing tokens and optionally notifying the backend service.
+
+     This function checks if the user is currently logged in by retrieving the access and refresh tokens.
+     - If both tokens are `nil`, it clears local storage and immediately returns a success response.
+     - If the tokens exist but no `deviceId` is provided in the logout request, it clears local storage and returns success.
+     - If a valid `deviceId` is provided, it sends a logout request to the backend service using the provided device ID in the HTTP headers.
+       On a successful network response, it clears the local storage and returns the success response. On failure, it returns
+       an error response with the error's localized description.
+
+     - Parameters:
+        - request: An instance of `LogoutUserRequest` containing the logout parameters (such as `deviceId`).
+        - moduleName: A `String` representing the module name for logging or tracking purposes.
+        - response: An optional closure of type `LMClientResponse<NoData>?` that is called with the logout response.
+
+     - Note: This function relies on several helper methods and objects, such as `TokenManager`, `clearLocalStorage()`,
+       `ServiceAPI`, and `DataNetwork.shared.requestWithDecoded(_:)`.
+     */
     static func logoutUser(
         request: LogoutUserRequest, withModuleName moduleName: String,
         _ response: LMClientResponse<NoData>?
     ) {
+        // Retrieve tokens from the TokenManager
         var (accessToken, refreshToken) = TokenManager.shared.getTokens()
 
+        // If both tokens are nil, the user is not logged in; clear local storage and return a success response.
         if accessToken == nil && refreshToken == nil {
             clearLocalStorage()
             response?(LMResponse.successResponse(NoData()))
         } else {
+            // If no deviceId is provided in the request, clear local storage and return success.
             if request.deviceId == nil {
                 clearLocalStorage()
                 response?(LMResponse.successResponse(NoData()))
             } else {
+                // Build the network path for the logout request
                 let networkPath = ServiceAPIRequest.NetworkPath.logout(request)
+                // Prepare HTTP headers and add the device ID to the headers.
                 var headers = ServiceRequest.httpHeaders()
                 headers["x-device-id"] = request.deviceId ?? ""
+
+                // Construct the URL for the logout API endpoint
                 guard
                     let url: URL = URL(
                         string: ServiceAPI.authBaseURL + networkPath.apiURL)
-                else { return }
+                else {
+                    return
+                }
+
+                // Perform the network request using the decoded response method.
                 DataNetwork.shared.requestWithDecoded(
                     for: url,
                     withHTTPMethod: networkPath.httpMethod,
@@ -243,12 +273,14 @@ class InitiateUserClient: ServiceRequest {
                     withResponseType: NoData.self,
                     withModuleName: moduleName
                 ) { (moduleName, responseData) in
+                    // On successful response, cast the data and clear local storage.
                     guard let data = responseData as? LMResponse<NoData> else {
                         return
                     }
                     clearLocalStorage()
                     response?(data)
                 } failureCallback: { (moduleName, error) in
+                    // On error, return a failure response with the error description.
                     response?(
                         LMResponse.failureResponse(error.localizedDescription))
                 }
