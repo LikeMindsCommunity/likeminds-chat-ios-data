@@ -219,6 +219,7 @@ struct ServiceAPIRequest {
                 return "conversation/poll/submit"
             case .getPollUsers(let request):
                 return "conversation/poll/users?conversation_id=\(request.conversationId)&poll_id=\(request.pollOptionId)"
+            // MARK: Search Chatroom
             case .searchChatroom(let request):
                 var urlComponents = URLComponents()
                 urlComponents.path = "chatroom/search"
@@ -231,18 +232,37 @@ struct ServiceAPIRequest {
                 urlComponents.queryItems = [followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem, searchTypeQueryItem]
                 
                 return (urlComponents.url?.absoluteString ?? "")
+            // MARK: Search Conversation
             case .searchConversation(let request):
+                // Initialize URLComponents to build the URL for the search conversation API endpoint.
                 var urlComponents = URLComponents()
+                
+                // Set the path component of the URL to point to the "conversation/search" endpoint.
                 urlComponents.path = "conversation/search"
+                
+                // Create a URLQueryItem for the follow status parameter using the value from the request.
                 let followStatusQueryItem = URLQueryItem(name: "follow_status", value: "\(request.followStatus)")
+                
+                // Create a URLQueryItem for the page parameter using the current page number from the request.
                 let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
+                
+                // Create a URLQueryItem for the page size parameter using the value from the request.
                 let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
+                
+                // Create a URLQueryItem for the search parameter using the search text from the request.
                 let searchQueryItem = URLQueryItem(name: "search", value: request.search)
                 
-                urlComponents.queryItems = [followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem]
+                // Create a URLQueryItem for the chatroom ID parameter using the chatroom identifier from the request.
+                let chatroomQueryItem = URLQueryItem(name: "chatroom_id", value: request.chatroomId)
                 
+                // Attach all the query items to the URL components. The order of the query items can be important if the API expects
+                // a specific order, so they are added in the following sequence: chatroom ID, follow status, page, page size, and search.
+                urlComponents.queryItems = [chatroomQueryItem, followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem]
+                
+                // Return the fully constructed URL as a string. If URLComponents fails to produce a valid URL, an empty string is returned.
                 return (urlComponents.url?.absoluteString ?? "")
-                //MARK:- Report api
+                
+            // MARK: Report api
             case .getReportTags(let request):
                 return "community/report/tag?type=\(request.type)"
             case .postReport:

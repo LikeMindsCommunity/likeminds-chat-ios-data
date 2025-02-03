@@ -24,7 +24,7 @@ public class SearchConversationRequest: Encodable {
     /// The follow status filter for the search.
     /// - `true`: Search for conversations followed by the user.
     /// - `false`: Search for all conversations regardless of follow status.
-    let followStatus: Bool
+    let followStatus: Bool?
 
     /// The page number for paginated results.
     /// Defaults to `1`.
@@ -46,7 +46,7 @@ public class SearchConversationRequest: Encodable {
     ///   - pageSize: The number of results per page.
     ///
     private init(
-        search: String, chatroomId: String?, followStatus: Bool, page: Int,
+        search: String, chatroomId: String?, followStatus: Bool?, page: Int,
         pageSize: Int
     ) {
         self.search = search
@@ -87,7 +87,7 @@ public class SearchConversationRequest: Encodable {
         private var chatroomId: String?
 
         /// The follow status filter to configure in the request.
-        private var followStatus: Bool = false
+        private var followStatus: Bool?
 
         /// The page number to configure in the request.
         private var page: Int = 1
@@ -119,7 +119,7 @@ public class SearchConversationRequest: Encodable {
         ///
         /// - Parameter followStatus: The follow status (`true` for followed conversations, `false` otherwise).
         /// - Returns: The current builder instance.
-        public func followStatus(_ followStatus: Bool) -> Builder {
+        public func followStatus(_ followStatus: Bool?) -> Builder {
             self.followStatus = followStatus
             return self
         }
