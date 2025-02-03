@@ -539,20 +539,4 @@ public struct Member: Decodable {
             .uuid(uuid ?? "")
             .roles(roles ?? [])
     }
-
-    /**
-     Returns a string indicating the member's role as a community manager if applicable.
-
-     If the member's state is equal to 1, this method returns "Community manager"; otherwise, it returns `nil`.
-
-     - Returns: A string representing the community manager role, or `nil` if not applicable.
-     */
-    public func communityManager() -> String? {
-        switch state {
-        case 1:
-            return "Community manager"
-        default:
-            return nil
-        }
-    }
 }
