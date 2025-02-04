@@ -550,18 +550,6 @@ extension LMChatClient {
             request: request, response: response)
     }
 
-    public func getUnreadConversationNotification() {
-
-    }
-
-    public func updateLastSeenAndDraft() {
-
-    }
-
-    public func editChatroomTitle() {
-
-    }
-
     public func savePostedConversation(request: SavePostedConversationRequest) {
         ConversationClient.shared.savePostedConversation(request: request)
     }
@@ -623,19 +611,163 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Retrieves a list of all members from the server based on the specified request parameters.
+    ///
+    /// This method utilizes the `CommunityClient` to perform the actual network call. The `GetAllMembersRequest` object
+    /// defines the criteria for fetching community members (such as page number, page size, and filtering by roles).
+    /// The `GetAllMembersResponse` contains the resulting list of members along with any relevant metadata, including
+    /// total counts and additional community information.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetAllMembersRequest` object containing parameters such as the page number, page size, optional
+    ///              member states, and whether to exclude the current user.
+    ///   - response: A closure to handle the server response, which includes either a successful `GetAllMembersResponse`
+    ///               object or an error message if the request fails.
+    ///
+    /// - Example:
+    /// ```swift
+    /// let request = GetAllMembersRequest.builder()
+    ///     .page(1)
+    ///     .pageSize(10)
+    ///     .filterMemberRoles([.admin, .member])
+    ///     .excludeSelfUser(true)
+    ///     .build()
+    ///
+    /// LMChatClient.shared.getAllMembers(request: request) { result in
+    ///     switch result {
+    ///     case .success(let responseData):
+    ///         print("Successfully retrieved \(responseData.members?.count ?? 0) members.")
+    ///     case .failure(let error):
+    ///         print("Failed to retrieve members: \(error.localizedDescription)")
+    ///     }
+    /// }
+    /// ```
     public func getAllMembers(
         request: GetAllMembersRequest,
         response: LMClientResponse<GetAllMembersResponse>?
     ) {
         CommunityClient.shared.getAllMembers(
-            request: request, response: response)
+            request: request,
+            response: response
+        )
     }
 
+    /// Searches for members in the community based on the specified request parameters.
+    ///
+    /// This method calls the `CommunityClient` to send a search query for members. The `SearchMembersRequest` allows you to
+    /// specify a search string, page size, search type, and other filters. The `SearchMembersResponse` contains the resulting
+    /// list of members that match the criteria, along with relevant metadata.
+    ///
+    /// - Parameters:
+    ///   - request: A `SearchMembersRequest` object containing parameters such as the search query, page number, page size,
+    ///              and optional member states.
+    ///   - response: A closure to handle the server response, which includes either a successful `SearchMembersResponse`
+    ///               object or an error message if the request fails.
+    ///
+    /// - Example:
+    /// ```swift
+    /// let request = SearchMembersRequest.builder()
+    ///     .search("John")
+    ///     .page(1)
+    ///     .pageSize(10)
+    ///     .searchType("name")
+    ///     .build()
+    ///
+    /// LMChatClient.shared.searchMembers(request: request) { result in
+    ///     switch result {
+    ///     case .success(let responseData):
+    ///         print("Found \(responseData.members?.count ?? 0) members matching the search.")
+    ///     case .failure(let error):
+    ///         print("Error searching for members: \(error.localizedDescription)")
+    ///     }
+    /// }
+    /// ```
     public func searchMembers(
         request: SearchMembersRequest,
         response: LMClientResponse<SearchMembersResponse>?
     ) {
         CommunityClient.shared.searchMembers(
-            request: request, response: response)
+            request: request,
+            response: response
+        )
     }
+
+    // MARK: Secret Chatroom Invite
+
+    /// Retrieves a list of channel invites from the server based on the specified request parameters.
+    ///
+    /// This method utilizes the `ChatroomClient` to perform the actual network call. The `GetChannelInvitesRequest` object
+    /// contains the criteria for fetching channel invites (such as channel type, page number, and page size), and
+    /// `GetChannelInvitesResponse` models the server’s response, typically including a list of invites and any relevant metadata.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetChannelInvitesRequest` object containing parameters such as channel type, page number, and page size.
+    ///   - response: A closure to handle the server response, which includes either the successful `GetChannelInvitesResponse` data
+    ///               or an error message in case of failure.
+    ///
+    /// - Example:
+    /// ```swift
+    /// let request = GetChannelInvitesRequest.builder()
+    ///     .channelType(1)
+    ///     .page(1)
+    ///     .pageSize(10)
+    ///     .build()
+    ///
+    /// LMChatClient.shared.getChannelInvites(request: request) { result in
+    ///     switch result {
+    ///     case .success(let responseData):
+    ///         print("Fetched \(responseData.channelInvites.count) channel invites.")
+    ///     case .failure(let error):
+    ///         print("Failed to get channel invites: \(error.localizedDescription)")
+    ///     }
+    /// }
+    /// ```
+    public func getChannelInvites(
+        request: GetChannelInvitesRequest,
+        response: LMClientResponse<GetChannelInvitesResponse>?
+    ) {
+        ChatroomClient.shared.getChannelInvites(
+            request: request,
+            response: response
+        )
+    }
+
+    /// Updates the status of a channel invite (e.g., accept or reject) based on the specified request parameters.
+    ///
+    /// This method utilizes the `ChatroomClient` to perform the actual network call. The `UpdateChannelInviteRequest` object
+    /// contains the necessary details for updating the invite (such as the channel ID and the intended invite status).
+    /// Since the server typically returns a success or failure indicator for this operation, the response is modeled as
+    /// `NoData` (indicating no detailed data is expected).
+    ///
+    /// - Parameters:
+    ///   - request: An `UpdateChannelInviteRequest` object containing the channel ID and the desired invite status.
+    ///   - response: A closure to handle the server response, which includes either a successful `NoData` object or an error
+    ///               message in case of failure.
+    ///
+    /// - Example:
+    /// ```swift
+    /// let request = UpdateChannelInviteRequest.builder()
+    ///     .channelId("12345")
+    ///     .inviteStatus(.accepted)
+    ///     .build()
+    ///
+    /// LMChatClient.shared.updateChannelInvite(request: request) { result in
+    ///     switch result {
+    ///     case .success(_):
+    ///         print("Channel invite status updated successfully.")
+    ///     case .failure(let error):
+    ///         print("Error updating channel invite: \(error.localizedDescription)")
+    ///     }
+    /// }
+    /// ```
+    public func updateChannelInvite(
+        request: UpdateChannelInviteRequest,
+        response: LMClientResponse<NoData>?
+    ) {
+        ChatroomClient.shared.updateChannelInvite(
+            request: request,
+            response: response
+        )
+    }
+
 }
