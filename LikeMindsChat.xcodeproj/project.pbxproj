@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		49E2026F480374CCD5E94039 /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DF74620BD508C5F2A19699E /* Pods_LikeMindsChat.framework */; };
 		9159AD332CDA092300DDF560 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9159AD322CDA092200DDF560 /* UserRole.swift */; };
 		91AF34832C457CC6005BAA96 /* ValidateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */; };
 		91AF34842C457CC6005BAA96 /* ValidateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */; };
@@ -32,7 +33,6 @@
 		91C1D1882D00710000F2A97C /* SDKClientInfoRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C1D1782D00710000F2A97C /* SDKClientInfoRO.swift */; };
 		91C1D1892D00710000F2A97C /* WidgetRO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C1D17A2D00710000F2A97C /* WidgetRO.swift */; };
 		91C3B4DE2CF6156100C84297 /* Widget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C3B4DD2CF6156100C84297 /* Widget.swift */; };
-		EED1EDA7E79CD20A9E08F64F /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FD60F66CC09EDD90BDF07B33 /* Pods_LikeMindsChat.framework */; };
 		F41223702B330FB500CB1532 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412236F2B330FB500CB1532 /* Member.swift */; };
 		F41223722B336E8D00CB1532 /* LinkOGTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223712B336E8D00CB1532 /* LinkOGTags.swift */; };
 		F41223742B336F4000CB1532 /* ConversationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223732B336F4000CB1532 /* ConversationState.swift */; };
@@ -203,7 +203,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		12FA26BA22FB41459FA7E191 /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
+		0B0CF477FC0AEA716C96B18C /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
+		27AE99B3503235AA89D0EC87 /* Pods-LikeMindsChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.debug.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.debug.xcconfig"; sourceTree = "<group>"; };
+		8DF74620BD508C5F2A19699E /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9159AD322CDA092200DDF560 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
 		91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserRequest.swift; sourceTree = "<group>"; };
 		91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserResponse.swift; sourceTree = "<group>"; };
@@ -229,7 +231,6 @@
 		91C1D1792D00710000F2A97C /* UserRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRO.swift; sourceTree = "<group>"; };
 		91C1D17A2D00710000F2A97C /* WidgetRO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetRO.swift; sourceTree = "<group>"; };
 		91C3B4DD2CF6156100C84297 /* Widget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Widget.swift; sourceTree = "<group>"; };
-		E02C2E0119359CB039534B8E /* Pods-LikeMindsChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LikeMindsChat.release.xcconfig"; path = "Target Support Files/Pods-LikeMindsChat/Pods-LikeMindsChat.release.xcconfig"; sourceTree = "<group>"; };
 		F412236F2B330FB500CB1532 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F41223712B336E8D00CB1532 /* LinkOGTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOGTags.swift; sourceTree = "<group>"; };
 		F41223732B336F4000CB1532 /* ConversationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationState.swift; sourceTree = "<group>"; };
@@ -398,7 +399,6 @@
 		F4CB0C9F2C19860700C89A57 /* SearchMembersResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchMembersResponse.swift; sourceTree = "<group>"; };
 		F4F8640B2B716CD800F28048 /* ModelConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelConverter.swift; sourceTree = "<group>"; };
 		F4F8640D2B72086200F28048 /* ConversationDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDBService.swift; sourceTree = "<group>"; };
-		FD60F66CC09EDD90BDF07B33 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -406,21 +406,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EED1EDA7E79CD20A9E08F64F /* Pods_LikeMindsChat.framework in Frameworks */,
+				49E2026F480374CCD5E94039 /* Pods_LikeMindsChat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		80CB2075529E10295CABF7A4 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				FD60F66CC09EDD90BDF07B33 /* Pods_LikeMindsChat.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		91AF347E2C457CC6005BAA96 /* ValidateUser */ = {
 			isa = PBXGroup;
 			children = (
@@ -468,11 +460,19 @@
 			path = LMDBObject;
 			sourceTree = "<group>";
 		};
+		D8FC7EABDEE7458C038677C8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8DF74620BD508C5F2A19699E /* Pods_LikeMindsChat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		ECB336449B72AA80651CCD60 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				12FA26BA22FB41459FA7E191 /* Pods-LikeMindsChat.debug.xcconfig */,
-				E02C2E0119359CB039534B8E /* Pods-LikeMindsChat.release.xcconfig */,
+				27AE99B3503235AA89D0EC87 /* Pods-LikeMindsChat.debug.xcconfig */,
+				0B0CF477FC0AEA716C96B18C /* Pods-LikeMindsChat.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -506,7 +506,7 @@
 				F420C05A2A5C0472008C48DE /* LikeMindsChat */,
 				F420C0592A5C0472008C48DE /* Products */,
 				ECB336449B72AA80651CCD60 /* Pods */,
-				80CB2075529E10295CABF7A4 /* Frameworks */,
+				D8FC7EABDEE7458C038677C8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1049,7 +1049,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F420C0612A5C0472008C48DE /* Build configuration list for PBXNativeTarget "LikeMindsChat" */;
 			buildPhases = (
-				1F982F42208AE4E5618F897B /* [CP] Check Pods Manifest.lock */,
+				B9107F0C09BF45EB1DC2CC71 /* [CP] Check Pods Manifest.lock */,
 				F420C0532A5C0472008C48DE /* Headers */,
 				F420C0542A5C0472008C48DE /* Sources */,
 				F420C0552A5C0472008C48DE /* Frameworks */,
@@ -1107,7 +1107,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1F982F42208AE4E5618F897B /* [CP] Check Pods Manifest.lock */ = {
+		B9107F0C09BF45EB1DC2CC71 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1457,7 +1457,7 @@
 		};
 		F420C0622A5C0472008C48DE /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 12FA26BA22FB41459FA7E191 /* Pods-LikeMindsChat.debug.xcconfig */;
+			baseConfigurationReference = 27AE99B3503235AA89D0EC87 /* Pods-LikeMindsChat.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 503;
@@ -1487,7 +1487,7 @@
 		};
 		F420C0632A5C0472008C48DE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E02C2E0119359CB039534B8E /* Pods-LikeMindsChat.release.xcconfig */;
+			baseConfigurationReference = 0B0CF477FC0AEA716C96B18C /* Pods-LikeMindsChat.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 503;
