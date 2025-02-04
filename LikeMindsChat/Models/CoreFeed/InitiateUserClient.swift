@@ -319,11 +319,26 @@ class InitiateUserClient: ServiceRequest {
         }
     }
 
+    /// Clears all locally stored data within the application.
+    ///
+    /// This includes clearing the chat database, SDK preferences, user preferences,
+    /// synchronization preferences, and authentication tokens.
     static func clearLocalStorage() {
+        // Clear all data stored in the chat database.
         ChatDBUtil.shared.clearData()
+        
+        // Clear preferences and settings specific to the SDK.
         SDKPreferences.shared.clearData()
+        
+        // Clear all user-specific preferences and data.
         UserPreferences.shared.clearData()
+        
+        // Clear synchronization-related preferences.
         SyncPreferences.shared.clearData()
+        
+        // Remove any stored authentication tokens.
+        // Clears out the access and refresh token
         TokenManager.shared.clearToken()
     }
+
 }
