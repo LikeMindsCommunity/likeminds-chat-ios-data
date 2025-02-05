@@ -5,7 +5,6 @@
 //  Created by Anurag Tyagi on 17/01/25.
 //
 
-
 //
 //  UpdateChannelInviteRequest.swift
 //  LikeMindsChat
@@ -16,10 +15,10 @@
 import Foundation
 
 /// Represents the status of a channel invite.
-public enum ChannelInviteStatus: String, Encodable {
-    case invited = "INVITED"
-    case accepted = "ACCEPTED"
-    case rejected = "REJECTED"
+public enum ChannelInviteStatus: Int, Encodable {
+    case invited = 0
+    case accepted = 1
+    case rejected = 2
     // Add other statuses if needed.
 }
 
@@ -93,7 +92,8 @@ public class UpdateChannelInviteRequest: Encodable {
         ///
         /// - Parameter inviteStatus: The new invite status.
         /// - Returns: The current builder instance.
-        public func inviteStatus(_ inviteStatus: ChannelInviteStatus) -> Builder {
+        public func inviteStatus(_ inviteStatus: ChannelInviteStatus) -> Builder
+        {
             self.inviteStatus = inviteStatus
             return self
         }
