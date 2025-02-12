@@ -236,6 +236,7 @@ class InitiateUserClient: ServiceRequest {
         request: LogoutUserRequest, withModuleName moduleName: String,
         _ response: LMClientResponse<NoData>?
     ) {
+        
         // Retrieve tokens from the TokenManager
         var (accessToken, refreshToken) = TokenManager.shared.getTokens()
 
@@ -249,6 +250,7 @@ class InitiateUserClient: ServiceRequest {
                 clearLocalStorage()
                 response?(LMResponse.successResponse(NoData()))
             } else {
+                let request = request.toBuilder().refreshToken(refreshToken).build()
                 // Build the network path for the logout request
                 let networkPath = ServiceAPIRequest.NetworkPath.logout(request)
                 // Prepare HTTP headers and add the device ID to the headers.

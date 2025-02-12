@@ -15,6 +15,9 @@ public class LogoutUserRequest: Encodable {
 
     /// The unique identifier for the device being logged out.
     private(set) var deviceId: String?
+    
+    ///  Refresh Token
+    private(set) var refreshToken: String?
 
     // MARK: - Initializer
 
@@ -23,6 +26,7 @@ public class LogoutUserRequest: Encodable {
     /// - Parameter builder: The `Builder` instance containing the configuration for the request.
     private init(builder: Builder) {
         self.deviceId = builder.deviceId
+        self.refreshToken = builder.refreshToken
     }
 
     // MARK: - Builder Pattern
@@ -41,6 +45,9 @@ public class LogoutUserRequest: Encodable {
 
         /// The unique identifier for the device being logged out.
         var deviceId: String?
+        
+        /// Refresh Token
+        var refreshToken: String?
 
         // MARK: - Builder Methods
 
@@ -50,6 +57,15 @@ public class LogoutUserRequest: Encodable {
         /// - Returns: The current builder instance.
         public func deviceId(_ deviceId: String?) -> Builder {
             self.deviceId = deviceId
+            return self
+        }
+        
+        /// Sets the refresh token.
+        ///
+        /// - Parameter refreshToken: refresh token for the session
+        /// - Returns: The current builder instance.
+        public func refreshToken(_ refreshToken: String?) -> Builder {
+            self.refreshToken = refreshToken
             return self
         }
 
@@ -71,6 +87,9 @@ public class LogoutUserRequest: Encodable {
         if let deviceId = self.deviceId {
             builder = builder.deviceId(deviceId)
         }
+        if let refreshToken = self.refreshToken {
+            builder = builder.refreshToken(refreshToken)
+        }
         return builder
     }
 
@@ -79,5 +98,6 @@ public class LogoutUserRequest: Encodable {
     /// Maps the properties to their respective keys in the JSON request body.
     enum CodingKeys: String, CodingKey {
         case deviceId = "device_id"
+        case refreshToken = "refresh_token"
     }
 }
