@@ -1,23 +1,23 @@
 //
-//  RegisterDeviceRequest.swift
-//  LMCore
+//  LogoutUserRequest.swift
+//  LikeMindsChat
 //
-//  Created by Pushpendra Singh on 20/02/23.
+//  Created by Pushpendra Singh on 28/06/23.
 //
 
 import Foundation
 
-/// Represents a request to register a device with the LikeMinds platform.
+/// Represents a request to log out a user from the LikeMinds platform.
 /// This class provides a builder pattern for constructing the request object.
-public class RegisterDeviceRequest: Encodable {
+public class LogoutUserRequest: Encodable {
 
     // MARK: - Properties
 
-    /// The unique identifier for the device to be registered.
+    /// The unique identifier for the device being logged out.
     private(set) var deviceId: String?
-
-    /// The token associated with the device, typically used for push notifications.
-    private(set) var token: String?
+    
+    ///  Refresh Token
+    private(set) var refreshToken: String?
 
     // MARK: - Initializer
 
@@ -26,28 +26,28 @@ public class RegisterDeviceRequest: Encodable {
     /// - Parameter builder: The `Builder` instance containing the configuration for the request.
     private init(builder: Builder) {
         self.deviceId = builder.deviceId
-        self.token = builder.token
+        self.refreshToken = builder.refreshToken
     }
 
     // MARK: - Builder Pattern
 
-    /// Creates a new builder for constructing a `RegisterDeviceRequest` object.
+    /// Creates a new builder for constructing a `LogoutUserRequest` object.
     ///
     /// - Returns: An instance of `Builder` to configure the request.
     public static func builder() -> Builder {
         return Builder()
     }
 
-    /// A nested builder class for constructing `RegisterDeviceRequest` objects.
+    /// A nested builder class for constructing `LogoutUserRequest` objects.
     public class Builder {
 
         // MARK: - Builder Properties
 
-        /// The unique identifier for the device.
+        /// The unique identifier for the device being logged out.
         var deviceId: String?
-
-        /// The token associated with the device.
-        var token: String?
+        
+        /// Refresh Token
+        var refreshToken: String?
 
         // MARK: - Builder Methods
 
@@ -59,27 +59,27 @@ public class RegisterDeviceRequest: Encodable {
             self.deviceId = deviceId
             return self
         }
-
-        /// Sets the device token.
+        
+        /// Sets the refresh token.
         ///
-        /// - Parameter token: The token associated with the device.
+        /// - Parameter refreshToken: refresh token for the session
         /// - Returns: The current builder instance.
-        public func token(_ token: String?) -> Builder {
-            self.token = token
+        public func refreshToken(_ refreshToken: String?) -> Builder {
+            self.refreshToken = refreshToken
             return self
         }
 
-        /// Builds and returns a `RegisterDeviceRequest` object.
+        /// Builds and returns a `LogoutUserRequest` object.
         ///
-        /// - Returns: A fully configured `RegisterDeviceRequest` instance.
-        public func build() -> RegisterDeviceRequest {
-            return RegisterDeviceRequest(builder: self)
+        /// - Returns: A fully configured `LogoutUserRequest` instance.
+        public func build() -> LogoutUserRequest {
+            return LogoutUserRequest(builder: self)
         }
     }
 
     // MARK: - Builder Conversion
 
-    /// Converts the current `RegisterDeviceRequest` instance into a builder for modification.
+    /// Converts the current `LogoutUserRequest` instance into a builder for modification.
     ///
     /// - Returns: A `Builder` initialized with the current request's values.
     public func toBuilder() -> Builder {
@@ -87,8 +87,8 @@ public class RegisterDeviceRequest: Encodable {
         if let deviceId = self.deviceId {
             builder = builder.deviceId(deviceId)
         }
-        if let token = self.token {
-            builder = builder.token(token)
+        if let refreshToken = self.refreshToken {
+            builder = builder.refreshToken(refreshToken)
         }
         return builder
     }
@@ -97,7 +97,7 @@ public class RegisterDeviceRequest: Encodable {
 
     /// Maps the properties to their respective keys in the JSON request body.
     enum CodingKeys: String, CodingKey {
-        case token
         case deviceId = "device_id"
+        case refreshToken = "refresh_token"
     }
 }

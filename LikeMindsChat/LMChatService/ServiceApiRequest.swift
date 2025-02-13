@@ -26,7 +26,7 @@ struct ServiceAPIRequest {
         case validateUser(_ request: ValidateUserRequest)
         case refreshServiceToken(rtm: String)
         case pushToken(_ request: RegisterDeviceRequest)
-        case logout(_ request: LogoutRequest)
+        case logout(_ request: LogoutUserRequest)
         case getConfig
         case sdkOnboarding
         case explorTabCount
@@ -41,6 +41,8 @@ struct ServiceAPIRequest {
         case setChatroomTopic(_ request: SetChatroomTopicRequest)
         case getParticipants(_ request: GetParticipantsRequest)
         case editChatroomTitle(_ request: EditChatroomTitleRequest)
+        case getChannelInvites(_ request: GetChannelInvitesRequest)
+        case updateChannelInvite(_ request: UpdateChannelInviteRequest)
         
         //MARK:- Community api
         case explorFeed(_ request: GetExploreFeedRequest)
@@ -217,6 +219,7 @@ struct ServiceAPIRequest {
                 return "conversation/poll/submit"
             case .getPollUsers(let request):
                 return "conversation/poll/users?conversation_id=\(request.conversationId)&poll_id=\(request.pollOptionId)"
+            // MARK: Search Chatroom
             case .searchChatroom(let request):
                 var urlComponents = URLComponents()
                 urlComponents.path = "chatroom/search"
@@ -229,22 +232,88 @@ struct ServiceAPIRequest {
                 urlComponents.queryItems = [followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem, searchTypeQueryItem]
                 
                 return (urlComponents.url?.absoluteString ?? "")
+            // MARK: Search Conversation
             case .searchConversation(let request):
+                // Initialize URLComponents to build the URL for the search conversation API endpoint.
                 var urlComponents = URLComponents()
+                
+                // Set the path component of the URL to point to the "conversation/search" endpoint.
                 urlComponents.path = "conversation/search"
+                
+                // Create a URLQueryItem for the follow status parameter using the value from the request.
                 let followStatusQueryItem = URLQueryItem(name: "follow_status", value: "\(request.followStatus)")
+                
+                // Create a URLQueryItem for the page parameter using the current page number from the request.
                 let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
+                
+                // Create a URLQueryItem for the page size parameter using the value from the request.
                 let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
+                
+                // Create a URLQueryItem for the search parameter using the search text from the request.
                 let searchQueryItem = URLQueryItem(name: "search", value: request.search)
                 
-                urlComponents.queryItems = [followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem]
+                // Create a URLQueryItem for the chatroom ID parameter using the chatroom identifier from the request.
+                let chatroomQueryItem = URLQueryItem(name: "chatroom_id", value: request.chatroomId)
                 
+                // Attach all the query items to the URL components. The order of the query items can be important if the API expects
+                // a specific order, so they are added in the following sequence: chatroom ID, follow status, page, page size, and search.
+                urlComponents.queryItems = [chatroomQueryItem, followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem]
+                
+                // Return the fully constructed URL as a string. If URLComponents fails to produce a valid URL, an empty string is returned.
                 return (urlComponents.url?.absoluteString ?? "")
-                //MARK:- Report api
+                
+            // MARK: Report api
             case .getReportTags(let request):
                 return "community/report/tag?type=\(request.type)"
             case .postReport:
                 return "community/report"
+                
+            // MARK: Secret Chatroom Invite
+
+            case .getChannelInvites(let request):
+                    /*
+                     Builds the URL string for the "getChannelInvites" API endpoint using URLComponents.
+                     
+                     - The endpoint path is set to "channel/invites".
+                     - Query items include:
+                         - **channel_type**: The type of channel (from `request.channelType`).
+                         - **page**: The current page number for pagination (from `request.page`).
+                         - **page_size**: The number of items per page (from `request.pageSize`).
+                     
+                     - Returns: A fully constructed URL string for retrieving channel invites, or an empty string if URL generation fails.
+                     */
+                    var urlComponents = URLComponents()
+                    urlComponents.path = "channel/invites"
+                    
+                    let channelTypeQueryItem = URLQueryItem(name: "channel_type", value: "\(request.channelType)")
+                    let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
+                    let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
+                    
+                    urlComponents.queryItems = [channelTypeQueryItem, pageQueryItem, pageSizeQueryItem]
+                    
+                    return urlComponents.url?.absoluteString ?? ""
+
+            case .updateChannelInvite(let request):
+                    /*
+                     Builds the URL string for the "updateChannelInvite" API endpoint using URLComponents.
+                     
+                     - The endpoint path is set to "channel/invite".
+                     - Query items include:
+                         - **channel_id**: The unique identifier of the channel (from `request.channelId`).
+                         - **invite_status**: The status of the invite (using the raw value from `request.inviteStatus`).
+                     
+                     - Returns: A fully constructed URL string for updating a channel invite, or an empty string if URL generation fails.
+                     */
+                    var urlComponents = URLComponents()
+                    urlComponents.path = "channel/invite"
+                    
+                    let channelIdQueryItem = URLQueryItem(name: "channel_id", value: "\(request.channelId)")
+                    let inviteStatusQueryItem = URLQueryItem(name: "invite_status", value: "\(request.inviteStatus.rawValue)")
+                    
+                    urlComponents.queryItems = [channelIdQueryItem, inviteStatusQueryItem]
+                    
+                    return urlComponents.url?.absoluteString ?? ""
+
             }
         }
         
@@ -287,14 +356,16 @@ struct ServiceAPIRequest {
                     .checkDMStatus,
                     .fetchDMFeeds,
                     .checkDMTab,
-                    .getReportTags:
+                    .getReportTags,
+                    .getChannelInvites:
                 return .get
             case .setChatroomTopic,
                     .muteChatroom,
                     .followChatroom,
                     .editChatroomTitle,
                     .putReaction,
-                    .editConversation:
+                    .editConversation,
+                    .updateChannelInvite:
                 return .put
             case .leaveSecretChatroom,
                     .deleteReaction,
@@ -358,7 +429,8 @@ struct ServiceAPIRequest {
                 return request.requestParam()
             case .sendDMRequest(let request):
                 return request.requestParam()
-                
+            case .updateChannelInvite(let request):
+                return request.requestParam()
             default:
                 return nil
             }
