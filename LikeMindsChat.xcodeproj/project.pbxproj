@@ -36,6 +36,7 @@
 		91D372282D3A6E8E003176BB /* GetChannelInvitesRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D372272D3A6E8E003176BB /* GetChannelInvitesRequest.swift */; };
 		91D3722A2D3A6EE0003176BB /* GetChannelInvitesResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D372292D3A6EE0003176BB /* GetChannelInvitesResponse.swift */; };
 		91D3722C2D3A7670003176BB /* UpdateChannelInviteRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D3722B2D3A7670003176BB /* UpdateChannelInviteRequest.swift */; };
+		91EFEDB82D75934A0009D60B /* LMNetworkInterceptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91EFEDB72D7593410009D60B /* LMNetworkInterceptor.swift */; };
 		F41223702B330FB500CB1532 /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = F412236F2B330FB500CB1532 /* Member.swift */; };
 		F41223722B336E8D00CB1532 /* LinkOGTags.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223712B336E8D00CB1532 /* LinkOGTags.swift */; };
 		F41223742B336F4000CB1532 /* ConversationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41223732B336F4000CB1532 /* ConversationState.swift */; };
@@ -235,6 +236,7 @@
 		91D372272D3A6E8E003176BB /* GetChannelInvitesRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChannelInvitesRequest.swift; sourceTree = "<group>"; };
 		91D372292D3A6EE0003176BB /* GetChannelInvitesResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetChannelInvitesResponse.swift; sourceTree = "<group>"; };
 		91D3722B2D3A7670003176BB /* UpdateChannelInviteRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateChannelInviteRequest.swift; sourceTree = "<group>"; };
+		91EFEDB72D7593410009D60B /* LMNetworkInterceptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LMNetworkInterceptor.swift; sourceTree = "<group>"; };
 		CA7FA4474ACF706EBFE8D76F /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F412236F2B330FB500CB1532 /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		F41223712B336E8D00CB1532 /* LinkOGTags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkOGTags.swift; sourceTree = "<group>"; };
@@ -543,6 +545,7 @@
 		F420C0642A5C06B6008C48DE /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				91EFEDB72D7593410009D60B /* LMNetworkInterceptor.swift */,
 				F420C0652A5C06B6008C48DE /* ServiceRequest.swift */,
 				F420C0662A5C06B6008C48DE /* DataNetwork.swift */,
 				F420C0672A5C06B6008C48DE /* Reachability.swift */,
@@ -1175,6 +1178,7 @@
 				F4BEB9C42B544C6200D12B62 /* EditChatroomTitleRequest.swift in Sources */,
 				F4BEB9A12B4E9F4E00D12B62 /* SyncPreferences.swift in Sources */,
 				F486C7F02C0C7B4A0063BF0B /* FireBaseFactoryClass.swift in Sources */,
+				91EFEDB82D75934A0009D60B /* LMNetworkInterceptor.swift in Sources */,
 				F4CB0C882C19769F00C89A57 /* CheckDMLimitRequest.swift in Sources */,
 				F420C0A22A5C194C008C48DE /* RegisterDeviceResponse.swift in Sources */,
 				F41223992B467B5E00CB1532 /* FirstTimeConversationSyncOperation.swift in Sources */,
