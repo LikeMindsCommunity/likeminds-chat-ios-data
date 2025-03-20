@@ -200,15 +200,13 @@ class ROConverter {
      *   - attachment: The `Attachment` to be converted.
      * - Returns: An `AttachmentRO` object.
      */
-    private static func convertAttachment(
-        chatroomId: String,
-        communityId: String,
+    static func convertAttachment(
         attachment: Attachment
     ) -> AttachmentRO {
         let attachmentRO = AttachmentRO()
         attachmentRO.id = attachment.id ?? ""
         attachmentRO.name = attachment.name
-        attachmentRO.type = attachment.type
+        attachmentRO.type = attachment.type?.rawValue
         attachmentRO.index = attachment.index
         attachmentRO.width = attachment.width
         attachmentRO.height = attachment.height
@@ -221,6 +219,7 @@ class ROConverter {
         attachmentRO.createdAt = attachment.createdAt
         attachmentRO.updatedAt = attachment.updatedAt
         attachmentRO.url = attachment.url
+        attachmentRO.isUploaded = attachment.isUploaded
         return attachmentRO
     }
 
@@ -254,9 +253,7 @@ class ROConverter {
         }
         if oldAttachments.isEmpty && !attachments.isEmpty {
             let attachs = attachments.map { attachment in
-                convertAttachment(
-                    chatroomId: chatroomId, communityId: communityId,
-                    attachment: attachment)
+                convertAttachment(attachment: attachment)
             }
             let roAttachs = List<AttachmentRO>()
             roAttachs.append(objectsIn: attachs)
@@ -276,9 +273,7 @@ class ROConverter {
         }
 
         let attachs = attachments.map { attachment in
-            convertAttachment(
-                chatroomId: chatroomId, communityId: communityId,
-                attachment: attachment)
+            convertAttachment(attachment: attachment)
         }
         let roAttachs = List<AttachmentRO>()
         roAttachs.append(objectsIn: attachs)
@@ -517,6 +512,8 @@ class ROConverter {
         conversationRO.pollAnswerText = conversation.pollAnswerText
         conversationRO.replyChatRoomId = conversation.replyChatroomId
         conversationRO.conversationStatus = conversation.conversationStatus
+        conversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
         if let savedAnswer {
             realm.beginAsyncWrite {
                 realm.delete(savedAnswer)
@@ -671,6 +668,8 @@ class ROConverter {
         conversationRO.pollAnswerText = conversation.pollAnswerText
         conversationRO.replyChatRoomId = conversation.replyChatroomId
         conversationRO.conversationStatus = .sent
+        conversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
         if let savedAnswer {
             LMDBManager.delete(savedAnswer)
         }
@@ -804,6 +803,8 @@ class ROConverter {
         conversationRO.toShowResults = conversation.toShowResults
         conversationRO.pollAnswerText = conversation.pollAnswerText
         conversationRO.conversationStatus = .sent
+        conversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
         if let savedAnswer {
             realm.delete(savedAnswer)
         }
@@ -885,6 +886,8 @@ class ROConverter {
         lastConversationRO.communityId = communityId
         lastConversationRO.conversationStatus = .sent
         lastConversationRO.widgetId = conversation.widgetId
+        lastConversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
 
         if let widget = conversation.widget {
             lastConversationRO.widget = convertWidgetToWidgetRO(widget)
@@ -963,6 +966,8 @@ class ROConverter {
         lastConversationRO.communityId = communityId
         lastConversationRO.conversationStatus = conversation.conversationStatus
         lastConversationRO.widgetId = conversation.widgetId
+        lastConversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
 
         if let widget = conversation.widget {
             lastConversationRO.widget = convertWidgetToWidgetRO(widget)

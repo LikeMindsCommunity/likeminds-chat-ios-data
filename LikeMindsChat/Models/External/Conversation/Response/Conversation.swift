@@ -53,6 +53,7 @@ public class Conversation: Decodable {
     public private(set) var conversationStatus: ConversationStatus?
     public private(set) var widgetId: String
     public private(set) var widget: Widget?
+    public private(set) var attachmentUploadedEpoch: Int?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -97,6 +98,7 @@ public class Conversation: Decodable {
         case replyConversation = "reply_conversation_model"
         case conversationStatus = "conversation_status"
         case widgetId = "widget_id"
+        case attachmentUploadedEpoch = "attachment_uploaded_epoch"
     }
     
     public required init(from decoder: Decoder) throws {
@@ -143,6 +145,7 @@ public class Conversation: Decodable {
         replyConversation = try container.decodeIfPresent(Conversation.self, forKey: .replyConversation)
         widgetId = try container.decodeIfPresent(String.self, forKey: .widgetId) ?? ""
         widget = try container.decodeIfPresent(Widget.self, forKey: .widget)
+        attachmentUploadedEpoch = try container.decodeIfPresent(Int.self, forKey: .attachmentUploadedEpoch)
     }
     
     private init(
@@ -188,7 +191,8 @@ public class Conversation: Decodable {
         deletedByMember: Member?,
         conversationStatus: ConversationStatus?,
         widgetId: String?,
-        widget: Widget?
+        widget: Widget?,
+        attachmentUploadedEpoch: Int?
     ) {
         self.id = id
         self.chatroomId = chatroomId
@@ -233,6 +237,7 @@ public class Conversation: Decodable {
         self.conversationStatus = conversationStatus
         self.widgetId = widgetId ?? ""
         self.widget = widget
+        self.attachmentUploadedEpoch = attachmentUploadedEpoch
     }
     
     public static func builder() -> Builder {
@@ -283,6 +288,7 @@ public class Conversation: Decodable {
         private var conversationStatus: ConversationStatus?
         private var widgetId: String = ""
         private var widget: Widget?
+        private var attachmentUploadedEpoch: Int?
         
         public init() {}
         
@@ -501,6 +507,11 @@ public class Conversation: Decodable {
             return self
         }
         
+        public func attachmentUploadedEpoch(_ attachmentUploadedEpoch: Int?) -> Builder {
+            self.attachmentUploadedEpoch = attachmentUploadedEpoch
+            return self
+        }
+        
         public func build() -> Conversation {
             return Conversation(
                 id: id,
@@ -545,7 +556,8 @@ public class Conversation: Decodable {
                 deletedByMember: deletedByMember,
                 conversationStatus: conversationStatus,
                 widgetId: widgetId,
-                widget: widget
+                widget: widget,
+                attachmentUploadedEpoch: attachmentUploadedEpoch
             )
         }
     }
@@ -595,6 +607,7 @@ public class Conversation: Decodable {
             .conversationStatus(conversationStatus)
             .widgetId(widgetId)
             .widget(widget)
+            .attachmentUploadedEpoch(attachmentUploadedEpoch)
     }
 }
 

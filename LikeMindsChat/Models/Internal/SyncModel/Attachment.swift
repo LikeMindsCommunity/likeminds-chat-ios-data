@@ -17,6 +17,26 @@ import Foundation
 /// The struct also supports an alternative decoding strategy for URLs by looking for alternate keys
 /// (e.g. `"file_url"`, `"image_url"`, `"video_url"`) if the primary `"url"` key is not present.
 public struct Attachment: Codable {
+    
+    /// Represents the type of an attachment.
+    public enum AttachmentType: String, Codable {
+        case image
+        case video
+        case audio
+        case gif
+        case pdf
+        case doc
+        case document
+        case link
+        case voiceNote = "voice_note"
+        case unknown  // Fallback case for unexpected types
+
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let value = try container.decode(String.self)
+            self = AttachmentType(rawValue: value) ?? .unknown
+        }
+    }
 
     /// The unique identifier of the attachment.
     public let id: String?
@@ -28,7 +48,7 @@ public struct Attachment: Codable {
     public var url: String?
 
     /// The type of the attachment (e.g., image, video, etc.).
-    public let type: String?
+    public let type: AttachmentType?
 
     /// The index of the attachment in a collection.
     public let index: Int?
@@ -62,6 +82,8 @@ public struct Attachment: Codable {
 
     /// The last update timestamp (in Unix time) for the attachment.
     public let updatedAt: Int?
+    
+    public let isUploaded: Bool
 
     /**
      The primary coding keys corresponding to the JSON keys.
@@ -84,6 +106,7 @@ public struct Attachment: Codable {
         case meta
         case createdAt = "created_at"
         case updatedAt = "updated_at"
+        case isUploaded = "is_uploaded"
     }
 
     /**
@@ -127,7 +150,7 @@ public struct Attachment: Codable {
             url = try alternativeContainer.decodeIfPresent(
                 String.self, forKey: .videoUrl)
         }
-        type = try container.decodeIfPresent(String.self, forKey: .type)
+        type = try container.decodeIfPresent(AttachmentType.self, forKey: .type)
         index = try container.decodeIfPresent(Int.self, forKey: .index)
         width = try container.decodeIfPresent(Int.self, forKey: .width)
         height = try container.decodeIfPresent(Int.self, forKey: .height)
@@ -144,6 +167,7 @@ public struct Attachment: Codable {
         meta = try container.decodeIfPresent(AttachmentMeta.self, forKey: .meta)
         createdAt = try container.decodeIfPresent(Int.self, forKey: .createdAt)
         updatedAt = try container.decodeIfPresent(Int.self, forKey: .updatedAt)
+        isUploaded = try container.decodeIfPresent(Bool.self, forKey: .isUploaded) ?? false
     }
 
     /**
@@ -167,11 +191,11 @@ public struct Attachment: Codable {
        - updatedAt: The update timestamp.
      */
     private init(
-        id: String?, name: String?, url: String, type: String, index: Int?,
+        id: String?, name: String?, url: String, type: AttachmentType, index: Int?,
         width: Int?, height: Int?, awsFolderPath: String?,
         localFilePath: String?, thumbnailUrl: String?,
         thumbnailAWSFolderPath: String?, thumbnailLocalFilePath: String?,
-        meta: AttachmentMeta?, createdAt: Int?, updatedAt: Int?
+        meta: AttachmentMeta?, createdAt: Int?, updatedAt: Int?, isUploaded: Bool = false
     ) {
         self.id = id
         self.name = name
@@ -188,6 +212,7 @@ public struct Attachment: Codable {
         self.meta = meta
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.isUploaded = isUploaded
     }
 
     /**
@@ -217,6 +242,8 @@ public struct Attachment: Codable {
         try container.encodeIfPresent(meta, forKey: .meta)
         try container.encodeIfPresent(createdAt, forKey: .createdAt)
         try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
+        try container.encodeIfPresent(isUploaded, forKey: .isUploaded)
+        
     }
 
     // MARK: - Builder Pattern
@@ -239,7 +266,7 @@ public struct Attachment: Codable {
         private var id: String?
         private var name: String?
         private var url: String = ""
-        private var type: String = ""
+        private var type: AttachmentType = AttachmentType.unknown
         private var index: Int? = nil
         private var width: Int? = nil
         private var height: Int? = nil
@@ -251,6 +278,7 @@ public struct Attachment: Codable {
         private var meta: AttachmentMeta? = nil
         private var createdAt: Int? = nil
         private var updatedAt: Int? = nil
+        private var isUploaded: Bool = false
 
         /// Initializes a new `Builder` instance.
         public init() {}
@@ -274,7 +302,7 @@ public struct Attachment: Codable {
         }
 
         /// Sets the attachment type.
-        public func type(_ type: String) -> Builder {
+        public func type(_ type: AttachmentType) -> Builder {
             self.type = type
             return self
         }
@@ -348,6 +376,11 @@ public struct Attachment: Codable {
             self.updatedAt = updatedAt
             return self
         }
+        
+        public func isUploaded(_ isUploaded: Bool = false) -> Builder{
+            self.isUploaded = isUploaded
+            return self
+        }
 
         /**
          Builds and returns the `Attachment` instance with the configured properties.
@@ -370,7 +403,8 @@ public struct Attachment: Codable {
                 thumbnailLocalFilePath: thumbnailLocalFilePath,
                 meta: meta,
                 createdAt: createdAt,
-                updatedAt: updatedAt
+                updatedAt: updatedAt,
+                isUploaded: isUploaded
             )
         }
     }
@@ -387,7 +421,7 @@ public struct Attachment: Codable {
             .id(id)
             .name(name)
             .url(url ?? "")
-            .type(type ?? "")
+            .type(type ?? AttachmentType.unknown)
             .index(index)
             .width(width)
             .height(height)
@@ -399,5 +433,6 @@ public struct Attachment: Codable {
             .meta(meta)
             .createdAt(createdAt)
             .updatedAt(updatedAt)
+            .isUploaded(isUploaded)
     }
 }

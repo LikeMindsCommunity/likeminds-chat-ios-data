@@ -56,6 +56,7 @@ class ModelConverter {
             .conversationStatus(.sent)
             .widget(_conversation_.widget)
             .widgetId(_conversation_.widgetId)
+            .attachmentUploadedEpoch(_conversation_.attachmentUploadedEpoch)
             .build()
     }
 
@@ -109,6 +110,7 @@ class ModelConverter {
             .conversationStatus(conversationRO.conversationStatus)
             .widget(widget)
             .widgetId(conversationRO.widgetId)
+            .attachmentUploadedEpoch(conversationRO.attachmentUploadedEpoch)
             .build()
     }
 
@@ -163,7 +165,7 @@ class ModelConverter {
             .id(attachmentRO.id)
             .name(attachmentRO.name)
             .url(attachmentRO.url ?? "")
-            .type(attachmentRO.type ?? "")
+            .type(Attachment.AttachmentType(rawValue: attachmentRO.type ?? "") ?? Attachment.AttachmentType.unknown)
             .index(attachmentRO.index)
             .width(attachmentRO.width)
             .height(attachmentRO.height)
@@ -175,6 +177,7 @@ class ModelConverter {
             .meta(convertAttachmentMetaRO(attachmentRO.metaRO))
             .createdAt(attachmentRO.createdAt)
             .updatedAt(attachmentRO.updatedAt)
+            .isUploaded(attachmentRO.isUploaded)
             .build()
     }
 
@@ -376,6 +379,7 @@ class ModelConverter {
             )
             .widget(widget)
             .widgetId(lastConversationRO.widgetId)
+            .attachmentUploadedEpoch(lastConversationRO.attachmentUploadedEpoch)
             .build()
     }
 

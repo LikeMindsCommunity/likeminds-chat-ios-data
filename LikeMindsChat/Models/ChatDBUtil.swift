@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Combine
 
 class ChatDBUtil {
     
@@ -316,4 +317,56 @@ class ChatDBUtil {
         }
     }
     
+    func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
+        // Wrap the writeAsync call in a Combine Future.
+        let updatePublisher = Future<LMResponse<NoData>, Never> { promise in
+            let realm = LMDBManager.lmDBInstance()
+            realm.writeAsync({
+                // Update the attachment in the local DB.
+                let _ = ROConverter.convertAttachment(attachment: attachment)
+            }, onComplete: { error in
+                if let _ = error {
+                    // If an error occurs, complete with a failure response.
+                    promise(.success(LMResponse.failureResponse("Update operation failed.")))
+                } else {
+                    // Otherwise, complete with a successful response.
+                    promise(.success(LMResponse.successResponse(NoData())))
+                }
+            })
+        }
+        
+        // Convert the Combine publisher to an async value.
+        return await withCheckedContinuation { continuation in
+            let _ = updatePublisher.sink { response in
+                continuation.resume(returning: response)
+            }
+        }
+    }
+
+    func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
+        // Wrap the writeAsync call in a Combine Future.
+        let updatePublisher = Future<LMResponse<NoData>, Never> { promise in
+            let realm = LMDBManager.lmDBInstance()
+            realm.writeAsync({
+                // Update the conversation in the local DB.
+                let _ = ROConverter.convertConversation(conversation: conversation)
+            }, onComplete: { error in
+                if let _ = error {
+                    // If an error occurs, complete with a failure response.
+                    promise(.success(LMResponse.failureResponse("Update operation failed.")))
+                } else {
+                    // Otherwise, complete with a successful response.
+                    promise(.success(LMResponse.successResponse(NoData())))
+                }
+            })
+        }
+        
+        // Convert the Combine publisher to an async value.
+        return await withCheckedContinuation { continuation in
+            let _ = updatePublisher.sink { response in
+                continuation.resume(returning: response)
+            }
+        }
+    }
+
 }

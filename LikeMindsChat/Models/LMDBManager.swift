@@ -32,7 +32,7 @@ class LMDBManager {
         config.fileURL!.deleteLastPathComponent()
         config.fileURL!.appendPathComponent(username)
         config.fileURL!.appendPathExtension("realm")
-        config.schemaVersion = 6
+        config.schemaVersion = 7
         config.migrationBlock = { (migration, oldSchemaVersion) in
             let oldVersion = oldSchemaVersion
 
@@ -70,6 +70,12 @@ class LMDBManager {
                     newObject?["_lm_meta"] = nil
                 }
             }
+            if oldSchemaVersion <= 6 {
+                migration.enumerateObjects(ofType: AttachmentRO.className()) { oldObject, newObject in
+                    newObject?["isUploaded"] = false  // Set a default value
+                }
+            }
+
 
         }
         return config
