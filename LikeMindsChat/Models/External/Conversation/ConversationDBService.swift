@@ -7,7 +7,6 @@
 
 import Foundation
 import RealmSwift
-
 class ConversationDBService {
     
     static let shared = ConversationDBService()
@@ -271,5 +270,13 @@ class ConversationDBService {
         guard let memberRO = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: uuid)
         else { return nil }
         return memberRO
+    }
+    
+    func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
+        await ChatDBUtil.shared.updateAttachment(attachment: attachment)
+    }
+    
+    func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
+        await ChatDBUtil.shared.updateConversation(conversation: conversation)
     }
 }

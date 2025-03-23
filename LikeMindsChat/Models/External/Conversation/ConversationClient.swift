@@ -525,4 +525,22 @@ class ConversationClient: ServiceRequest {
               let member = ModelConverter.shared.convertMemberRO(memberRO) else { return nil }
         return member
     }
+    
+    /**
+     * Updates an attachment in the local database
+     * @param attachment - The attachment to update
+     * @return LMResponse<NoData> - Response indicating success or failure of the update operation
+     */
+    func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
+        await ConversationDBService.shared.updateAttachment(attachment: attachment)
+    }
+    
+    /**
+     * Updates a conversation in the local database
+     * @param conversation - The conversation to update
+     * @return LMResponse<NoData> - Response indicating success or failure of the update operation
+     */
+    func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
+        await ConversationDBService.shared.updateConversation(conversation: conversation)
+    }
 }

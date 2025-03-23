@@ -698,7 +698,7 @@ extension LMChatClient {
     ///
     /// This method utilizes the `ChatroomClient` to perform the actual network call. The `GetChannelInvitesRequest` object
     /// contains the criteria for fetching channel invites (such as channel type, page number, and page size), and
-    /// `GetChannelInvitesResponse` models the server’s response, typically including a list of invites and any relevant metadata.
+    /// `GetChannelInvitesResponse` models the server's response, typically including a list of invites and any relevant metadata.
     ///
     /// - Parameters:
     ///   - request: A `GetChannelInvitesRequest` object containing parameters such as channel type, page number, and page size.
@@ -770,4 +770,52 @@ extension LMChatClient {
         )
     }
 
+    /// Updates an attachment in the local database asynchronously.
+    ///
+    /// This method delegates the attachment update operation to the ConversationClient.
+    /// It uses modern Swift concurrency with async/await for better performance and error handling.
+    ///
+    /// - Parameters:
+    ///   - attachment: The Attachment object containing the updated attachment data to be stored in the local database.
+    ///
+    /// - Returns: An LMResponse<NoData> indicating the success or failure of the update operation.
+    ///
+    /// - Example:
+    /// ```swift
+    /// let attachment = Attachment(...)
+    /// let response = await LMChatClient.shared.updateAttachment(attachment: attachment)
+    /// if response.success {
+    ///     print("Attachment updated successfully")
+    /// } else {
+    ///     print("Failed to update attachment: \(response.errorMessage ?? "Unknown error")")
+    /// }
+    /// ```
+    public func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
+        await ConversationClient.shared.updateAttachment(attachment: attachment)
+    }
+    
+    /// Updates a conversation in the local database asynchronously.
+    ///
+    /// This method delegates the conversation update operation to the ConversationClient.
+    /// It uses modern Swift concurrency with async/await for better performance and error handling.
+    ///
+    /// - Parameters:
+    ///   - conversation: The Conversation object containing the updated conversation data to be stored in the local database.
+    ///
+    /// - Returns: An LMResponse<NoData> indicating the success or failure of the update operation.
+    ///
+    /// - Example:
+    /// ```swift
+    /// let conversation = Conversation(...)
+    /// let response = await LMChatClient.shared.updateConversation(conversation: conversation)
+    /// if response.success {
+    ///     print("Conversation updated successfully")
+    /// } else {
+    ///     print("Failed to update conversation: \(response.errorMessage ?? "Unknown error")")
+    /// }
+    /// ```
+    public func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
+        await ConversationClient.shared.updateConversation(conversation: conversation)
+    }
 }
+
