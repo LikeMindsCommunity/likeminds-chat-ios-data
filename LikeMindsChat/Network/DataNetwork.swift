@@ -12,7 +12,8 @@ import Foundation
 /// Extension on `Data` to provide convenience methods for converting `Data` to a JSON string representation.
 extension Data {
 
-    /// Converts `Data` to a `String` in `.utf8` encoding. Returns `"Error in parsing"` if encoding fails.
+    /// Converts `Data` to a `String` in `.utf8` encoding.
+    /// - Returns: A UTF-8 encoded string of the data, or "Error in parsing" if conversion fails
     func jsonString() -> String {
         if let JSONString = String(data: self, encoding: String.Encoding.utf8) {
             return JSONString
@@ -20,7 +21,9 @@ extension Data {
         return "Error in parsing"
     }
 
-    /// Converts `Data` to a pretty-printed JSON string (`NSString`), or returns `nil` if serialization fails.
+    /// Converts `Data` to a pretty-printed JSON string.
+    /// - Returns: An `NSString` containing the formatted JSON, or `nil` if JSON serialization fails
+    /// - Note: Uses `JSONSerialization` with `.prettyPrinted` option for formatting
     var prettyPrintedJSONString: NSString? {
         // Attempt to decode the data into a JSON object, then re-encode with `.prettyPrinted` for formatting
         guard
@@ -37,49 +40,77 @@ extension Data {
     }
 }
 
-/// A typealias for a success handler used in networking calls.
-typealias SuccessCompletionBlock = (_ moduleName: String, _ responseData: Any?)
-    -> Void
+/// A completion handler for successful network operations.
+/// - Parameters:
+///   - moduleName: The name of the module that initiated the request
+///   - responseData: The response data from the network call, if any
+typealias SuccessCompletionBlock = (_ moduleName: String, _ responseData: Any?) -> Void
 
-/// A typealias for a failure handler used in networking calls.
-typealias FailureCompletionBlock = (
-    _ moduleName: String, _ error: NetworkServiceError
-) -> Void
+/// A completion handler for failed network operations.
+/// - Parameters:
+///   - moduleName: The name of the module that initiated the request
+///   - error: The specific network error that occurred
+typealias FailureCompletionBlock = (_ moduleName: String, _ error: NetworkServiceError) -> Void
 
-/// `NetworkServiceError` enumerates different error states that can occur while performing network operations.
+/// Represents various types of network-related errors that can occur during API requests.
 enum NetworkServiceError: Error {
+    /// No error occurred
     case noError
+    /// No internet connection is available
     case noInternet
+    /// The resource is not accessible
     case inaccessible
+    /// A URL-specific error occurred
     case urlError(URLError)
+    /// A general error occurred
     case generalError(Swift.Error)
+    /// No response was received from the server
     case noResponse
+    /// The response type was not as expected
     case invalidResponseType(URLResponse)
+    /// No data was received in the response
     case noResponseData(HTTPURLResponse)
+    /// The endpoint returned an error status code
     case endpointError(HTTPURLResponse, Data?)
+    /// The authentication token has expired
     case tokenExpire
+    /// JSON parsing failed
     case failedJsonParse(_ errorMessage: String)
 }
 
-/// A struct that holds all parameters and callbacks relevant to a given request.
-///
-/// - Note: This helps track the original `DataRequest`, success block, failure block, and module name.
+/// A structure representing a network request and its associated callbacks.
 struct RequestParam {
+    /// The callback to be executed on successful completion
     let successCallback: SuccessCompletionBlock
+    /// The callback to be executed on failure
     let failureCallback: FailureCompletionBlock
+    /// The actual network request
     let request: DataRequest
+    /// The name of the module making the request
     let moduleName: String
 }
 
-/// `DataNetwork` is a singleton class responsible for sending network requests via Alamofire,
-/// handling potential retries, token refresh flows, and capturing references to in-flight requests.
+/// A singleton class responsible for handling all network operations in the SDK.
+/// This class manages request lifecycle, token refresh, retries, and response handling.
 ///
-/// - Important:
-///   - This class uses `LMNetworkInterceptor` internally for retry logic.
-///   - Each request can optionally handle token refresh if a 401 status code is returned.
+/// Usage Example:
+/// ```swift
+/// DataNetwork.shared.request(
+///     for: url,
+///     withHTTPMethod: .get,
+///     headers: headers,
+///     withModuleName: "ChatModule",
+///     successCallback: { moduleName, data in
+///         // Handle success
+///     },
+///     failureCallback: { moduleName, error in
+///         // Handle error
+///     }
+/// )
+/// ```
 internal final class DataNetwork {
 
-    /// Shared static instance for global usage of `DataNetwork`.
+    /// The shared singleton instance of DataNetwork
     static let shared = DataNetwork()
 
     /**
@@ -98,20 +129,18 @@ internal final class DataNetwork {
         return Session(configuration: configuration, interceptor: interceptor)
     }()
 
-    /**
-     An array of `RequestParam` representing active or queued requests.
-
-     - Use this array to track requests per `moduleName`, for cancellation or other tracking purposes.
-     */
+    /// Tracks all active network requests.
+    /// - Note: Used for request cancellation and lifecycle management
     var downloadResourceParams: [RequestParam]?
 
-    /// Private initializer to enforce singleton usage.
-    fileprivate init() {}
+    /// Private initializer to enforce singleton pattern
+    private init() {}
 
     /**
-     Cancels all pending download requests associated with a given module name.
-
-     - Parameter moduleName: Name used to group network calls (e.g., for a particular feature).
+     Cancels all pending network requests for a specific module.
+     
+     - Parameter moduleName: The name of the module whose requests should be cancelled
+     - Note: This will only cancel requests that haven't completed yet
      */
     func cancelAllDownloads(for moduleName: String) {
         guard let index = indexForModuleName(moduleName),
@@ -124,9 +153,9 @@ internal final class DataNetwork {
     }
 
     /**
-     Cancels all pending download requests for every module.
-
-     - Note: Removes all entries from `downloadResourceParams`.
+     Cancels all pending network requests across all modules.
+     
+     - Note: This will clear all tracked requests and cancel any in-flight operations
      */
     func cancelAllDownloads() {
         guard let params = downloadResourceParams else { return }
@@ -141,10 +170,10 @@ internal final class DataNetwork {
     }
 
     /**
-     Finds the array index of a request entry matching a particular module name, if it exists.
-
-     - Parameter moduleName: The name of the module whose request index is sought.
-     - Returns: The index of the request in `downloadResourceParams` if found, else `nil`.
+     Finds the index of a request for a given module name in the tracked requests array.
+     
+     - Parameter moduleName: The name of the module to search for
+     - Returns: The index of the request if found, nil otherwise
      */
     func indexForModuleName(_ moduleName: String) -> Array<RequestParam>.Index?
     {
@@ -158,17 +187,20 @@ internal final class DataNetwork {
     }
 
     /**
-     Sends a network request with optional parameters, using an interceptor-based session for retries and token handling.
-
+     Sends a network request and returns raw response data.
+     
      - Parameters:
-       - url: The endpoint URL.
-       - httpMethod: The HTTP method (e.g., `.get`, `.post`, etc.).
-       - headers: HTTP headers to send along with the request.
-       - parameters: Query or body parameters (default is `nil`).
-       - encoding: The parameter encoding strategy (e.g., `URLEncoding.default`).
-       - moduleName: A name to categorize this request, useful for cancellation or tracking.
-       - successCallback: A closure invoked on success. Returns `moduleName` and `Any?` data.
-       - failureCallback: A closure invoked on failure, returning a `NetworkServiceError`.
+        - url: The endpoint URL
+        - httpMethod: The HTTP method to use (GET, POST, etc.)
+        - headers: HTTP headers to include in the request
+        - parameters: Optional request parameters
+        - encoding: The parameter encoding to use (URL, JSON, etc.)
+        - moduleName: The name of the module making the request
+        - successCallback: Called when request succeeds
+        - failureCallback: Called when request fails
+     
+     - Note: Automatically handles token refresh on 401 responses
+     - Important: Uses exponential backoff for retries via `LMNetworkInterceptor`
      */
     func request(
         for url: URL,

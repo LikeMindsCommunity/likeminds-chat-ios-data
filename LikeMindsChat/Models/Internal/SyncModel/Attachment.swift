@@ -83,6 +83,7 @@ public struct Attachment: Codable {
     /// The last update timestamp (in Unix time) for the attachment.
     public let updatedAt: Int?
     
+    /// Indicates if the attachment has been uploaded to the server.
     public let isUploaded: Bool
 
     /**
@@ -189,6 +190,7 @@ public struct Attachment: Codable {
        - meta: The attachment metadata.
        - createdAt: The creation timestamp.
        - updatedAt: The update timestamp.
+       - isUploaded: Indicates if the attachment has been uploaded to the server.
      */
     private init(
         id: String?, name: String?, url: String, type: AttachmentType, index: Int?,

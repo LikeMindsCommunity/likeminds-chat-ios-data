@@ -147,13 +147,6 @@ class ConversationDBService {
         }
     }
     
-    func saveNewConversation(
-        realm: Realm,
-        conversation: Conversation
-    ) {
-        guard let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
-    }
-    
     func saveTemporaryConversation(request: SaveConversationRequest) {
         guard let conversation = request.conversation, let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
         let realm = LMDBManager.lmDBInstance()
@@ -272,10 +265,32 @@ class ConversationDBService {
         return memberRO
     }
     
+    /// Updates an existing attachment in the local database.
+    /// 
+    /// This asynchronous method updates the provided attachment in the local Realm database.
+    /// 
+    /// - Parameter attachment: The `Attachment` object containing the updated data to be stored
+    /// 
+    /// - Returns: A `LMResponse<NoData>` object indicating the operation result
+    ///   - Success: Returns `LMResponse.successResponse` with `NoData`
+    ///   - Failure: Returns `LMResponse.failureResponse` with error message "Update operation failed"
+    /// 
+    /// - Note: This operation is performed asynchronously and does not block the calling thread
     func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
         await ChatDBUtil.shared.updateAttachment(attachment: attachment)
     }
     
+    /// Updates an existing conversation in the local database.
+    /// 
+    /// This asynchronous method updates the provided conversation in the local Realm database.
+    /// 
+    /// - Parameter conversation: The `Conversation` object containing the updated data to be stored
+    /// 
+    /// - Returns: A `LMResponse<NoData>` object indicating the operation result
+    ///   - Success: Returns `LMResponse.successResponse` with `NoData`
+    ///   - Failure: Returns `LMResponse.failureResponse` with error message "Update operation failed"
+    /// 
+    /// - Note: This operation is performed asynchronously and does not block the calling thread
     func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
         await ChatDBUtil.shared.updateConversation(conversation: conversation)
     }

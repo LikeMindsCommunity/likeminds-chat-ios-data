@@ -238,7 +238,7 @@ class InitiateUserClient: ServiceRequest {
     ) {
         
         // Retrieve tokens from the TokenManager
-        var (accessToken, refreshToken) = TokenManager.shared.getTokens()
+        let (accessToken, refreshToken) = TokenManager.shared.getTokens()
 
         // If both tokens are nil, the user is not logged in; clear local storage and return a success response.
         if accessToken == nil && refreshToken == nil {

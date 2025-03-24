@@ -317,6 +317,18 @@ class ChatDBUtil {
         }
     }
     
+    /// Updates an existing attachment in the local Realm database.
+    /// 
+    /// This method asynchronously updates the provided attachment in the local database using Realm.
+    /// The operation is performed in a background thread to avoid blocking the main thread.
+    /// 
+    /// - Parameter attachment: The `Attachment` object containing the updated data to be stored
+    /// 
+    /// - Returns: A `LMResponse<NoData>` object indicating the success or failure of the operation
+    ///   - On success: Returns `LMResponse.successResponse` with `NoData`
+    ///   - On failure: Returns `LMResponse.failureResponse` with an error message
+    /// 
+    /// - Note: This method uses Combine's Future and async/await pattern for handling asynchronous operations
     func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
         // Wrap the writeAsync call in a Combine Future.
         let updatePublisher = Future<LMResponse<NoData>, Never> { promise in
@@ -343,6 +355,18 @@ class ChatDBUtil {
         }
     }
 
+    /// Updates an existing conversation in the local Realm database.
+    /// 
+    /// This method asynchronously updates the provided conversation in the local database using Realm.
+    /// The operation is performed in a background thread to avoid blocking the main thread.
+    /// 
+    /// - Parameter conversation: The `Conversation` object containing the updated data to be stored
+    /// 
+    /// - Returns: A `LMResponse<NoData>` object indicating the success or failure of the operation
+    ///   - On success: Returns `LMResponse.successResponse` with `NoData`
+    ///   - On failure: Returns `LMResponse.failureResponse` with an error message
+    /// 
+    /// - Note: This method uses Combine's Future and async/await pattern for handling asynchronous operations
     func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
         // Wrap the writeAsync call in a Combine Future.
         let updatePublisher = Future<LMResponse<NoData>, Never> { promise in

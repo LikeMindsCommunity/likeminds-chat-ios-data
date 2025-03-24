@@ -8,9 +8,38 @@
 import Foundation
 import RealmSwift
 
+/// A utility class that handles conversion between different model types in the LikeMindsChat SDK.
+///
+/// The ModelConverter class is responsible for converting between three types of models:
+/// - Internal models (prefixed with underscore, e.g. _Conversation_)
+/// - Realm database models (suffixed with RO, e.g. ConversationRO)
+/// - Client-facing models (e.g. Conversation)
+///
+/// This class provides a comprehensive set of conversion methods to ensure data consistency
+/// across different layers of the application. It handles:
+/// - Conversation and message conversions
+/// - User and member data transformations
+/// - Attachment and media conversions
+/// - Poll and reaction data mappings
+/// - Community and chatroom conversions
+///
+/// Usage Example:
+/// ```swift
+/// let converter = ModelConverter.shared
+/// if let conversation = converter.convertConversationRO(realmConversation) {
+///     // Use the converted client-facing conversation object
+/// }
+/// ```
+///
+/// - Note: All conversion methods handle optional values safely and maintain data integrity
+/// - Important: Some conversions involve JSON serialization which may throw errors
 class ModelConverter {
+    /// Shared singleton instance of ModelConverter
     static let shared = ModelConverter()
-    // converts internal Conversation model to client model
+    
+    /// Converts an internal Conversation model to the client-facing Conversation model
+    /// - Parameter _conversation_: Internal conversation model to be converted
+    /// - Returns: A client-facing Conversation object with all properties mapped from the internal model
     func convertConversation(
         _conversation_: _Conversation_
     ) -> Conversation {
@@ -60,7 +89,9 @@ class ModelConverter {
             .build()
     }
 
-    // converts ConversationRO model to client model
+    /// Converts a Realm Conversation object to the client-facing Conversation model
+    /// - Parameter conversationRO: Optional Realm Conversation object to be converted
+    /// - Returns: An optional client-facing Conversation object. Returns nil if input is nil
     func convertConversationRO(_ conversationRO: ConversationRO?)
         -> Conversation?
     {
@@ -114,7 +145,10 @@ class ModelConverter {
             .build()
     }
 
-    // converts MemberRO model to client model
+    /// Converts a Realm Member object to the client-facing Member model
+    /// - Parameter memberRO: Optional Realm Member object to be converted
+    /// - Returns: An optional client-facing Member object. Returns nil if input is nil
+    /// - Note: Converts member roles from strings to UserRole enum values
     func convertMemberRO(_ memberRO: MemberRO?) -> Member? {
         guard let memberRO else { return nil }
         let roles: [UserRole] = memberRO.roles.compactMap { UserRole.from($0) }
@@ -137,7 +171,9 @@ class ModelConverter {
             .build()
     }
 
-    // converts SDKClientInfoRO model to client model
+    /// Converts a Realm SDKClientInfo object to the client-facing SDKClientInfo model
+    /// - Parameter sdkClientInfoRO: Optional Realm SDKClientInfo object to be converted
+    /// - Returns: An optional client-facing SDKClientInfo object. Returns nil if input is nil
     func convertSDKClientInfoRO(_ sdkClientInfoRO: SDKClientInfoRO?)
         -> SDKClientInfo?
     {
@@ -150,6 +186,9 @@ class ModelConverter {
         )
     }
 
+    /// Converts a list of Realm Attachment objects to an array of client-facing Attachment models
+    /// - Parameter attachmentsRO: Optional Realm List of AttachmentRO objects
+    /// - Returns: An optional array of client-facing Attachment objects. Returns nil if input is nil
     private func convertAttachmentsRO(_ attachmentsRO: List<AttachmentRO>?)
         -> [Attachment]?
     {
@@ -159,6 +198,9 @@ class ModelConverter {
         }
     }
 
+    /// Converts a single Realm Attachment object to a client-facing Attachment model
+    /// - Parameter attachmentRO: Realm Attachment object to be converted
+    /// - Returns: A client-facing Attachment object with all properties mapped
     private func convertAttachmentRO(_ attachmentRO: AttachmentRO) -> Attachment
     {
         return Attachment.Builder()
@@ -181,6 +223,9 @@ class ModelConverter {
             .build()
     }
 
+    /// Converts a Realm AttachmentMeta object to a client-facing AttachmentMeta model
+    /// - Parameter attachmentMetaRO: Optional Realm AttachmentMeta object
+    /// - Returns: An optional client-facing AttachmentMeta object. Returns nil if input is nil
     private func convertAttachmentMetaRO(_ attachmentMetaRO: AttachmentMetaRO?)
         -> AttachmentMeta?
     {
@@ -192,6 +237,9 @@ class ModelConverter {
             .build()
     }
 
+    /// Converts a Realm Link object to a client-facing LinkOGTags model
+    /// - Parameter linkRO: Optional Realm Link object to be converted
+    /// - Returns: An optional client-facing LinkOGTags object. Returns nil if input is nil
     private func convertLinkRO(_ linkRO: LinkRO?) -> LinkOGTags? {
         guard let linkRO = linkRO else { return nil }
         return LinkOGTags.Builder()
@@ -202,6 +250,9 @@ class ModelConverter {
             .build()
     }
 
+    /// Converts a list of Realm Reaction objects to an array of client-facing Reaction models
+    /// - Parameter reactionsRO: Optional Realm List of ReactionRO objects
+    /// - Returns: An optional array of client-facing Reaction objects. Returns nil if input is nil
     private func convertReactionsRO(_ reactionsRO: List<ReactionRO>?)
         -> [Reaction]?
     {
@@ -211,6 +262,9 @@ class ModelConverter {
         }
     }
 
+    /// Converts a single Realm Reaction object to a client-facing Reaction model
+    /// - Parameter reactionRO: Realm Reaction object to be converted
+    /// - Returns: A client-facing Reaction object with member information
     private func convertReactionRO(_ reactionRO: ReactionRO) -> Reaction {
         return Reaction.Builder()
             .reaction(reactionRO.reaction ?? "")
@@ -218,12 +272,18 @@ class ModelConverter {
             .build()
     }
 
+    /// Converts a list of Realm Poll objects to an array of client-facing Poll models
+    /// - Parameter pollsRO: Realm List of PollRO objects
+    /// - Returns: An array of client-facing Poll objects
     private func convertPollsRO(_ pollsRO: List<PollRO>) -> [Poll] {
         return pollsRO.map { pollRO in
             convertPollRO(pollRO)
         }
     }
 
+    /// Converts a single Realm Poll object to a client-facing Poll model
+    /// - Parameter pollRO: Realm Poll object to be converted
+    /// - Returns: A client-facing Poll object with all properties mapped
     private func convertPollRO(_ pollRO: PollRO) -> Poll {
         return Poll.Builder()
             .id(pollRO.id)
@@ -236,7 +296,9 @@ class ModelConverter {
             .build()
     }
 
-    // converts internal Chatroom model to client model
+    /// Converts an internal Chatroom model to the client-facing Chatroom model
+    /// - Parameter chatroom: Optional internal chatroom model to be converted
+    /// - Returns: An optional client-facing Chatroom object. Returns nil if input is nil
     func convertChatroom(chatroom: _Chatroom_?) -> Chatroom? {
         guard let chatroom else { return nil }
         return Chatroom.Builder()
@@ -285,7 +347,9 @@ class ModelConverter {
             .build()
     }
 
-    // converts ChatroomRO model to client model
+    /// Converts a Realm Chatroom object to the client-facing Chatroom model
+    /// - Parameter chatroomRO: Optional Realm Chatroom object to be converted
+    /// - Returns: An optional client-facing Chatroom object. Returns nil if input is nil
     func convertChatroomRO(chatroomRO: ChatroomRO?) -> Chatroom? {
         guard let chatroomRO else { return nil }
         return Chatroom.Builder()
@@ -349,7 +413,9 @@ class ModelConverter {
             .build()
     }
 
-    // converts LastConversationRO model to client model
+    /// Converts a Realm LastConversation object to the client-facing Conversation model
+    /// - Parameter lastConversationRO: Optional Realm LastConversation object
+    /// - Returns: An optional client-facing Conversation object. Returns nil if input is nil
     private func convertLastConversationRO(
         _ lastConversationRO: LastConversationRO?
     ) -> Conversation? {
@@ -383,7 +449,9 @@ class ModelConverter {
             .build()
     }
 
-    // converts list of ConversationRO model to client model
+    /// Converts a list of Realm Conversation objects to an array of client-facing Conversation models
+    /// - Parameter conversationsRO: Optional Realm List of ConversationRO objects
+    /// - Returns: An optional array of client-facing Conversation objects. Returns nil if input is nil
     private func convertConversationsRO(
         _ conversationsRO: List<ConversationRO>?
     ) -> [Conversation]? {
@@ -392,6 +460,9 @@ class ModelConverter {
         }
     }
 
+    /// Converts a Realm Community object to the client-facing Community model
+    /// - Parameter communityRO: Realm Community object to be converted
+    /// - Returns: A client-facing Community object with basic properties mapped
     func convertCommunityRO(_ communityRO: CommunityRO) -> Community {
         return Community(
             id: Int(communityRO.id), imageURL: communityRO.imageUrl,
@@ -401,7 +472,10 @@ class ModelConverter {
             communitySettings: nil, communitySettingRights: nil)
     }
 
-    // converts UserRO model to client model
+    /// Converts a Realm User object to the client-facing User model
+    /// - Parameter userRO: Optional Realm User object to be converted
+    /// - Returns: An optional client-facing User object. Returns nil if input is nil
+    /// - Note: Converts user roles from strings to UserRole enum values
     func convertUserRO(_ userRO: UserRO?) -> User? {
         guard let userRO else { return nil }
         var user = User(id: userRO.id, imageUrl: userRO.imageUrl)
@@ -419,6 +493,10 @@ class ModelConverter {
         return user
     }
 
+    /// Converts a Member object to the client-facing User model
+    /// - Parameter member: Optional Member object to be converted
+    /// - Returns: An optional client-facing User object. Returns nil if input is nil
+    /// - Note: Maps all relevant member properties to the user model including roles
     func convertUser(_ member: Member?) -> User? {
         guard let member else { return nil }
         var user = User(id: member.id, imageUrl: member.imageUrl)
@@ -436,6 +514,11 @@ class ModelConverter {
         return user
     }
 
+    /// Converts a Realm Widget object to the client-facing Widget model
+    /// - Parameter widgetRO: Realm Widget object to be converted
+    /// - Returns: An optional client-facing Widget object
+    /// - Throws: JSONSerialization errors if metadata or lmMeta cannot be deserialized
+    /// - Note: Returns nil if JSON deserialization fails for either metadata or lmMeta
     func convertWidgetROToWidget(_ widgetRO: WidgetRO) -> Widget? {
         var metadataDict: [String: Any]?
         var lmMetaDict: [String: Any]?

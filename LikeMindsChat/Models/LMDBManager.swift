@@ -26,6 +26,13 @@ extension Realm {
 class LMDBManager {
 
     // MARK:- functions
+    
+    /// Configures and returns a Realm database configuration
+    /// - Returns: A Realm.Configuration object with specified settings
+    ///   - Username set to "LMChatDB"
+    ///   - Schema version set to 7
+    ///   - Migration block to handle schema updates
+    /// - Note: Handles migrations for schema versions up to 7, including updates to MemberRO, UserRO, ConversationRO, LastConversationRO, WidgetRO, and AttachmentRO
     static private func dbConfig() -> Realm.Configuration {
         let username = "LMChatDB"
         var config = Realm.Configuration.defaultConfiguration
@@ -81,6 +88,9 @@ class LMDBManager {
         return config
     }
 
+    /// Creates and returns a new Realm instance with the specified configuration
+    /// - Returns: A configured Realm instance
+    /// - Throws: Fatal error if unable to create Realm instance
     static func lmDBInstance() -> Realm {
         do {
             let newRealm = try Realm(configuration: dbConfig())
@@ -93,41 +103,63 @@ class LMDBManager {
 }
 
 private protocol RealmOperations {
-    /// write operation
-    static func write<T: Object>(
-        _ object: T?, block: @escaping ((Realm, T?) -> Void))
-    ///
-    /// adds a single object to Realm
+    /// Performs a write operation on a Realm object
+    /// - Parameters:
+    ///   - object: Optional object to be written
+    ///   - block: Closure containing the write operation to be performed
+    static func write<T: Object>(_ object: T?, block: @escaping ((Realm, T?) -> Void))
+    
+    /// Adds a single object to Realm database
+    /// - Parameter object: Object to be added
     static func add(_ object: Object)
-    /// adds a list of objects to Realm
+    
+    /// Adds multiple objects to Realm database
+    /// - Parameter objects: Sequence of objects to be added
     static func add<S: Sequence>(_ objects: S) where S.Iterator.Element: Object
 
-    /// gets objects from Realm that satisfy the given predicate
+    /// Retrieves objects from Realm database based on specified criteria
+    /// - Parameters:
+    ///   - entity: Type of entity to retrieve
+    ///   - predicate: Optional NSPredicate for filtering results
+    ///   - sortKey: Optional key to sort results by
+    ///   - isAscending: Boolean indicating sort order (default: true)
+    /// - Returns: Results<R> containing matching objects
     static func get<R: Object>(
-        fromEntity entity: R.Type, withPredicate predicate: NSPredicate?,
-        sortedByKey sortKey: String?, inAscending isAscending: Bool
+        fromEntity entity: R.Type,
+        withPredicate predicate: NSPredicate?,
+        sortedByKey sortKey: String?,
+        inAscending isAscending: Bool
     ) -> Results<R>
 
-    /// deletes a single object from Realm
+    /// Deletes a single object from Realm database
+    /// - Parameter object: Object to be deleted
     static func delete(_ object: Object)
 
-    /// deletes a list of object from Realm
-    static func delete<S: Sequence>(_ objects: S)
-    where S.Iterator.Element: Object
+    /// Deletes multiple objects from Realm database
+    /// - Parameter objects: Sequence of objects to be deleted
+    static func delete<S: Sequence>(_ objects: S) where S.Iterator.Element: Object
 
-    /// deletes an Entity from Realm based  on the given predicate
-    static func delete(
-        fromEntity entity: Object.Type, withPredicate predicate: NSPredicate?)
+    /// Deletes objects of a specific entity type matching the given predicate
+    /// - Parameters:
+    ///   - entity: Type of entity to delete
+    ///   - predicate: Optional NSPredicate for filtering objects to delete
+    static func delete(fromEntity entity: Object.Type, withPredicate predicate: NSPredicate?)
 
-    /// updates and overwrites a Realm object
+    /// Updates a Realm object using the provided block
+    /// - Parameters:
+    ///   - object: Object to be updated
+    ///   - block: Closure containing the update operation
     static func update<T: Object>(_ object: T, block: @escaping ((T) -> Void))
 }
 
 extension LMDBManager: RealmOperations {
-    /// Writes to Realm
-    static func write<T: Object>(
-        _ object: T? = nil, block: @escaping ((Realm, T?) -> Void)
-    ) {
+    /// Performs a write transaction on the Realm database
+    /// - Parameters:
+    ///   - object: Optional object to be written
+    ///   - block: Closure containing the write operation
+    /// - Note: Executes on a dedicated dispatch queue to prevent concurrent write operations
+    /// - Important: If a write transaction is already in progress, the operation will be skipped
+    static func write<T: Object>(_ object: T? = nil, block: @escaping ((Realm, T?) -> Void)) {
         DispatchQueue(label: "realm").sync {
             autoreleasepool {
                 let currentRealm = lmDBInstance()
@@ -146,26 +178,34 @@ extension LMDBManager: RealmOperations {
         }
     }
 
-    // MARK:- ADD functions
-    /// adds an object to Realm
+    /// Adds a single object to the Realm database with update policy set to .all
+    /// - Parameter object: Object to be added
     static func add(_ object: Object) {
         Self.write { (realmInstance, _) in
             realmInstance.add(object, update: .all)
         }
     }
 
-    /// adds a list of objects to Realm
-    static func add<S: Sequence>(_ objects: S)
-    where S.Iterator.Element: Object {
+    /// Adds multiple objects to the Realm database with update policy set to .all
+    /// - Parameter objects: Sequence of objects to be added
+    static func add<S: Sequence>(_ objects: S) where S.Iterator.Element: Object {
         Self.write { (realmInstance, _) in
             realmInstance.add(objects, update: .all)
         }
     }
 
-    // MARK:- GET function
+    /// Retrieves objects from the Realm database based on specified criteria
+    /// - Parameters:
+    ///   - entity: Type of entity to retrieve
+    ///   - predicate: Optional predicate for filtering results
+    ///   - sortKey: Optional key to sort results by
+    ///   - isAscending: Boolean indicating sort order (default: true)
+    /// - Returns: Results<R> containing matching objects
     static func get<R: Object>(
-        fromEntity entity: R.Type, withPredicate predicate: NSPredicate? = nil,
-        sortedByKey sortKey: String? = nil, inAscending isAscending: Bool = true
+        fromEntity entity: R.Type,
+        withPredicate predicate: NSPredicate? = nil,
+        sortedByKey sortKey: String? = nil,
+        inAscending isAscending: Bool = true
     ) -> Results<R> {
         var objects = lmDBInstance().objects(entity)
         if predicate != nil {
@@ -179,7 +219,9 @@ extension LMDBManager: RealmOperations {
         return objects
     }
 
-    // MARK:- DELETE functions
+    /// Deletes a single object from the Realm database
+    /// - Parameter object: Object to be deleted
+    /// - Note: If the object is invalid, the deletion will be skipped
     static func delete(_ object: Object) {
         Self.write(object) { (realmInstance, newObject) in
             guard let newObject = newObject, !newObject.isInvalidated else {
@@ -189,15 +231,18 @@ extension LMDBManager: RealmOperations {
         }
     }
 
-    /// deletes a list of elements from Realm
-    static func delete<S: Sequence>(_ objects: S)
-    where S.Iterator.Element: Object {
+    /// Deletes multiple objects from the Realm database
+    /// - Parameter objects: Sequence of objects to be deleted
+    static func delete<S: Sequence>(_ objects: S) where S.Iterator.Element: Object {
         Self.write { (realmInstance, _) in
             realmInstance.delete(objects)
         }
     }
 
-    /// deletes an Entity from Realm, a predicate can be given
+    /// Deletes objects of a specific entity type matching the given predicate
+    /// - Parameters:
+    ///   - entity: Type of entity to delete
+    ///   - predicate: Optional predicate for filtering objects to delete
     static func delete(
         fromEntity entity: Object.Type,
         withPredicate predicate: NSPredicate? = nil
@@ -205,7 +250,11 @@ extension LMDBManager: RealmOperations {
         Self.delete(Self.get(fromEntity: entity, withPredicate: predicate))
     }
 
-    // MARK:- UPDATE function
+    /// Updates a Realm object using the provided block
+    /// - Parameters:
+    ///   - object: Object to be updated
+    ///   - block: Closure containing the update operation
+    /// - Note: If the object is invalid, the update will be skipped
     static func update<T: Object>(_ object: T, block: @escaping ((T) -> Void)) {
         guard !object.isInvalidated else {
             return
@@ -219,7 +268,8 @@ extension LMDBManager: RealmOperations {
         }
     }
 
-    // MARK:- insert Or Update function
+    /// Inserts or updates an object in the Realm database with update policy set to .modified
+    /// - Parameter object: Object to be inserted or updated
     static func insertOrUpdate(_ object: Object) {
         Self.write { (realmInstance, _) in
             realmInstance.add(object, update: .modified)

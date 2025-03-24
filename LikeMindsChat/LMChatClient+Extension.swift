@@ -12,8 +12,6 @@ import UIKit
 
 extension LMChatClient {
 
-    func initialize() {}
-
     /// Initiates the chat service for a user by sending a request to the server.
     ///
     /// - Parameters:
@@ -134,12 +132,18 @@ extension LMChatClient {
         }
     }
 
+    /// Retrieves the current configuration settings from the server.
+    ///
+    /// - Parameter response: An optional closure to handle the server response of type `LMClientResponse<ConfigResponse>`.
     public func getConfig(response: LMClientResponse<ConfigResponse>?) {
         InitiateUserClient.getConfig(withModuleName: moduleName) { result in
             response?(result)
         }
     }
 
+    /// Retrieves the count of items in the explore tab.
+    ///
+    /// - Parameter response: An optional closure to handle the server response of type `LMClientResponse<GetExploreTabCountResponse>`.
     public func getExploreTabCount(
         response: LMClientResponse<GetExploreTabCountResponse>?
     ) {
@@ -149,6 +153,11 @@ extension LMChatClient {
         }
     }
 
+    /// Retrieves the explore feed content based on the specified request parameters.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetExploreFeedRequest` object containing the parameters for fetching the explore feed.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<GetExploreFeedResponse>`.
     public func getExploreFeed(
         request: GetExploreFeedRequest,
         response: LMClientResponse<GetExploreFeedResponse>?
@@ -157,22 +166,35 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Synchronizes chatrooms with the server.
     public func syncChatrooms() {
         HomeFeedClient.shared.syncChatrooms()
     }
 
+    /// Retrieves chatrooms with the specified observer.
+    ///
+    /// - Parameter observer: A `HomeFeedClientObserver` object to receive updates about chatroom changes.
     public func getChatrooms(withObserver observer: HomeFeedClientObserver) {
         HomeFeedClient.shared.getChatrooms(withObserver: observer)
     }
 
+    /// Synchronizes direct message chatrooms with the server.
     public func syncDMChatrooms() {
         DirectMessageClient.shared.syncDMChatrooms()
     }
 
+    /// Retrieves direct message chatrooms with the specified observer.
+    ///
+    /// - Parameter observer: A `HomeFeedClientObserver` object to receive updates about DM chatroom changes.
     public func getDMChatrooms(withObserver observer: HomeFeedClientObserver) {
         DirectMessageClient.shared.getChatrooms(withObserver: observer)
     }
 
+    /// Retrieves participants of a chatroom based on the specified request parameters.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetParticipantsRequest` object containing the parameters for fetching participants.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<GetParticipantsResponse>`.
     public func getParticipants(
         request: GetParticipantsRequest,
         response: LMClientResponse<GetParticipantsResponse>?
@@ -182,6 +204,11 @@ extension LMChatClient {
         }
     }
 
+    /// Retrieves available report tags based on the specified request parameters.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetReportTagsRequest` object containing the parameters for fetching report tags.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<GetReportTagsResponse>`.
     public func getReportTags(
         request: GetReportTagsRequest,
         response: LMClientResponse<GetReportTagsResponse>?
@@ -191,6 +218,11 @@ extension LMChatClient {
         }
     }
 
+    /// Submits a report based on the specified request parameters.
+    ///
+    /// - Parameters:
+    ///   - request: A `PostReportRequest` object containing the report details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func postReport(
         request: PostReportRequest, response: LMClientResponse<NoData>?
     ) {
@@ -199,6 +231,9 @@ extension LMChatClient {
         }
     }
 
+    /// Retrieves content download settings from the server.
+    ///
+    /// - Parameter response: An optional closure to handle the server response of type `LMClientResponse<GetContentDownloadSettingsResponse>`.
     public func getContentDownloadSettings(
         _ response: LMClientResponse<GetContentDownloadSettingsResponse>?
     ) {
@@ -207,6 +242,11 @@ extension LMChatClient {
         }
     }
 
+    /// Loads conversations for a specific chatroom.
+    ///
+    /// - Parameters:
+    ///   - chatroomId: The ID of the chatroom to load conversations from.
+    ///   - loadType: The type of loading operation to perform.
     public func loadConversations(
         withChatroomId chatroomId: String, loadType: LoadConversationType
     ) {
@@ -214,6 +254,11 @@ extension LMChatClient {
             type: loadType, chatroomId: chatroomId)
     }
 
+    /// Loads the latest conversations for a specific conversation and chatroom.
+    ///
+    /// - Parameters:
+    ///   - conversationId: The ID of the conversation to load.
+    ///   - chatroomId: The ID of the chatroom containing the conversation.
     public func loadLatestConversations(
         withConversationId conversationId: String, chatroomId: String
     ) {
@@ -221,27 +266,43 @@ extension LMChatClient {
             withConversationId: conversationId, chatroomId: chatroomId)
     }
 
+    /// Retrieves conversations based on the specified request parameters.
+    ///
+    /// - Parameter request: A `GetConversationsRequest` object containing the parameters for fetching conversations.
+    /// - Returns: An optional `LMResponse<GetConversationsResponse>` containing the conversations if successful.
     public func getConversations(withRequest request: GetConversationsRequest)
         -> LMResponse<GetConversationsResponse>?
     {
         return ConversationClient.shared.getConversations(request: request)
     }
 
+    /// Saves a temporary conversation.
+    ///
+    /// - Parameter request: A `SaveConversationRequest` object containing the conversation to save.
     public func saveTemporaryConversation(request: SaveConversationRequest) {
         ConversationClient.shared.saveTemporaryConversation(
             saveConversationRequest: request)
     }
 
+    /// Starts observing conversations based on the specified request parameters.
+    ///
+    /// - Parameter request: An `ObserveConversationsRequest` object containing the parameters for observation.
     public func observeConversations(request: ObserveConversationsRequest) {
         ConversationClient.shared.observeConversations(request: request)
     }
 
+    /// Adds an observer for conversation changes.
+    ///
+    /// - Parameter ob: A `ConversationChangeDelegate` object to receive updates about conversation changes.
     public func addObserverConversation(
         _ ob: ConversationChangeDelegate
     ) {
         ConversationClient.shared.addObserver(ob)
     }
 
+    /// Removes an observer for conversation changes.
+    ///
+    /// - Parameter ob: The `ConversationChangeDelegate` object to remove from observers.
     public func removeObserverConversation(
         _ ob: ConversationChangeDelegate
     ) {
@@ -255,10 +316,17 @@ extension LMChatClient {
 
     }
 
+    /// Retrieves the currently logged-in user.
+    ///
+    /// - Returns: An optional `User` object representing the logged-in user.
     public func getLoggedInUser() -> User? {
         CommunityClient.shared.getLoggedInUser()
     }
 
+    /// Retrieves a member based on the specified request parameters.
+    ///
+    /// - Parameter request: A `GetMemberRequest` object containing the parameters for fetching the member.
+    /// - Returns: An optional `LMResponse<GetMemberResponse>` containing the member information if successful.
     public func getMember(request: GetMemberRequest) -> LMResponse<
         GetMemberResponse
     >? {
@@ -269,6 +337,9 @@ extension LMChatClient {
         return LMResponse.successResponse(response)
     }
 
+    /// Retrieves the current member's information.
+    ///
+    /// - Returns: An optional `LMResponse<GetMemberResponse>` containing the current member's information if successful.
     public func getCurrentMember() -> LMResponse<GetMemberResponse>? {
         guard let member = CommunityClient.shared.getCurrentMember() else {
             return LMResponse.failureResponse("failed to fetch member!")
@@ -276,18 +347,30 @@ extension LMChatClient {
         return LMResponse.successResponse(GetMemberResponse(member: member))
     }
 
+    /// Retrieves the current member's state.
+    ///
+    /// - Parameter response: An optional closure to handle the server response of type `LMClientResponse<GetMemberStateResponse>`.
     public func getMemberState(
         response: LMClientResponse<GetMemberStateResponse>?
     ) {
         CommunityClient.shared.getMemberState(response: response)
     }
 
+    /// Retrieves a chatroom based on the specified request parameters.
+    ///
+    /// - Parameter request: A `GetChatroomRequest` object containing the parameters for fetching the chatroom.
+    /// - Returns: An optional `LMResponse<GetChatroomResponse>` containing the chatroom information if successful.
     public func getChatroom(request: GetChatroomRequest) -> LMResponse<
         GetChatroomResponse
     >? {
         ChatroomClient.shared.getChatroom(request: request)
     }
 
+    /// Retrieves available actions for a chatroom based on the specified request parameters.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetChatroomActionsRequest` object containing the parameters for fetching chatroom actions.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<GetChatroomActionsResponse>`.
     public func getChatroomActions(
         request: GetChatroomActionsRequest,
         response: LMClientResponse<GetChatroomActionsResponse>?
@@ -296,6 +379,11 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Updates the follow status of a chatroom.
+    ///
+    /// - Parameters:
+    ///   - request: A `FollowChatroomRequest` object containing the chatroom ID and follow status.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func followChatroom(
         request: FollowChatroomRequest, response: LMClientResponse<NoData>?
     ) {
@@ -303,6 +391,11 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Removes the current user from a secret chatroom.
+    ///
+    /// - Parameters:
+    ///   - request: A `LeaveSecretChatroomRequest` object containing the chatroom ID.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func leaveSecretChatroom(
         request: LeaveSecretChatroomRequest, response: LMClientResponse<NoData>?
     ) {
@@ -310,18 +403,33 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Updates the mute status of a chatroom.
+    ///
+    /// - Parameters:
+    ///   - request: A `MuteChatroomRequest` object containing the chatroom ID and mute status.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func muteChatroom(
         request: MuteChatroomRequest, response: LMClientResponse<NoData>?
     ) {
         ChatroomClient.shared.muteChatroom(request: request, response: response)
     }
 
+    /// Marks a chatroom as read.
+    ///
+    /// - Parameters:
+    ///   - request: A `MarkReadChatroomRequest` object containing the chatroom ID.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func markReadChatroom(
         request: MarkReadChatroomRequest, response: LMClientResponse<NoData>?
     ) {
         ConversationClient.shared.markRead(request: request, response: response)
     }
 
+    /// Sets a conversation as the topic for a chatroom.
+    ///
+    /// - Parameters:
+    ///   - request: A `SetChatroomTopicRequest` object containing the chatroom and conversation details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func setChatroomTopic(
         request: SetChatroomTopicRequest, response: LMClientResponse<NoData>?
     ) {
@@ -329,6 +437,11 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Adds a new option to an existing poll.
+    ///
+    /// - Parameters:
+    ///   - request: An `AddPollOptionRequest` object containing the poll and option details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<AddPollOptionResponse>`.
     public func addPollOption(
         request: AddPollOptionRequest,
         response: LMClientResponse<AddPollOptionResponse>?
@@ -336,12 +449,22 @@ extension LMChatClient {
         PollClient.shared.addPollOption(request: request, response: response)
     }
 
+    /// Submits a vote for a poll option.
+    ///
+    /// - Parameters:
+    ///   - request: A `SubmitPollRequest` object containing the poll and vote details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func submitPoll(
         request: SubmitPollRequest, response: LMClientResponse<NoData>?
     ) {
         PollClient.shared.submitPoll(request: request, response: response)
     }
 
+    /// Retrieves users who have voted in a poll.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetPollUsersRequest` object containing the poll details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<GetPollUsersResponse>`.
     public func getPollUsers(
         request: GetPollUsersRequest,
         response: LMClientResponse<GetPollUsersResponse>?
@@ -349,6 +472,11 @@ extension LMChatClient {
         PollClient.shared.getPollUsers(request: request, response: response)
     }
 
+    /// Creates a new poll conversation.
+    ///
+    /// - Parameters:
+    ///   - request: A `PostPollConversationRequest` object containing the poll conversation details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<PostPollConversationResponse>`.
     public func postPollConversation(
         request: PostPollConversationRequest,
         response: LMClientResponse<PostPollConversationResponse>?
@@ -357,6 +485,11 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Decodes a URL to extract relevant information.
+    ///
+    /// - Parameters:
+    ///   - request: A `DecodeUrlRequest` object containing the URL to decode.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<DecodeUrlResponse>`.
     public func decodeUrl(
         request: DecodeUrlRequest,
         response: LMClientResponse<DecodeUrlResponse>?
@@ -366,6 +499,11 @@ extension LMChatClient {
         }
     }
 
+    /// Retrieves a list of users that can be tagged in conversations.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetTaggingListRequest` object containing the search parameters.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<GetTaggingListResponse>`.
     public func getTaggingList(
         request: GetTaggingListRequest,
         response: LMClientResponse<GetTaggingListResponse>?
@@ -375,6 +513,9 @@ extension LMChatClient {
         }
     }
 
+    /// Checks if the database is empty.
+    ///
+    /// This method verifies if the local database contains any data.
     public func getDBEmpty() {
 
     }
@@ -443,14 +584,25 @@ extension LMChatClient {
         )
     }
 
+    /// Retrieves the count of conversations.
+    ///
+    /// This method returns the total number of conversations in the system.
     public func getConversationsCount() {
 
     }
 
+    /// Permanently deletes a conversation.
+    ///
+    /// This method removes a conversation from both the server and local storage.
     public func deleteConversationPermanatly() {
 
     }
 
+    /// Updates the uploading status of a conversation.
+    ///
+    /// - Parameters:
+    ///   - conversationId: The ID of the conversation to update.
+    ///   - status: The new `ConversationStatus` to set.
     public func updateConversationUploadingStatus(
         withId conversationId: String, withStatus status: ConversationStatus
     ) {
@@ -458,6 +610,9 @@ extension LMChatClient {
             withConversationId: conversationId, withStatus: status)
     }
 
+    /// Updates a temporary conversation.
+    ///
+    /// This method updates the state of a temporary conversation in local storage.
     public func updateTemporaryConversation() {
 
     }
@@ -530,11 +685,19 @@ extension LMChatClient {
         }
     }
 
+    /// Deletes a temporary conversation from local storage.
+    ///
+    /// - Parameter conversationId: The ID of the temporary conversation to delete.
     public func deleteTempConversations(conversationId: String) {
         ConversationClient.shared.deleteTempConversation(
             conversationId: conversationId)
     }
 
+    /// Adds a reaction to a conversation.
+    ///
+    /// - Parameters:
+    ///   - request: A `PutReactionRequest` object containing the reaction details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func putReaction(
         request: PutReactionRequest, response: LMClientResponse<NoData>?
     ) {
@@ -543,6 +706,11 @@ extension LMChatClient {
         }
     }
 
+    /// Removes a reaction from a conversation.
+    ///
+    /// - Parameters:
+    ///   - request: A `DeleteReactionRequest` object containing the reaction details to remove.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<NoData>`.
     public func deleteReaction(
         request: DeleteReactionRequest, response: LMClientResponse<NoData>?
     ) {
@@ -550,28 +718,48 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Saves a conversation that has been successfully posted to the server.
+    ///
+    /// - Parameter request: A `SavePostedConversationRequest` object containing the conversation details to save.
     public func savePostedConversation(request: SavePostedConversationRequest) {
         ConversationClient.shared.savePostedConversation(request: request)
     }
 
+    /// Starts observing live updates for a specific chatroom.
+    ///
+    /// - Parameter chatroomId: The ID of the chatroom to observe.
     public func observeLiveConversation(withChatroomId chatroomId: String?) {
         ConversationClient.shared.observeChatRoomLatestConversations(
             forChatRoomID: chatroomId)
     }
 
+    /// Starts observing live updates for the home feed of a community.
+    ///
+    /// - Parameter communityId: The ID of the community to observe.
     public func observeLiveHomeFeed(withCommunityId communityId: String) {
         HomeFeedClient.shared.observeLiveHomeFeed(forCommunity: communityId)
     }
 
+    /// Starts observing live updates for direct messages in a community.
+    ///
+    /// - Parameter communityId: The ID of the community to observe.
     public func observeLiveDMFeed(withCommunityId communityId: String) {
         DirectMessageClient.shared.observeLiveHomeFeed(
             forCommunity: communityId)
     }
 
+    /// Checks if the direct messaging tab is available.
+    ///
+    /// - Parameter response: An optional closure to handle the server response of type `LMClientResponse<CheckDMTabResponse>`.
     public func checkDMTab(_ response: LMClientResponse<CheckDMTabResponse>?) {
         DirectMessageClient.shared.checkDMTab(response)
     }
 
+    /// Checks the status of direct messaging with a specific member.
+    ///
+    /// - Parameters:
+    ///   - request: A `CheckDMStatusRequest` object containing the member details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<CheckDMStatusResponse>`.
     public func checkDMStatus(
         request: CheckDMStatusRequest,
         _ response: LMClientResponse<CheckDMStatusResponse>?
@@ -580,6 +768,11 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Checks if the user has reached their direct messaging limit.
+    ///
+    /// - Parameters:
+    ///   - request: A `CheckDMLimitRequest` object containing the request parameters.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<CheckDMLimitResponse>`.
     public func checkDMLimit(
         request: CheckDMLimitRequest,
         response: LMClientResponse<CheckDMLimitResponse>?
@@ -588,6 +781,11 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Creates a new direct message chatroom.
+    ///
+    /// - Parameters:
+    ///   - request: A `CreateDMChatroomRequest` object containing the chatroom details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<CheckDMChatroomResponse>`.
     public func createDMChatroom(
         request: CreateDMChatroomRequest,
         response: LMClientResponse<CheckDMChatroomResponse>?
@@ -596,6 +794,11 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Sends a direct message request to another member.
+    ///
+    /// - Parameters:
+    ///   - request: A `SendDMRequest` object containing the message details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<SendDMResponse>`.
     public func sendDMRequest(
         request: SendDMRequest, response: LMClientResponse<SendDMResponse>?
     ) {
@@ -603,6 +806,11 @@ extension LMChatClient {
             request: request, response: response)
     }
 
+    /// Blocks a member from sending direct messages.
+    ///
+    /// - Parameters:
+    ///   - request: A `BlockMemberRequest` object containing the member details.
+    ///   - response: An optional closure to handle the server response of type `LMClientResponse<BlockMemberResponse>`.
     public func blockDMMember(
         request: BlockMemberRequest,
         response: LMClientResponse<BlockMemberResponse>?
