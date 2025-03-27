@@ -26,7 +26,7 @@ extension Realm {
 class LMDBManager {
 
     // MARK:- functions
-    
+
     /// Configures and returns a Realm database configuration
     /// - Returns: A Realm.Configuration object with specified settings
     ///   - Username set to "LMChatDB"
@@ -78,11 +78,20 @@ class LMDBManager {
                 }
             }
             if oldSchemaVersion <= 6 {
-                migration.enumerateObjects(ofType: AttachmentRO.className()) { oldObject, newObject in
+                migration.enumerateObjects(ofType: AttachmentRO.className()) {
+                    oldObject, newObject in
                     newObject?["isUploaded"] = false  // Set a default value
                 }
+                migration.enumerateObjects(ofType: ConversationRO.className()) {
+                    oldWidget, newObject in
+                    newObject?["attachmentUploadedEpoch"] = nil
+                }
+                migration.enumerateObjects(
+                    ofType: LastConversationRO.className()
+                ) { oldWidget, newObject in
+                    newObject?["attachmentUploadedEpoch"] = nil
+                }
             }
-
 
         }
         return config
@@ -107,12 +116,13 @@ private protocol RealmOperations {
     /// - Parameters:
     ///   - object: Optional object to be written
     ///   - block: Closure containing the write operation to be performed
-    static func write<T: Object>(_ object: T?, block: @escaping ((Realm, T?) -> Void))
-    
+    static func write<T: Object>(
+        _ object: T?, block: @escaping ((Realm, T?) -> Void))
+
     /// Adds a single object to Realm database
     /// - Parameter object: Object to be added
     static func add(_ object: Object)
-    
+
     /// Adds multiple objects to Realm database
     /// - Parameter objects: Sequence of objects to be added
     static func add<S: Sequence>(_ objects: S) where S.Iterator.Element: Object
@@ -137,13 +147,15 @@ private protocol RealmOperations {
 
     /// Deletes multiple objects from Realm database
     /// - Parameter objects: Sequence of objects to be deleted
-    static func delete<S: Sequence>(_ objects: S) where S.Iterator.Element: Object
+    static func delete<S: Sequence>(_ objects: S)
+    where S.Iterator.Element: Object
 
     /// Deletes objects of a specific entity type matching the given predicate
     /// - Parameters:
     ///   - entity: Type of entity to delete
     ///   - predicate: Optional NSPredicate for filtering objects to delete
-    static func delete(fromEntity entity: Object.Type, withPredicate predicate: NSPredicate?)
+    static func delete(
+        fromEntity entity: Object.Type, withPredicate predicate: NSPredicate?)
 
     /// Updates a Realm object using the provided block
     /// - Parameters:
@@ -159,7 +171,9 @@ extension LMDBManager: RealmOperations {
     ///   - block: Closure containing the write operation
     /// - Note: Executes on a dedicated dispatch queue to prevent concurrent write operations
     /// - Important: If a write transaction is already in progress, the operation will be skipped
-    static func write<T: Object>(_ object: T? = nil, block: @escaping ((Realm, T?) -> Void)) {
+    static func write<T: Object>(
+        _ object: T? = nil, block: @escaping ((Realm, T?) -> Void)
+    ) {
         DispatchQueue(label: "realm").sync {
             autoreleasepool {
                 let currentRealm = lmDBInstance()
@@ -188,7 +202,8 @@ extension LMDBManager: RealmOperations {
 
     /// Adds multiple objects to the Realm database with update policy set to .all
     /// - Parameter objects: Sequence of objects to be added
-    static func add<S: Sequence>(_ objects: S) where S.Iterator.Element: Object {
+    static func add<S: Sequence>(_ objects: S)
+    where S.Iterator.Element: Object {
         Self.write { (realmInstance, _) in
             realmInstance.add(objects, update: .all)
         }
@@ -233,7 +248,8 @@ extension LMDBManager: RealmOperations {
 
     /// Deletes multiple objects from the Realm database
     /// - Parameter objects: Sequence of objects to be deleted
-    static func delete<S: Sequence>(_ objects: S) where S.Iterator.Element: Object {
+    static func delete<S: Sequence>(_ objects: S)
+    where S.Iterator.Element: Object {
         Self.write { (realmInstance, _) in
             realmInstance.delete(objects)
         }
