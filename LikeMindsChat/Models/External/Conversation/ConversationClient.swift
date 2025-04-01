@@ -42,7 +42,7 @@ class ConversationClient: ServiceRequest {
             guard let data = responseData as? LMResponse<PostConversationResponse> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.errorMessage))
         }
     }
     

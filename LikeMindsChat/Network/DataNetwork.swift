@@ -76,6 +76,55 @@ enum NetworkServiceError: Error {
     case tokenExpire
     /// JSON parsing failed
     case failedJsonParse(_ errorMessage: String)
+    
+    /// Returns a user-friendly error message for each error case
+    var errorMessage: String {
+        switch self {
+        case .noError:
+            return "Operation completed successfully"
+            
+        case .noInternet:
+            return "Please check your internet connection and try again"
+            
+        case .inaccessible:
+            return "Unable to access the requested resource. Please try again later"
+            
+        case .urlError(let error):
+            switch error.code {
+            case .notConnectedToInternet, .networkConnectionLost:
+                return "Please check your internet connection and try again"
+            default:
+                return error.localizedDescription
+            }
+            
+        case .generalError(let error):
+            return error.localizedDescription
+            
+        case .noResponse:
+            return "No response received from the server. Please try again"
+            
+        case .invalidResponseType:
+            return "Received an invalid response from the server"
+            
+        case .noResponseData(let response):
+            return "No data received from the server (Status: \(response.statusCode))"
+            
+        case .endpointError(let response, let data):
+            // Try to parse error message from response data
+            if let data = data,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let errorMessage = json["error_message"] as? String {
+                return errorMessage
+            }
+            return "Server error (Status: \(response.statusCode)). Please try again"
+            
+        case .tokenExpire:
+            return "Your session has expired. Please sign in again"
+            
+        case .failedJsonParse(let message):
+            return "Unable to process the server response: \(message)"
+        }
+    }
 }
 
 /// A structure representing a network request and its associated callbacks.
@@ -470,7 +519,7 @@ internal final class DataNetwork {
     }
 }
 
-/// Logs the provided items to the console if the app’s build environment is set to `.devtest`.
+/// Logs the provided items to the console if the app's build environment is set to `.devtest`.
 ///
 /// - Parameter items: A variadic list of items to log.
 func lmLog(_ items: Any...) {
