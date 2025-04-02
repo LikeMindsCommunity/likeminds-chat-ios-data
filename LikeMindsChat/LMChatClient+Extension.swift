@@ -1025,5 +1025,24 @@ extension LMChatClient {
     public func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
         await ConversationClient.shared.updateConversation(conversation: conversation)
     }
+
+    /// Updates the last conversation in the database for a given conversation.
+    /// This method converts the provided conversation to a LastConversationRO and updates it in the database.
+    ///
+    /// - Parameter conversation: The conversation to be converted and stored as the last conversation
+    public func updateLastConversation(conversation: Conversation) {
+        ConversationClient.shared.updateLastConversation(conversation: conversation)
+    }
+    
+    /// Updates the last conversation model in the chatroom with the provided conversation.
+    /// This method updates the chatroom's last conversation references and stores the conversation in the database.
+    ///
+    /// - Parameters:
+    ///   - chatroomId: The ID of the chatroom whose last conversation needs to be updated
+    ///   - conversation: The conversation to be set as the last conversation
+    public func updateLastConversationModel(chatroomId: String, conversation: Conversation) {
+        ConversationClient.shared.updateLastConversationModel(chatroomId: chatroomId, conversation: conversation)
+    }
+
 }
 

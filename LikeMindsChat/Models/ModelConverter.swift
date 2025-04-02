@@ -89,6 +89,56 @@ class ModelConverter {
             .build()
     }
 
+    /// Converts a client-facing Conversation model to the internal _Conversation_ model
+    /// - Parameter conversation: Client-facing conversation model to be converted
+    /// - Returns: An internal _Conversation_ object with all properties mapped from the client model
+    func convertToInternalConversation(_ conversation: Conversation) -> _Conversation_ {
+        return _Conversation_(
+            id: conversation.id,
+            chatroomId: conversation.chatroomId,
+            communityId: conversation.communityId,
+            member: conversation.member,
+            answer: conversation.answer,
+            createdAt: conversation.createdAt,
+            state: conversation.state.rawValue,
+            attachments: conversation.attachments,
+            lastSeen: conversation.lastSeen,
+            ogTags: conversation.ogTags,
+            date: conversation.date,
+            isEdited: conversation.isEdited,
+            memberId: conversation.memberId,
+            replyConversationId: conversation.replyConversationId,
+            deletedBy: conversation.deletedBy,
+            createdEpoch: conversation.createdEpoch,
+            attachmentCount: conversation.attachmentCount,
+            attachmentUploaded: conversation.attachmentUploaded,
+            uploadWorkerUUID: conversation.uploadWorkerUUID,
+            temporaryId: conversation.temporaryId,
+            localCreatedEpoch: conversation.localCreatedEpoch,
+            reactions: conversation.reactions,
+            isAnonymous: conversation.isAnonymous,
+            allowAddOption: conversation.allowAddOption,
+            pollType: conversation.pollType,
+            pollTypeText: conversation.pollTypeText,
+            submitTypeText: conversation.submitTypeText,
+            expiryTime: conversation.expiryTime,
+            multipleSelectNum: conversation.multipleSelectNum,
+            multipleSelectState: conversation.multipleSelectState,
+            polls: conversation.polls,
+            toShowResults: conversation.toShowResults,
+            pollAnswerText: conversation.pollAnswerText,
+            replyChatroomId: conversation.replyChatroomId,
+            deviceId: conversation.deviceId,
+            hasFiles: conversation.hasFiles,
+            hasReactions: conversation.hasReactions,
+            lastUpdated: conversation.lastUpdated,
+            deletedByMember: conversation.deletedByMember,
+            widgetId: conversation.widgetId,
+            widget: conversation.widget,
+            attachmentUploadedEpoch: conversation.attachmentUploadedEpoch
+        )
+    }
+
     /// Converts a Realm Conversation object to the client-facing Conversation model
     /// - Parameter conversationRO: Optional Realm Conversation object to be converted
     /// - Returns: An optional client-facing Conversation object. Returns nil if input is nil
