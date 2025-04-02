@@ -24,4 +24,5 @@ class AttachmentRO: EmbeddedObject {
     @Persisted var metaRO: AttachmentMetaRO?
     @Persisted var createdAt: Int?
     @Persisted var updatedAt: Int?
+    @Persisted var isUploaded: Bool = false
 }

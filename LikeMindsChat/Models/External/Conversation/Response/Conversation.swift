@@ -8,51 +8,158 @@
 
 import Foundation
 
+/// A class representing a conversation in a chatroom.
+///
+/// The `Conversation` class encapsulates all the information about a single conversation/message
+/// in a chatroom, including its content, attachments, reactions, polls, and metadata.
+///
+/// ## Overview
+/// - Handles text messages, attachments, polls, and reactions
+/// - Supports reply threading and conversation states
+/// - Manages anonymous conversations and widget integrations
+/// - Tracks conversation status and modifications
+///
+/// ## Usage Example
+/// ```swift
+/// let conversation = Conversation.builder()
+///     .id("123")
+///     .chatroomId("456")
+///     .answer("Hello World!")
+///     .build()
+/// ```
 public class Conversation: Decodable {
     
+    /// Unique identifier for the conversation
     public private(set) var id: String?
+    
+    /// ID of the chatroom this conversation belongs to
     public private(set) var chatroomId: String?
+    
+    /// ID of the community this conversation belongs to
     public private(set) var communityId: String?
+    
+    /// Member who created this conversation
     public private(set) var member: Member?
+    
+    /// The main text content of the conversation
     public private(set) var answer: String
+    
+    /// ISO 8601 formatted creation timestamp
     public private(set) var createdAt: String?
+    
+    /// Current state of the conversation (e.g., normal, deleted, hidden)
     public private(set) var state: ConversationState
+    
+    /// Array of attachments (images, files, etc.) associated with this conversation
     public private(set) var attachments: [Attachment]?
+    
+    /// Indicates if this conversation has been seen by the current user
     public private(set) var lastSeen: Bool?
+    
+    /// Open Graph metadata if the conversation contains a link
     public private(set) var ogTags: LinkOGTags? 
+    
+    /// Formatted date string for display purposes
     public private(set) var date: String?
+    
+    /// Indicates if the conversation has been edited
     public private(set) var isEdited: Bool?
+    
+    /// ID of the member who created this conversation
     public private(set) var memberId: String?
+    
+    /// ID of the conversation this is replying to, if any
     public private(set) var replyConversationId: String?
+    
+    /// ID of the user who deleted this conversation, if applicable
     public private(set) var deletedBy: String?
+    
+    /// Unix timestamp of when the conversation was created
     public private(set) var createdEpoch: Int?
+    
+    /// Number of attachments in this conversation
     public private(set) var attachmentCount: Int?
+    
+    /// Indicates if all attachments have been uploaded successfully
     public private(set) var attachmentUploaded: Bool?
+    
+    /// UUID of the worker handling attachment uploads
     public private(set) var uploadWorkerUUID: String?
+    
+    /// Temporary ID used before the conversation is synced with the server
     public private(set) var temporaryId: String?
+    
+    /// Local creation timestamp for offline message handling
     public private(set) var localCreatedEpoch: Int?
+    
+    /// Array of reactions added to this conversation
     public private(set) var reactions: [Reaction]?
+    
+    /// Indicates if this is an anonymous conversation
     public private(set) var isAnonymous: Bool?
+    
+    /// For polls: indicates if users can add new options
     public private(set) var allowAddOption: Bool?
+    
+    /// For polls: type of poll (single choice, multiple choice, etc.)
     public private(set) var pollType: Int?
+    
+    /// For polls: display text for the poll type
     public private(set) var pollTypeText: String?
+    
+    /// For polls: display text for the submit action
     public private(set) var submitTypeText: String?
+    
+    /// For polls: timestamp when the poll expires
     public private(set) var expiryTime: Int?
+    
+    /// For polls: number of options that can be selected in multiple choice
     public private(set) var multipleSelectNum: Int?
+    
+    /// For polls: current state of multiple selection
     public private(set) var multipleSelectState: Int?
+    
+    /// For polls: array of poll options and their responses
     public private(set) var polls: [Poll]?
+    
+    /// For polls: indicates if poll results should be visible
     public private(set) var toShowResults: Bool?
+    
+    /// For polls: text representation of the poll answer
     public private(set) var pollAnswerText: String?
+    
+    /// ID of the chatroom being replied to (for cross-chatroom replies)
     public private(set) var replyChatroomId: String?
+    
+    /// ID of the device that created this conversation
     public private(set) var deviceId: String?
+    
+    /// Indicates if the conversation contains file attachments
     public private(set) var hasFiles: Bool?
+    
+    /// Indicates if the conversation has any reactions
     public private(set) var hasReactions: Bool?
+    
+    /// Unix timestamp of the last update to this conversation
     public private(set) var lastUpdated: Int?
+    
+    /// Member object of the user who deleted this conversation
     public private(set) var deletedByMember: Member?
+    
+    /// The conversation being replied to, if any
     public private(set) var replyConversation: Conversation?
+    
+    /// Current status of the conversation (e.g., sending, sent, failed)
     public private(set) var conversationStatus: ConversationStatus?
+    
+    /// ID of the associated widget, if any
     public private(set) var widgetId: String
+    
+    /// Associated widget object, if any
     public private(set) var widget: Widget?
+    
+    /// Unix timestamp when attachments were uploaded
+    public private(set) var attachmentUploadedEpoch: Int?
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -97,6 +204,7 @@ public class Conversation: Decodable {
         case replyConversation = "reply_conversation_model"
         case conversationStatus = "conversation_status"
         case widgetId = "widget_id"
+        case attachmentUploadedEpoch = "attachment_uploaded_epoch"
     }
     
     public required init(from decoder: Decoder) throws {
@@ -143,6 +251,7 @@ public class Conversation: Decodable {
         replyConversation = try container.decodeIfPresent(Conversation.self, forKey: .replyConversation)
         widgetId = try container.decodeIfPresent(String.self, forKey: .widgetId) ?? ""
         widget = try container.decodeIfPresent(Widget.self, forKey: .widget)
+        attachmentUploadedEpoch = try container.decodeIfPresent(Int.self, forKey: .attachmentUploadedEpoch)
     }
     
     private init(
@@ -188,7 +297,8 @@ public class Conversation: Decodable {
         deletedByMember: Member?,
         conversationStatus: ConversationStatus?,
         widgetId: String?,
-        widget: Widget?
+        widget: Widget?,
+        attachmentUploadedEpoch: Int?
     ) {
         self.id = id
         self.chatroomId = chatroomId
@@ -233,12 +343,29 @@ public class Conversation: Decodable {
         self.conversationStatus = conversationStatus
         self.widgetId = widgetId ?? ""
         self.widget = widget
+        self.attachmentUploadedEpoch = attachmentUploadedEpoch
     }
     
+    /// Creates a new builder instance for constructing a Conversation object.
+    ///
+    /// - Returns: A new `Builder` instance
     public static func builder() -> Builder {
         Builder()
     }
     
+    /// Builder class for creating Conversation instances.
+    ///
+    /// The Builder pattern provides a fluent interface for constructing Conversation objects
+    /// with optional parameters. Each setter method returns the builder instance for method chaining.
+    ///
+    /// ## Example Usage
+    /// ```swift
+    /// let conversation = Conversation.builder()
+    ///     .id("123")
+    ///     .chatroomId("456")
+    ///     .answer("Hello World!")
+    ///     .build()
+    /// ```
     public class Builder {
         private var id: String? = ""
         private var chatroomId: String? = nil
@@ -283,6 +410,7 @@ public class Conversation: Decodable {
         private var conversationStatus: ConversationStatus?
         private var widgetId: String = ""
         private var widget: Widget?
+        private var attachmentUploadedEpoch: Int?
         
         public init() {}
         
@@ -501,6 +629,11 @@ public class Conversation: Decodable {
             return self
         }
         
+        public func attachmentUploadedEpoch(_ attachmentUploadedEpoch: Int?) -> Builder {
+            self.attachmentUploadedEpoch = attachmentUploadedEpoch
+            return self
+        }
+        
         public func build() -> Conversation {
             return Conversation(
                 id: id,
@@ -545,11 +678,17 @@ public class Conversation: Decodable {
                 deletedByMember: deletedByMember,
                 conversationStatus: conversationStatus,
                 widgetId: widgetId,
-                widget: widget
+                widget: widget,
+                attachmentUploadedEpoch: attachmentUploadedEpoch
             )
         }
     }
     
+    /// Creates a new Builder instance initialized with this conversation's current values.
+    ///
+    /// Use this method to create a modified copy of an existing conversation.
+    ///
+    /// - Returns: A Builder instance pre-populated with this conversation's values
     public func toBuilder() -> Builder {
         return Builder()
             .id(id)
@@ -595,6 +734,7 @@ public class Conversation: Decodable {
             .conversationStatus(conversationStatus)
             .widgetId(widgetId)
             .widget(widget)
+            .attachmentUploadedEpoch(attachmentUploadedEpoch)
     }
 }
 

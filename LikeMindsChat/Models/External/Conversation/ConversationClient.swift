@@ -42,7 +42,7 @@ class ConversationClient: ServiceRequest {
             guard let data = responseData as? LMResponse<PostConversationResponse> else {return}
             response?(data)
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.errorMessage))
         }
     }
     
@@ -525,4 +525,45 @@ class ConversationClient: ServiceRequest {
               let member = ModelConverter.shared.convertMemberRO(memberRO) else { return nil }
         return member
     }
+    
+    /**
+     * Updates an attachment in the local database
+     * @param attachment - The attachment to update
+     * @return LMResponse<NoData> - Response indicating success or failure of the update operation
+     */
+    func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
+        await ConversationDBService.shared.updateAttachment(attachment: attachment)
+    }
+    
+    /**
+     * Updates a conversation in the local database
+     * @param conversation - The conversation to update
+     * @return LMResponse<NoData> - Response indicating success or failure of the update operation
+     */
+    func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
+        await ConversationDBService.shared.updateConversation(conversation: conversation)
+    }
+    
+    /**
+     * Updates the last conversation in the database for a given conversation.
+     * This method converts the provided conversation to a LastConversationRO and updates it in the database.
+     *
+     * - Parameter conversation: The conversation to be converted and stored as the last conversation
+     */
+    func updateLastConversation(conversation: Conversation) {
+        ConversationDBService.shared.updateLastConversation(conversation: conversation)
+    }
+    
+    /**
+     * Updates the last conversation model in the chatroom with the provided conversation.
+     * This method updates the chatroom's last conversation references and stores the conversation in the database.
+     *
+     * - Parameters:
+     *   - chatroomId: The ID of the chatroom whose last conversation needs to be updated
+     *   - conversation: The conversation to be set as the last conversation
+     */
+    func updateLastConversationModel(chatroomId: String, conversation: Conversation) {
+        ConversationDBService.shared.updateLastConversationModel(chatroomId: chatroomId, conversation: conversation)
+    }
+    
 }

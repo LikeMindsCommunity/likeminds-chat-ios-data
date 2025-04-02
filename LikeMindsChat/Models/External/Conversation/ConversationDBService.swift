@@ -7,7 +7,6 @@
 
 import Foundation
 import RealmSwift
-
 class ConversationDBService {
     
     static let shared = ConversationDBService()
@@ -95,7 +94,7 @@ class ConversationDBService {
         chatroom.lastSeenConversation = lastConversation
         chatroom.lastSeenConversationId = lastConversation.id
     }
-    
+        
     func updateConversation(conversation: _Conversation_) {
         let memberRO = ROConverter.convertMember(member: conversation.member, communityId: SDKPreferences.shared.getCommunityId() ?? conversation.communityId ?? "")
         guard let conversationRO = ROConverter.convertConversation(conversation: conversation, member: memberRO) else { return }
@@ -103,6 +102,28 @@ class ConversationDBService {
             realm.insertOrUpdate(conversationRO)
         }
     }
+    
+    /// Updates the last conversation in the database for a given conversation.
+    /// This function converts the provided conversation to a LastConversationRO and updates it in the database.
+    ///
+    /// - Parameter conversation: The conversation to be converted and stored as the last conversation
+    func updateLastConversation(conversation: Conversation) {
+        let memberRO = ROConverter.convertMember(member: conversation.member, communityId: SDKPreferences.shared.getCommunityId() ?? conversation.communityId ?? "")
+
+        guard let lastConversationRO = ROConverter.convertLastConversation(
+            realm: LMDBManager.lmDBInstance(),
+            conversation: conversation,
+            creator: memberRO,
+            attachments: conversation.attachments,
+            deletedByMember: nil
+        ) else { return }
+        
+        LMDBManager.write { realm, object in
+            realm.insertOrUpdate(lastConversationRO)
+        }
+    }
+
+    
     
     func updateConversationUploadingStatus(conversationId: String, withStatus status: ConversationStatus) {
         let realm = LMDBManager.lmDBInstance()
@@ -146,13 +167,6 @@ class ConversationDBService {
             }
             chatroomRO.updatedAt = conversationRO.createdEpoch
         }
-    }
-    
-    func saveNewConversation(
-        realm: Realm,
-        conversation: Conversation
-    ) {
-        guard let conversationRO = ROConverter.convertConversation(conversation: conversation) else { return }
     }
     
     func saveTemporaryConversation(request: SaveConversationRequest) {
@@ -271,5 +285,56 @@ class ConversationDBService {
         guard let memberRO = ChatDBUtil.shared.getMember(realm: realm, communityId: SDKPreferences.shared.getCommunityId(), uuid: uuid)
         else { return nil }
         return memberRO
+    }
+    
+    /// Updates an existing attachment in the local database.
+    /// 
+    /// This asynchronous method updates the provided attachment in the local Realm database.
+    /// 
+    /// - Parameter attachment: The `Attachment` object containing the updated data to be stored
+    /// 
+    /// - Returns: A `LMResponse<NoData>` object indicating the operation result
+    ///   - Success: Returns `LMResponse.successResponse` with `NoData`
+    ///   - Failure: Returns `LMResponse.failureResponse` with error message "Update operation failed"
+    /// 
+    /// - Note: This operation is performed asynchronously and does not block the calling thread
+    func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
+        await ChatDBUtil.shared.updateAttachment(attachment: attachment)
+    }
+    
+    /// Updates an existing conversation in the local database.
+    /// 
+    /// This asynchronous method updates the provided conversation in the local Realm database.
+    /// 
+    /// - Parameter conversation: The `Conversation` object containing the updated data to be stored
+    /// 
+    /// - Returns: A `LMResponse<NoData>` object indicating the operation result
+    ///   - Success: Returns `LMResponse.successResponse` with `NoData`
+    ///   - Failure: Returns `LMResponse.failureResponse` with error message "Update operation failed"
+    /// 
+    /// - Note: This operation is performed asynchronously and does not block the calling thread
+    func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
+        await ChatDBUtil.shared.updateConversation(conversation: conversation)
+    }
+    
+    /// Updates the last conversation model in the chatroom with the provided conversation.
+    /// This method updates the chatroom's last conversation references and stores the conversation in the database.
+    ///
+    /// - Parameters:
+    ///   - chatroomId: The ID of the chatroom whose last conversation needs to be updated
+    ///   - conversation: The conversation to be set as the last conversation
+    func updateLastConversationModel(chatroomId: String, conversation: Conversation) {
+        let realm = LMDBManager.lmDBInstance()
+        guard let chatroom = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: chatroomId) else { return }
+        
+        // Convert the conversation to ConversationRO
+        let memberRO = ROConverter.convertMember(member: conversation.member, communityId: SDKPreferences.shared.getCommunityId() ?? conversation.communityId ?? "")
+        let conversationModel = ModelConverter.shared.convertToInternalConversation(conversation)
+        guard let conversationRO = ROConverter.convertConversation(conversation: conversationModel, member: memberRO) else { return }   
+        
+        // Update chatroom's last conversation references and write to Realm
+        LMDBManager.write { realm, object in
+            chatroom.lastConversation = conversationRO
+        }
     }
 }

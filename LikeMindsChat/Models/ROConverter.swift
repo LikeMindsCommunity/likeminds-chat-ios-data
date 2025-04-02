@@ -13,19 +13,10 @@ import RealmSwift
 class ROConverter {
 
     /**
-     Converts a `_Conversation_` object into a `ConversationRO`.
-      - Parameters:
-        - realm: The `Realm` instance for performing database operations.
-        - conversation: The `_Conversation_` model to be converted.
-        - creator: The `MemberRO` representing the creator of the conversation.
-        - polls: An optional list of polls (`Poll`) associated with the conversation.
-        - attachments: An optional list of attachments (`Attachment`) associated with the conversation.
-        - widgets: A dictionary of widgets in the conversation.
-        - reactions: An optional list of reactions (`ReactionMeta`) related to the conversation.
-        - loggedInUUID: The UUID of the currently logged-in user.
-        - deletedByMemberRO: An optional `MemberRO` representing the member who deleted the conversation.
-      - Returns:
-        A `ConversationRO` object representing the converted conversation or `nil` if the conversion fails.
+     * Converts a `Community` object to its Realm Object (RO) counterpart.
+     * - Parameter community: The `Community` object to be converted
+     * - Returns: A `CommunityRO` object or `nil` if the input community is invalid
+     * - Note: Only basic properties like id, name, imageUrl, and updatedAt are converted
      */
     static func convertCommunity(_ community: Community?) -> CommunityRO? {
         guard let community else { return nil }
@@ -36,13 +27,14 @@ class ROConverter {
         communityRO.updatedAt = community.updatedAt
         return communityRO
     }
+
     /**
-         * Converts a `Member` to `MemberRO`.
-         * - Parameters:
-         *   - member: The `Member` object to be converted.
-         *   - communityId: The community ID to associate with the `MemberRO`.
-         * - Returns: A `MemberRO` object or `nil` if the input member is invalid.
-         */
+     * Converts a `Member` to `MemberRO`.
+     * - Parameters:
+     *   - member: The `Member` object to be converted.
+     *   - communityId: The community ID to associate with the `MemberRO`.
+     * - Returns: A `MemberRO` object or `nil` if the input member is invalid.
+     */
     static func convertMember(member: Member?, communityId: String) -> MemberRO?
     {
         guard let member else { return nil }
@@ -77,6 +69,7 @@ class ROConverter {
         memberRO.sdkClientInfoRO = convertSDKClientInfo(member.sdkClientInfo)
         return memberRO
     }
+
     /**
         * Converts an `SDKClientInfo` object to its `SDKClientInfoRO` counterpart.
         * - Parameter sdkClientInfo: The `SDKClientInfo` object to be converted.
@@ -93,6 +86,7 @@ class ROConverter {
         sdkClientInfoRO.userUniqueId = sdkClientInfo.userUniqueID
         return sdkClientInfoRO
     }
+
     /**
         * Converts a `_Chatroom_` object to a `ChatroomRO`.
         * - Parameters:
@@ -200,15 +194,13 @@ class ROConverter {
      *   - attachment: The `Attachment` to be converted.
      * - Returns: An `AttachmentRO` object.
      */
-    private static func convertAttachment(
-        chatroomId: String,
-        communityId: String,
+    static func convertAttachment(
         attachment: Attachment
     ) -> AttachmentRO {
         let attachmentRO = AttachmentRO()
         attachmentRO.id = attachment.id ?? ""
         attachmentRO.name = attachment.name
-        attachmentRO.type = attachment.type
+        attachmentRO.type = attachment.type?.rawValue
         attachmentRO.index = attachment.index
         attachmentRO.width = attachment.width
         attachmentRO.height = attachment.height
@@ -221,6 +213,7 @@ class ROConverter {
         attachmentRO.createdAt = attachment.createdAt
         attachmentRO.updatedAt = attachment.updatedAt
         attachmentRO.url = attachment.url
+        attachmentRO.isUploaded = attachment.isUploaded
         return attachmentRO
     }
 
@@ -240,8 +233,16 @@ class ROConverter {
     }
 
     /**
-     * Update only those conversation attachments(image,video) whose urls are uploaded successfully on server
-     * */
+     * Updates or creates attachments for a conversation in the Realm database.
+     * This method handles both new attachments and existing ones, ensuring no duplicates are created.
+     *
+     * - Parameters:
+     *   - chatroomId: The ID of the chatroom containing the attachments
+     *   - communityId: The ID of the community containing the chatroom
+     *   - attachments: Array of new attachments to be added/updated
+     *   - oldAttachments: List of existing attachments in the database
+     * - Returns: A List of `AttachmentRO` objects containing both updated and existing attachments
+     */
     private static func convertUpdatedAttachments(
         chatroomId: String,
         communityId: String,
@@ -254,9 +255,7 @@ class ROConverter {
         }
         if oldAttachments.isEmpty && !attachments.isEmpty {
             let attachs = attachments.map { attachment in
-                convertAttachment(
-                    chatroomId: chatroomId, communityId: communityId,
-                    attachment: attachment)
+                convertAttachment(attachment: attachment)
             }
             let roAttachs = List<AttachmentRO>()
             roAttachs.append(objectsIn: attachs)
@@ -276,9 +275,7 @@ class ROConverter {
         }
 
         let attachs = attachments.map { attachment in
-            convertAttachment(
-                chatroomId: chatroomId, communityId: communityId,
-                attachment: attachment)
+            convertAttachment(attachment: attachment)
         }
         let roAttachs = List<AttachmentRO>()
         roAttachs.append(objectsIn: attachs)
@@ -410,6 +407,7 @@ class ROConverter {
 
         return linkRO
     }
+
     /**
      * Converts a `Conversation` object into a `ConversationRO` object.
      * This method ensures that the given `Conversation` is transformed into its Realm-compatible counterpart (`ConversationRO`),
@@ -517,6 +515,8 @@ class ROConverter {
         conversationRO.pollAnswerText = conversation.pollAnswerText
         conversationRO.replyChatRoomId = conversation.replyChatroomId
         conversationRO.conversationStatus = conversation.conversationStatus
+        conversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
         if let savedAnswer {
             realm.beginAsyncWrite {
                 realm.delete(savedAnswer)
@@ -531,10 +531,12 @@ class ROConverter {
     }
 
     /**
-     * Converts a `Widget` object into a `WidgetRO` object for storage in Realm.
-     * This method ensures that all the relevant data from a `Widget` is transferred and converted to its Realm-compatible counterpart.
-     * - Parameter widget: The `Widget` object to be converted.
-     * - Returns: A `WidgetRO` object containing the converted data.
+     * Converts a `Widget` object to its Realm Object counterpart.
+     * 
+     * - Parameter widget: The `Widget` object to be converted
+     * - Returns: A `WidgetRO` object with all properties mapped
+     * - Note: Handles JSON serialization for metadata and lmMeta properties
+     * - Important: JSON serialization errors are logged but do not prevent object creation
      */
     static func convertWidgetToWidgetRO(_ widget: Widget) -> WidgetRO {
         let widgetRO = WidgetRO()
@@ -568,14 +570,15 @@ class ROConverter {
     }
 
     /**
-     * Use this function to convert for api response
-     *
-     * convert [_Conversation_] to [ConversationRO]
-     * @param realm: instance of realm
-     * @param conversation: Conversation object to converted
-     * @param member: [MemberRO] object of conversation's creator
-     * @param loggedInMember: Object of logged in member
-     * */
+     * Converts a list of `_Conversation_` objects into their Realm Object counterparts.
+     * This method is specifically designed for handling API responses.
+     * 
+     * - Parameters:
+     *   - conversation: The `_Conversation_` model to be converted
+     *   - member: Optional `MemberRO` representing the conversation creator
+     * - Returns: A `ConversationRO` object or `nil` if required data is missing
+     * - Note: This method preserves existing data like reactions and attachments from the database
+     */
     static func convertConversation(
         conversation: _Conversation_?,
         member: MemberRO?
@@ -671,6 +674,8 @@ class ROConverter {
         conversationRO.pollAnswerText = conversation.pollAnswerText
         conversationRO.replyChatRoomId = conversation.replyChatroomId
         conversationRO.conversationStatus = .sent
+        conversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
         if let savedAnswer {
             LMDBManager.delete(savedAnswer)
         }
@@ -804,6 +809,8 @@ class ROConverter {
         conversationRO.toShowResults = conversation.toShowResults
         conversationRO.pollAnswerText = conversation.pollAnswerText
         conversationRO.conversationStatus = .sent
+        conversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
         if let savedAnswer {
             realm.delete(savedAnswer)
         }
@@ -819,12 +826,16 @@ class ROConverter {
     }
 
     /**
-     * convert [_Conversation_] to [LastConversationRO] from new sync workers
-     * @param realm: instance of realm
-     * @param conversation: Conversation object to converted
-     * @param creator: [MemberRO] object of conversation's creator
-     * @param attachments: [List<_Attachment_>] list of attachments
-     * */
+     * Converts a `Conversation` object into a `LastConversationRO`.
+     * This method is used to update or create a new `LastConversationRO` object for the given conversation.
+     * - Parameters:
+     *   - realm: The `Realm` instance for database operations.
+     *   - conversation: The `Conversation` object to be converted.
+     *   - creator: The `MemberRO` representing the creator of the conversation.
+     *   - attachments: An optional list of `Attachment` objects associated with the conversation.
+     *   - deletedByMember: An optional `MemberRO` representing the member who deleted the conversation, if applicable.
+     * - Returns: A `LastConversationRO` object representing the converted conversation or `nil` if the input is invalid.
+     */
     static func convertLastConversation(
         realm: Realm,
         conversation: _Conversation_?,
@@ -885,6 +896,8 @@ class ROConverter {
         lastConversationRO.communityId = communityId
         lastConversationRO.conversationStatus = .sent
         lastConversationRO.widgetId = conversation.widgetId
+        lastConversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
 
         if let widget = conversation.widget {
             lastConversationRO.widget = convertWidgetToWidgetRO(widget)
@@ -894,14 +907,15 @@ class ROConverter {
 
     /**
      * Converts a `Conversation` object into a `LastConversationRO`.
-     * This method is used to update or create a new `LastConversationRO` object for the given conversation.
+     * This method is used for syncing conversations from remote workers.
+     * 
      * - Parameters:
-     *   - realm: The `Realm` instance for database operations.
-     *   - conversation: The `Conversation` object to be converted.
-     *   - creator: The `MemberRO` representing the creator of the conversation.
-     *   - attachments: An optional list of `Attachment` objects associated with the conversation.
-     *   - deletedByMember: An optional `MemberRO` representing the member who deleted the conversation, if applicable.
-     * - Returns: A `LastConversationRO` object representing the converted conversation or `nil` if the input is invalid.
+     *   - realm: The Realm instance for database operations
+     *   - conversation: The `_Conversation_` object to be converted
+     *   - creator: The `MemberRO` representing the conversation creator
+     *   - attachments: Optional array of attachments
+     *   - deletedByMember: Optional `MemberRO` representing who deleted the conversation
+     * - Returns: A `LastConversationRO` object or `nil` if required data is missing
      */
     static func convertLastConversation(
         realm: Realm,
@@ -963,6 +977,8 @@ class ROConverter {
         lastConversationRO.communityId = communityId
         lastConversationRO.conversationStatus = conversation.conversationStatus
         lastConversationRO.widgetId = conversation.widgetId
+        lastConversationRO.attachmentUploadedEpoch =
+            conversation.attachmentUploadedEpoch
 
         if let widget = conversation.widget {
             lastConversationRO.widget = convertWidgetToWidgetRO(widget)
@@ -971,9 +987,12 @@ class ROConverter {
     }
 
     /**
-     * convert [_User_] to [UserRO]
-     * @param user: Object of user to be converted
-     **/
+     * Converts a `User` object to its Realm Object counterpart.
+     * 
+     * - Parameter user: The `User` object to be converted
+     * - Returns: A `UserRO` object or `nil` if the input user is invalid
+     * - Note: Converts user roles from enum values to strings for storage
+     */
     static func convertUser(user: User?) -> UserRO? {
         guard let user else { return nil }
         let userRO = UserRO()
@@ -1000,11 +1019,14 @@ class ROConverter {
     }
 
     /**
-     * convert [UserRO] to [MemberRO] and save it [MemberRO] table
-     * @param userRO: object of [UserRO]
-     * @param communityId: id of community
+     * Converts a `UserRO` object to a `MemberRO` object and saves it in the database.
+     * This method creates a unique identifier for the member by combining UUID and community ID.
      *
-     * @return [MemberRO]: object created
+     * - Parameters:
+     *   - userRO: The `UserRO` object to be converted
+     *   - communityId: The ID of the community the member belongs to
+     * - Returns: A `MemberRO` object or `nil` if required data is missing
+     * - Note: The unique identifier format is "uuid#communityId"
      */
     private func convertToMember(userRO: UserRO?, communityId: String?)
         -> MemberRO?
@@ -1028,13 +1050,15 @@ class ROConverter {
     }
 
     /**
-     * convert [_ReactionMeta_] to [ReactionRO]
-     * @param realm: Instance of realm
-     * @param reactions: List of [_ReactionMeta_] to converted
-     * @param communityId: id of the community
-     *
-     * @return list of [ReactionRO]
-     * */
+     * Converts a list of `ReactionMeta` objects to their Realm Object counterparts.
+     * 
+     * - Parameters:
+     *   - realm: The Realm instance for database operations
+     *   - communityId: The ID of the community containing the reactions
+     *   - reactions: Array of `ReactionMeta` objects to be converted
+     * - Returns: A List of `ReactionRO` objects
+     * - Note: Returns an empty List if either communityId or reactions is nil
+     */
     static func convertReactionsMeta(
         realm: Realm,
         communityId: String?,
@@ -1052,13 +1076,14 @@ class ROConverter {
     }
 
     /**
-     * convert [_ReactionMeta_] to [ReactionRO]
-     * @param realm: Instance of realm
-     * @param reaction: [_ReactionMeta_] to converted
-     * @param communityId: id of the community
-     *
-     * @return [ReactionRO]
-     * */
+     * Converts a single `ReactionMeta` object to its Realm Object counterpart.
+     * 
+     * - Parameters:
+     *   - realm: The Realm instance for database operations
+     *   - reaction: The `ReactionMeta` object to be converted
+     *   - communityId: The ID of the community containing the reaction
+     * - Returns: A `ReactionRO` object or `nil` if member conversion fails
+     */
     static func convertReactionMeta(
         realm: Realm,
         reaction: ReactionMeta,

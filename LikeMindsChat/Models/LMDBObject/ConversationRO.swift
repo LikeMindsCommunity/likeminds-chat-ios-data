@@ -55,4 +55,5 @@ class ConversationRO: Object {
     @Persisted var conversationStatus: ConversationStatus?
     @Persisted var widgetId: String?
     @Persisted var widget: WidgetRO?
+    @Persisted var attachmentUploadedEpoch: Int?
 }

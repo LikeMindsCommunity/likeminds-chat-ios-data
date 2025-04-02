@@ -52,6 +52,7 @@ struct _Conversation_: Decodable {
     let deletedByMember: Member?
     let widgetId: String?
     var widget: Widget?
+    var attachmentUploadedEpoch: Int?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -94,6 +95,7 @@ struct _Conversation_: Decodable {
         case hasReactions = "has_reactions"
         case lastUpdated = "last_updated"
         case deletedByMember = "deleted_by_member"
+        case attachmentUploadedEpoch = "attachment_uploaded_epoch"
     }
 }
 
@@ -142,5 +144,6 @@ extension _Conversation_ {
         deletedByMember = try container.decodeIfPresent(Member.self, forKey: .deletedByMember)
         widgetId = try container.decodeIfPresent(String.self, forKey: .widgetId) ?? ""
         widget = try container.decodeIfPresent(Widget.self, forKey: .widget)
+        attachmentUploadedEpoch = try container.decodeIfPresent(Int.self, forKey: .attachmentUploadedEpoch)
     }
 }
