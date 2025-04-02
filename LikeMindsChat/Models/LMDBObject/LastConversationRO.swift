@@ -28,4 +28,5 @@ class LastConversationRO: Object {
     @Persisted var conversationStatus: ConversationStatus?
     @Persisted var widget: WidgetRO?
     @Persisted var widgetId: String?
+    @Persisted var attachmentUploadedEpoch: Int?
 }

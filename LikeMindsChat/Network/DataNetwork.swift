@@ -6,90 +6,226 @@
 //  Copyright © 2021 CollabMates. All rights reserved.
 //
 
-import Foundation
 import Alamofire
+import Foundation
 
-extension Data
-{
-    func jsonString() -> String
-    {
-        if let JSONString = String(data: self, encoding: String.Encoding.utf8)
-        {
+/// Extension on `Data` to provide convenience methods for converting `Data` to a JSON string representation.
+extension Data {
+
+    /// Converts `Data` to a `String` in `.utf8` encoding.
+    /// - Returns: A UTF-8 encoded string of the data, or "Error in parsing" if conversion fails
+    func jsonString() -> String {
+        if let JSONString = String(data: self, encoding: String.Encoding.utf8) {
             return JSONString
         }
         return "Error in parsing"
     }
-    
-    var prettyPrintedJSONString: NSString? { /// NSString gives us a nice sanitized debugDescription
-        guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
-              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-              let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
-        
+
+    /// Converts `Data` to a pretty-printed JSON string.
+    /// - Returns: An `NSString` containing the formatted JSON, or `nil` if JSON serialization fails
+    /// - Note: Uses `JSONSerialization` with `.prettyPrinted` option for formatting
+    var prettyPrintedJSONString: NSString? {
+        // Attempt to decode the data into a JSON object, then re-encode with `.prettyPrinted` for formatting
+        guard
+            let object = try? JSONSerialization.jsonObject(
+                with: self, options: []),
+            let data = try? JSONSerialization.data(
+                withJSONObject: object, options: [.prettyPrinted]),
+            let prettyPrintedString = NSString(
+                data: data, encoding: String.Encoding.utf8.rawValue)
+        else {
+            return nil
+        }
         return prettyPrintedString
     }
 }
 
+/// A completion handler for successful network operations.
+/// - Parameters:
+///   - moduleName: The name of the module that initiated the request
+///   - responseData: The response data from the network call, if any
 typealias SuccessCompletionBlock = (_ moduleName: String, _ responseData: Any?) -> Void
+
+/// A completion handler for failed network operations.
+/// - Parameters:
+///   - moduleName: The name of the module that initiated the request
+///   - error: The specific network error that occurred
 typealias FailureCompletionBlock = (_ moduleName: String, _ error: NetworkServiceError) -> Void
 
-enum NetworkServiceError:Error  {
-    ///    no error
+/// Represents various types of network-related errors that can occur during API requests.
+enum NetworkServiceError: Error {
+    /// No error occurred
     case noError
-    ///    no internet
+    /// No internet connection is available
     case noInternet
-    ///    When network conditions are so bad that after `maxRetries` the request did not succeed.
+    /// The resource is not accessible
     case inaccessible
-    ///    `URLSession` errors are passed-through, handle as appropriate.
+    /// A URL-specific error occurred
     case urlError(URLError)
-    ///    URLSession returned an `Error` object which is not `URLError`
+    /// A general error occurred
     case generalError(Swift.Error)
-    ///    When no `URLResponse` is returned but also no `URLError` or any other `Error` instance.
+    /// No response was received from the server
     case noResponse
-    ///    When `URLResponse` is not `HTTPURLResponse`.
+    /// The response type was not as expected
     case invalidResponseType(URLResponse)
-    ///    Status code is in `200...299` range, but response body is empty. This can be both valid and invalid, depending on HTTP method and/or specific behavior of the service being called.
+    /// No data was received in the response
     case noResponseData(HTTPURLResponse)
-    ///    Status code is `400` or higher thus return the entire `HTTPURLResponse` and `Data` so caller can figure out what happened.
+    /// The endpoint returned an error status code
     case endpointError(HTTPURLResponse, Data?)
-    ///  token expire
+    /// The authentication token has expired
     case tokenExpire
-    /// Parsing error
+    /// JSON parsing failed
     case failedJsonParse(_ errorMessage: String)
+    
+    /// Returns a user-friendly error message for each error case
+    var errorMessage: String {
+        switch self {
+        case .noError:
+            return "Operation completed successfully"
+            
+        case .noInternet:
+            return "Please check your internet connection and try again"
+            
+        case .inaccessible:
+            return "Unable to access the requested resource. Please try again later"
+            
+        case .urlError(let error):
+            switch error.code {
+            case .notConnectedToInternet, .networkConnectionLost:
+                return "Please check your internet connection and try again"
+            default:
+                return error.localizedDescription
+            }
+            
+        case .generalError(let error):
+            return error.localizedDescription
+            
+        case .noResponse:
+            return "No response received from the server. Please try again"
+            
+        case .invalidResponseType:
+            return "Received an invalid response from the server"
+            
+        case .noResponseData(let response):
+            return "No data received from the server (Status: \(response.statusCode))"
+            
+        case .endpointError(let response, let data):
+            // Try to parse error message from response data
+            if let data = data,
+               let json = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+               let errorMessage = json["error_message"] as? String {
+                return errorMessage
+            }
+            return "Server error (Status: \(response.statusCode)). Please try again"
+            
+        case .tokenExpire:
+            return "Your session has expired. Please sign in again"
+            
+        case .failedJsonParse(let message):
+            return "Unable to process the server response: \(message)"
+        }
+    }
 }
 
+/// A structure representing a network request and its associated callbacks.
 struct RequestParam {
-    let successCallback:SuccessCompletionBlock
-    let failureCallback:FailureCompletionBlock
+    /// The callback to be executed on successful completion
+    let successCallback: SuccessCompletionBlock
+    /// The callback to be executed on failure
+    let failureCallback: FailureCompletionBlock
+    /// The actual network request
     let request: DataRequest
-    let moduleName:String
+    /// The name of the module making the request
+    let moduleName: String
 }
 
+/// A singleton class responsible for handling all network operations in the SDK.
+/// This class manages request lifecycle, token refresh, retries, and response handling.
+///
+/// Usage Example:
+/// ```swift
+/// DataNetwork.shared.request(
+///     for: url,
+///     withHTTPMethod: .get,
+///     headers: headers,
+///     withModuleName: "ChatModule",
+///     successCallback: { moduleName, data in
+///         // Handle success
+///     },
+///     failureCallback: { moduleName, error in
+///         // Handle error
+///     }
+/// )
+/// ```
 internal final class DataNetwork {
-    
+
+    /// The shared singleton instance of DataNetwork
     static let shared = DataNetwork()
-    var downloadResourceParams:[RequestParam]?
-    
-    fileprivate init() {}
-    
-    func cancelAllDownloads(for moduleName:String) {
-        guard let index = indexForModuleName(moduleName) else { return }
-        guard let resourceParams = downloadResourceParams else { return }
+
+    /**
+     A custom `Session` configured to use our `LMNetworkInterceptor`.
+
+     - The interceptor implements an exponential backoff retry mechanism for certain HTTP status codes.
+     */
+    private let session: Session = {
+        // Create a default URL session configuration from Alamofire.
+        let configuration = URLSessionConfiguration.af.default
+
+        // Instantiate our custom retry interceptor.
+        let interceptor = LMNetworkInterceptor()
+
+        // Create and return a Session that uses the interceptor.
+        return Session(configuration: configuration, interceptor: interceptor)
+    }()
+
+    /// Tracks all active network requests.
+    /// - Note: Used for request cancellation and lifecycle management
+    var downloadResourceParams: [RequestParam]?
+
+    /// Private initializer to enforce singleton pattern
+    private init() {}
+
+    /**
+     Cancels all pending network requests for a specific module.
+     
+     - Parameter moduleName: The name of the module whose requests should be cancelled
+     - Note: This will only cancel requests that haven't completed yet
+     */
+    func cancelAllDownloads(for moduleName: String) {
+        guard let index = indexForModuleName(moduleName),
+            let resourceParams = downloadResourceParams
+        else {
+            return
+        }
         let request = resourceParams[index].request
         request.cancel()
     }
-    
+
+    /**
+     Cancels all pending network requests across all modules.
+     
+     - Note: This will clear all tracked requests and cancel any in-flight operations
+     */
     func cancelAllDownloads() {
-        guard let params = downloadResourceParams else {return}
+        guard let params = downloadResourceParams else { return }
         var resourceParams = params
+
+        // Cancel each tracked request
         for param in resourceParams {
-            let dataRequest = param.request
-            dataRequest.cancel()
+            param.request.cancel()
         }
         resourceParams.removeAll()
         downloadResourceParams = nil
     }
-    
-    func indexForModuleName(_ moduleName: String) -> Array<RequestParam>.Index? {
+
+    /**
+     Finds the index of a request for a given module name in the tracked requests array.
+     
+     - Parameter moduleName: The name of the module to search for
+     - Returns: The index of the request if found, nil otherwise
+     */
+    func indexForModuleName(_ moduleName: String) -> Array<RequestParam>.Index?
+    {
         guard let params = downloadResourceParams else {
             return nil
         }
@@ -98,56 +234,118 @@ internal final class DataNetwork {
         }
         return downloadParamIndex
     }
-    
-    func request(for url:URL, withHTTPMethod httpMethod: Alamofire.HTTPMethod, headers: HTTPHeaders, withParameters parameters: Parameters? = nil, withEncoding encoding: ParameterEncoding, withModuleName moduleName:String, successCallback:@escaping SuccessCompletionBlock, failureCallback:@escaping FailureCompletionBlock) {
+
+    /**
+     Sends a network request and returns raw response data.
+     
+     - Parameters:
+        - url: The endpoint URL
+        - httpMethod: The HTTP method to use (GET, POST, etc.)
+        - headers: HTTP headers to include in the request
+        - parameters: Optional request parameters
+        - encoding: The parameter encoding to use (URL, JSON, etc.)
+        - moduleName: The name of the module making the request
+        - successCallback: Called when request succeeds
+        - failureCallback: Called when request fails
+     
+     - Note: Automatically handles token refresh on 401 responses
+     - Important: Uses exponential backoff for retries via `LMNetworkInterceptor`
+     */
+    func request(
+        for url: URL,
+        withHTTPMethod httpMethod: Alamofire.HTTPMethod,
+        headers: HTTPHeaders,
+        withParameters parameters: Parameters? = nil,
+        withEncoding encoding: ParameterEncoding,
+        withModuleName moduleName: String,
+        successCallback: @escaping SuccessCompletionBlock,
+        failureCallback: @escaping FailureCompletionBlock
+    ) {
+
+        // Ensure we are not offline
         guard Reachability.currentReachabilityStatus != .notReachable else {
             failureCallback(moduleName, .noInternet)
             return
         }
-        
-        let request = AF.request(url,
-                                 method: httpMethod,
-                                 parameters: parameters,
-                                 encoding: encoding,
-                                 headers: headers)
-        
-        downloadResourceParams?.append(RequestParam(successCallback: successCallback, failureCallback: failureCallback, request: request, moduleName: moduleName))
-        
-        request.responseData { (response) in
+
+        // Create the `DataRequest` using the custom `session`.
+        let request = session.request(
+            url,
+            method: httpMethod,
+            parameters: parameters,
+            encoding: encoding,
+            headers: headers)
+
+        // Lazily initialize the array if needed.
+        if downloadResourceParams == nil {
+            downloadResourceParams = []
+        }
+
+        // Keep track of this request so we can handle cancellation and references.
+        downloadResourceParams?.append(
+            RequestParam(
+                successCallback: successCallback,
+                failureCallback: failureCallback,
+                request: request,
+                moduleName: moduleName)
+        )
+
+        // Handle response from the server
+        request.responseData { [weak self] response in
+
+            // Log request information for debugging
             lmLog("\n===Request Start===\n")
             lmLog("Module: \(moduleName)")
             lmLog(request.cURLDescription())
             lmLog("Response status: \(response.response?.statusCode ?? 0)")
             lmLog("\n===Request End===\n")
-            
+
+            // If data is nil, handle the failure
             guard let responseData = response.data else {
                 lmLog("failureCallback - \(response)")
+
+                // Original code re-calls the same request on `.sessionTaskFailed`
+                // This logic is separate from our interceptor-based approach (can keep or remove).
                 if let error = response.error {
                     switch error {
                     case .sessionTaskFailed:
-                        self.request(for: url, withHTTPMethod: httpMethod, headers: headers, withParameters: parameters, withEncoding: encoding, withModuleName: moduleName, successCallback: successCallback, failureCallback: failureCallback)
+                        self?.request(
+                            for: url,
+                            withHTTPMethod: httpMethod,
+                            headers: headers,
+                            withParameters: parameters,
+                            withEncoding: encoding,
+                            withModuleName: moduleName,
+                            successCallback: successCallback,
+                            failureCallback: failureCallback)
                         return
                     default:
                         break
                     }
                 }
+
                 failureCallback(moduleName, .noResponse)
                 lmLog("--------------------------")
                 return
             }
-            let jsondataString = responseData.jsonString()
+
+            // Handle 401 for token refresh
             if let httpResponse = response.response,
-               httpResponse.statusCode == 401 {
-                
+                httpResponse.statusCode == 401
+            {
+
+                // If refresh token also fails, it implies token is completely expired
                 if url.absoluteString.contains("user/refresh") {
-                    /// Refresh Token has expired, trigger flow to get tokens from Core/Example Layer
                     TokenManager.shared.onRefreshTokenExpired()
                 } else {
-                    /// Access Token has expired, use refresh token to get new access token
-                    TokenManager.shared.refreshAccessToken { [weak self] newAccessToken in
+                    // Refresh Access Token using existing refresh token
+                    TokenManager.shared.refreshAccessToken {
+                        [weak self] newAccessToken in
                         var newHeaders = headers
-                        newHeaders["Authorization"] = "Bearer \(newAccessToken ?? "")"
-                        
+                        newHeaders["Authorization"] =
+                            "Bearer \(newAccessToken ?? "")"
+
+                        // Re-make the request with the new token
                         self?.request(
                             for: url,
                             withHTTPMethod: httpMethod,
@@ -156,45 +354,105 @@ internal final class DataNetwork {
                             withEncoding: encoding,
                             withModuleName: moduleName,
                             successCallback: successCallback,
-                            failureCallback: failureCallback
-                        )
+                            failureCallback: failureCallback)
                     }
                 }
-                
                 return
             }
+
+            // Log the response data
+            let jsondataString = responseData.jsonString()
             lmLog("response - \(String(describing: jsondataString))")
             lmLog("--------------------------")
+
+            // If everything is valid, call the success callback
             successCallback(moduleName, responseData)
         }
     }
-    
-    func requestWithDecoded<T: Decodable>(for url:URL, withHTTPMethod httpMethod: Alamofire.HTTPMethod, headers: HTTPHeaders, withParameters parameters: Parameters? = nil, withEncoding encoding: ParameterEncoding, withResponseType objectType: T.Type, withModuleName moduleName:String, successCallback:@escaping SuccessCompletionBlock, failureCallback:@escaping FailureCompletionBlock) {
+
+    /**
+     Sends a network request and attempts to decode the response JSON into the provided `objectType`.
+     Also uses the interceptor-based session for handling retries and token logic.
+
+     - Parameters:
+       - url: The endpoint URL.
+       - httpMethod: The HTTP method (e.g., `.get`, `.post`, etc.).
+       - headers: HTTP headers to send along with the request.
+       - parameters: Query or body parameters (default is `nil`).
+       - encoding: The parameter encoding strategy (e.g., `URLEncoding.default`).
+       - objectType: The `Decodable` type to parse the response into.
+       - moduleName: A name to categorize this request, useful for cancellation or tracking.
+       - successCallback: A closure invoked on success. Returns `moduleName` and decoded data.
+       - failureCallback: A closure invoked on failure, returning a `NetworkServiceError`.
+     */
+    func requestWithDecoded<T: Decodable>(
+        for url: URL,
+        withHTTPMethod httpMethod: Alamofire.HTTPMethod,
+        headers: HTTPHeaders,
+        withParameters parameters: Parameters? = nil,
+        withEncoding encoding: ParameterEncoding,
+        withResponseType objectType: T.Type,
+        withModuleName moduleName: String,
+        successCallback: @escaping SuccessCompletionBlock,
+        failureCallback: @escaping FailureCompletionBlock
+    ) {
+
+        // Ensure we are not offline
         guard Reachability.currentReachabilityStatus != .notReachable else {
             failureCallback(moduleName, .noInternet)
             return
         }
-        let request = AF.request(url,
-                                 method: httpMethod,
-                                 parameters: parameters,
-                                 encoding: encoding,
-                                 headers: headers)
-        
-        downloadResourceParams?.append(RequestParam(successCallback: successCallback, failureCallback: failureCallback, request: request, moduleName: moduleName))
-        
-        request.responseData { (response) in
+
+        // Create the `DataRequest` using the custom `session`.
+        let request = session.request(
+            url,
+            method: httpMethod,
+            parameters: parameters,
+            encoding: encoding,
+            headers: headers)
+
+        // Lazily initialize the array if needed.
+        if downloadResourceParams == nil {
+            downloadResourceParams = []
+        }
+
+        // Keep track of this request so we can handle cancellation and references.
+        downloadResourceParams?.append(
+            RequestParam(
+                successCallback: successCallback,
+                failureCallback: failureCallback,
+                request: request,
+                moduleName: moduleName)
+        )
+
+        // Handle the response from the server
+        request.responseData { [weak self] response in
+
+            // Log request information for debugging
             lmLog("\n===Request Start===\n")
             lmLog("Module: \(moduleName)")
             lmLog(request.cURLDescription())
             lmLog("Response status: \(response.response?.statusCode ?? 0)")
             lmLog("\n===Request End===\n")
-            
+
+            // If data is nil, handle the failure
             guard let responseData = response.data else {
                 lmLog("failureCallback - \(response)")
+
+                // Optionally retry manually on `.sessionTaskFailed` (separate from interceptor logic).
                 if let error = response.error {
                     switch error {
                     case .sessionTaskFailed:
-                        self.requestWithDecoded(for: url, withHTTPMethod: httpMethod, headers: headers, withParameters: parameters, withEncoding: encoding, withResponseType: objectType, withModuleName: moduleName, successCallback: successCallback, failureCallback: failureCallback)
+                        self?.requestWithDecoded(
+                            for: url,
+                            withHTTPMethod: httpMethod,
+                            headers: headers,
+                            withParameters: parameters,
+                            withEncoding: encoding,
+                            withResponseType: objectType,
+                            withModuleName: moduleName,
+                            successCallback: successCallback,
+                            failureCallback: failureCallback)
                         return
                     default:
                         break
@@ -204,19 +462,23 @@ internal final class DataNetwork {
                 lmLog("--------------------------")
                 return
             }
-            
+
+            // Handle 401 for token refresh
             if let httpResponse = response.response,
-               httpResponse.statusCode == 401 {
-                
+                httpResponse.statusCode == 401
+            {
+
                 if url.absoluteString.contains("user/refresh") {
-                    /// Refresh Token has expired, trigger flow to get tokens from Core/Example Layer
                     TokenManager.shared.onRefreshTokenExpired()
                 } else {
-                    /// Access Token has expired, use refresh token to get new access token
-                    TokenManager.shared.refreshAccessToken { [weak self] newAccessToken in
+                    // Refresh Access Token using existing refresh token
+                    TokenManager.shared.refreshAccessToken {
+                        [weak self] newAccessToken in
                         var newHeaders = headers
-                        newHeaders["Authorization"] = "Bearer \(newAccessToken ?? "")"
-                        
+                        newHeaders["Authorization"] =
+                            "Bearer \(newAccessToken ?? "")"
+
+                        // Re-make the request with the new token
                         self?.requestWithDecoded(
                             for: url,
                             withHTTPMethod: httpMethod,
@@ -230,29 +492,38 @@ internal final class DataNetwork {
                         )
                     }
                 }
-                
                 return
             }
+
+            // Attempt to decode JSON into LMResponse<T>
             do {
-                let lmResponse  = try JSONDecoder().decode(LMResponse<T>.self, from: responseData)
-                var string = String(describing: responseData.prettyPrintedJSONString)
-                lmLog("response - \(String(describing: responseData.prettyPrintedJSONString))")
+                let lmResponse = try JSONDecoder().decode(
+                    LMResponse<T>.self, from: responseData)
+                lmLog(
+                    "response - \(String(describing: responseData.prettyPrintedJSONString))"
+                )
                 successCallback(moduleName, lmResponse)
             } catch let error {
-                lmLog("response - \(String(describing: NSString(data: responseData, encoding: String.Encoding.utf8.rawValue)))")
+                // If decoding fails, provide the raw response for debugging
+                lmLog(
+                    "response - \(String(describing: NSString(data: responseData, encoding: String.Encoding.utf8.rawValue)))"
+                )
                 lmLog("-----------Error---------------")
                 lmLog("error in parsing---> \(error)")
                 lmLog("-----------End error---------------")
-                failureCallback(moduleName, .failedJsonParse(error.localizedDescription))
+                failureCallback(
+                    moduleName, .failedJsonParse(error.localizedDescription))
             }
             lmLog("--------------------------")
         }
     }
 }
 
+/// Logs the provided items to the console if the app's build environment is set to `.devtest`.
+///
+/// - Parameter items: A variadic list of items to log.
 func lmLog(_ items: Any...) {
     if BuildManager.environment == .devtest {
         print(items)
-        //    LMLogger.info(items)
     }
 }

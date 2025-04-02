@@ -59,7 +59,7 @@ class InitiateUserClient: ServiceRequest {
             }
             response?(result)
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.errorMessage))
         }
     }
 
@@ -133,7 +133,7 @@ class InitiateUserClient: ServiceRequest {
             response?(result)
         } failureCallback: { moduleName, error in
             // Handle network request failure
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.errorMessage))
         }
     }
 
@@ -178,7 +178,7 @@ class InitiateUserClient: ServiceRequest {
 
         } failureCallback: { (moduleName, error) in
             // Handle network request failure
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.errorMessage))
         }
     }
 
@@ -209,7 +209,7 @@ class InitiateUserClient: ServiceRequest {
             }
             response?(result)
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.errorMessage))
         }
     }
 
@@ -238,7 +238,7 @@ class InitiateUserClient: ServiceRequest {
     ) {
         
         // Retrieve tokens from the TokenManager
-        var (accessToken, refreshToken) = TokenManager.shared.getTokens()
+        let (accessToken, refreshToken) = TokenManager.shared.getTokens()
 
         // If both tokens are nil, the user is not logged in; clear local storage and return a success response.
         if accessToken == nil && refreshToken == nil {
@@ -284,7 +284,7 @@ class InitiateUserClient: ServiceRequest {
                 } failureCallback: { (moduleName, error) in
                     // On error, return a failure response with the error description.
                     response?(
-                        LMResponse.failureResponse(error.localizedDescription))
+                        LMResponse.failureResponse(error.errorMessage))
                 }
             }
         }
@@ -317,7 +317,7 @@ class InitiateUserClient: ServiceRequest {
                     LMResponse.failureResponse(error.localizedDescription))
             }
         } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.localizedDescription))
+            response?(LMResponse.failureResponse(error.errorMessage))
         }
     }
 

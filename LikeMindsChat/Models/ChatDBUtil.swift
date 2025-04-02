@@ -7,6 +7,7 @@
 
 import Foundation
 import RealmSwift
+import Combine
 
 class ChatDBUtil {
     
@@ -316,4 +317,80 @@ class ChatDBUtil {
         }
     }
     
+    /// Updates an existing attachment in the local Realm database.
+    /// 
+    /// This method asynchronously updates the provided attachment in the local database using Realm.
+    /// The operation is performed in a background thread to avoid blocking the main thread.
+    /// 
+    /// - Parameter attachment: The `Attachment` object containing the updated data to be stored
+    /// 
+    /// - Returns: A `LMResponse<NoData>` object indicating the success or failure of the operation
+    ///   - On success: Returns `LMResponse.successResponse` with `NoData`
+    ///   - On failure: Returns `LMResponse.failureResponse` with an error message
+    /// 
+    /// - Note: This method uses Combine's Future and async/await pattern for handling asynchronous operations
+    func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
+        // Wrap the writeAsync call in a Combine Future.
+        let updatePublisher = Future<LMResponse<NoData>, Never> { promise in
+            let realm = LMDBManager.lmDBInstance()
+            realm.writeAsync({
+                // Update the attachment in the local DB.
+                let _ = ROConverter.convertAttachment(attachment: attachment)
+            }, onComplete: { error in
+                if let _ = error {
+                    // If an error occurs, complete with a failure response.
+                    promise(.success(LMResponse.failureResponse("Update operation failed.")))
+                } else {
+                    // Otherwise, complete with a successful response.
+                    promise(.success(LMResponse.successResponse(NoData())))
+                }
+            })
+        }
+        
+        // Convert the Combine publisher to an async value.
+        return await withCheckedContinuation { continuation in
+            let _ = updatePublisher.sink { response in
+                continuation.resume(returning: response)
+            }
+        }
+    }
+
+    /// Updates an existing conversation in the local Realm database.
+    /// 
+    /// This method asynchronously updates the provided conversation in the local database using Realm.
+    /// The operation is performed in a background thread to avoid blocking the main thread.
+    /// 
+    /// - Parameter conversation: The `Conversation` object containing the updated data to be stored
+    /// 
+    /// - Returns: A `LMResponse<NoData>` object indicating the success or failure of the operation
+    ///   - On success: Returns `LMResponse.successResponse` with `NoData`
+    ///   - On failure: Returns `LMResponse.failureResponse` with an error message
+    /// 
+    /// - Note: This method uses Combine's Future and async/await pattern for handling asynchronous operations
+    func updateConversation(conversation: Conversation) async -> LMResponse<NoData> {
+        // Wrap the writeAsync call in a Combine Future.
+        let updatePublisher = Future<LMResponse<NoData>, Never> { promise in
+            let realm = LMDBManager.lmDBInstance()
+            realm.writeAsync({
+                // Update the conversation in the local DB.
+                let _ = ROConverter.convertConversation(conversation: conversation)
+            }, onComplete: { error in
+                if let _ = error {
+                    // If an error occurs, complete with a failure response.
+                    promise(.success(LMResponse.failureResponse("Update operation failed.")))
+                } else {
+                    // Otherwise, complete with a successful response.
+                    promise(.success(LMResponse.successResponse(NoData())))
+                }
+            })
+        }
+        
+        // Convert the Combine publisher to an async value.
+        return await withCheckedContinuation { continuation in
+            let _ = updatePublisher.sink { response in
+                continuation.resume(returning: response)
+            }
+        }
+    }
+
 }
