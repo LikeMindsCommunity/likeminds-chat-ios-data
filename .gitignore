@@ -2,6 +2,7 @@
 # Xcode
 #
 build/
+buildServer.json
 *.pbxuser
 !default.pbxuser
 *.mode1v3
