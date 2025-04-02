@@ -326,6 +326,10 @@ class ConversationDBService {
     func updateLastConversationModel(chatroomId: String, conversation: Conversation) {
         let realm = LMDBManager.lmDBInstance()
         guard let chatroom = ChatDBUtil.shared.getChatroom(realm: realm, chatroomId: chatroomId) else { return }
+
+        if chatroom.lastConversationId != conversation.id {
+            return
+        }
         
         // Convert the conversation to ConversationRO
         let memberRO = ROConverter.convertMember(member: conversation.member, communityId: SDKPreferences.shared.getCommunityId() ?? conversation.communityId ?? "")
@@ -333,8 +337,10 @@ class ConversationDBService {
         guard let conversationRO = ROConverter.convertConversation(conversation: conversationModel, member: memberRO) else { return }   
         
         // Update chatroom's last conversation references and write to Realm
-        LMDBManager.write { realm, object in
+        LMDBManager.write(chatroom) { realm, object in
             chatroom.lastConversation = conversationRO
+            chatroom.lastConversationId = conversationRO.id
+            chatroom.updatedAt = conversationRO.createdEpoch
         }
     }
 }
