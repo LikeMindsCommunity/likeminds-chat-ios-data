@@ -30,8 +30,8 @@ public class BuildManager {
     /// - Note: Defaults to `.devtest` for development safety
     /// - Important: Should be set to `.production` for release builds
     
-    static let environment: BuildEnvironment = .devtest
-//    static let environment: BuildEnvironment = .production
+//    static let environment: BuildEnvironment = .devtest
+    static let environment: BuildEnvironment = .production
     
     /// The current version number of the build
     /// - Note: This should be updated with each release
