@@ -57,13 +57,13 @@ public enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
     case normal = 0 // normal conversation
     
     /// System message showing chatroom header information (1)
-    case chatRoomHeader = 1 // conversationHeader
+    case firstConversation = 1 // conversationHeader
     
     /// System message indicating a user followed the chatroom (2)
-    case chatRoomFollowed = 2 // conversationFollow
+    case memberJoinedOpenChatRoom = 2 // conversationFollow
     
     /// System message indicating a user unfollowed the chatroom (3)
-    case chatRoomUnFollowed = 3  // conversationUnfollow
+    case memberLeftOpenChatRoom = 3  // conversationUnfollow
     
     /// System message showing chatroom creator information (4)
     case chatRoomCreater = 4 // conversationCreator
@@ -75,22 +75,22 @@ public enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
     case chatRoomJoined = 6 // conversationGuest
     
     /// System message showing added participants (7)
-    case chatRoomAddParticipants = 7 // conversationAddParticipant
+    case memberAddedToChatRoom = 7 // conversationAddParticipant
     
     /// System message indicating a user left the chatroom (8)
-    case chatRoomLeaveSeperator = 8 // leaveConversation
+    case memberLeftSecretRoom = 8 // leaveConversation
     
     /// System message indicating a user was removed from the chatroom (9)
-    case chatRoomRemoveSeperator = 9 // removedFromConversation
+    case memberRemovedFromChatRoom = 9 // removedFromConversation
     
     /// Represents a poll conversation (10)
-    case microPoll = 10 // pollConversation
+    case poll = 10 // pollConversation
     
     /// System message indicating all members were added (11)
-    case addAllMembers = 11 // addAllMembers
+    case allMembersAdded = 11 // addAllMembers
     
     /// System message showing current chatroom topic (12)
-    case chatRoomCurrentTopic = 12 // set up topic of chatroom
+    case topicChanged = 12 // set up topic of chatroom
     
     /// System message for DM when member is removed or leaves (13)
     case directMessageMemberRemovedOrLeft = 13
