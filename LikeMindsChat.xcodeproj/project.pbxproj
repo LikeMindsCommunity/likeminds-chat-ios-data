@@ -208,7 +208,6 @@
 
 /* Begin PBXFileReference section */
 		6732841FAD1444A7FBDBB531 /* Pods_LikeMindsChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LikeMindsChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		913B21C12D76D528001D54D9 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		9159AD322CDA092200DDF560 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
 		91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserRequest.swift; sourceTree = "<group>"; };
 		91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserResponse.swift; sourceTree = "<group>"; };
@@ -512,7 +511,6 @@
 		F420C04E2A5C0472008C48DE = {
 			isa = PBXGroup;
 			children = (
-				913B21C12D76D528001D54D9 /* Package.swift */,
 				F420C05A2A5C0472008C48DE /* LikeMindsChat */,
 				F420C0592A5C0472008C48DE /* Products */,
 				ECB336449B72AA80651CCD60 /* Pods */,

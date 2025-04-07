@@ -159,6 +159,6 @@ public class PostPollConversationRequest: Encodable {
             .allowAddOption(allowAddOption)
             .expiryTime(expiryTime)
             .temporaryId(temporaryId)
-            .state(.microPoll)
+            .state(.poll)
     }
 }
