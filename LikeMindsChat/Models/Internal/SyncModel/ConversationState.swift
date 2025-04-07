@@ -123,6 +123,6 @@ public enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
     /// - Parameter stateValue: The state value to check
     /// - Returns: `true` if the state represents a poll, `false` otherwise
     public static func isPoll(stateValue: Int) -> Bool {
-        microPoll.rawValue == stateValue
+        poll.rawValue == stateValue
     }
 }
