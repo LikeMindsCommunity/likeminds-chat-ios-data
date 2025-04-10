@@ -447,4 +447,24 @@ class ChatroomClient: ServiceRequest {
         }
     }
 
+    /// Fetches an existing DM chatroom for a given user UUID
+    /// - Parameter userUUID: The UUID of the user
+    /// - Returns: `LMResponse` containing the converted Chatroom or error
+    func getExistingDMChatroom(getExisingDMChatroomRequest: GetExistingDMChatroomRequest) -> LMResponse<Chatroom> {
+        guard
+            let chatroomRO = ChatroomDBService.shared.getExistingDMChatroom(
+                userUUID: getExisingDMChatroomRequest.userUUID)
+        else {
+            return LMResponse.failureResponse("No existing DM chatroom found.")
+        }
+
+        guard
+            let chatroom = ModelConverter.shared.convertChatroomRO(
+                chatroomRO: chatroomRO)
+        else {
+            return LMResponse.failureResponse("Failed to convert chatroom.")
+        }
+
+        return LMResponse.successResponse(chatroom)
+    }
 }

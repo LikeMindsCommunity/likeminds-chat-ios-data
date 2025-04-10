@@ -1043,6 +1043,9 @@ extension LMChatClient {
     public func updateLastConversationModel(chatroomId: String, conversation: Conversation) {
         ConversationClient.shared.updateLastConversationModel(chatroomId: chatroomId, conversation: conversation)
     }
-
+    
+    func getExistingDMChatroom(getExisingDMChatroomRequest: GetExistingDMChatroomRequest) -> LMResponse<Chatroom> {
+        ChatroomClient.shared.getExistingDMChatroom(getExisingDMChatroomRequest: GetExistingDMChatroomRequest)
+    }
 }
 
