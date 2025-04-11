@@ -3,11 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		21CA8A17C4D80FF5EB8ED03F /* Pods_LikeMindsChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A278CE63688C2A8BE8FA4C77 /* Pods_LikeMindsChat.framework */; };
+		84EA931D2DA8005600162353 /* GetAIChatbotsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA93192DA8005600162353 /* GetAIChatbotsRequest.swift */; };
+		84EA931E2DA8005600162353 /* GetAIChatbotsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84EA931A2DA8005600162353 /* GetAIChatbotsResponse.swift */; };
 		9159AD332CDA092300DDF560 /* UserRole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9159AD322CDA092200DDF560 /* UserRole.swift */; };
 		91AF34832C457CC6005BAA96 /* ValidateUserRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */; };
 		91AF34842C457CC6005BAA96 /* ValidateUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AF347D2C457CC6005BAA96 /* ValidateUserResponse.swift */; };
@@ -207,6 +209,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		84EA93192DA8005600162353 /* GetAIChatbotsRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAIChatbotsRequest.swift; sourceTree = "<group>"; };
+		84EA931A2DA8005600162353 /* GetAIChatbotsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetAIChatbotsResponse.swift; sourceTree = "<group>"; };
 		913B21C12D76D528001D54D9 /* Package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		9159AD322CDA092200DDF560 /* UserRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRole.swift; sourceTree = "<group>"; };
 		91AF347C2C457CC6005BAA96 /* ValidateUserRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateUserRequest.swift; sourceTree = "<group>"; };
@@ -410,6 +414,10 @@
 		F4F8640D2B72086200F28048 /* ConversationDBService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationDBService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		84EA931F2DA8008E00162353 /* GetAIChatBots */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = GetAIChatBots; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		F420C0552A5C0472008C48DE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -422,6 +430,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		84EA931B2DA8005600162353 /* AIChatBot */ = {
+			isa = PBXGroup;
+			children = (
+				84EA931F2DA8008E00162353 /* GetAIChatBots */,
+				84EA93192DA8005600162353 /* GetAIChatbotsRequest.swift */,
+				84EA931A2DA8005600162353 /* GetAIChatbotsResponse.swift */,
+			);
+			path = AIChatBot;
+			sourceTree = "<group>";
+		};
 		91AF347E2C457CC6005BAA96 /* ValidateUser */ = {
 			isa = PBXGroup;
 			children = (
@@ -689,6 +707,7 @@
 		F42C1E742B320B7400720D5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				84EA931B2DA8005600162353 /* AIChatBot */,
 				F4CB0C862C19769F00C89A57 /* DirectMessage */,
 				F420C0B02A5E88B2008C48DE /* ExplorerFeed */,
 				F420C0AB2A5E7965008C48DE /* HomeFeed */,
@@ -1073,6 +1092,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				84EA931F2DA8008E00162353 /* GetAIChatBots */,
+			);
 			name = LikeMindsChat;
 			productName = LikeMindsChat;
 			productReference = F420C0582A5C0472008C48DE /* LikeMindsChat.framework */;
@@ -1219,6 +1241,8 @@
 				F420C0732A5C06B7008C48DE /* LMLogger.swift in Sources */,
 				F42C1E922B32C69D00720D5D /* Uploadable.swift in Sources */,
 				F4BEB98E2B4D7D6A00D12B62 /* Reaction.swift in Sources */,
+				84EA931D2DA8005600162353 /* GetAIChatbotsRequest.swift in Sources */,
+				84EA931E2DA8005600162353 /* GetAIChatbotsResponse.swift in Sources */,
 				F4CB0C912C19769F00C89A57 /* CheckDMTabResponse.swift in Sources */,
 				F42C1EA12B32F94500720D5D /* _Chatroom_.swift in Sources */,
 				F420C0B22A5E88DD008C48DE /* GetExploreFeedRequest.swift in Sources */,
