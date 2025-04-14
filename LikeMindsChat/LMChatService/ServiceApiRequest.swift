@@ -87,6 +87,9 @@ struct ServiceAPIRequest {
         case sendDMRequest(_ request: SendDMRequest)
         case blockDMMember(_ request: BlockMemberRequest)
         
+        //MARK: Community Configurations
+        case getCommunityConfigurations
+        
         var apiURL: String {
             switch self {
             case .initiateChatClient, .validateUser:
@@ -314,6 +317,8 @@ struct ServiceAPIRequest {
                     
                     return urlComponents.url?.absoluteString ?? ""
 
+            case .getCommunityConfigurations:
+                return "community/configurations"
             }
         }
         
@@ -357,7 +362,8 @@ struct ServiceAPIRequest {
                     .fetchDMFeeds,
                     .checkDMTab,
                     .getReportTags,
-                    .getChannelInvites:
+                    .getChannelInvites,
+                    .getCommunityConfigurations:
                 return .get
             case .setChatroomTopic,
                     .muteChatroom,
