@@ -321,6 +321,32 @@ class InitiateUserClient: ServiceRequest {
         }
     }
 
+    static func getCommunityConfigurations(
+        withModuleName moduleName: String,
+        _ response: LMClientResponse<GetCommunityConfigurationsResponse>?
+    ) {
+        let networkPath = ServiceAPIRequest.NetworkPath.getCommunityConfigurations
+        guard let url: URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else { return }
+        
+        DataNetwork.shared.requestWithDecoded(
+            for: url,
+            withHTTPMethod: networkPath.httpMethod,
+            headers: ServiceRequest.httpHeaders(),
+            withParameters: networkPath.parameters,
+            withEncoding: networkPath.encoding,
+            withResponseType: GetCommunityConfigurationsResponse.self,
+            withModuleName: moduleName
+        ) { (moduleName, responseData) in
+            guard let result = responseData as? LMResponse<GetCommunityConfigurationsResponse> else {
+                response?(LMResponse.failureResponse("Unable to parse configurations"))
+                return
+            }
+            response?(result)
+        } failureCallback: { (moduleName, error) in
+            response?(LMResponse.failureResponse(error.errorMessage))
+        }
+    }
+
     /// Clears all locally stored data within the application.
     ///
     /// This includes clearing the chat database, SDK preferences, user preferences,
