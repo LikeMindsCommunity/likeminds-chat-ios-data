@@ -68,89 +68,84 @@ public class SendDMRequest: Codable {
             .temporaryId(temporaryId)
     }
     
-    /// Fluent API methods for setting values.
-    public func chatRequestState(_ chatRequestState: Int?) -> SendDMRequest {
-        self.chatRequestState = chatRequestState
-        return self
-    }
-    
-    public func text(_ text: String?) -> SendDMRequest {
-        self.text = text
-        return self
-    }
-    
-    public func chatroomId(_ chatroomId: String?) -> SendDMRequest {
-        self.chatroomId = chatroomId
-        return self
-    }
-    
-    public func metadata(_ metadata: [String: Any]?) -> SendDMRequest {
-        self.metadata = metadata
-        return self
-    }
-    
-    public func temporaryId(_ temporaryId: String?) -> SendDMRequest {
-        self.temporaryId = temporaryId
-        return self
-    }
-    
     // MARK: - Custom Decoding
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         
-        do {
-            chatRequestState = try container.decodeIfPresent(Int.self, forKey: .chatRequestState)
-        } catch {
-            print("Error decoding chatRequestState: \(error)")
-            chatRequestState = nil
-        }
+        chatRequestState = try? container.decodeIfPresent(Int.self, forKey: .chatRequestState)
+        text = try? container.decodeIfPresent(String.self, forKey: .text)
+        chatroomId = try? container.decodeIfPresent(String.self, forKey: .chatroomId)
         
-        do {
-            text = try container.decodeIfPresent(String.self, forKey: .text)
-        } catch {
-            print("Error decoding text: \(error)")
-            text = nil
-        }
-        
-        do {
-            chatroomId = try container.decodeIfPresent(String.self, forKey: .chatroomId)
-        } catch {
-            print("Error decoding chatroomId: \(error)")
-            chatroomId = nil
-        }
-        
-        do {
-            // Decode metadata as [String: AnyDecodable] and then map to [String: Any].
-            let decodedMetadata = try container.decodeIfPresent([String: AnyDecodable].self, forKey: .metadata)
-            metadata = decodedMetadata?.mapValues { $0.value }
-        } catch {
-            print("Error decoding metadata: \(error)")
+        // Decode metadata as [String: AnyDecodable] and map to [String: Any].
+        if let decodedMetadata = try? container.decodeIfPresent([String: AnyDecodable].self, forKey: .metadata) {
+            metadata = decodedMetadata.mapValues { $0.value }
+        } else {
             metadata = nil
         }
         
-        do {
-            temporaryId = try container.decodeIfPresent(String.self, forKey: .temporaryId)
-        } catch {
-            print("Error decoding temporaryId: \(error)")
-            temporaryId = nil
-        }
+        temporaryId = try? container.decodeIfPresent(String.self, forKey: .temporaryId)
     }
     
     // MARK: - Custom Encoding
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         
-        do {
-            try container.encodeIfPresent(chatRequestState, forKey: .chatRequestState)
-        } catch {
-            print("Error encoding chatRequestState: \(error)")
+        try? container.encodeIfPresent(chatRequestState, forKey: .chatRequestState)
+        try? container.encodeIfPresent(text, forKey: .text)
+        try? container.encodeIfPresent(chatroomId, forKey: .chatroomId)
+        
+        // Encoding metadata, ensuring it's serializable as a dictionary.
+        if let metadata = self.metadata {
+            let encodableMetadata = metadata.mapValues { AnyEncodable($0) }
+            try? container.encodeIfPresent(encodableMetadata, forKey: .metadata)
         }
         
-        do {
-            try container.encodeIfPresent(text, forKey: .text)
-        } catch {
-            print("Error encoding text: \(error)")
+        try? container.encodeIfPresent(temporaryId, forKey: .temporaryId)
+    }
+    
+    // MARK: - Builder Class
+    public class Builder {
+        private var chatRequestState: Int?
+        private var text: String?
+        private var chatroomId: String?
+        private var metadata: [String: Any]?
+        private var temporaryId: String?
+        
+        // Builder methods for setting values
+        
+        public func chatRequestState(_ chatRequestState: Int?) -> Builder {
+            self.chatRequestState = chatRequestState
+            return self
         }
         
-        do {
-            try container.encodeIfPresent(chatroomId, forKey: .chatroomId
+        public func text(_ text: String?) -> Builder {
+            self.text = text
+            return self
+        }
+        
+        public func chatroomId(_ chatroomId: String?) -> Builder {
+            self.chatroomId = chatroomId
+            return self
+        }
+        
+        public func metadata(_ metadata: [String: Any]?) -> Builder {
+            self.metadata = metadata
+            return self
+        }
+        
+        public func temporaryId(_ temporaryId: String?) -> Builder {
+            self.temporaryId = temporaryId
+            return self
+        }
+        
+        // Final build method to return a SendDMRequest instance
+        public func build() -> SendDMRequest {
+            return SendDMRequest(chatRequestState: chatRequestState,
+                                 text: text,
+                                 chatroomId: chatroomId,
+                                 metadata: metadata,
+                                 temporaryId: temporaryId)
+        }
+    }
+}
+
