@@ -87,6 +87,9 @@ struct ServiceAPIRequest {
         case sendDMRequest(_ request: SendDMRequest)
         case blockDMMember(_ request: BlockMemberRequest)
         
+        //MARK: AIChatBot Api
+        case getAIChatbots(_ request: GetAIChatbotsRequest)
+        
         var apiURL: String {
             switch self {
             case .initiateChatClient, .validateUser:
@@ -313,8 +316,18 @@ struct ServiceAPIRequest {
                     urlComponents.queryItems = [channelIdQueryItem, inviteStatusQueryItem]
                     
                     return urlComponents.url?.absoluteString ?? ""
-
+                
+            //MARK: AIChatBots
+            case .getAIChatbots(let request):
+                var urlComponents = URLComponents()
+                urlComponents.path = "community/chatbot"
+                let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
+                let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
+                urlComponents.queryItems = [pageQueryItem, pageSizeQueryItem]
+                print("fina url is \(urlComponents.url?.absoluteString)")
+                return urlComponents.url?.absoluteString ?? ""
             }
+            
         }
         
         var httpMethod: Alamofire.HTTPMethod {
@@ -357,7 +370,8 @@ struct ServiceAPIRequest {
                     .fetchDMFeeds,
                     .checkDMTab,
                     .getReportTags,
-                    .getChannelInvites:
+                    .getChannelInvites,
+                    .getAIChatbots:
                 return .get
             case .setChatroomTopic,
                     .muteChatroom,
@@ -371,6 +385,7 @@ struct ServiceAPIRequest {
                     .deleteReaction,
                     .deleteConversations:
                 return .delete
+    
             }
         }
         
