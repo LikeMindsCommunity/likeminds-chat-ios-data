@@ -26,7 +26,6 @@ public class GetAIChatbotsRequest: Encodable {
         var pageSize: Int = 10 // Default value
         
         public init() {
-            self.pageSize = 10 // Default page size
         }
         
         /// Sets the page number for pagination

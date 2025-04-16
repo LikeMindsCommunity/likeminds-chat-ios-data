@@ -7,6 +7,9 @@
 
 import Foundation
 
+/// Client class for handling AI Chatbots related network requests.
+/// Inherits from `ServiceRequest` to utilize common network request functionalities.
+/// Provides methods to interact with the AI Chatbots API endpoints.
 class AIChatBotsClient: ServiceRequest {
     /// Fetches the list of AI chatbots with pagination
     /// - Parameters:
@@ -49,8 +52,12 @@ class AIChatBotsClient: ServiceRequest {
                 return
             }
             
-            // Return success response with data
-            response?(LMResponse.successResponse(result.data!))
+            // Return success response with data if available
+            if let data = result.data {
+                response?(LMResponse.successResponse(data))
+            } else {
+                response?(LMResponse.failureResponse("No data received"))
+            }
             
         } failureCallback: { (moduleName, error) in
             // Handle network request failure
@@ -58,4 +65,3 @@ class AIChatBotsClient: ServiceRequest {
         }
     }
 }
-
