@@ -14,7 +14,7 @@ public struct Widget: Decodable {
     public let metadata: [String: Any]?
     public let createdAt: Double?
     public let updatedAt: Double?
-    public let lmMeta: [String: Any]?
+    public let lmMeta: LMMeta?
 
     enum CodingKeys: String, CodingKey {
         case id = "_id"
@@ -34,7 +34,7 @@ public struct Widget: Decodable {
         private var metadata: [String: Any]?
         private var createdAt: Double?
         private var updatedAt: Double?
-        private var lmMeta: [String: Any]?
+        private var lmMeta: LMMeta?
 
         public init() {}
 
@@ -68,7 +68,7 @@ public struct Widget: Decodable {
             return self
         }
 
-        public func lmMeta(_ lmMeta: [String: Any]?) -> Builder {
+        public func lmMeta(_ lmMeta: LMMeta?) -> Builder {
             self.lmMeta = lmMeta
             return self
         }
@@ -140,9 +140,8 @@ extension Widget {
         }
 
         do {
-            let decodedlmMeta = try container.decodeIfPresent(
-                [String: AnyDecodable].self, forKey: .lmMeta)
-            lmMeta = decodedlmMeta?.mapValues { $0.value }
+            lmMeta = try container.decodeIfPresent(
+                LMMeta.self, forKey: .lmMeta)
         } catch {
             print("Error decoding metadata: \(error)")
             lmMeta = nil
