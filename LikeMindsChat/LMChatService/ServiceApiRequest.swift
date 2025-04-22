@@ -324,7 +324,6 @@ struct ServiceAPIRequest {
                 let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
                 let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
                 urlComponents.queryItems = [pageQueryItem, pageSizeQueryItem]
-                print("fina url is \(urlComponents.url?.absoluteString)")
                 return urlComponents.url?.absoluteString ?? ""
             }
             
