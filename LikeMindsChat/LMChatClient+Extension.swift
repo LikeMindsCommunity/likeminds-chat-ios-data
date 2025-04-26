@@ -1043,6 +1043,49 @@ extension LMChatClient {
     public func updateLastConversationModel(chatroomId: String, conversation: Conversation) {
         ConversationClient.shared.updateLastConversationModel(chatroomId: chatroomId, conversation: conversation)
     }
+    
+    // MARK: AI Chatbot
+
+    /// Retrieves a list of AI chatbots from the server based on the specified request parameters.
+    ///
+    /// This method utilizes the `AIChatBotClient` to perform the actual network call. The `GetAIChatbotsRequest` object
+    /// contains the criteria for fetching chatbots (such as page number and page size), and `GetAIChatbotsResponse` models
+    /// the server's response, typically including a list of chatbots and pagination metadata.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetAIChatbotsRequest` object containing parameters such as page number and page size.
+    ///   - response: A closure to handle the server response, which includes either the successful `GetAIChatbotsResponse` data
+    ///               or an error message in case of failure.
+    ///
+    /// - Example:
+    /// ```swift
+    /// let request = GetAIChatbotsRequest.builder()
+    ///     .page(1)
+    ///     .pageSize(10)
+    ///     .build()
+    ///
+    /// LMChatClient.shared.getAIChatbots(request: request) { result in
+    ///     switch result {
+    ///     case .success(let responseData):
+    ///         print("Fetched \(responseData.users?.count ?? 0) chatbots.")
+    ///         print("Current page: \(responseData.page)")
+    ///         print("Total pages: \(responseData.totalPages)")
+    ///     case .failure(let error):
+    ///         print("Failed to get chatbots: \(error.localizedDescription)")
+    ///     }
+    /// }
+    /// ```
+    public func getAIChatbots(
+        request: GetAIChatbotsRequest,
+        response: LMClientResponse<GetAIChatbotsResponse>?
+    ) {
+    
+        AIChatBotsClient.getAIChatbots(
+            request: request,
+            withModuleName: moduleName,
+            response
+        )
+    }
 
 }
 
