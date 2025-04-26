@@ -118,7 +118,7 @@ struct ServiceAPIRequest {
             case .fetchDMFeeds(let request):
                 return "chatroom/dm?page=\(request.page)&page_size=\(request.pageSize)"
             case .checkDMStatus(let request):
-                var url = "community/dm/status?req_from=\(request.requestFrom ?? "")"
+                var url = "community/dm/status?req_from=\(request.requestFrom?.rawValue ?? "")"
                 if let uuid = request.uuid { url += "&uuid=\(uuid)" }
                 if let chatroomId = request.chatroomId { url += "&chatroom_id=\(chatroomId)" }
                 return url
