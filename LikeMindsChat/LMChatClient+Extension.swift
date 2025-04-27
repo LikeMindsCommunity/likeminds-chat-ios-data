@@ -126,8 +126,7 @@ extension LMChatClient {
         request: LogoutUserRequest,
         response: LMClientResponse<NoData>?
     ) {
-        InitiateUserClient.logoutUser(request: request, withModuleName: moduleName)
-        { result in
+        InitiateUserClient.logoutUser(request: request, withModuleName: moduleName) { result in
             response?(result)
         }
     }
@@ -1001,7 +1000,7 @@ extension LMChatClient {
     public func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
         await ConversationClient.shared.updateAttachment(attachment: attachment)
     }
-    
+
     /// Updates a conversation in the local database asynchronously.
     ///
     /// This method delegates the conversation update operation to the ConversationClient.
@@ -1033,7 +1032,7 @@ extension LMChatClient {
     public func updateLastConversation(conversation: Conversation) {
         ConversationClient.shared.updateLastConversation(conversation: conversation)
     }
-    
+
     /// Updates the last conversation model in the chatroom with the provided conversation.
     /// This method updates the chatroom's last conversation references and stores the conversation in the database.
     ///
@@ -1041,9 +1040,17 @@ extension LMChatClient {
     ///   - chatroomId: The ID of the chatroom whose last conversation needs to be updated
     ///   - conversation: The conversation to be set as the last conversation
     public func updateLastConversationModel(chatroomId: String, conversation: Conversation) {
-        ConversationClient.shared.updateLastConversationModel(chatroomId: chatroomId, conversation: conversation)
+        ConversationClient.shared.updateLastConversationModel(
+            chatroomId: chatroomId, conversation: conversation)
     }
-    
+
+    public func getExistingDMChatroom(getExisingDMChatroomRequest: GetExistingDMChatroomRequest)
+        -> LMResponse<Chatroom>
+    {
+        ChatroomClient.shared.getExistingDMChatroom(
+            getExisingDMChatroomRequest: getExisingDMChatroomRequest)
+    }
+
     // MARK: AI Chatbot
 
     /// Retrieves a list of AI chatbots from the server based on the specified request parameters.
@@ -1079,13 +1086,11 @@ extension LMChatClient {
         request: GetAIChatbotsRequest,
         response: LMClientResponse<GetAIChatbotsResponse>?
     ) {
-    
+
         AIChatBotsClient.getAIChatbots(
             request: request,
             withModuleName: moduleName,
             response
         )
     }
-
 }
-
