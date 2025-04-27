@@ -87,6 +87,9 @@ struct ServiceAPIRequest {
         case sendDMRequest(_ request: SendDMRequest)
         case blockDMMember(_ request: BlockMemberRequest)
         
+        //MARK: AIChatBot Api
+        case getAIChatbots(_ request: GetAIChatbotsRequest)
+        
         var apiURL: String {
             switch self {
             case .initiateChatClient, .validateUser:
@@ -115,7 +118,7 @@ struct ServiceAPIRequest {
             case .fetchDMFeeds(let request):
                 return "chatroom/dm?page=\(request.page)&page_size=\(request.pageSize)"
             case .checkDMStatus(let request):
-                var url = "community/dm/status?req_from=\(request.requestFrom ?? "")"
+                var url = "community/dm/status?req_from=\(request.requestFrom?.rawValue ?? "")"
                 if let uuid = request.uuid { url += "&uuid=\(uuid)" }
                 if let chatroomId = request.chatroomId { url += "&chatroom_id=\(chatroomId)" }
                 return url
@@ -313,8 +316,17 @@ struct ServiceAPIRequest {
                     urlComponents.queryItems = [channelIdQueryItem, inviteStatusQueryItem]
                     
                     return urlComponents.url?.absoluteString ?? ""
-
+                
+            //MARK: AIChatBots
+            case .getAIChatbots(let request):
+                var urlComponents = URLComponents()
+                urlComponents.path = "community/chatbot"
+                let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
+                let pageSizeQueryItem = URLQueryItem(name: "page_size", value: "\(request.pageSize)")
+                urlComponents.queryItems = [pageQueryItem, pageSizeQueryItem]
+                return urlComponents.url?.absoluteString ?? ""
             }
+            
         }
         
         var httpMethod: Alamofire.HTTPMethod {
@@ -357,7 +369,8 @@ struct ServiceAPIRequest {
                     .fetchDMFeeds,
                     .checkDMTab,
                     .getReportTags,
-                    .getChannelInvites:
+                    .getChannelInvites,
+                    .getAIChatbots:
                 return .get
             case .setChatroomTopic,
                     .muteChatroom,
@@ -371,6 +384,7 @@ struct ServiceAPIRequest {
                     .deleteReaction,
                     .deleteConversations:
                 return .delete
+    
             }
         }
         

@@ -17,7 +17,7 @@ public enum DMStatusRequestFrom: String {
 
 public class CheckDMStatusRequest: Encodable {
     
-    var requestFrom: String?
+    var requestFrom: DMStatusRequestFrom?
     var uuid: String?
     var chatroomId: String?
     
@@ -38,10 +38,15 @@ public class CheckDMStatusRequest: Encodable {
              chatroomId = "chatroom_id"
     }
     
-    public func requestFrom(_ requestFrom: String) -> CheckDMStatusRequest {
-        self.requestFrom = requestFrom
-        return self
-    }
+    public func requestFrom(_ requestFrom: DMStatusRequestFrom) -> CheckDMStatusRequest {
+            self.requestFrom = requestFrom
+            return self
+        }
+    // Optional: Keep the string version but convert to enum
+//        public func requestFrom(_ requestFrom: String) -> CheckDMStatusRequest {
+//            self.requestFrom = DMStatusRequestFrom(rawValue: requestFrom)
+//            return self
+//        }
     
     public func uuid(_ uuid: String) -> CheckDMStatusRequest {
         self.uuid = uuid
@@ -52,4 +57,11 @@ public class CheckDMStatusRequest: Encodable {
         self.chatroomId = chatroomId
         return self
     }
+    public func encode(to encoder: Encoder) throws {
+           var container = encoder.container(keyedBy: CodingKeys.self)
+           try container.encodeIfPresent(requestFrom?.rawValue, forKey: .requestFrom) // Encode rawValue
+           try container.encodeIfPresent(uuid, forKey: .uuid)
+           try container.encodeIfPresent(chatroomId, forKey: .chatroomId)
+       }
+       
 }

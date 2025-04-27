@@ -126,8 +126,7 @@ extension LMChatClient {
         request: LogoutUserRequest,
         response: LMClientResponse<NoData>?
     ) {
-        InitiateUserClient.logoutUser(request: request, withModuleName: moduleName)
-        { result in
+        InitiateUserClient.logoutUser(request: request, withModuleName: moduleName) { result in
             response?(result)
         }
     }
@@ -1001,7 +1000,7 @@ extension LMChatClient {
     public func updateAttachment(attachment: Attachment) async -> LMResponse<NoData> {
         await ConversationClient.shared.updateAttachment(attachment: attachment)
     }
-    
+
     /// Updates a conversation in the local database asynchronously.
     ///
     /// This method delegates the conversation update operation to the ConversationClient.
@@ -1033,7 +1032,7 @@ extension LMChatClient {
     public func updateLastConversation(conversation: Conversation) {
         ConversationClient.shared.updateLastConversation(conversation: conversation)
     }
-    
+
     /// Updates the last conversation model in the chatroom with the provided conversation.
     /// This method updates the chatroom's last conversation references and stores the conversation in the database.
     ///
@@ -1041,11 +1040,57 @@ extension LMChatClient {
     ///   - chatroomId: The ID of the chatroom whose last conversation needs to be updated
     ///   - conversation: The conversation to be set as the last conversation
     public func updateLastConversationModel(chatroomId: String, conversation: Conversation) {
-        ConversationClient.shared.updateLastConversationModel(chatroomId: chatroomId, conversation: conversation)
+        ConversationClient.shared.updateLastConversationModel(
+            chatroomId: chatroomId, conversation: conversation)
     }
-    
-    public func getExistingDMChatroom(getExisingDMChatroomRequest: GetExistingDMChatroomRequest) -> LMResponse<Chatroom> {
-        ChatroomClient.shared.getExistingDMChatroom(getExisingDMChatroomRequest: getExisingDMChatroomRequest)
+
+    public func getExistingDMChatroom(getExisingDMChatroomRequest: GetExistingDMChatroomRequest)
+        -> LMResponse<Chatroom>
+    {
+        ChatroomClient.shared.getExistingDMChatroom(
+            getExisingDMChatroomRequest: getExisingDMChatroomRequest)
+    }
+
+    // MARK: AI Chatbot
+
+    /// Retrieves a list of AI chatbots from the server based on the specified request parameters.
+    ///
+    /// This method utilizes the `AIChatBotClient` to perform the actual network call. The `GetAIChatbotsRequest` object
+    /// contains the criteria for fetching chatbots (such as page number and page size), and `GetAIChatbotsResponse` models
+    /// the server's response, typically including a list of chatbots and pagination metadata.
+    ///
+    /// - Parameters:
+    ///   - request: A `GetAIChatbotsRequest` object containing parameters such as page number and page size.
+    ///   - response: A closure to handle the server response, which includes either the successful `GetAIChatbotsResponse` data
+    ///               or an error message in case of failure.
+    ///
+    /// - Example:
+    /// ```swift
+    /// let request = GetAIChatbotsRequest.builder()
+    ///     .page(1)
+    ///     .pageSize(10)
+    ///     .build()
+    ///
+    /// LMChatClient.shared.getAIChatbots(request: request) { result in
+    ///     switch result {
+    ///     case .success(let responseData):
+    ///         print("Fetched \(responseData.users?.count ?? 0) chatbots.")
+    ///         print("Current page: \(responseData.page)")
+    ///         print("Total pages: \(responseData.totalPages)")
+    ///     case .failure(let error):
+    ///         print("Failed to get chatbots: \(error.localizedDescription)")
+    ///     }
+    /// }
+    /// ```
+    public func getAIChatbots(
+        request: GetAIChatbotsRequest,
+        response: LMClientResponse<GetAIChatbotsResponse>?
+    ) {
+
+        AIChatBotsClient.getAIChatbots(
+            request: request,
+            withModuleName: moduleName,
+            response
+        )
     }
 }
-
