@@ -48,6 +48,14 @@ public enum ConfigurationType: String, Codable {
     case personalisedFeedWeights = "personalised_feed_weights"
     case chatbot = "chatbot"
     case chatPoll = "chat_poll"
+    case appViews = "app_views"
+    case unknown
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try container.decode(String.self)
+        self = ConfigurationType(rawValue: rawValue) ?? .unknown
+    }
 }
 
 public enum ReplyPrivatelyAllowedScope: String, Codable {
