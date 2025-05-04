@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct LMMeta: Decodable {
+public struct LMMeta: Codable {
   public let sourceChatroomId: String?
   public let sourceChatroomName: String?
   public let sourceConversation: Conversation?
@@ -37,12 +37,21 @@ public struct LMMeta: Decodable {
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
-    // Decode properties robustly, assigning nil if decoding fails or key is absent
     sourceChatroomId = try? container.decodeIfPresent(String.self, forKey: .sourceChatroomId)
     sourceChatroomName = try? container.decodeIfPresent(String.self, forKey: .sourceChatroomName)
     sourceConversation = try? container.decodeIfPresent(
       Conversation.self, forKey: .sourceConversation)
     type = try? container.decodeIfPresent(String.self, forKey: .type)
+  }
+
+  // MARK: - Encodable Implementation
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: CodingKeys.self)
+
+    try container.encodeIfPresent(sourceChatroomId, forKey: .sourceChatroomId)
+    try container.encodeIfPresent(sourceChatroomName, forKey: .sourceChatroomName)
+    try container.encodeIfPresent(sourceConversation, forKey: .sourceConversation)
+    try container.encodeIfPresent(type, forKey: .type)
   }
 
   // MARK: - Builder Pattern
@@ -79,7 +88,6 @@ public struct LMMeta: Decodable {
     }
 
     public func build() -> LMMeta {
-      // Use the private initializer
       return LMMeta(
         sourceChatroomId: sourceChatroomId,
         sourceChatroomName: sourceChatroomName,
