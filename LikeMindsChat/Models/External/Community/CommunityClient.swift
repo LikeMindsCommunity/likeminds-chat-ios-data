@@ -99,7 +99,10 @@ class CommunityClient {
     
     func searchMembers(request: SearchMembersRequest, response: LMClientResponse<SearchMembersResponse>?) {
         let networkPath = ServiceAPIRequest.NetworkPath.searchMembers(request)
-        guard let url:URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {return}
+         let endpoint: Endpoint = networkPath.apiURL
+        guard let url: URL = endpoint.url else {
+            return
+        }
         DataNetwork.shared.requestWithDecoded(for: url,
                                               withHTTPMethod: networkPath.httpMethod,
                                               headers: ServiceRequest.httpHeaders(),
