@@ -1,9 +1,9 @@
-struct Endpoint {
+public struct Endpoint {
     let path: String
     let queryItems: [URLQueryItem]
 }
 
-extension Endpoint {
+public extension Endpoint {
     // We still have to keep 'url' as an optional, since we're
     // dealing with dynamic components that could be invalid.
     var url: URL? {
