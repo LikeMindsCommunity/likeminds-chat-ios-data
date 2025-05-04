@@ -35,5 +35,5 @@ public class BuildManager {
     
     /// The current version number of the build
     /// - Note: This should be updated with each release
-    static let buildVersion = "511"
+    static let buildVersion = "512"
 }
