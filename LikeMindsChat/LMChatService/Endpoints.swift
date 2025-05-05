@@ -12,7 +12,7 @@ public extension Endpoint {
         components.host = ServiceConfiguration.authBaseURL
         components.path = path
         components.queryItems = queryItems
-
+        
         return components.url
     }
 }

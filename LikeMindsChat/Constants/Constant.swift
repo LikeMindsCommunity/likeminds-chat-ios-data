@@ -29,67 +29,66 @@ public final class Paths {
   public static let shared = Paths()
 
   // MARK: - SDK APIs
-  public let sdkInitiate = "sdk/initiate"
-  public let userRefresh = "user/refresh"
-  public let userDevicePush = "user/device/push"
-  public let userLogout = "user/logout"
-  public let userConfig = "user/config"
-  public let sdkOnboarding = "sdk/onboarding"
-  public let communityMemberHomeMeta = "community/member/home/meta"
+  public let sdkInitiate = "/sdk/initiate"
+  public let userRefresh = "/user/refresh"
+  public let userDevicePush = "/user/device/push"
+  public let userLogout = "/user/logout"
+  public let userConfig = "/user/config"
+  public let sdkOnboarding = "/sdk/onboarding"
+  public let communityMemberHomeMeta = "/community/member/home/meta"
 
   // MARK: - DM APIs
-  public let homeDmMeta = "home/dm/meta"
-  public let chatroomDm = "chatroom/dm"
-  public let communityDmStatus = "community/dm/status"
-  public let chatroomDmLimit = "chatroom/dm/limit"
-  public let chatroomDmCreate = "chatroom/dm/create"
-  public let chatroomDmRequest = "chatroom/dm/request"
-  public let chatroomDmBlock = "chatroom/dm/block"
+  public let homeDmMeta = "/home/dm/meta"
+  public let chatroomDm = "/chatroom/dm"
+  public let communityDmStatus = "/community/dm/status"
+  public let chatroomDmLimit = "/chatroom/dm/limit"
+  public let chatroomDmCreate = "/chatroom/dm/create"
+  public let chatroomDmRequest = "/chatroom/dm/request"
+  public let chatroomDmBlock = "/chatroom/dm/block  "
 
   // MARK: - Chatroom APIs
-  public let chatroomSync = "chatroom/sync"
-  public let chatroom = "chatroom"
-  public let chatroomFollow = "chatroom/follow"
-  public let chatroomParticipants = "chatroom/participants"
-  public let chatroomMute = "chatroom/mute"
-  public let chatroomMarkRead = "chatroom/mark_read"
+  public let chatroomSync = "/chatroom/sync"
+  public let chatroom = "/chatroom"
+  public let chatroomFollow = "/chatroom/follow"
+  public let chatroomParticipants = "/chatroom/participants"
+  public let chatroomMute = "/chatroom/mute"
+  public let chatroomMarkRead = "/chatroom/mark_read"
 
   // MARK: - Conversation APIs
-  public let conversationTopic = "conversation/topic"
-  public let conversation = "conversation"
-  public let conversationSync = "conversation/sync"
-  public let conversationReaction = "conversation/reaction"
-  public let conversationPoll = "conversation/poll"
-  public let conversationPollSubmit = "conversation/poll/submit"
-  public let conversationPollUsers = "conversation/poll/users"
-  public let conversationSearch = "conversation/search"
+  public let conversationTopic = "/conversation/topic"
+  public let conversation = "/conversation"
+  public let conversationSync = "/conversation/sync"
+  public let conversationReaction = "/conversation/reaction"
+  public let conversationPoll = "/conversation/poll"
+  public let conversationPollSubmit = "/conversation/poll/submit"
+  public let conversationPollUsers = "/conversation/poll/users"
+  public let conversationSearch = "/conversation/search"
 
   // MARK: - Community APIs
-  public let communityFeed = "community/feed"
-  public let communitySettingsContentDownload = "community/settings/content_download"
-  public let communityMemberState = "community/member/state"
-  public let communityMember = "community/member"
-  public let communityMemberSearch = "community/member/search"
-  public let communityTag = "community/tag"
-  public let communityReport = "community/report"
-  public let communityReportTag = "community/report/tag"
-  public let communityConfigurations = "community/configurations"
-  public let communityChatbot = "community/chatbot"
+  public let communityFeed = "/community/feed"
+  public let communitySettingsContentDownload = "/community/settings/content_download"
+  public let communityMemberState = "/community/member/state"
+  public let communityMember = "/community/member"
+  public let communityMemberSearch = "/community/member/search"
+  public let communityTag = "/community/tag"
+  public let communityReport = "/community/report"
+  public let communityReportTag = "/community/report/tag"
+  public let communityConfigurations = "/community/configurations"
+  public let communityChatbot = "/community/chatbot"
 
   // MARK: - Helper APIs
-  public let helperUrl = "helper/url"
+  public let helperUrl = "/helper/url"
 
   // MARK: - Search APIs
-  public let chatroomSearch = "chatroom/search"
+  public let chatroomSearch = "/chatroom/search"
 
   // MARK: - Channel APIs
-  public let channelInvites = "channel/invites"
-  public let channelInvite = "channel/invite"
+  public let channelInvites = "/channel/invites"
+  public let channelInvite = "/channel/invite"
 
   /// Private initializer to enforce singleton pattern.
   private init() {}
 }
-
 /// A singleton class that contains all parameter keys used in API requests.
 public final class Keys {
   /// The shared singleton instance of `Keys`.
