@@ -612,7 +612,13 @@ struct ServiceAPIRequest {
                     path: paths.communityChatbot,
                     queryItems: queryItems
                 )
+            case .getCommunityConfigurations:
+                return Endpoint(
+                    path: paths.communityConfigurations,
+                    queryItems: []
+                )
             }
+
         }
 
         var httpMethod: Alamofire.HTTPMethod {
