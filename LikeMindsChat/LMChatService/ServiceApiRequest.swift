@@ -91,279 +91,528 @@ struct ServiceAPIRequest {
         //MARK: AIChatBot Api
         case getAIChatbots(_ request: GetAIChatbotsRequest)
 
-        var apiURL: String {
+        var apiURL: Endpoint {
+            let paths = Paths.shared
+            let keys = Constant.shared.keys
+
             switch self {
             case .initiateChatClient, .validateUser:
-                return "sdk/initiate"
-            case .refreshServiceToken:
-                return "user/refresh"
-            case .pushToken:
-                return "user/device/push"
-            case .logout:
-                return "user/logout"
-            case .getConfig:
-                return "user/config"
-            case .sdkOnboarding:
-                return "sdk/onboarding"
-            case .explorTabCount:
-                return "community/member/home/meta"
-            case .explorFeed(let request):
-                var urlRequest =
-                    "community/feed?page=\(request.page)&order_type=\(request.orderType)"
-                if let isPinned = request.isPinned {
-                    urlRequest = urlRequest + "&pinned=\(isPinned)"
-                }
-                return urlRequest
-            //MARK: - DM api URL
-            case .checkDMTab:
-                return "home/dm/meta"
-            case .fetchDMFeeds(let request):
-                return "chatroom/dm?page=\(request.page)&page_size=\(request.pageSize)"
-            case .checkDMStatus(let request):
-                var url = "community/dm/status?req_from=\(request.requestFrom?.rawValue ?? "")"
-                if let uuid = request.uuid { url += "&uuid=\(uuid)" }
-                if let chatroomId = request.chatroomId { url += "&chatroom_id=\(chatroomId)" }
-                return url
-            case .checkDMLimit(let request):
-                return "chatroom/dm/limit?uuid=\(request.uuid ?? "")"
-            case .createDMChatroom:
-                return "chatroom/dm/create"
-            case .sendDMRequest:
-                return "chatroom/dm/request"
-            case .blockDMMember:
-                return "chatroom/dm/block"
-            //MARK: - Chatrooms api URL
-            case .syncChatrooms(let request):
-                var urlRequest =
-                    "chatroom/sync?is_local_db=true&page=\(request.page)&page_size=\(request.pageSize)&min_timestamp=\(request.minTimestamp)&max_timestamp=\(request.maxTimestamp)"
+                return Endpoint(path: paths.sdkInitiate, queryItems: [])
 
-                if !request.chatroomTypes.isEmpty {
-                    urlRequest.append(
-                        "&chatroom_types=[\(request.chatroomTypes.map({"\($0)"}).joined(separator: ","))]"
+            case .refreshServiceToken:
+                return Endpoint(path: paths.userRefresh, queryItems: [])
+
+            case .pushToken:
+                return Endpoint(path: paths.userDevicePush, queryItems: [])
+
+            case .logout:
+                return Endpoint(path: paths.userLogout, queryItems: [])
+
+            case .getConfig:
+                return Endpoint(path: paths.userConfig, queryItems: [])
+
+            case .sdkOnboarding:
+                return Endpoint(path: paths.sdkOnboarding, queryItems: [])
+
+            case .explorTabCount, .getExploreTabCount:
+                return Endpoint(
+                    path: paths.communityMemberHomeMeta,
+                    queryItems: []
+                )
+
+            case .explorFeed(let request):
+                var queryItems = [
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.orderType,
+                        value: "\(request.orderType)"
+                    ),
+                ]
+
+                if let isPinned = request.isPinned {
+                    queryItems.append(
+                        URLQueryItem(name: keys.pinned, value: "\(isPinned)")
                     )
                 }
 
-                return urlRequest
+                return Endpoint(
+                    path: paths.communityFeed,
+                    queryItems: queryItems
+                )
+
+            //MARK: - DM api URL
+            case .checkDMTab:
+                return Endpoint(path: paths.homeDmMeta, queryItems: [])
+
+            case .fetchDMFeeds(let request):
+                let queryItems = [
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                ]
+                return Endpoint(path: paths.chatroomDm, queryItems: queryItems)
+
+            case .checkDMStatus(let request):
+                var queryItems = [
+                    URLQueryItem(
+                        name: keys.reqFrom,
+                        value: request.requestFrom?.rawValue ?? ""
+                    )
+                ]
+
+                if let uuid = request.uuid {
+                    queryItems.append(
+                        URLQueryItem(name: keys.uuid, value: uuid)
+                    )
+                }
+
+                if let chatroomId = request.chatroomId {
+                    queryItems.append(
+                        URLQueryItem(name: keys.chatroomId, value: chatroomId)
+                    )
+                }
+
+                return Endpoint(
+                    path: paths.communityDmStatus,
+                    queryItems: queryItems
+                )
+
+            case .checkDMLimit(let request):
+                let queryItems = [
+                    URLQueryItem(name: keys.uuid, value: request.uuid ?? "")
+                ]
+                return Endpoint(
+                    path: paths.chatroomDmLimit,
+                    queryItems: queryItems
+                )
+
+            case .createDMChatroom:
+                return Endpoint(path: paths.chatroomDmCreate, queryItems: [])
+
+            case .sendDMRequest:
+                return Endpoint(path: paths.chatroomDmRequest, queryItems: [])
+
+            case .blockDMMember:
+                return Endpoint(path: paths.chatroomDmBlock, queryItems: [])
+
+            //MARK: - Chatrooms api URL
+            case .syncChatrooms(let request):
+                var queryItems = [
+                    URLQueryItem(
+                        name: keys.isLocalDb,
+                        value: "\(request.isLocalDB)"
+                    ),
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                    URLQueryItem(
+                        name: keys.minTimestamp,
+                        value: "\(request.minTimestamp)"
+                    ),
+                    URLQueryItem(
+                        name: keys.maxTimestamp,
+                        value: "\(request.maxTimestamp)"
+                    ),
+                ]
+
+                if !request.chatroomTypes.isEmpty {
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.chatroomTypes,
+                            value:
+                                "[\(request.chatroomTypes.map({"\($0)"}).joined(separator: ","))]"
+                        )
+                    )
+                }
+
+                return Endpoint(
+                    path: paths.chatroomSync,
+                    queryItems: queryItems
+                )
+
             case .getChatroomActions(let request):
-                return "chatroom?chatroom_id=\(request.chatroomId)"
+                let queryItems = [
+                    URLQueryItem(
+                        name: keys.chatroomId,
+                        value: request.chatroomId
+                    )
+                ]
+                return Endpoint(path: paths.chatroom, queryItems: queryItems)
+
             case .followChatroom:
-                return "chatroom/follow"
+                return Endpoint(path: paths.chatroomFollow, queryItems: [])
+
             case .leaveSecretChatroom:
-                return "chatroom/participants"
+                return Endpoint(
+                    path: paths.chatroomParticipants,
+                    queryItems: []
+                )
+
             case .muteChatroom:
-                return "chatroom/mute"
+                return Endpoint(path: paths.chatroomMute, queryItems: [])
+
             case .markReadChatroom:
-                return "chatroom/mark_read"
+                return Endpoint(path: paths.chatroomMarkRead, queryItems: [])
+
             case .setChatroomTopic:
-                return "conversation/topic"
+                return Endpoint(path: paths.conversationTopic, queryItems: [])
+
             case .getParticipants(let request):
-                let queryUrl =
-                    "chatroom/participants?chatroom_id=\(request.chatroomId)&is_secret=\(request.isChatroomSecret)&page=\(request.page)&page_size=\(request.pageSize)"
-                guard let searchName = request.participantName,
-                    !searchName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                else { return queryUrl }
-                return queryUrl + "&participant_name=\(searchName)"
+                var queryItems = [
+                    URLQueryItem(
+                        name: keys.chatroomId,
+                        value: request.chatroomId
+                    ),
+                    URLQueryItem(
+                        name: keys.isSecret,
+                        value: "\(request.isChatroomSecret)"
+                    ),
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                ]
+
+                if let searchName = request.participantName,
+                    !searchName.trimmingCharacters(in: .whitespacesAndNewlines)
+                        .isEmpty
+                {
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.participantName,
+                            value: searchName
+                        )
+                    )
+                }
+
+                return Endpoint(
+                    path: paths.chatroomParticipants,
+                    queryItems: queryItems
+                )
+
             case .editChatroomTitle:
-                return "chatroom"
+                return Endpoint(path: paths.chatroom, queryItems: [])
 
             //MARK:- Community api URL
             case .getContentDownloadSettings:
-                return "community/settings/content_download"
+                return Endpoint(
+                    path: paths.communitySettingsContentDownload,
+                    queryItems: []
+                )
+
             case .getMemberState:
-                return "community/member/state"
+                return Endpoint(
+                    path: paths.communityMemberState,
+                    queryItems: []
+                )
+
             case .getAllMembers(let request):
-                var requestURL =
-                    "community/member?page=\(request.page)&page_size=\(request.pageSize)"
+                var queryItems = [
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                ]
+
                 if let memberState = request.memberState {
-                    requestURL.append("&member_state=\(memberState)")
-                }
-                if !request.filterMemberRoles.isEmpty {
-                    requestURL.append(
-                        "&filter_member_roles=[\(request.filterMemberRoles.joined(separator: ","))]"
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.memberState,
+                            value: "\(memberState)"
+                        )
                     )
                 }
-                if let excludeSelf = request.excludeSelfUser {
-                    requestURL.append("&exclude_self_user=\(excludeSelf)")
+
+                if !request.filterMemberRoles.isEmpty {
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.filterMemberRoles,
+                            value:
+                                "[\(request.filterMemberRoles.joined(separator: ","))]"
+                        )
+                    )
                 }
-                return requestURL
+
+                if let excludeSelf = request.excludeSelfUser {
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.excludeSelfUser,
+                            value: "\(excludeSelf)"
+                        )
+                    )
+                }
+
+                return Endpoint(
+                    path: paths.communityMember,
+                    queryItems: queryItems
+                )
+
             case .searchMembers(let request):
-                var urlRequest =
-                    "community/member/search?page=\(request.page)&page_size=\(request.pageSize)"
-                let searchType = request.searchType ?? ""
-                let search = request.search ?? ""
-                urlRequest.append("&search=\(search)")
-                urlRequest.append("&search_type=\(searchType)")
+                var queryItems = [
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                    URLQueryItem(
+                        name: keys.search,
+                        value: request.search ?? ""
+                    ),
+                    URLQueryItem(
+                        name: keys.searchType,
+                        value: request.searchType ?? ""
+                    ),
+                ]
+
                 if let memberState = request.memberState {
-                    urlRequest.append("&member_states=\(memberState)")
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.memberStates,
+                            value:
+                                "[\(memberState.map { "\($0)" }.joined(separator: ","))]"
+                        )
+                    )
                 }
+
                 if let excludeSelf = request.excludeSelfUser {
-                    urlRequest.append("&exclude_self_user=\(excludeSelf)")
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.excludeSelfUser,
+                            value: "\(excludeSelf)"
+                        )
+                    )
                 }
-                return urlRequest
+
+                return Endpoint(
+                    path: paths.communityMemberSearch,
+                    queryItems: queryItems
+                )
 
             //MARK:- Conversation api URL
-            case .postConversation,
-                .editConversation,
-                .deleteConversations,
+            case .postConversation, .editConversation, .deleteConversations,
                 .postPollConversation:
-                return "conversation"
+                return Endpoint(path: paths.conversation, queryItems: [])
 
             case .syncConversations(let request):
-                var urlRequest =
-                    "conversation/sync?is_local_db=true&chatroom_id=\(request.chatroomId ?? "")&page=\(request.page)&page_size=\(request.pageSize)&min_timestamp=\(request.minTimestamp ?? 0)&max_timestamp=\(request.maxTimestamp ?? 0)"
+                var queryItems = [
+                    URLQueryItem(name: keys.isLocalDb, value: "true"),
+                    URLQueryItem(
+                        name: keys.chatroomId,
+                        value: request.chatroomId ?? ""
+                    ),
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                    URLQueryItem(
+                        name: keys.minTimestamp,
+                        value: "\(request.minTimestamp ?? 0)"
+                    ),
+                    URLQueryItem(
+                        name: keys.maxTimestamp,
+                        value: "\(request.maxTimestamp ?? 0)"
+                    ),
+                ]
+
                 if let conversationId = request.conversationId {
-                    urlRequest = urlRequest + "&conversation_id=\(conversationId)"
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.conversationId,
+                            value: conversationId
+                        )
+                    )
                 }
-                return urlRequest
-            case .putReaction,
-                .deleteReaction:
-                return "conversation/reaction"
+
+                return Endpoint(
+                    path: paths.conversationSync,
+                    queryItems: queryItems
+                )
+
+            case .putReaction, .deleteReaction:
+                return Endpoint(
+                    path: paths.conversationReaction,
+                    queryItems: []
+                )
 
             //MARK:- Helper api URL
             case .decodeUrl(let request):
-                return "helper/url?url=\(request.url)"
+                let queryItems = [
+                    URLQueryItem(name: keys.url, value: request.url)
+                ]
+                return Endpoint(path: paths.helperUrl, queryItems: queryItems)
+
             case .getTaggingList(let request):
-                let requestUrl =
-                    "community/tag?page_size=\(request.pageSize)&page=\(request.page)"
-                    + ((request.searchName ?? "").isEmpty
-                        ? "" : "&search_name=\(request.searchName ?? "")")
-                    + ((request.chatroomId).isEmpty ? "" : "&chatroom_id=\(request.chatroomId)")
-                return requestUrl
-            case .getExploreTabCount:
-                return "community/member/home/meta"
+                var queryItems = [
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                ]
+
+                if let searchName = request.searchName, !searchName.isEmpty {
+                    queryItems.append(
+                        URLQueryItem(name: keys.searchName, value: searchName)
+                    )
+                }
+
+                if !request.chatroomId.isEmpty {
+                    queryItems.append(
+                        URLQueryItem(
+                            name: keys.chatroomId,
+                            value: request.chatroomId
+                        )
+                    )
+                }
+
+                return Endpoint(
+                    path: paths.communityTag,
+                    queryItems: queryItems
+                )
 
             // MARK:- Poll api URL
             case .addPollOption:
-                return "conversation/poll"
+                return Endpoint(path: paths.conversationPoll, queryItems: [])
+
             case .submitPoll:
-                return "conversation/poll/submit"
+                return Endpoint(
+                    path: paths.conversationPollSubmit,
+                    queryItems: []
+                )
+
             case .getPollUsers(let request):
-                return
-                    "conversation/poll/users?conversation_id=\(request.conversationId)&poll_id=\(request.pollOptionId)"
+                let queryItems = [
+                    URLQueryItem(
+                        name: keys.conversationId,
+                        value: request.conversationId
+                    ),
+                    URLQueryItem(
+                        name: keys.pollId,
+                        value: request.pollOptionId
+                    ),
+                ]
+                return Endpoint(
+                    path: paths.conversationPollUsers,
+                    queryItems: queryItems
+                )
+
             // MARK: Search Chatroom
             case .searchChatroom(let request):
-                var urlComponents = URLComponents()
-                urlComponents.path = "chatroom/search"
-                let followStatusQueryItem = URLQueryItem(
-                    name: "follow_status", value: "\(request.followStatus)")
-                let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
-                let pageSizeQueryItem = URLQueryItem(
-                    name: "page_size", value: "\(request.pageSize)")
-                let searchQueryItem = URLQueryItem(name: "search", value: request.search)
-                let searchTypeQueryItem = URLQueryItem(
-                    name: "search_type", value: request.searchType)
-
-                urlComponents.queryItems = [
-                    followStatusQueryItem, pageQueryItem, pageSizeQueryItem, searchQueryItem,
-                    searchTypeQueryItem,
+                let queryItems = [
+                    URLQueryItem(
+                        name: keys.followStatus,
+                        value: "\(request.followStatus)"
+                    ),
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                    URLQueryItem(name: keys.search, value: request.search),
+                    URLQueryItem(
+                        name: keys.searchType,
+                        value: request.searchType
+                    ),
                 ]
+                return Endpoint(
+                    path: paths.chatroomSearch,
+                    queryItems: queryItems
+                )
 
-                return (urlComponents.url?.absoluteString ?? "")
             // MARK: Search Conversation
             case .searchConversation(let request):
-                // Initialize URLComponents to build the URL for the search conversation API endpoint.
-                var urlComponents = URLComponents()
-
-                // Set the path component of the URL to point to the "conversation/search" endpoint.
-                urlComponents.path = "conversation/search"
-
-                // Create a URLQueryItem for the follow status parameter using the value from the request.
-                let followStatusQueryItem = URLQueryItem(
-                    name: "follow_status", value: "\(request.followStatus)")
-
-                // Create a URLQueryItem for the page parameter using the current page number from the request.
-                let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
-
-                // Create a URLQueryItem for the page size parameter using the value from the request.
-                let pageSizeQueryItem = URLQueryItem(
-                    name: "page_size", value: "\(request.pageSize)")
-
-                // Create a URLQueryItem for the search parameter using the search text from the request.
-                let searchQueryItem = URLQueryItem(name: "search", value: request.search)
-
-                // Create a URLQueryItem for the chatroom ID parameter using the chatroom identifier from the request.
-                let chatroomQueryItem = URLQueryItem(name: "chatroom_id", value: request.chatroomId)
-
-                // Attach all the query items to the URL components. The order of the query items can be important if the API expects
-                // a specific order, so they are added in the following sequence: chatroom ID, follow status, page, page size, and search.
-                urlComponents.queryItems = [
-                    chatroomQueryItem, followStatusQueryItem, pageQueryItem, pageSizeQueryItem,
-                    searchQueryItem,
+                let queryItems = [
+                    URLQueryItem(
+                        name: keys.chatroomId,
+                        value: request.chatroomId
+                    ),
+                    URLQueryItem(
+                        name: keys.followStatus,
+                        value: "\(request.followStatus ?? true)"
+                    ),
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                    URLQueryItem(name: keys.search, value: request.search),
                 ]
-
-                // Return the fully constructed URL as a string. If URLComponents fails to produce a valid URL, an empty string is returned.
-                return (urlComponents.url?.absoluteString ?? "")
+                return Endpoint(
+                    path: paths.conversationSearch,
+                    queryItems: queryItems
+                )
 
             // MARK: Report api
             case .getReportTags(let request):
-                return "community/report/tag?type=\(request.type)"
+                let queryItems = [
+                    URLQueryItem(name: keys.type, value: "\(request.type)")
+                ]
+                return Endpoint(
+                    path: paths.communityReportTag,
+                    queryItems: queryItems
+                )
+
             case .postReport:
-                return "community/report"
+                return Endpoint(path: paths.communityReport, queryItems: [])
 
             // MARK: Secret Chatroom Invite
-
             case .getChannelInvites(let request):
-                /*
-                 Builds the URL string for the "getChannelInvites" API endpoint using URLComponents.
-                
-                 - The endpoint path is set to "channel/invites".
-                 - Query items include:
-                     - **channel_type**: The type of channel (from `request.channelType`).
-                     - **page**: The current page number for pagination (from `request.page`).
-                     - **page_size**: The number of items per page (from `request.pageSize`).
-                
-                 - Returns: A fully constructed URL string for retrieving channel invites, or an empty string if URL generation fails.
-                 */
-                var urlComponents = URLComponents()
-                urlComponents.path = "channel/invites"
-
-                let channelTypeQueryItem = URLQueryItem(
-                    name: "channel_type", value: "\(request.channelType)")
-                let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
-                let pageSizeQueryItem = URLQueryItem(
-                    name: "page_size", value: "\(request.pageSize)")
-
-                urlComponents.queryItems = [channelTypeQueryItem, pageQueryItem, pageSizeQueryItem]
-
-                return urlComponents.url?.absoluteString ?? ""
+                let queryItems = [
+                    URLQueryItem(
+                        name: keys.channelType,
+                        value: "\(request.channelType)"
+                    ),
+                    URLQueryItem(name: keys.page, value: "\(request.page)"),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                ]
+                return Endpoint(
+                    path: paths.channelInvites,
+                    queryItems: queryItems
+                )
 
             case .updateChannelInvite(let request):
-                /*
-                 Builds the URL string for the "updateChannelInvite" API endpoint using URLComponents.
-                
-                 - The endpoint path is set to "channel/invite".
-                 - Query items include:
-                     - **channel_id**: The unique identifier of the channel (from `request.channelId`).
-                     - **invite_status**: The status of the invite (using the raw value from `request.inviteStatus`).
-                
-                 - Returns: A fully constructed URL string for updating a channel invite, or an empty string if URL generation fails.
-                 */
-                var urlComponents = URLComponents()
-                urlComponents.path = "channel/invite"
-
-                let channelIdQueryItem = URLQueryItem(
-                    name: "channel_id", value: "\(request.channelId)")
-                let inviteStatusQueryItem = URLQueryItem(
-                    name: "invite_status", value: "\(request.inviteStatus.rawValue)")
-
-                urlComponents.queryItems = [channelIdQueryItem, inviteStatusQueryItem]
-
-                return urlComponents.url?.absoluteString ?? ""
-
-            case .getCommunityConfigurations:
-                return "community/configurations"
+                let queryItems = [
+                    URLQueryItem(
+                        name: keys.channelId,
+                        value: "\(request.channelId)"
+                    ),
+                    URLQueryItem(
+                        name: keys.inviteStatus,
+                        value: "\(request.inviteStatus.rawValue)"
+                    ),
+                ]
+                return Endpoint(
+                    path: paths.channelInvite,
+                    queryItems: queryItems
+                )
 
             //MARK: AIChatBots
             case .getAIChatbots(let request):
-                var urlComponents = URLComponents()
-                urlComponents.path = "community/chatbot"
-                let pageQueryItem = URLQueryItem(name: "page", value: "\(request.page)")
-                let pageSizeQueryItem = URLQueryItem(
-                    name: "page_size", value: "\(request.pageSize)")
-                urlComponents.queryItems = [pageQueryItem, pageSizeQueryItem]
-                return urlComponents.url?.absoluteString ?? ""
+                let queryItems = [
+                    URLQueryItem(
+                        name: keys.page,
+                        value: "\(request.page ?? 1)"
+                    ),
+                    URLQueryItem(
+                        name: keys.pageSize,
+                        value: "\(request.pageSize)"
+                    ),
+                ]
+                return Endpoint(
+                    path: paths.communityChatbot,
+                    queryItems: queryItems
+                )
             }
-
         }
 
         var httpMethod: Alamofire.HTTPMethod {
@@ -438,7 +687,7 @@ struct ServiceAPIRequest {
             case .initiateChatClient(let request):
                 return request.requestParam()
             case .pushToken(let request):
-                return ["token": request.token ?? ""]
+                return request.requestParam()
             case .refreshServiceToken:
                 return [:]
             case .logout(let request):

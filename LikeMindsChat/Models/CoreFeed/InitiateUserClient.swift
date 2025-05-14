@@ -8,237 +8,263 @@
 import Foundation
 
 class InitiateUserClient: ServiceRequest {
-    static func initiateChatService(
-        _ request: InitiateUserRequest, withModuleName moduleName: String,
-        _ response: LMClientResponse<InitiateUserResponse>?
-    ) {
-        let networkPath = ServiceAPIRequest.NetworkPath.initiateChatClient(
-            request)
-        guard
-            let url: URL = URL(
-                string: ServiceAPI.authBaseURL + networkPath.apiURL)
-        else { return }
-        DataNetwork.shared.requestWithDecoded(
-            for: url,
-            withHTTPMethod: networkPath.httpMethod,
-            headers: ServiceRequest.httpSdkHeaders(value: request.apiKey ?? ""),
-            withParameters: networkPath.parameters,
-            withEncoding: networkPath.encoding,
-            withResponseType: InitiateUserResponse.self,
-            withModuleName: moduleName
-        ) { (moduleName, responseData) in
-            guard let result = responseData as? LMResponse<InitiateUserResponse>
-            else { return }
-            TokenManager.shared.updateToken(
-                result.data?.accessToken, result.data?.refreshToken)
-            if !(result.data?.appAccess ?? false) {
-                let logoutRequest = LogoutUserRequest.builder()
-                    .build()
-                Self.logoutUser(
-                    request: logoutRequest,
-                    withModuleName: "Intiate User Client", nil)
-            } else {
-                guard let user = result.data?.user else {
-                    return
-                }
-                let lmUUID = user.sdkClientInfo?.userUniqueID ?? ""
-                let lmMemberId = user.sdkClientInfo?.user ?? 0
-                let clientUUID = user.sdkClientInfo?.uuid ?? ""
-                let communityId = user.sdkClientInfo?.community ?? 0
-                let apiKey = request.apiKey ?? ""
-
-                SDKPreferences.shared.setApiKey(apiKey)
-                UserPreferences.shared.setLMUUID(lmUUID)
-                UserPreferences.shared.setLMMemberId("\(lmMemberId)")
-                UserPreferences.shared.setClientUUID(clientUUID)
-                SDKPreferences.shared.setCommunityId(
-                    communityId: "\(communityId)")
-                SDKPreferences.shared.setCommunityName(
-                    communityName: result.data?.community?.name ?? "")
-                ChatDBUtil.shared.userROUpdate(user)
-            }
-            response?(result)
-        } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.errorMessage))
-        }
+  static func initiateChatService(
+    _ request: InitiateUserRequest,
+    withModuleName moduleName: String,
+    _ response: LMClientResponse<InitiateUserResponse>?
+  ) {
+    let networkPath = ServiceAPIRequest.NetworkPath.initiateChatClient(
+      request
+    )
+    let endpoint = networkPath.apiURL
+    guard let url = endpoint.url else {
+      response?(LMResponse.failureResponse("Invalid URL"))
+      return
     }
 
-    static func validateUser(
-        request: ValidateUserRequest, withModuleName moduleName: String,
-        _ response: LMClientResponse<ValidateUserResponse>?
-    ) {
-        // Update tokens in TokenManager
-        TokenManager.shared.updateToken(
-            request.accessToken, request.refreshToken)
-
-        // Construct the API URL
-        let networkPath = ServiceAPIRequest.NetworkPath.validateUser(request)
-        guard
-            let url: URL = URL(
-                string: ServiceAPI.authBaseURL + networkPath.apiURL)
-        else { return }
-
-        // Set up headers, including Authorization
-        var headers = ServiceRequest.httpHeaders()
-        headers["Authorization"] = "Bearer \(request.accessToken)"
-
-        // Make the network request
-        DataNetwork.shared.requestWithDecoded(
-            for: url,
-            withHTTPMethod: networkPath.httpMethod,
-            headers: headers,
-            withParameters: nil,
-            withEncoding: networkPath.encoding,
-            withResponseType: ValidateUserResponse.self,
-            withModuleName: moduleName
-        ) { (moduleName, responseData) in
-            // Ensure we can cast the response to the expected type
-            guard let result = responseData as? LMResponse<ValidateUserResponse>
-            else {
-                response?(
-                    LMResponse.failureResponse("Unable to convert to Data"))
-                return
-            }
-
-            // Check if the user has app access
-            if !(result.data?.appAccess ?? false) {
-                // If no access, log the user out
-                let logoutRequest = LogoutUserRequest.builder()
-                    .build()
-                Self.logoutUser(
-                    request: logoutRequest,
-                    withModuleName: "Intiate User Client", nil)
-            } else {
-                // If access is granted, update local user data
-                guard let user = result.data?.user else {
-                    return
-                }
-                let lmUUID = user.sdkClientInfo?.userUniqueID ?? ""
-                let lmMemberId = user.sdkClientInfo?.user ?? 0
-                let clientUUID = user.sdkClientInfo?.uuid ?? ""
-                let communityId = user.sdkClientInfo?.community ?? 0
-
-                // Update user preferences
-                UserPreferences.shared.setLMUUID(lmUUID)
-                UserPreferences.shared.setLMMemberId("\(lmMemberId)")
-                UserPreferences.shared.setClientUUID(clientUUID)
-                SDKPreferences.shared.setCommunityId(
-                    communityId: "\(communityId)")
-
-                // Update user in local database
-                ChatDBUtil.shared.userROUpdate(user)
-            }
-
-            // Call the response handler with the result
-            response?(result)
-        } failureCallback: { moduleName, error in
-            // Handle network request failure
-            response?(LMResponse.failureResponse(error.errorMessage))
+    DataNetwork.shared.requestWithDecoded(
+      for: url,
+      withHTTPMethod: networkPath.httpMethod,
+      headers: ServiceRequest.httpSdkHeaders(value: request.apiKey ?? ""),
+      withParameters: networkPath.parameters,
+      withEncoding: networkPath.encoding,
+      withResponseType: InitiateUserResponse.self,
+      withModuleName: moduleName
+    ) { (moduleName, responseData) in
+      guard let result = responseData as? LMResponse<InitiateUserResponse>
+      else { return }
+      TokenManager.shared.updateToken(
+        result.data?.accessToken,
+        result.data?.refreshToken
+      )
+      if !(result.data?.appAccess ?? false) {
+        let logoutRequest = LogoutUserRequest.builder()
+          .build()
+        Self.logoutUser(
+          request: logoutRequest,
+          withModuleName: "Intiate User Client",
+          nil
+        )
+      } else {
+        guard let user = result.data?.user else {
+          return
         }
+        let lmUUID = user.sdkClientInfo?.userUniqueID ?? ""
+        let lmMemberId = user.sdkClientInfo?.user ?? 0
+        let clientUUID = user.sdkClientInfo?.uuid ?? ""
+        let communityId = user.sdkClientInfo?.community ?? 0
+        let apiKey = request.apiKey ?? ""
+
+        SDKPreferences.shared.setApiKey(apiKey)
+        UserPreferences.shared.setLMUUID(lmUUID)
+        UserPreferences.shared.setLMMemberId("\(lmMemberId)")
+        UserPreferences.shared.setClientUUID(clientUUID)
+        SDKPreferences.shared.setCommunityId(
+          communityId: "\(communityId)"
+        )
+        SDKPreferences.shared.setCommunityName(
+          communityName: result.data?.community?.name ?? ""
+        )
+        ChatDBUtil.shared.userROUpdate(user)
+      }
+      response?(result)
+    } failureCallback: { (moduleName, error) in
+      response?(LMResponse.failureResponse(error.errorMessage))
+    }
+  }
+
+  static func validateUser(
+    request: ValidateUserRequest,
+    withModuleName moduleName: String,
+    _ response: LMClientResponse<ValidateUserResponse>?
+  ) {
+    // Update tokens in TokenManager
+    TokenManager.shared.updateToken(
+      request.accessToken,
+      request.refreshToken
+    )
+
+    // Get the network path and endpoint
+    let networkPath = ServiceAPIRequest.NetworkPath.validateUser(request)
+    let endpoint = networkPath.apiURL
+    guard let url = endpoint.url else {
+      response?(LMResponse.failureResponse("Invalid URL"))
+      return
     }
 
-    static func refreshAccessToken(
-        request: RefreshAccessTokenRequest, withModuleName moduleName: String,
-        _ response: LMClientResponse<RefreshAccessTokenResponse>?
-    ) {
+    // Set up headers, including Authorization
+    var headers = ServiceRequest.httpHeaders()
+    headers["Authorization"] = "Bearer \(request.accessToken)"
 
-        // Construct the API URL for token refresh
-        let networkPath = ServiceAPIRequest.NetworkPath.refreshServiceToken(
-            rtm: "")
-        guard
-            let url: URL = URL(
-                string: ServiceAPI.authBaseURL + networkPath.apiURL)
-        else {
-            response?(LMResponse.failureResponse("Unable to parse URL"))
-            return
+    // Make the network request
+    DataNetwork.shared.requestWithDecoded(
+      for: url,
+      withHTTPMethod: networkPath.httpMethod,
+      headers: headers,
+      withParameters: nil,
+      withEncoding: networkPath.encoding,
+      withResponseType: ValidateUserResponse.self,
+      withModuleName: moduleName
+    ) { (moduleName, responseData) in
+      // Ensure we can cast the response to the expected type
+      guard let result = responseData as? LMResponse<ValidateUserResponse>
+      else {
+        response?(
+          LMResponse.failureResponse("Unable to convert to Data")
+        )
+        return
+      }
+
+      // Check if the user has app access
+      if !(result.data?.appAccess ?? false) {
+        // If no access, log the user out
+        let logoutRequest = LogoutUserRequest.builder()
+          .build()
+        Self.logoutUser(
+          request: logoutRequest,
+          withModuleName: "Intiate User Client",
+          nil
+        )
+      } else {
+        // If access is granted, update local user data
+        guard let user = result.data?.user else {
+          return
         }
+        let lmUUID = user.sdkClientInfo?.userUniqueID ?? ""
+        let lmMemberId = user.sdkClientInfo?.user ?? 0
+        let clientUUID = user.sdkClientInfo?.uuid ?? ""
+        let communityId = user.sdkClientInfo?.community ?? 0
 
-        // Send the network request
-        DataNetwork.shared.requestWithDecoded(
-            for: url,
-            withHTTPMethod: networkPath.httpMethod,
-            headers: ServiceRequest.httpSdkHeaders(
-                headerKey: "Authorization", value: request.refreshToken),
-            withParameters: networkPath.parameters,
-            withEncoding: networkPath.encoding,
-            withResponseType: RefreshAccessTokenResponse.self,
-            withModuleName: moduleName
-        ) { (moduleName, responseData) in
-            // Attempt to cast the response to the expected type
-            guard
-                let result = responseData
-                    as? LMResponse<RefreshAccessTokenResponse>
-            else {
-                response?(LMResponse.failureResponse("Unable to parse URL"))
-                return
-            }
+        // Update user preferences
+        UserPreferences.shared.setLMUUID(lmUUID)
+        UserPreferences.shared.setLMMemberId("\(lmMemberId)")
+        UserPreferences.shared.setClientUUID(clientUUID)
+        SDKPreferences.shared.setCommunityId(
+          communityId: "\(communityId)"
+        )
 
-            // Call the response handler with the result
-            response?(result)
+        // Update user in local database
+        ChatDBUtil.shared.userROUpdate(user)
+      }
 
-        } failureCallback: { (moduleName, error) in
-            // Handle network request failure
-            response?(LMResponse.failureResponse(error.errorMessage))
-        }
+      // Call the response handler with the result
+      response?(result)
+    } failureCallback: { moduleName, error in
+      // Handle network request failure
+      response?(LMResponse.failureResponse(error.errorMessage))
+    }
+  }
+
+  static func refreshAccessToken(
+    request: RefreshAccessTokenRequest,
+    withModuleName moduleName: String,
+    _ response: LMClientResponse<RefreshAccessTokenResponse>?
+  ) {
+    // Get the network path and endpoint
+    let networkPath = ServiceAPIRequest.NetworkPath.refreshServiceToken(
+      rtm: ""
+    )
+    let endpoint = networkPath.apiURL
+    guard let url = endpoint.url else {
+      response?(LMResponse.failureResponse("Invalid URL"))
+      return
     }
 
-    static func registerDevice(
-        request: RegisterDeviceRequest, withModuleName moduleName: String,
-        _ response: LMClientResponse<RegisterDeviceResponse>?
-    ) {
+    // Send the network request
+    DataNetwork.shared.requestWithDecoded(
+      for: url,
+      withHTTPMethod: networkPath.httpMethod,
+      headers: ServiceRequest.httpSdkHeaders(
+        headerKey: "Authorization",
+        value: request.refreshToken
+      ),
+      withParameters: networkPath.parameters,
+      withEncoding: networkPath.encoding,
+      withResponseType: RefreshAccessTokenResponse.self,
+      withModuleName: moduleName
+    ) { (moduleName, responseData) in
+      // Attempt to cast the response to the expected type
+      guard
+        let result = responseData
+          as? LMResponse<RefreshAccessTokenResponse>
+      else {
+        response?(LMResponse.failureResponse("Unable to parse URL"))
+        return
+      }
 
-        let networkPath = ServiceAPIRequest.NetworkPath.pushToken(request)
-        guard
-            let url: URL = URL(
-                string: ServiceAPI.authBaseURL + networkPath.apiURL)
-        else { return }
-        DataNetwork.shared.requestWithDecoded(
-            for: url,
-            withHTTPMethod: networkPath.httpMethod,
-            headers: ServiceRequest.deviceRegisterHeaders(
-                headerKey: "x-device-id", value: request.deviceId ?? ""),
-            withParameters: networkPath.parameters,
-            withEncoding: networkPath.encoding,
-            withResponseType: RegisterDeviceResponse.self,
-            withModuleName: moduleName
-        ) { (moduleName, responseData) in
-            guard
-                let result = responseData as? LMResponse<RegisterDeviceResponse>
-            else {
-                return
-            }
-            response?(result)
-        } failureCallback: { (moduleName, error) in
-            response?(LMResponse.failureResponse(error.errorMessage))
-        }
+      // Call the response handler with the result
+      response?(result)
+
+    } failureCallback: { (moduleName, error) in
+      // Handle network request failure
+      response?(LMResponse.failureResponse(error.errorMessage))
+    }
+  }
+
+  static func registerDevice(
+    request: RegisterDeviceRequest,
+    withModuleName moduleName: String,
+    _ response: LMClientResponse<RegisterDeviceResponse>?
+  ) {
+    // Get the network path and endpoint
+    let networkPath = ServiceAPIRequest.NetworkPath.pushToken(request)
+    let endpoint = networkPath.apiURL
+    guard let url = endpoint.url else {
+      response?(LMResponse.failureResponse("Invalid URL"))
+      return
     }
 
-    // MARK: Logout User
-    /**
-     Logs out the current user by clearing tokens and optionally notifying the backend service.
+    DataNetwork.shared.requestWithDecoded(
+      for: url,
+      withHTTPMethod: networkPath.httpMethod,
+      headers: ServiceRequest.deviceRegisterHeaders(
+        headerKey: "x-device-id",
+        value: request.deviceId ?? ""
+      ),
+      withParameters: networkPath.parameters,
+      withEncoding: networkPath.encoding,
+      withResponseType: RegisterDeviceResponse.self,
+      withModuleName: moduleName
+    ) { (moduleName, responseData) in
+      guard
+        let result = responseData as? LMResponse<RegisterDeviceResponse>
+      else {
+        return
+      }
+      response?(result)
+    } failureCallback: { (moduleName, error) in
+      response?(LMResponse.failureResponse(error.errorMessage))
+    }
+  }
 
-     This function checks if the user is currently logged in by retrieving the access and refresh tokens.
-     - If both tokens are `nil`, it clears local storage and immediately returns a success response.
-     - If the tokens exist but no `deviceId` is provided in the logout request, it clears local storage and returns success.
-     - If a valid `deviceId` is provided, it sends a logout request to the backend service using the provided device ID in the HTTP headers.
-       On a successful network response, it clears the local storage and returns the success response. On failure, it returns
-       an error response with the error's localized description.
+  // MARK: Logout User
+  /**
+   Logs out the current user by clearing tokens and optionally notifying the backend service.
+  
+   This function checks if the user is currently logged in by retrieving the access and refresh tokens.
+   - If both tokens are `nil`, it clears local storage and immediately returns a success response.
+   - If the tokens exist but no `deviceId` is provided in the logout request, it clears local storage and returns success.
+   - If a valid `deviceId` is provided, it sends a logout request to the backend service using the provided device ID in the HTTP headers.
+     On a successful network response, it clears the local storage and returns the success response. On failure, it returns
+     an error response with the error's localized description.
+  
+   - Parameters:
+      - request: An instance of `LogoutUserRequest` containing the logout parameters (such as `deviceId`).
+      - moduleName: A `String` representing the module name for logging or tracking purposes.
+      - response: An optional closure of type `LMClientResponse<NoData>?` that is called with the logout response.
+  
+   - Note: This function relies on several helper methods and objects, such as `TokenManager`, `clearLocalStorage()`,
+     `ServiceAPI`, and `DataNetwork.shared.requestWithDecoded(_:)`.
+   */
+  static func logoutUser(
+    request: LogoutUserRequest,
+    withModuleName moduleName: String,
+    _ response: LMClientResponse<NoData>?
+  ) {
 
-     - Parameters:
-        - request: An instance of `LogoutUserRequest` containing the logout parameters (such as `deviceId`).
-        - moduleName: A `String` representing the module name for logging or tracking purposes.
-        - response: An optional closure of type `LMClientResponse<NoData>?` that is called with the logout response.
-
-     - Note: This function relies on several helper methods and objects, such as `TokenManager`, `clearLocalStorage()`,
-       `ServiceAPI`, and `DataNetwork.shared.requestWithDecoded(_:)`.
-     */
-    static func logoutUser(
-        request: LogoutUserRequest, withModuleName moduleName: String,
-        _ response: LMClientResponse<NoData>?
-    ) {
-        
-        // Retrieve tokens from the TokenManager
-        let (accessToken, refreshToken) = TokenManager.shared.getTokens()
+    // Retrieve tokens from the TokenManager
+    let (accessToken, refreshToken) = TokenManager.shared.getTokens()
+ 
 
         // If both tokens are nil, the user is not logged in; clear local storage and return a success response.
         if accessToken == nil && refreshToken == nil {
