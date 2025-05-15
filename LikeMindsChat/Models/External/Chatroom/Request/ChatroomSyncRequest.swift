@@ -14,6 +14,7 @@ public class ChatroomSyncRequest: Encodable {
     var maxTimestamp: Int = Int(Date().timeIntervalSince1970)
     var minTimestamp: Int = .zero
     var chatroomTypes: [Int] = []
+    var isLocalDB: Bool = true
     
     /// Initiate method
     private init() {}
@@ -32,6 +33,7 @@ public class ChatroomSyncRequest: Encodable {
         case minTimestamp = "min_timestamp"
         case maxTimestamp = "max_timestamp"
         case chatroomTypes = "chatroom_types"
+        case isLocalDB = "is_local_db"
     }
     
     public func page(_ page: Int) -> ChatroomSyncRequest {
@@ -56,6 +58,11 @@ public class ChatroomSyncRequest: Encodable {
     
     public func chatroomTypes(_ chatroomTypes: [Int]) -> ChatroomSyncRequest {
         self.chatroomTypes = chatroomTypes
+        return self
+    }
+    
+    public func isLocalDB(_ isLocalDB: Bool) -> ChatroomSyncRequest {
+        self.isLocalDB = isLocalDB
         return self
     }
 }
