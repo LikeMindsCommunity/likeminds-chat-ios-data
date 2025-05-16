@@ -1114,4 +1114,14 @@ extension LMChatClient {
             response?(result)
         }
     }
+    
+    public func getExistingDMChatroom(
+        getExisingDMChatroomRequest: GetExistingDMChatroomRequest
+    )
+        -> LMResponse<Chatroom>
+    {
+        ChatroomClient.shared.getExistingDMChatroom(
+            getExisingDMChatroomRequest: getExisingDMChatroomRequest
+        )
+    }
 }
