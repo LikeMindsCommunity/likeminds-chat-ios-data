@@ -23,13 +23,13 @@ class AIChatBotsClient: ServiceRequest {
     ) {
         // Construct the network path for the API request
         let networkPath = ServiceAPIRequest.NetworkPath.getAIChatbots(request)
-        
-        // Create the URL for the API endpoint
-        guard let url: URL = URL(string: ServiceAPI.authBaseURL + networkPath.apiURL) else {
+
+        let endpoint = networkPath.apiURL
+        guard let url = endpoint.url else {
             response?(LMResponse.failureResponse("Invalid URL"))
             return
         }
-        
+
         // Make the network request
         DataNetwork.shared.requestWithDecoded(
             for: url,
@@ -41,24 +41,32 @@ class AIChatBotsClient: ServiceRequest {
             withModuleName: moduleName
         ) { (moduleName, responseData) in
             // Handle successful response
-            guard let result = responseData as? LMResponse<GetAIChatbotsResponse> else {
-                response?(LMResponse.failureResponse("Failed to parse response"))
+            guard
+                let result = responseData as? LMResponse<GetAIChatbotsResponse>
+            else {
+                response?(
+                    LMResponse.failureResponse("Failed to parse response")
+                )
                 return
             }
-            
+
             // Check if the API call was successful
             if !result.success {
-                response?(LMResponse.failureResponse(result.errorMessage ?? "Unknown error"))
+                response?(
+                    LMResponse.failureResponse(
+                        result.errorMessage ?? "Unknown error"
+                    )
+                )
                 return
             }
-            
+
             // Return success response with data if available
             if let data = result.data {
                 response?(LMResponse.successResponse(data))
             } else {
                 response?(LMResponse.failureResponse("No data received"))
             }
-            
+
         } failureCallback: { (moduleName, error) in
             // Handle network request failure
             response?(LMResponse.failureResponse(error.errorMessage))

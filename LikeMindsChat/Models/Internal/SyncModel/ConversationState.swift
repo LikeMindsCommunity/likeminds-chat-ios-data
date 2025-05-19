@@ -8,13 +8,15 @@
 import Foundation
 
 /// Protocol for case iterable enums with a default last case
-protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable
-where RawValue: Decodable, AllCases: BidirectionalCollection { }
+protocol CaseIterableDefaultsLast: Codable & CaseIterable & RawRepresentable
+where RawValue: Codable, AllCases: BidirectionalCollection {}
 
 extension CaseIterableDefaultsLast {
-    public init(from decoder: Decoder) throws {
-        self = try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? Self.allCases.first!
-    }
+  public init(from decoder: Decoder) throws {
+    self =
+      try Self(rawValue: decoder.singleValueContainer().decode(RawValue.self)) ?? Self.allCases
+      .first!
+  }
 }
 
 /// Represents the various states a conversation can be in within a chatroom.
@@ -49,80 +51,80 @@ extension CaseIterableDefaultsLast {
 /// - chatroomDataHeader (111): Special state for chatroom data header
 /// - bubbleShimmer (-99): UI state for showing shimmer effect
 public enum ConversationState: Int, Codable, CaseIterableDefaultsLast {
-    
-    /// Represents an unknown or undefined state (-1)
-    case unknown = -1
-    
-    /// Regular conversation message (0)
-    case normal = 0 // normal conversation
-    
-    /// System message showing chatroom header information (1)
-    case firstConversation = 1 // conversationHeader
-    
-    /// System message indicating a user followed the chatroom (2)
-    case memberJoinedOpenChatRoom = 2 // conversationFollow
-    
-    /// System message indicating a user unfollowed the chatroom (3)
-    case memberLeftOpenChatRoom = 3  // conversationUnfollow
-    
-    /// System message showing chatroom creator information (4)
-    case chatRoomCreater = 4 // conversationCreator
-    
-    /// System message indicating chatroom settings were edited (5)
-    case chatRoomEdited = 5 // conversationCommunityEdit
-    
-    /// System message indicating a user joined the chatroom (6)
-    case chatRoomJoined = 6 // conversationGuest
-    
-    /// System message showing added participants (7)
-    case memberAddedToChatRoom = 7 // conversationAddParticipant
-    
-    /// System message indicating a user left the chatroom (8)
-    case memberLeftSecretRoom = 8 // leaveConversation
-    
-    /// System message indicating a user was removed from the chatroom (9)
-    case memberRemovedFromChatRoom = 9 // removedFromConversation
-    
-    /// Represents a poll conversation (10)
-    case poll = 10 // pollConversation
-    
-    /// System message indicating all members were added (11)
-    case allMembersAdded = 11 // addAllMembers
-    
-    /// System message showing current chatroom topic (12)
-    case topicChanged = 12 // set up topic of chatroom
-    
-    /// System message for DM when member is removed or leaves (13)
-    case directMessageMemberRemovedOrLeft = 13
-    
-    /// System message for DM when community manager is removed (14)
-    case directMessageCMRemoved = 14
-    
-    /// System message for DM when member becomes CM and disables chat (15)
-    case directMessageMemberBecomesCMDisableChat = 15
-    
-    /// System message for DM when CM becomes member and enables chat (16)
-    case directMessageCMBecomesMemberEnableChat = 16
-    
-    /// System message for DM when member becomes CM and enables chat (17)
-    case directMessageMemberBecomesCMEnableChat = 17
-    
-    /// System message for DM when member request is rejected (19)
-    case directMessageMemberRequestRejected = 19
-    
-    /// System message for DM when member request is approved (20)
-    case directMessageMemberRequestApproved = 20
-    
-    /// Special state for chatroom data header (111)
-    case chatroomDataHeader = 111
-    
-    /// UI state for showing shimmer effect (-99)
-    case bubbleShimmer = -99
-    
-    /// Checks if a given state value represents a poll conversation
-    /// - Parameter stateValue: The state value to check
-    /// - Returns: `true` if the state represents a poll, `false` otherwise
-    public static func isPoll(stateValue: Int) -> Bool {
-        poll.rawValue == stateValue
-    }
+
+  /// Represents an unknown or undefined state (-1)
+  case unknown = -1
+
+  /// Regular conversation message (0)
+  case normal = 0  // normal conversation
+
+  /// System message showing chatroom header information (1)
+  case firstConversation = 1  // conversationHeader
+
+  /// System message indicating a user followed the chatroom (2)
+  case memberJoinedOpenChatRoom = 2  // conversationFollow
+
+  /// System message indicating a user unfollowed the chatroom (3)
+  case memberLeftOpenChatRoom = 3  // conversationUnfollow
+
+  /// System message showing chatroom creator information (4)
+  case chatRoomCreater = 4  // conversationCreator
+
+  /// System message indicating chatroom settings were edited (5)
+  case chatRoomEdited = 5  // conversationCommunityEdit
+
+  /// System message indicating a user joined the chatroom (6)
+  case chatRoomJoined = 6  // conversationGuest
+
+  /// System message showing added participants (7)
+  case memberAddedToChatRoom = 7  // conversationAddParticipant
+
+  /// System message indicating a user left the chatroom (8)
+  case memberLeftSecretRoom = 8  // leaveConversation
+
+  /// System message indicating a user was removed from the chatroom (9)
+  case memberRemovedFromChatRoom = 9  // removedFromConversation
+
+  /// Represents a poll conversation (10)
+  case poll = 10  // pollConversation
+
+  /// System message indicating all members were added (11)
+  case allMembersAdded = 11  // addAllMembers
+
+  /// System message showing current chatroom topic (12)
+  case topicChanged = 12  // set up topic of chatroom
+
+  /// System message for DM when member is removed or leaves (13)
+  case directMessageMemberRemovedOrLeft = 13
+
+  /// System message for DM when community manager is removed (14)
+  case directMessageCMRemoved = 14
+
+  /// System message for DM when member becomes CM and disables chat (15)
+  case directMessageMemberBecomesCMDisableChat = 15
+
+  /// System message for DM when CM becomes member and enables chat (16)
+  case directMessageCMBecomesMemberEnableChat = 16
+
+  /// System message for DM when member becomes CM and enables chat (17)
+  case directMessageMemberBecomesCMEnableChat = 17
+
+  /// System message for DM when member request is rejected (19)
+  case directMessageMemberRequestRejected = 19
+
+  /// System message for DM when member request is approved (20)
+  case directMessageMemberRequestApproved = 20
+
+  /// Special state for chatroom data header (111)
+  case chatroomDataHeader = 111
+
+  /// UI state for showing shimmer effect (-99)
+  case bubbleShimmer = -99
+
+  /// Checks if a given state value represents a poll conversation
+  /// - Parameter stateValue: The state value to check
+  /// - Returns: `true` if the state represents a poll, `false` otherwise
+  public static func isPoll(stateValue: Int) -> Bool {
+    poll.rawValue == stateValue
+  }
 }

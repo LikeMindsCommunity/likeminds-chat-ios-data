@@ -26,7 +26,7 @@ extension URL {
 
 struct ServiceConfigurationURLs {
     struct Production {
-        static let authBaseUrl = "https://auth.likeminds.community/"
+        static let authBaseUrl = "auth.likeminds.community"
         static let bucketURL = "prod-likeminds-media"
         static let awsPoolIdCognito = "d73bc2ed-bede-42c8-bab7-0abe0a001325"
         static let secretAccessKey = "aG5oTXBlSFZ3N04zWWpEbXVZSittTkwrd2Y2dW12K29IYXo5ZmdmYQ=="
@@ -34,7 +34,7 @@ struct ServiceConfigurationURLs {
         static let firebaseApiKey = "QUl6YVN5Q2NXTWhDTWpGSVZneWVVNUtVNC1lcE9qOWw4V1c4WDVj"
     }
     struct DevTest {
-        static let authBaseUrl = "https://betaauth.likeminds.community/"
+        static let authBaseUrl = "betaauth.likeminds.community"
         static let bucketURL = "beta-likeminds-media"
         static let awsPoolIdCognito = "181963ba-f2db-450b-8199-964a941b38c2"
         static let secretAccessKey = "OWdLeWpGQ3d4Q0RWVDlYaHlNV3VINEdCcXUvVUk3cEFRSkZrNmd1bg=="
