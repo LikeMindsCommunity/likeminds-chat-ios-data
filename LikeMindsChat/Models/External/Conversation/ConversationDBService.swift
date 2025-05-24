@@ -181,6 +181,14 @@ class ConversationDBService {
                 let conversationRO = ROConverter.convertConversation(
                     conversation: conversation)
             else { return }
+            
+            if let sourceConversationId = conversation.widget?.lmMeta?.sourceConversation?.id {
+                if let existing = ChatDBUtil.shared.getConversation(
+                    realm: realm, conversationId: sourceConversationId) {
+                    conversationRO.widget?.lmMeta?.sourceConversation = existing
+                }
+            }
+            
             if chatroomRO.conversations.isEmpty == true {
                 chatroomRO.conversations.append(conversationRO)
             } else {
@@ -230,13 +238,22 @@ class ConversationDBService {
 
         LMDBManager.write(chatroomRO) { realm, object in
             guard let object else { return }
+            
+            if let sourceConversationId = conversation.widget?.lmMeta?.sourceConversation?.id {
+                if let existing = ChatDBUtil.shared.getConversation(
+                    realm: realm, conversationId: sourceConversationId) {
+                    conversationRO.widget?.lmMeta?.sourceConversation = existing
+                }
+            }
+            
             if let tempConversation = ChatDBUtil.shared.getConversation(
                 realm: realm, conversationId: conversation.id)
             {
                 realm.delete(tempConversation)
             }
-            //add the conversation to db
+            
             object.conversations.append(conversationRO)
+            
             //Make the chatroom followed, if it is not already followed
             if object.followStatus != true {
                 object.followStatus = true

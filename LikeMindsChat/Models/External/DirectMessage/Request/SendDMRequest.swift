@@ -11,13 +11,13 @@ import Foundation
 /// Request model for sending a DM, supporting custom encoding and decoding.
 public class SendDMRequest: Codable {
 
-  var chatRequestState: Int?
-  var text: String?
-  var chatroomId: String?
+  public var chatRequestState: Int?
+  public var text: String?
+  public var chatroomId: String?
 
   // New properties:
-  var metadata: [String: Any]?  // Representing a JSON object; optional.
-  var temporaryId: String?  // Optional temporary identifier.
+  public var metadata: [String: Any]?  // Representing a JSON object; optional.
+  public var temporaryId: String?  // Optional temporary identifier.
 
   // MARK: - Coding Keys
   enum CodingKeys: String, CodingKey {
