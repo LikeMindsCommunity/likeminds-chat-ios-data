@@ -291,12 +291,6 @@ class ConversationDBService {
         }
     }
 
-    func updateTemporaryConversation(
-        conversationId: String, localSavedEpoch: Int
-    ) {
-
-    }
-
     func getConversation(conversationId: String) -> ConversationRO? {
         return ChatDBUtil.shared.getConversation(
             realm: LMDBManager.lmDBInstance(), conversationId: conversationId)
@@ -371,12 +365,6 @@ class ConversationDBService {
             reactionRO.member = member
             object.reactions.append(reactionRO)
         }
-    }
-
-    func updateConversationSubmitPoll(
-        conversationId: String, allPollItems: [Poll]
-    ) {
-
     }
 
     func deleteReaction(conversationId: String) {
