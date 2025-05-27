@@ -1087,4 +1087,41 @@ extension LMChatClient {
     )
   }
 
+    /// Retrieves community configurations from the server.
+    ///
+    /// This method fetches various configuration settings for the community, including media limits,
+    /// feed metadata, profile settings, and other customizable parameters.
+    ///
+    /// - Parameter response: An optional closure to handle the server response of type `LMClientResponse<GetCommunityConfigurationsResponse>`.
+    ///
+    /// - Example:
+    /// ```swift
+    /// LMChatClient.shared.getCommunityConfigurations { result in
+    ///     switch result {
+    ///     case .success(let response):
+    ///         print("Retrieved \(response.configurations.count) configurations")
+    ///     case .failure(let error):
+    ///         print("Failed to get configurations: \(error.localizedDescription)")
+    ///     }
+    /// }
+    /// ```
+    public func getCommunityConfigurations(
+        response: LMClientResponse<GetCommunityConfigurationsResponse>?
+    ) {
+        InitiateUserClient.getCommunityConfigurations(
+            withModuleName: moduleName
+        ) { result in
+            response?(result)
+        }
+    }
+    
+    public func getExistingDMChatroom(
+        getExisingDMChatroomRequest: GetExistingDMChatroomRequest
+    )
+        -> LMResponse<Chatroom>
+    {
+        ChatroomClient.shared.getExistingDMChatroom(
+            getExisingDMChatroomRequest: getExisingDMChatroomRequest
+        )
+    }
 }

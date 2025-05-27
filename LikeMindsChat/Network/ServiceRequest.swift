@@ -77,10 +77,15 @@ class ServiceRequest {
 }
 
 func jsonParser(from object: Any) -> String? {
-  guard let data = try? JSONSerialization.data(withJSONObject: object, options: []) else {
-    return nil
-  }
-  return String(data: data, encoding: String.Encoding.utf8)
+    if let encodable = object as? Encodable {
+        let jsonData = try? JSONEncoder().encode(encodable)
+        return jsonData?.asString
+    }
+    
+    guard let data = try? JSONSerialization.data(withJSONObject: object, options: []) else {
+        return nil
+    }
+    return String(data: data, encoding: String.Encoding.utf8)
 }
 
 extension Encodable {

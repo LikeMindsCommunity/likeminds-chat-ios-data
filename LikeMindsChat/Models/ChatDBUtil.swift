@@ -392,5 +392,18 @@ class ChatDBUtil {
             }
         }
     }
+    
+    func getExistingDMChatroom(realm: Realm, userUUID: String) -> ChatroomRO? {
+        let chatrooms = realm.objects(ChatroomRO.self).where { query in
+            query.type == ChatroomType.directMessage.rawValue
+        }
+
+        let filteredChatroom = chatrooms.first { chatroom in
+            chatroom.member?.uuid == userUUID ||
+            (chatroom.chatroomWithUser?.uuid == userUUID)
+        }
+
+        return filteredChatroom
+    }
 
 }

@@ -44,4 +44,12 @@ class ChatroomDBService {
             object.muteStatus = status
         }
     }
+    
+    /// Fetches an existing DM chatroom using a given user UUID
+    /// - Parameter userUUID: UUID of the user involved in the DM
+    /// - Returns: An optional `ChatroomRO` if found, otherwise `nil`
+    func getExistingDMChatroom(userUUID: String) -> ChatroomRO? {
+        let realm = LMDBManager.lmDBInstance()
+        return ChatDBUtil.shared.getExistingDMChatroom(realm: realm, userUUID: userUUID)
+    }
 }
