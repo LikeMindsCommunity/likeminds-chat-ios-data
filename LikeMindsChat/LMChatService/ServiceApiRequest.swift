@@ -86,6 +86,8 @@ struct ServiceAPIRequest {
         case sendDMRequest(_ request: SendDMRequest)
         case blockDMMember(_ request: BlockMemberRequest)
 
+        //MARK: Community Configurations
+        case getCommunityConfigurations
         //MARK: AIChatBot Api
         case getAIChatbots(_ request: GetAIChatbotsRequest)
 
@@ -610,7 +612,13 @@ struct ServiceAPIRequest {
                     path: paths.communityChatbot,
                     queryItems: queryItems
                 )
+            case .getCommunityConfigurations:
+                return Endpoint(
+                    path: paths.communityConfigurations,
+                    queryItems: []
+                )
             }
+
         }
 
         var httpMethod: Alamofire.HTTPMethod {
@@ -654,6 +662,7 @@ struct ServiceAPIRequest {
                 .checkDMTab,
                 .getReportTags,
                 .getChannelInvites,
+                .getCommunityConfigurations,
                 .getAIChatbots:
                 return .get
             case .setChatroomTopic,
