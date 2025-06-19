@@ -1124,4 +1124,20 @@ extension LMChatClient {
             getExisingDMChatroomRequest: getExisingDMChatroomRequest
         )
     }
+    
+    public func getUnreadConversationsCount()  -> LMResponse<GetUnreadConversationsCountResponse> {
+       
+        HomeFeedClient.shared.syncChatrooms()
+        DirectMessageClient.shared.syncDMChatrooms()
+        
+        
+        Thread.sleep(forTimeInterval: 2.0)
+        
+        do {
+            let unreadCountResponse = try ChatroomDBService.shared.getUnreadConversationsCount()
+            return LMResponse.successResponse(unreadCountResponse)
+        } catch {
+            return LMResponse.failureResponse("Failed to get unread counts: \(error.localizedDescription)")
+        }
+    }
 }

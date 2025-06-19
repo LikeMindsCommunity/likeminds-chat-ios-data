@@ -405,5 +405,38 @@ class ChatDBUtil {
 
         return filteredChatroom
     }
+    
+    func getUnreadConversationsCount(realm: Realm) throws -> GetUnreadConversationsCountResponse {
+        // Get unread count for group chatrooms (normal and purpose types)
+        let groupChatrooms = realm.objects(ChatroomRO.self)
+            .where { query in
+                query.followStatus == true
+            }
+            .where { query in
+                query.type == ChatroomType.normal.rawValue ||
+                query.type == ChatroomType.purpose.rawValue
+            }
+        
+        let unreadGroupCount = groupChatrooms.sum(of: \.unseenCount) as Int? ?? 0
+        
+        // Get unread count for DM chatrooms
+        let loggedInUUID = UserPreferences.shared.getClientUUID()
+        let loggedInMemberId = UserPreferences.shared.getLMMemberId()
+      
+        
+        let unreadDMCount = realm.objects(ChatroomRO.self)
+            .where { $0.type == ChatroomType.directMessage.rawValue }
+            .where {
+                $0.member.uuid == loggedInUUID ||
+                $0.chatroomWithUserId == loggedInMemberId
+            }
+            .sum(of: \.unseenCount) as Int? ?? 0
+        
+        
+        return GetUnreadConversationsCountResponse(
+            unreadGroupChatroomConversations: unreadGroupCount,
+            unreadDMChatroomConversations: unreadDMCount
+        )
+    }
 
 }
