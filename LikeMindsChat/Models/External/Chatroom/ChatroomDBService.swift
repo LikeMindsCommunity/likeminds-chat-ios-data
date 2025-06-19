@@ -52,4 +52,10 @@ class ChatroomDBService {
         let realm = LMDBManager.lmDBInstance()
         return ChatDBUtil.shared.getExistingDMChatroom(realm: realm, userUUID: userUUID)
     }
+    
+    func getUnreadConversationsCount() throws -> GetUnreadConversationsCountResponse {
+        let realm = LMDBManager.lmDBInstance()
+        return try ChatDBUtil.shared.getUnreadConversationsCount(realm: realm)
+    
+    }
 }
